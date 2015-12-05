@@ -39,7 +39,7 @@ npm install
 
 ### Issues
 
-View the project GitHub issues [here](LINK_TO_PROJECT_ISSUES)
+View the project GitHub issues [here](https://waffle.io/HRR10-Ryans-to-the-Max/travel-app)
 
 ## Contributing
 
