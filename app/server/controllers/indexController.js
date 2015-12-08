@@ -1,7 +1,8 @@
+var User = require('../models/user');
+
 module.exports = {
   // fill in
    getIndex: function(req, res, next) {
-    console.log("got here");
     res.render('index');
   },
 
