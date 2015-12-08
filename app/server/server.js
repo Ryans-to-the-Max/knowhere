@@ -2,6 +2,7 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var http = require('http');
 var path = require('path');
+//var index = require('./routes/index');
 
 // Server routers:
 var index = require(path.join(__dirname, 'routes/index'));
@@ -9,6 +10,9 @@ var index = require(path.join(__dirname, 'routes/index'));
 
 
 var app = express();
+
+//Client Route
+app.use(express.static(path.join(__dirname, '../client')));
 
 // App config:
 app.use(bodyParser.json());

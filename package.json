@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.14.1",
+    "mongoose": "^4.2.6",
     "express": "^4.13.3"
   },
   "engines": {
