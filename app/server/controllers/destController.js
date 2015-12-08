@@ -1,6 +1,6 @@
 var json = require("../../../mock-data/venues.json");
 
-var venue = json.Results
+var venue = json.Results;
 
 var hotels = [];
 var rests = [];
@@ -30,4 +30,4 @@ module.exports = {
     res.status(200).send(places);
   }
 
-}
+};

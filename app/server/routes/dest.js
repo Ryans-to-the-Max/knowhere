@@ -5,7 +5,7 @@ var destController = require('../controllers/destController');
 
 router.get('/hotels', destController.getHotels);
 
-router.get('/rest', destController.getRestaurants);
+router.get('/rests', destController.getRestaurants);
 
 router.get('/places', destController.getPlaces);
 
