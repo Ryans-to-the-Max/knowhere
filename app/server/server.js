@@ -1,6 +1,7 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var http = require('http');
+var morgan = require('morgan');
 var path = require('path');
 
 // Server routers:
@@ -10,10 +11,12 @@ var dest = require(path.join(__dirname, 'routes/dest'));
 
 var app = express();
 
-//Client Route
+// Log requests:
+app.use(morgan('dev'));
+
+// Client Route:
 app.use(express.static(path.join(__dirname, '../client')));
 
-// App config:
 app.use(bodyParser.json());
 // parse application/x-www-form-urlencoded:
 app.use(bodyParser.urlencoded({ extended: false }));

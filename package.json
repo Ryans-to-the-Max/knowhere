@@ -5,8 +5,9 @@
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.14.1",
+    "express": "^4.13.3",
     "mongoose": "^4.2.6",
-    "express": "^4.13.3"
+    "morgan": "^1.6.1"
   },
   "engines": {
     "node": "0.12.7"
