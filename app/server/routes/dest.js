@@ -3,7 +3,8 @@ var router = express.Router();
 
 var destController = require('../controllers/destController');
 
-router.get('/find/:name', destController.getDestination);
+
+router.get('/', destController.getDestination);
 
 router.get('/hotels', destController.getHotels);
 
