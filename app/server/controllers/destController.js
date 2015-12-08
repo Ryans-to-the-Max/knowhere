@@ -1,6 +1,8 @@
-var json = require("../../../mock-data/venues.json");
+var venues = require("../../../mock-data/venues.json");
+var dests = require("../../../mock-data/destinations.json");
 
-var venue = json.Results;
+var venue = venues.Results;
+var dest = dests.Results;
 
 var hotels = [];
 var rests = [];
@@ -17,6 +19,15 @@ for (var i = 0; i < venue.length; i++) {
 }
 
 module.exports = {
+
+  getDestination: function (req, res, next){
+    for (var x = 0; x < dest.length; x++){
+      if (dest[x].name === req.params.name){
+        return res.status(200).send(dest[x]);
+      }
+    }
+    res.status(404).send();
+  },
 
   getHotels: function (req, res, next){
     res.status(200).send(hotels);
