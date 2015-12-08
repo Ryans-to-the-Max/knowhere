@@ -2,11 +2,10 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var http = require('http');
 var path = require('path');
-//var index = require('./routes/index');
 
 // Server routers:
 var index = require(path.join(__dirname, 'routes/index'));
-
+var dest = require(path.join(__dirname, 'routes/dest'));
 
 
 var app = express();
@@ -21,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Server routing:
 app.use('/api', index);
+app.use('/api/dest', dest);
 
 
 
