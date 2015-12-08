@@ -1,4 +1,3 @@
 angular.module('knowhere', [
-  'ui.router',
-  'ui.bootstrap'
+  'knowhere.landing'
 ]);

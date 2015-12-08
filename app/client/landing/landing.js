@@ -1,9 +1,7 @@
-angular.module('travel.landing', [])
+angular.module('knowhere.landing', [])
 
-.controller('LandingController', function ($scope, CurrentInfo, City) {
-  var origin = CurrentInfo.origin.name;
-  var destination = CurrentInfo.destination.name;
-  $scope.city;
+.controller('LandingController', function ($scope) {
+  //$scope.origin, $scope.destination, $scope.date;
 
 
 
