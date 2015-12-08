@@ -1,6 +1,5 @@
 var bodyParser = require('body-parser');
 var express = require('express');
-var http = require('http');
 var morgan = require('morgan');
 var path = require('path');
 
@@ -26,12 +25,4 @@ app.use('/api', index);
 app.use('/api/dest', dest);
 
 
-
-// Spin up server:
-var port = process.env.PORT || '3000';
-app.set('port', port);
-
-var server = http.createServer(app);
-
-server.listen(port);
-console.log('Server now listening on port ' + port);
+module.exports = app;

@@ -13,13 +13,21 @@
     "node": "0.12.7"
   },
   "devDependencies": {
+    "chai": "^3.4.1",
     "grunt": "^0.4.5",
     "grunt-contrib-jshint": "^0.11.3",
-    "nodemon": "^1.8.1"
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-express-server": "^0.5.1",
+    "grunt-mocha": "^0.4.15",
+    "grunt-mocha-test": "^0.12.7",
+    "grunt-nodemon": "^0.4.1",
+    "mocha": "^2.3.4",
+    "nodemon": "^1.8.1",
+    "supertest": "^1.1.0"
   },
   "scripts": {
-    "start": "node ./app/server/server.js",
-    "dev": "nodemon ./app/server/server.js"
+    "start": "node ./app/server/index.js",
+    "dev": "nodemon ./app/server/index.js"
   },
   "repository": {
     "type": "git",
