@@ -1,0 +1,30 @@
+{
+  "name": "knowhere",
+  "version": "0.0.1",
+  "description": "A travel advising app",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3"
+  },
+  "engines": {
+    "node": "0.12.7"
+  },
+  "devDependencies": {
+    "nodemon": "^1.8.1"
+  },
+  "scripts": {
+    "start": "node ./app/server.js",
+    "dev": "nodemon ./app/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HRR10-Ryans-to-the-Max/travel-app"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HRR10-Ryans-to-the-Max/travel-app/issues"
+  },
+  "author": "Ryans to the Max",
+  "homepage": ""
+}
