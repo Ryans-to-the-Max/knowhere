@@ -14,8 +14,8 @@
     "nodemon": "^1.8.1"
   },
   "scripts": {
-    "start": "node ./app/server.js",
-    "dev": "nodemon ./app/server.js"
+    "start": "node ./app/server/server.js",
+    "dev": "nodemon ./app/server/server.js"
   },
   "repository": {
     "type": "git",
