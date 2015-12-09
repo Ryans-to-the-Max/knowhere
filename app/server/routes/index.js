@@ -1,10 +1,10 @@
 var express = require('express');
 var path = require('path');
+
+var indexController = require(path.join(__dirname, '../controllers/indexController'));
+
+
 var router = express.Router();
-
-//var indexController = require(path.join(__dirname, '../controllers/indexController'));
-
-var indexController = require('../controllers/indexController');
 
 /* GET home page. */
 router.get('/', indexController.getIndex);
