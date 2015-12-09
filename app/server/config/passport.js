@@ -28,14 +28,13 @@ module.exports = function(passport) {
     // we are using named strategies since we have one for login and one for signup
     // by default, if there was no name, it would just be called 'local'
 
-    passport.use('local-signup', new LocalStrategy({
-        
+    passport.use('local-signup', new LocalStrategy({    
         usernameField : 'username',
         passwordField : 'password',
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, username, password, done) {
-
+        console.log("in passport", username, password)
         // asynchronous
         // User.findOne wont fire unless data is sent back
         process.nextTick(function() {
@@ -44,11 +43,15 @@ module.exports = function(passport) {
         // we are checking to see if the user trying to login already exists
         User.findOne({ 'username' :  username }, function(err, user) {
             // if there are any errors, return the error
-            if (err)
-                return done(err);
+            if (err) {
+              console.log(err);
+              return done(err);
+            }
+                
 
             // check to see if theres already a user with that email
             if (user) {
+                console.log(user);
                 return done(null, false, req.flash('signupMessage', 'That username already exists.'));
             } else {
 
@@ -62,9 +65,11 @@ module.exports = function(passport) {
 
                 // save the user
                 newUser.save(function(err) {
+                  console.log("saving user", user);
                     if (err)
                         throw err;
                     return done(null, newUser);
+
                 });
             }
 
@@ -107,7 +112,5 @@ module.exports = function(passport) {
         });
 
     }));
-
-};
 
 };
