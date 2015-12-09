@@ -12,7 +12,8 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-        done(null, user.id);
+      console.log('serializing this bitch');
+        done(null, user._id);
     });
 
     // used to deserialize the user
@@ -31,9 +32,9 @@ module.exports = function(passport) {
     passport.use('local-signup', new LocalStrategy({    
         usernameField : 'username',
         passwordField : 'password',
-        passReqToCallback : true // allows us to pass back the entire request to the callback
+        passReqToCallback: true
     },
-    function(req, username, password, done) {
+    function(req, username, password, cb) {
         console.log("in passport", username, password)
         // asynchronous
         // User.findOne wont fire unless data is sent back
@@ -45,14 +46,13 @@ module.exports = function(passport) {
             // if there are any errors, return the error
             if (err) {
               console.log(err);
-              return done(err);
+              cb(err);
             }
                 
 
             // check to see if theres already a user with that email
             if (user) {
-                console.log(user);
-                return done(null, false, req.flash('signupMessage', 'That username already exists.'));
+                cb(null, false, {message: "Username already exists"});
             } else {
 
                 // if there is no user with that email
@@ -64,11 +64,11 @@ module.exports = function(passport) {
                 newUser.password    = newUser.generateHash(password);
 
                 // save the user
-                newUser.save(function(err) {
+                newUser.save(function(err, user) {
                   console.log("saving user", user);
                     if (err)
                         throw err;
-                    return done(null, newUser);
+                    return cb(null, newUser);
 
                 });
             }
@@ -101,11 +101,11 @@ module.exports = function(passport) {
 
             // if no user is found, return the message
             if (!user)
-                return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
+                return done(null, false, {message: 'No user found'});
 
             // if the user is found but the password is wrong
             if (!user.validPassword(password))
-                return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
+                return done(null, false, {message: 'Wrong Password'});
 
             // all is well, return successful user
             return done(null, user);

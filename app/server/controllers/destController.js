@@ -21,6 +21,9 @@ for (var i = 0; i < venue.length; i++) {
 module.exports = {
 
   getDestination: function (req, res, next){
+    console.log(req);
+    console.log("============");
+    console.log(req.user);
     for (var x = 0; x < dest.length; x++){
       if (dest[x].permalink === req.query.name){
         return res.status(200).send(dest[x]);

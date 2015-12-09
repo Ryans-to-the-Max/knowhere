@@ -25,7 +25,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // needed for auth
 app.use(cookieParser());
 // required for passport
-app.use(session({ secret: 'tripAppIsAmazing' })); // session secret
+app.use(session({ 
+  secret: 'tripAppIsAmazing',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { 
+    secure: true,
+    maxAge: 360000 } 
+})); 
+
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
@@ -36,17 +44,43 @@ app.use('/api', index);
 app.use('/api/dest', dest);
 
 //Authentication Routing
-app.post('/login', passport.authenticate('local-login', {
-  successRedirect : '/', 
-  failureRedirect : '/login', // redirect back to the login page if there is an error
-  failureFlash : true // allow flash messages
-}));
+app.post('/login', function (req, res, next) {
+  passport.authenticate('local-login',
+    function (err, user, info) {
+        if (err || !user){
+          res.status(200).send({message: info.message});
+        } else {
+          req.login(user, function (err){
+            if (err) {
+              console.log(err)
+              res.status(500).send({message: err})
+            } else {
+              res.status(200).send({status: true});
+            }
+          })  
+        }
+    }) (req, res, next);
+}); 
+ 
 
-app.post('/signup', passport.authenticate('local-signup', {
-  successRedirect : '/',
-  failureRedirect : '/signup', // redirect back to the signup page if there is an error
-  failureFlash : true // allow flash messages
-}));
+app.post('/signup', function (req, res, next) {
+  console.log("in signup ");
+  passport.authenticate('local-signup',
+    function (err, user, info) {
+      if (err || !user){
+        res.status(200).send({message: info.message});
+      } else {
+        req.login(user, function (err){
+          if (err) {
+            console.log(err)
+            res.status(500).send({message: err});
+          } else {
+            res.status(200).send({status: true});
+          }
+        })  
+      }
+    }) (req, res, next);
+});
 
 
 // Spin up server:

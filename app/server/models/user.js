@@ -9,7 +9,7 @@ db.userSchema.methods.generateHash = function(password) {
 
 // checking if password is valid
 db.userSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.local.password);
+    return bcrypt.compareSync(password, this.password);
 };
 var User = mongoose.model('User', db.userSchema);
 
