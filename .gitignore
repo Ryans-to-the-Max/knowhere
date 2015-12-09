@@ -29,3 +29,6 @@ node_modules/
 bower_components/
 
 npm-debug.log
+
+# Ignore OSX stuff
+*.DS_Store
