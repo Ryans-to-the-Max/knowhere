@@ -1,10 +1,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var bcrypt = require('bcrypt-nodejs')
 
 // sets db location to Heroku Mongolab uri or local host
 var dbUri = process.env.MONGOLAB_URI || 'mongodb://localhost/tripapp';
 
-mongoose.connect(dbUri);
+mongoose.connect('mongodb://localhost/tripapp');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -27,6 +28,15 @@ var userSchema = new Schema ({
     required: true
   }
 });
+
+userSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+// checking if password is valid
+userSchema.methods.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.local.password);
+};
 
 db.userSchema = userSchema;
 
