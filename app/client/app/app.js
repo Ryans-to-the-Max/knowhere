@@ -1,7 +1,6 @@
 angular.module('travel', [
   'travel.services',
   'travel.landing',
-  'travel.results',
   'travel.hotels',
   'travel.attractions',
   'travel.restaurants',
@@ -12,10 +11,6 @@ angular.module('travel', [
     .when('/', {
       templateUrl: 'app/landing/landing.html',
       controller: 'LandingController'
-    })
-    .when('/results', {
-      templateUrl: 'app/results/results.html',
-      controller: 'ResultsController'
     })
     .when('/attractions', {
       templateUrl: 'app/attractions/attractions.html',
