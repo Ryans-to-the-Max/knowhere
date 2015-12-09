@@ -1,10 +1,15 @@
 module.exports = function (grunt) {
+  // grunt.loadNpmTasks('grunt.contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-mocha');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-nodemon');
+
+
+  // in what order should the files be concatenated
+  // var clientIncludeOrder = require('./include.conf.js');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -16,6 +21,10 @@ module.exports = function (grunt) {
         }
       }
     },
+    // deletes all files in the listed dirs
+    // clean: {
+    //   dist: 'dist/*'
+    // },
     jshint: {
       all: [
         'Gruntfile.js',
@@ -71,6 +80,13 @@ module.exports = function (grunt) {
         ]
       }
     },
+    // uglify: {
+    //   client: {
+    //     files: {
+    //       'dist/app/client/scripts/knowhere.js': clientIncludeOrder
+    //     }
+    //   }
+    // },
   });
 
   grunt.registerTask('test', [
