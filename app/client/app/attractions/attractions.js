@@ -1,10 +1,11 @@
 angular.module('travel.attractions', [])
 
-.controller('AttractionsController', function ($scope, CurrentInfo, Attractions) {
+.controller('AttractionsController', function ($scope, CurrentInfo, Attractions, City) {
   var origin = CurrentInfo.origin.name;
   var destination = CurrentInfo.destination.name;
   $scope.attractions;
-  $scope.getAttractions = function() {  
+  $scope.city;
+  $scope.getAttractions = function() {
     Attractions.getAttractions(destination)
       .then(function(attractionsInfo) {
         $scope.attractions = attractionsInfo;
@@ -14,5 +15,16 @@ angular.module('travel.attractions', [])
         console.error(error);
       });
   };
+  $scope.getCity = function() {
+    City.getCity(destination)
+      .then(function(cityInfo) {
+        $scope.city = cityInfo;
+        CurrentInfo.destination.basicInfo = cityInfo;
+    })
+      .catch(function(error){
+        console.error(error);
+      });
+  };
+  $scope.getCity();
   $scope.getAttractions();
 });
