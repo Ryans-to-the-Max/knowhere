@@ -78,7 +78,7 @@ angular.module('travel.services', [])
     hotels: null,
     attractions: null,
     restaurants: null
-  }
+  };
   return {
     destination: destination,
     origin: origin
