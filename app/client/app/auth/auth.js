@@ -26,7 +26,7 @@ angular.module('signin', ['ui.bootstrap'])
           $rootScope.currentUserSignedIn = true;
           $rootScope.currentUser = data.user;
         }
-      })
+      });
   }();
 
 
@@ -43,7 +43,7 @@ angular.module('signin', ['ui.bootstrap'])
     .then(function (data){
         if (data.status === true){
           $rootScope.currentUserSignedIn = true;
-          $rootScope.currentUser = data.user
+          $rootScope.currentUser = data.user;
           $uibModalInstance.close();
         } else {
           $scope.alerts = [{msg: data.message}];
