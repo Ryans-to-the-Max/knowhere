@@ -16,7 +16,7 @@ angular.module('signin', ['ui.bootstrap'])
     authMe.logout().then(function (data) {
       $location.path('/landing');
     });
-  }
+  };
 
 
 })
@@ -30,19 +30,18 @@ angular.module('signin', ['ui.bootstrap'])
   $scope.submit = function (){
     authMe.loginUser({username: $scope.email, password: $scope.password})
     .then(function (data){
-        console.log(data)
         if (data.status === true){
           $rootScope.currentUserSignedIn = true;
           $uibModalInstance.close();
           $location.path('/landing');
         } else {
-          $scope.alerts = [{msg: data.message}]
+          $scope.alerts = [{msg: data.message}];
         }
-    })
+    });
   };
 
   $scope.create = function(){
-    $uibModalInstance.close()
+    $uibModalInstance.close();
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'app/auth/signup.html',
@@ -54,7 +53,7 @@ angular.module('signin', ['ui.bootstrap'])
     $scope.exit = function(){
       $uibModalInstance.close();
       $location.path('/landing');
-  }
+  };
 })
 
 .controller('signupCtrl', function ($scope, $uibModalInstance, authMe, $location, $rootScope) {
@@ -67,14 +66,12 @@ angular.module('signin', ['ui.bootstrap'])
   $scope.signup = function (){
     authMe.createUser({username: $scope.email, password: $scope.password})
       .then(function (data){
-        console.log(data)
         if (data.status === true){
           $uibModalInstance.close();
-          console.log("success");
           $location.path('/landing');
           $rootScope.currentUserSignedIn = true;
         } else{
-          $scope.alerts = [{msg: data.message}]
+          $scope.alerts = [{msg: data.message}];
         }
       });
   };
@@ -82,7 +79,7 @@ angular.module('signin', ['ui.bootstrap'])
   $scope.exit = function(){
     $uibModalInstance.close();
     $location.path('/landing');
-  }
+  };
 
 })
 

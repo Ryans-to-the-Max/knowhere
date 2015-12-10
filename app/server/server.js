@@ -46,12 +46,12 @@ app.post('/login', function (req, res, next) {
         } else {
           req.login(user, function (err){
             if (err) {
-              console.log(err)
-              res.status(500).send({message: err})
+              console.log(err);
+              res.status(500).send({message: err});
             } else {
               res.status(200).send({status: true});
             }
-          })  
+          });  
         }
     }) (req, res, next);
 }); 
@@ -65,12 +65,12 @@ app.post('/signup', function (req, res, next) {
       } else {
         req.login(user, function (err){
           if (err) {
-            console.log(err)
+            console.log(err);
             res.status(500).send({message: err});
           } else {
             res.status(200).send({status: true});
           }
-        })  
+        });  
       }
     }) (req, res, next);
 });

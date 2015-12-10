@@ -1,6 +1,6 @@
 var db = require('../../../db/db.js');
 var mongoose = require('mongoose');
-var bcrypt = require('bcrypt-nodejs')
+var bcrypt = require('bcrypt-nodejs');
 // methods ======================
 // generating a hash
 db.userSchema.methods.generateHash = function(password) {
