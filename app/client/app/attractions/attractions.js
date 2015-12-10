@@ -9,6 +9,7 @@ angular.module('travel.attractions', [])
     Attractions.getAttractions(destination)
       .then(function(attractionsInfo) {
         $scope.attractions = attractionsInfo;
+        console.log($scope.attractions);
         CurrentInfo.destination.attractions = attractionsInfo;
     })
       .catch(function(error){
