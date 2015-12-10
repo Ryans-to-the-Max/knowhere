@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+
 // sets db location to Heroku Mongolab uri or local host
 var dbUri = process.env.MONGOLAB_URI || 'mongodb://localhost/tripapp';
 
