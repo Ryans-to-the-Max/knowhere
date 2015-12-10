@@ -52,7 +52,7 @@ app.post('/login', function (req, res, next) {
               console.log(err);
               res.status(500).send({message: err});
             } else {
-              res.status(200).send({status: true});
+              res.status(200).send({status: true, user: user});
             }
           });  
         }
@@ -71,7 +71,7 @@ app.post('/signup', function (req, res, next) {
             console.log(err);
             res.status(500).send({message: err});
           } else {
-            res.status(200).send({status: true});
+            res.status(200).send({status: true, user: user});
           }
         });  
       }

@@ -8,9 +8,9 @@ module.exports = {
 
   isLoggedIn: function(req, res, next){
    if (req.isAuthenticated()) {
-    res.status(200).send(true);
+    res.status(200).send({status: true, user: req.user});
    } else{
-    res.status(200).send(false);
+    res.status(200).send({status: false});
    }
   }
 
