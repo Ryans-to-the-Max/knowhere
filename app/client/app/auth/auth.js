@@ -1,34 +1,42 @@
 angular.module('signin', ['ui.bootstrap'])
 
-.controller('AuthCtrl', function ($scope, $uibModal) {
-
-  $scope.open = function(recipeID) {
+.controller('AuthCtrl', function ($scope, $uibModal, $rootScope, authMe, $location) {
+  $rootScope.currentUserSignedIn = false;
+  $scope.open = function() {
       var modalInstance = $uibModal.open({
         animation: $scope.animationsEnabled,
         templateUrl: 'app/auth/signin.html',
         controller: 'signinCtrl',
-        // resolve: {
-        //   item: function() {
-        //     return recipe;
-        //   }
+        background: 'static'
         });
       };
+
+  $scope.signout = function() {
+    $rootScope.currentUserSignedIn = false;
+    authMe.logout().then(function (data) {
+      $location.path('/landing');
+    });
+  }
+
+
 })
 
-.controller('signinCtrl', function ($scope, $uibModalInstance, $uibModal, authMe, $location) {
+.controller('signinCtrl', function ($scope, $uibModalInstance, $uibModal, authMe, $location, $rootScope) {
   $scope.alerts = [];
-  // $scope.email =""
-  // $scope.password
 
+  $scope.closeAlert = function() {
+    $scope.alerts = [];
+  };
   $scope.submit = function (){
     authMe.loginUser({username: $scope.email, password: $scope.password})
     .then(function (data){
         console.log(data)
         if (data.status === true){
+          $rootScope.currentUserSignedIn = true;
           $uibModalInstance.close();
           $location.path('/landing');
         } else {
-          $scope.alerts.push({msg: data.message})
+          $scope.alerts = [{msg: data.message}]
         }
     })
   };
@@ -39,26 +47,21 @@ angular.module('signin', ['ui.bootstrap'])
       animation: $scope.animationsEnabled,
       templateUrl: 'app/auth/signup.html',
       controller: 'signupCtrl',
-      // resolve: {
-      //   item: function() {
-      //     return recipe;
-      //   }
+      background: 'static'
       });
     };
+
+    $scope.exit = function(){
+      $uibModalInstance.close();
+      $location.path('/landing');
+  }
 })
 
-.controller('signupCtrl', function ($scope, $uibModalInstance, authMe, $location) {
+.controller('signupCtrl', function ($scope, $uibModalInstance, authMe, $location, $rootScope) {
   $scope.alerts = [];
-  // <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
 
-  // <script type="text/ng-template" id="alert.html">
-  //   <div class="alert" style="background-color:#fa39c3;color:white" role="alert">
-  //     <div ng-transclude></div>
-  //   </div>
-  // </script>
-
-   $scope.closeAlert = function(index) {
-    $scope.alerts.splice(index, 1);
+   $scope.closeAlert = function() {
+    $scope.alerts = [];
   };
 
   $scope.signup = function (){
@@ -69,45 +72,63 @@ angular.module('signin', ['ui.bootstrap'])
           $uibModalInstance.close();
           console.log("success");
           $location.path('/landing');
+          $rootScope.currentUserSignedIn = true;
         } else{
-          $scope.alerts.push({msg: data.message})
+          $scope.alerts = [{msg: data.message}]
         }
       });
   };
 
+  $scope.exit = function(){
+    $uibModalInstance.close();
+    $location.path('/landing');
+  }
+
 })
-
-
 
 .factory("authMe", function ($http){
 
   var createUser = function(user){
     return $http({
-      method: 'post',
+      method: 'POST',
       url: '/signup',
       data: JSON.stringify(user)
     })
-    .then(function(resp){
+    .then(function (resp){
       return resp.data;
     });
   };
 
   var loginUser = function(user){
     return $http({
-      method: 'post',
+      method: 'POST',
       url: '/login',
       data: JSON.stringify(user)
     })
-    .then(function(resp){
+    .then(function (resp){
       return resp.data;
     });
   };
 
-  var isLoggedIn = function(user){
+  var isLoggedIn = function(){
+    return $http({
+      method: 'GET',
+      url: '/api/check'
+    })
+    .then(function (resp){
+      return resp.data;
+    });
+  };
 
+  var logout = function(){
+    return $http({
+      method: 'GET',
+      url: '/logout'
+    });
   };
 
   return {
+    logout: logout,
     createUser: createUser,
     loginUser: loginUser,
     isLoggedIn: isLoggedIn
