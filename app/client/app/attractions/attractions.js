@@ -1,8 +1,8 @@
 angular.module('travel.attractions', [])
 
-.controller('AttractionsController', function ($scope, CurrentInfo, Attractions, City) {
+.controller('AttractionsController', function ($scope, $window, CurrentInfo, Attractions, City) {
   var origin = CurrentInfo.origin.name;
-  var destination = CurrentInfo.destination.name;
+  var destination = $window.sessionStorage.getItem('knowhere') || CurrentInfo.destination.name;
   $scope.attractions;
   $scope.city;
   $scope.getAttractions = function() {

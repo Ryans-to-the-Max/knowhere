@@ -1,10 +1,12 @@
 angular.module('travel.landing', [])
 
-.controller('LandingController', function ($scope, $location, CurrentInfo, City) {
+.controller('LandingController', function ($scope, $window, $location, CurrentInfo, City) {
   $scope.data = {};
   $scope.sendData = function() {
     CurrentInfo.origin.name = cleanInput($scope.data.origin);
     CurrentInfo.destination.name = cleanInput($scope.data.destination);
+    var dest = CurrentInfo.destination.name; 
+    $window.sessionStorage.setItem('knowhere', dest);
     $location.path('/attractions');
   };
 });
