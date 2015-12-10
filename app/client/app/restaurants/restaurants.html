@@ -1,3 +1,44 @@
-<div id='container'>
-	<img src={{city.splash_photo}}>
+<div class="container-fluid text-center">
+  <div class="row">
+    <div class="jumbotron" ng-style="{'background-image':'url(' + city.splash_photo + ')'}">
+      <h1>{{ city.name }}</h1>
+      <div class="col-md-offset-3 col-md-6">
+        <ul class="nav nav-pills center-pills">
+          <li role="navigation" class="active"><a href="#/hotels">Hotels</a></li>
+          <li role="navigation" class="active"><a href="#/attractions">Attractions</a></li>
+          <li role="navigation" class="active"><a href="#/restaurants">Restaurants</a></li>
+        </ul>
+      </div>
+    </div><!-- /.jumbotron -->
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <h2 class="text-center">Restaurants</h2>
+  </div>
+
+  <div ng-repeat="restaurant in restaurants | limitTo: 12" ng-if="$index % 3 == 0" class="row">
+    <div class="col-xs-4 thumbnail">
+      <img ng-src="{{ restaurants[$index].index_photo }}" alt="photo: {{ restaurants[$index].name }}">
+      <div class="caption">
+        <h3>{{ restaurants[$index].name }}</h3>
+        <p>{{ restaurants[$index].description }}</p>
+      </div>
+    </div>
+    <div class="col-xs-4 thumbnail">
+      <img ng-src="{{ restaurants[$index + 1].index_photo }}" alt="photo: {{ restaurants[$index + 1].name }}">
+      <div class="caption">
+        <h3>{{ restaurants[$index + 1].name }}</h3>
+        <p>{{ restaurants[$index + 1].description }}</p>
+      </div>
+    </div>
+    <div class="col-xs-4 thumbnail">
+      <img ng-src="{{ restaurants[$index + 2].index_photo }}" alt="photo: {{ restaurants[$index + 2].name }}">
+      <div class="caption">
+        <h3>{{ restaurants[$index + 2].name }}</h3>
+        <p>{{ restaurants[$index + 2].description }}</p>
+      </div>
+    </div>
+  </div>
 </div>

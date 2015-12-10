@@ -3,8 +3,8 @@ angular.module('travel.restaurants', [])
 .controller('RestaurantsController', function ($scope, $window, CurrentInfo, Restaurants, City) {
   var origin = CurrentInfo.origin.name;
   var destination = $window.sessionStorage.getItem('knowhere') || CurrentInfo.destination.name;
-  $scope.restaurants;
-  $scope.city;
+  $scope.restaurants = null;
+  $scope.city = null;
   $scope.getRestaurants = function() {
     Restaurants.getRestaurants(destination)
       .then(function(restaurantsInfo) {
