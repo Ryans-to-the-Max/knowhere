@@ -12,8 +12,7 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-      console.log('serializing this bitch');
-        done(null, user._id);
+        done(null, user.id);
     });
 
     // used to deserialize the user
@@ -35,7 +34,6 @@ module.exports = function(passport) {
         passReqToCallback: true
     },
     function(req, username, password, cb) {
-        console.log("in passport", username, password)
         // asynchronous
         // User.findOne wont fire unless data is sent back
         process.nextTick(function() {
@@ -65,7 +63,6 @@ module.exports = function(passport) {
 
                 // save the user
                 newUser.save(function(err, user) {
-                  console.log("saving user", user);
                     if (err)
                         throw err;
                     return cb(null, newUser);

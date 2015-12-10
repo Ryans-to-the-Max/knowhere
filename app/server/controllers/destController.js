@@ -21,8 +21,7 @@ for (var i = 0; i < venue.length; i++) {
 module.exports = {
 
   getDestination: function (req, res, next){
-    console.log(req);
-    console.log("============");
+    console.log(req.isAuthenticated());
     console.log(req.user);
     for (var x = 0; x < dest.length; x++){
       if (dest[x].permalink === req.query.name){
@@ -41,6 +40,12 @@ module.exports = {
   },
 
   getPlaces: function (req, res, next){
+    console.log(req.isAuthenticated());
+    console.log(req.user);
+    console.log("=========");
+    console.log(req._passport);
+    console.log("=========");
+    console.log(req.session)
     res.status(200).send(places);
   }
 

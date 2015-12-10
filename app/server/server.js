@@ -7,7 +7,6 @@ var passport = require('passport');
 var flash    = require('connect-flash');
 var session  = require('express-session');
 var morgan = require('morgan');
-
 // Server routers:
 var index = require(path.join(__dirname, 'routes/index'));
 var dest = require(path.join(__dirname, 'routes/dest'));
@@ -18,6 +17,7 @@ var app = express();
 //Client Route
 app.use(express.static(path.join(__dirname, '../client')));
 
+
 // App config:
 app.use(bodyParser.json());
 // parse application/x-www-form-urlencoded:
@@ -25,19 +25,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // needed for auth
 app.use(cookieParser());
 // required for passport
-app.use(session({ 
-  secret: 'tripAppIsAmazing',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { 
-    secure: true,
-    maxAge: 360000 } 
-})); 
+app.use(session({secret: 'tripAppIsAmazing', cookie: { maxAge: 3600000}}));
 
+require('./config/passport')(passport);
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
-require('./config/passport')(passport); // pass passport for configuration
+ // pass passport for configuration
 
 // Server routing:
 app.use('/api', index);
@@ -64,7 +58,6 @@ app.post('/login', function (req, res, next) {
  
 
 app.post('/signup', function (req, res, next) {
-  console.log("in signup ");
   passport.authenticate('local-signup',
     function (err, user, info) {
       if (err || !user){
@@ -80,6 +73,11 @@ app.post('/signup', function (req, res, next) {
         })  
       }
     }) (req, res, next);
+});
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.status(200).send({msg: 'bye'});
 });
 
 
