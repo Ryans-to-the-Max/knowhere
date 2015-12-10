@@ -2,6 +2,7 @@ angular.module('signin', ['ui.bootstrap'])
 
 .controller('AuthCtrl', function ($scope, $uibModal, $rootScope, authMe, $location) {
   $rootScope.currentUserSignedIn = false;
+  $rootScope.currentUser = null;
   $scope.open = function() {
       var modalInstance = $uibModal.open({
         animation: $scope.animationsEnabled,
@@ -12,10 +13,21 @@ angular.module('signin', ['ui.bootstrap'])
 
   $scope.signout = function() {
     $rootScope.currentUserSignedIn = false;
-    authMe.logout().then(function (data) {
+    authMe.logout()
+      .then(function (data) {
       console.log(data);
     });
   };
+
+  $scope.onLoad = function (){
+    authMe.isLoggedIn()
+      .then(function (data){
+        if (data.status === true){
+          $rootScope.currentUserSignedIn = true;
+          $rootScope.currentUser = data.user;
+        }
+      })
+  }();
 
 
 })
@@ -31,6 +43,7 @@ angular.module('signin', ['ui.bootstrap'])
     .then(function (data){
         if (data.status === true){
           $rootScope.currentUserSignedIn = true;
+          $rootScope.currentUser = data.user
           $uibModalInstance.close();
         } else {
           $scope.alerts = [{msg: data.message}];
@@ -66,7 +79,8 @@ angular.module('signin', ['ui.bootstrap'])
         if (data.status === true){
           $uibModalInstance.close();
           $rootScope.currentUserSignedIn = true;
-        } else{
+          $rootScope.currentUser = data.user;
+        } else {
           $scope.alerts = [{msg: data.message}];
         }
       });
