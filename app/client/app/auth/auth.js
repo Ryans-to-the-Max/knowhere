@@ -129,7 +129,7 @@ angular.module('signin', ['ui.bootstrap'])
     createUser: createUser,
     loginUser: loginUser,
     isLoggedIn: isLoggedIn
-  }
+  };
 
 });
 
