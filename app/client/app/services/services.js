@@ -83,4 +83,13 @@ angular.module('travel.services', [])
     destination: destination,
     origin: origin
   };
+})
+.factory('SessionStorage', function ($http, $location, $window) {
+  var sessionExists = function () {
+    return !!$window.sessionStorage.getItem('knowhere');
+  };
+
+  return {
+    sessionExists: sessionExists
+  };
 });
