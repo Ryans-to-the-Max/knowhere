@@ -14,6 +14,9 @@ var dest = require(path.join(__dirname, 'routes/dest'));
 
 var app = express();
 
+// Log requests:
+app.use(morgan('dev'));
+
 //Client Route
 app.use(express.static(path.join(__dirname, '../client')));
 
