@@ -41,7 +41,7 @@ describe('Server', function () {
 
       it('should get destination by name', function (done) {
         request
-          .get('/api/dest/?name=Paris')
+          .get('/api/dest/?name=paris')
           .expect(200)
           .end(function (err, res) {
             if (err) return done(err);
