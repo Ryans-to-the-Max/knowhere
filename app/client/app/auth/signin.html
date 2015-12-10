@@ -16,11 +16,5 @@
     <button type="submit" ng-click="exit()" class="btn btn-default exit">Exit</button>
   </form>
 
-  <script type="text/ng-template" id="alert.html">
-    <div class="alert" style="background-color:#fa39c3;color:white" role="alert">
-      <div ng-transclude></div>
-    </div>
-  </script>
-
   <uib-alert ng-repeat="alert in alerts" type="danger" close="closeAlert()">{{alert.msg}}</uib-alert>
 </modal>

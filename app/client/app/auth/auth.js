@@ -7,14 +7,13 @@ angular.module('signin', ['ui.bootstrap'])
         animation: $scope.animationsEnabled,
         templateUrl: 'app/auth/signin.html',
         controller: 'signinCtrl',
-        background: 'static'
         });
       };
 
   $scope.signout = function() {
     $rootScope.currentUserSignedIn = false;
     authMe.logout().then(function (data) {
-      $location.path('/landing');
+      console.log(data);
     });
   };
 
@@ -33,7 +32,6 @@ angular.module('signin', ['ui.bootstrap'])
         if (data.status === true){
           $rootScope.currentUserSignedIn = true;
           $uibModalInstance.close();
-          $location.path('/landing');
         } else {
           $scope.alerts = [{msg: data.message}];
         }
@@ -52,7 +50,6 @@ angular.module('signin', ['ui.bootstrap'])
 
     $scope.exit = function(){
       $uibModalInstance.close();
-      $location.path('/landing');
   };
 })
 
@@ -68,7 +65,6 @@ angular.module('signin', ['ui.bootstrap'])
       .then(function (data){
         if (data.status === true){
           $uibModalInstance.close();
-          $location.path('/landing');
           $rootScope.currentUserSignedIn = true;
         } else{
           $scope.alerts = [{msg: data.message}];
@@ -78,7 +74,6 @@ angular.module('signin', ['ui.bootstrap'])
 
   $scope.exit = function(){
     $uibModalInstance.close();
-    $location.path('/landing');
   };
 
 })
