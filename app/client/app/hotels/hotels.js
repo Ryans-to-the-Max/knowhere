@@ -3,8 +3,8 @@ angular.module('travel.hotels', [])
 .controller('HotelsController', function ($scope, CurrentInfo, Hotels, City) {
   var origin = CurrentInfo.origin.name;
   var destination = CurrentInfo.destination.name;
-  $scope.hotels;
-  $scope.city;
+  $scope.hotels = null;
+  $scope.city = null;
   $scope.getHotels = function() {
     Hotels.getHotels(destination)
       .then(function(hotelsInfo) {

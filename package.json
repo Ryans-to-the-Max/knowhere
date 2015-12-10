@@ -29,8 +29,9 @@
     "nodemon": "^1.8.1"
   },
   "scripts": {
+    "dev": "nodemon ./app/server/index.js",
     "start": "node ./app/server/index.js",
-    "dev": "nodemon ./app/server/index.js"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
