@@ -7,7 +7,7 @@ var passport = require('passport');
 var flash    = require('connect-flash');
 var session  = require('express-session');
 var morgan = require('morgan');
-var cors = require('cors')
+var cors = require('cors');
 
 
 // Server routers:
@@ -108,7 +108,6 @@ app.get('/auth/facebook',
  app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/' }),
   function(req, res) {
-    console.log("in facebook callback")
     res.redirect('/');
   });
 module.exports = app;

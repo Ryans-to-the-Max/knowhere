@@ -22,7 +22,7 @@ angular.module('signin', ['ui.bootstrap'])
   $scope.onLoad = function (){
     authMe.isLoggedIn()
       .then(function (data){
-        console.log("user is: ", data.user)
+        console.log("user is: ", data.user);
         if (data.status === true){
           $rootScope.currentUserSignedIn = true;
           $rootScope.currentUser = data.user;
@@ -63,7 +63,7 @@ angular.module('signin', ['ui.bootstrap'])
           $scope.alerts = [{msg: data.message}];
         }
     });
-  }
+  };
 
   $scope.facebook = function (){
     authMe.facebookLogin()
@@ -76,7 +76,7 @@ angular.module('signin', ['ui.bootstrap'])
           $scope.alerts = [{msg: data.message}];
         }
     });
-  }
+  };
 
   $scope.create = function(){
     $uibModalInstance.close();
@@ -138,7 +138,7 @@ angular.module('signin', ['ui.bootstrap'])
       url: '/auth/google'
     }).then(function (resp){
       return resp.data;
-    })
+    });
   };
 
   var facebookLogin = function(){
@@ -146,9 +146,9 @@ angular.module('signin', ['ui.bootstrap'])
       method: 'GET',
       url: '/auth/facebook'
     }).then(function (resp){
-      return resp.data
-    })
-  }
+      return resp.data;
+    });
+  };
 
   var loginUser = function(user){
     return $http({

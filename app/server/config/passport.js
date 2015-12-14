@@ -72,7 +72,7 @@ module.exports = function(passport) {
                 });
               } else { //user has signed up with oauth - just set password
                 user.password = user.generateHash(password);
-                return cb(null, user)
+                return cb(null, user);
               }
             }  
 
@@ -123,9 +123,6 @@ module.exports = function(passport) {
     callbackURL: "http://127.0.0.1:3000/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, cb) {
-      console.log("email is ", profile.emails[0].value)
-      console.log("profile ===============");
-      console.log(profile);
     process.nextTick(function() {
 
         
@@ -173,9 +170,6 @@ module.exports = function(passport) {
     profileFields: ['id', 'displayName', 'email']
   },
   function(accessToken, refreshToken, profile, cb) {
-    console.log("=================");
-    console.log("profile");
-    console.log(profile);
     process.nextTick(function() {
 
         //TODO they might not have email - if so -login with id
