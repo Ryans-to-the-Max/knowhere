@@ -170,7 +170,7 @@ module.exports = function(passport) {
   passport.use(new FacebookStrategy({
     clientID: '323161997808257',
     clientSecret: '3c8a18558adf92b62d696abd5be4fa15',
-    callbackURL: PROTOCOL_DOMAIN + '/auth/facebook/callback'
+    callbackURL: PROTOCOL_DOMAIN + '/auth/facebook/callback',
     enableProof: false,
     profileFields: ['id', 'displayName', 'email']
   },
