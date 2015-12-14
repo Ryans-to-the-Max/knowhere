@@ -5,6 +5,8 @@ angular.module('travel', [
   'travel.attractions',
   'travel.restaurants',
   'ngRoute',
+  'ui.router',
+  'ui.bootstrap',
   'signin'
 ])
 .config(function($routeProvider, $httpProvider) {
@@ -16,17 +18,17 @@ angular.module('travel', [
     .when('/attractions', {
       templateUrl: 'app/attractions/attractions.html',
       controller: 'AttractionsController',
-      authenticate: true 
+      authenticate: true
     })
     .when('/hotels', {
       templateUrl: 'app/hotels/hotels.html',
       controller: 'HotelsController',
-      authenticate: true 
+      authenticate: true
     })
     .when('/restaurants', {
       templateUrl: 'app/restaurants/restaurants.html',
       controller: 'RestaurantsController',
-      authenticate: true 
+      authenticate: true
     })
     .otherwise({
       redirectTo: '/'
