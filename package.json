@@ -4,6 +4,7 @@
   "description": "A travel advising app",
   "main": "index.js",
   "dependencies": {
+    "angular-bootstrap-npm": "^0.14.3",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.1",
     "connect-flash": "0.1.1",
@@ -17,12 +18,14 @@
     "passport-local": "1.0.0",
     "passport-facebook": "2.0.0",
     "cors": "2.7.1"
-
   },
   "engines": {
     "node": "0.12.7"
   },
   "devDependencies": {
+    "angular": "^1.4.8",
+    "angular-mocks": "^1.4.8",
+    "angular-route": "^1.4.8",
     "chai": "^3.4.1",
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^0.7.0",
@@ -34,13 +37,19 @@
     "grunt-mocha-test": "^0.12.7",
     "grunt-nodemon": "^0.4.1",
     "istanbul": "^0.4.1",
+    "jasmine": "^2.4.1",
+    "karma-jasmine": "^0.3.6",
+    "karma-requirejs": "^0.2.2",
     "mocha": "^2.3.4",
     "nodemon": "^1.8.1",
+    "requirejs": "^2.1.22",
+    "shelljs": "^0.5.3",
     "supertest": "^1.1.0"
   },
   "scripts": {
     "coverage": "istanbul cover node_modules/.bin/_mocha -- -R spec test/**/*",
     "dev": "nodemon ./app/server/index.js",
+    "karma": "node node_modules/karma/bin/karma start spec/karma.conf.js",
     "start": "node ./app/server/index.js",
     "test": "grunt test"
   },
