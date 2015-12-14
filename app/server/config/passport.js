@@ -1,4 +1,6 @@
 var LocalStrategy   = require('passport-local').Strategy;
+var GoogleStrategy = require('passport-google-oauth2').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 var User = require('../models/user');
 
 // expose this function to our app using module.exports
@@ -12,6 +14,7 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
+        console.log("serializing this bitch");
         done(null, user.id);
     });
 
@@ -110,4 +113,79 @@ module.exports = function(passport) {
 
     }));
 
+
+  passport.use(new GoogleStrategy({
+      clientID: '1039303204244-ibed3rqe95qds98tkk4gfpja4r4ed6bh.apps.googleusercontent.com',
+      clientSecret: 'hhdRHgPIL5ezFgwqiKalMNBc',
+      callbackURL: "http://127.0.0.1:3000/auth/google/callback"
+    },
+    function(accessToken, refreshToken, profile, done) {
+      console.log("email is ", profile.emails[0].value)
+      console.log("profile ===============");
+      console.log(profile);
+      
+      //User.findOne({ username: profile.emails[0].value }, function (err, user) {
+       // return done(err, user);
+      //});
+
+      return done(null, profile)
+     
+    }
+  ));
+
+  passport.use(new FacebookStrategy({
+    clientID: '323161997808257',
+    clientSecret: '3c8a18558adf92b62d696abd5be4fa15',
+    callbackURL: "http://localhost:3000/auth/facebook/callback",
+    enableProof: false,
+    profileFields: ['id', 'displayName', 'email']
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    console.log("=================");
+    console.log("profile");
+    console.log(profile);
+    process.nextTick(function() {
+
+        //TODO they might not have email - if so -login with id
+        User.findOne({ 'username' :  profile.emails[0].value }, function(err, user) {
+            // if there are any errors, return the error
+            if (err) {
+              console.log(err);
+              cb(err);
+            }
+                
+
+            // check to see if theres already a user with that email
+            if (user) {
+                cb(null, user);
+            } else {
+
+                // if there is no user with that email
+                // create the user
+                var newUser            = new User();
+
+                // set the user's local credentials
+                newUser.username    = username;
+                newUser.password    = newUser.generateHash(password);
+
+                // save the user
+                newUser.save(function(err, user) {
+                    if (err)
+                        throw err;
+                    return cb(null, newUser);
+
+                });
+            }
+
+        });    
+
+        });
+  }
+));
+
+
+
 };
+
+
+

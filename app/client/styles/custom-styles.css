@@ -14,3 +14,23 @@
   float: right;
 }
 
+.google {
+  height: 97%;
+  width: 40%;
+  padding: 10px;
+  float: left;
+}
+
+.facebook {
+  height: 100%;
+  width: 40%;
+  float: right;
+  padding: 10px;
+}
+
+.logins {
+  height: 50%;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+}

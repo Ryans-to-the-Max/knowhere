@@ -7,6 +7,9 @@ var passport = require('passport');
 var flash    = require('connect-flash');
 var session  = require('express-session');
 var morgan = require('morgan');
+var cors = require('cors')
+
+
 // Server routers:
 var index = require(path.join(__dirname, 'routes/index'));
 var dest = require(path.join(__dirname, 'routes/dest'));
@@ -39,6 +42,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 // Server routing:
 app.use('/api', index);
 app.use('/api/dest', dest);
+app.use(cors());
 
 //Authentication Routing
 app.post('/login', function (req, res, next) {
@@ -83,5 +87,41 @@ app.get('/logout', function(req, res){
   res.status(200).send({msg: 'bye'});
 });
 
+app.get('/auth/google', passport.authenticate('google', { scope: [  'https://www.googleapis.com/auth/plus.login',
+       'https://www.googleapis.com/auth/plus.profile.emails.read']}));
 
+app.get('/auth/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/' }),
+  function(req, res) {
+    console.log("shit worked");
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+
+app.get('/auth/facebook',
+  passport.authenticate('facebook', {scope: ['email']}),
+  function(req, res){
+    // The request will be redirected to Facebook for authentication, so this
+    // function will not be called.
+  });
+
+ app.get('/auth/facebook/callback', 
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
 module.exports = app;
+
+// process.env.NODE_ENV
+// === 'dev'
+// 'prod'
+// knowhere.herokuapp.com
+// https://
+
+//https://www.googleapis.com/auth/userinfo.email
+//https://www.googleapis.com/oauth2/v2/userinfo
+//knowhere-1157
+// client ID
+// 1039303204244-ibed3rqe95qds98tkk4gfpja4r4ed6bh.apps.googleusercontent.com
+// client secret
+//hhdRHgPIL5ezFgwqiKalMNBc

@@ -51,6 +51,32 @@ angular.module('signin', ['ui.bootstrap'])
     });
   };
 
+  $scope.google = function (){
+    authMe.googleLogin()
+    .then(function (data){
+      if (data.status === true) {
+          $rootScope.currentUserSignedIn = true;
+          $rootScope.currentUser = data.user;
+          $uibModalInstance.close();
+        } else {
+          $scope.alerts = [{msg: data.message}];
+        }
+    });
+  }
+
+  $scope.facebook = function (){
+    authMe.facebookLogin()
+    .then(function (data){
+      if (data.status === true) {
+          $rootScope.currentUserSignedIn = true;
+          $rootScope.currentUser = data.user;
+          $uibModalInstance.close();
+        } else {
+          $scope.alerts = [{msg: data.message}];
+        }
+    });
+  }
+
   $scope.create = function(){
     $uibModalInstance.close();
     var modalInstance = $uibModal.open({
@@ -105,6 +131,24 @@ angular.module('signin', ['ui.bootstrap'])
     });
   };
 
+  var googleLogin = function(){
+    return $http({
+      method: 'GET',
+      url: '/auth/google'
+    }).then(function (resp){
+      return resp.data;
+    })
+  };
+
+  var facebookLogin = function(){
+    return $http({
+      method: 'GET',
+      url: '/auth/facebook'
+    }).then(function (resp){
+      return resp.data
+    })
+  }
+
   var loginUser = function(user){
     return $http({
       method: 'POST',
@@ -135,6 +179,8 @@ angular.module('signin', ['ui.bootstrap'])
 
   return {
     logout: logout,
+    facebookLogin: facebookLogin,
+    googleLogin: googleLogin,
     createUser: createUser,
     loginUser: loginUser,
     isLoggedIn: isLoggedIn
