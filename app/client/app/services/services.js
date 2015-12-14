@@ -10,6 +10,7 @@ angular.module('travel.services', [])
       return resp.data;
     });
   };
+
   return {
     getCity: getCity
   };
