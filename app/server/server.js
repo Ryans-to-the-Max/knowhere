@@ -105,12 +105,31 @@ app.get('/auth/facebook',
     // function will not be called.
   });
 
- app.get('/auth/facebook/callback', 
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
+ app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/' }),
   function(req, res) {
+    console.log("in facebook callback")
     res.redirect('/');
   });
 module.exports = app;
+
+// function (req, res, next) {
+//   passport.authenticate('local-signup',
+//     function (err, user, info) {
+//       if (err || !user){
+//         res.status(200).send({message: info.message});
+//       } else {
+//         req.login(user, function (err){
+//           if (err) {
+//             console.log(err);
+//             res.status(500).send({message: err});
+//           } else {
+//             res.status(200).send({status: true, user: user});
+//           }
+//         });  
+//       }
+//     }) (req, res, next);
+// });
 
 // process.env.NODE_ENV
 // === 'dev'

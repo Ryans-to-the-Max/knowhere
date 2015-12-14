@@ -14,7 +14,6 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-        console.log("serializing this bitch");
         done(null, user.id);
     });
 
@@ -39,21 +38,107 @@ module.exports = function(passport) {
     function(req, username, password, cb) {
         // asynchronous
         // User.findOne wont fire unless data is sent back
-        process.nextTick(function() {
+      process.nextTick(function() {
 
-        // find a user whose username is the same as the forms username
-        // we are checking to see if the user trying to login already exists
+      // find a user whose username is the same as the forms username
+      // we are checking to see if the user trying to login already exists
         User.findOne({ 'username' :  username }, function(err, user) {
             // if there are any errors, return the error
             if (err) {
               console.log(err);
               cb(err);
             }
-                
+          
+            // check to see if theres already a user with that email
+            // also check to see if they signed up already with facebook or google
+            if (user && user.oauth === false) {
+                cb(null, false, {message: "Username already exists"}); 
+            } else { 
+              if (user.oauth === false) { 
+                // if completely new user
+                // create the user
+                var newUser         = new User();
 
+                // set the user's local credentials
+                newUser.username    = username;
+                newUser.password    = newUser.generateHash(password);
+
+                // save the user
+                newUser.save(function(err, user) {
+                    if (err)
+                        throw err;
+                    return cb(null, newUser);
+
+                });
+              } else { //user has signed up with oauth - just set password
+                user.password = user.generateHash(password);
+                return cb(null, user)
+              }
+            }  
+
+        });    
+
+      });
+
+    }));
+
+       // =========================================================================
+    // LOCAL LOGIN =============================================================
+    // =========================================================================
+    // we are using named strategies since we have one for login and one for signup
+
+    passport.use('local-login', new LocalStrategy({
+        // by default, local strategy uses username and password, we will override with email
+      usernameField : 'username',
+      passwordField : 'password',
+      passReqToCallback : true // allows us to pass back the entire request to the callback
+    },
+    function(req, username, password, done) { // callback with username and password from our form
+
+        // find a user whose username is the same as the forms username
+        // we are checking to see if the user trying to login already exists
+        User.findOne({ 'username' :  username }, function(err, user) {
+            // if there are any errors, return the error before anything else
+            if (err)
+              return done(err);
+
+            // if no user is found, return the message
+            if (!user)
+              return done(null, false, {message: 'No user found'});
+
+            // if the user is found but the password is wrong
+            if (!user.validPassword(password))
+              return done(null, false, {message: 'Wrong Password'});
+
+            // all is well, return successful user
+            return done(null, user);
+        });
+
+    }));
+
+
+  passport.use(new GoogleStrategy({
+    clientID: '1039303204244-ibed3rqe95qds98tkk4gfpja4r4ed6bh.apps.googleusercontent.com',
+    clientSecret: 'hhdRHgPIL5ezFgwqiKalMNBc',
+    callbackURL: "http://127.0.0.1:3000/auth/google/callback"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+      console.log("email is ", profile.emails[0].value)
+      console.log("profile ===============");
+      console.log(profile);
+    process.nextTick(function() {
+
+        
+        User.findOne({ 'username' :  profile.emails[0].value }, function(err, user) {
+            // if there are any errors, return the error
+            if (err) {
+              console.log(err);
+              cb(err);
+            }
+                
             // check to see if theres already a user with that email
             if (user) {
-                cb(null, false, {message: "Username already exists"});
+                cb(null, user);
             } else {
 
                 // if there is no user with that email
@@ -61,8 +146,8 @@ module.exports = function(passport) {
                 var newUser            = new User();
 
                 // set the user's local credentials
-                newUser.username    = username;
-                newUser.password    = newUser.generateHash(password);
+                newUser.username    = profile.emails[0].value;
+                newUser.oauth       = true;
 
                 // save the user
                 newUser.save(function(err, user) {
@@ -76,59 +161,6 @@ module.exports = function(passport) {
         });    
 
         });
-
-    }));
-
-       // =========================================================================
-    // LOCAL LOGIN =============================================================
-    // =========================================================================
-    // we are using named strategies since we have one for login and one for signup
-
-    passport.use('local-login', new LocalStrategy({
-        // by default, local strategy uses username and password, we will override with email
-        usernameField : 'username',
-        passwordField : 'password',
-        passReqToCallback : true // allows us to pass back the entire request to the callback
-    },
-    function(req, username, password, done) { // callback with username and password from our form
-
-        // find a user whose username is the same as the forms username
-        // we are checking to see if the user trying to login already exists
-        User.findOne({ 'username' :  username }, function(err, user) {
-            // if there are any errors, return the error before anything else
-            if (err)
-                return done(err);
-
-            // if no user is found, return the message
-            if (!user)
-                return done(null, false, {message: 'No user found'});
-
-            // if the user is found but the password is wrong
-            if (!user.validPassword(password))
-                return done(null, false, {message: 'Wrong Password'});
-
-            // all is well, return successful user
-            return done(null, user);
-        });
-
-    }));
-
-
-  passport.use(new GoogleStrategy({
-      clientID: '1039303204244-ibed3rqe95qds98tkk4gfpja4r4ed6bh.apps.googleusercontent.com',
-      clientSecret: 'hhdRHgPIL5ezFgwqiKalMNBc',
-      callbackURL: "http://127.0.0.1:3000/auth/google/callback"
-    },
-    function(accessToken, refreshToken, profile, done) {
-      console.log("email is ", profile.emails[0].value)
-      console.log("profile ===============");
-      console.log(profile);
-      
-      //User.findOne({ username: profile.emails[0].value }, function (err, user) {
-       // return done(err, user);
-      //});
-
-      return done(null, profile)
      
     }
   ));
@@ -165,8 +197,9 @@ module.exports = function(passport) {
                 var newUser            = new User();
 
                 // set the user's local credentials
-                newUser.username    = username;
-                newUser.password    = newUser.generateHash(password);
+                newUser.username    = profile.emails[0].value;
+                newUser.oauth       = true;
+                
 
                 // save the user
                 newUser.save(function(err, user) {
