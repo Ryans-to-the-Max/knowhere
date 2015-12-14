@@ -3,6 +3,11 @@ var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var User = require('../models/user');
 
+var PROTOCOL_DOMAIN = ( process.env.NODE_ENV === 'production' ?
+                        'http://localhost:3000' :
+                        'https://knowhere.herokuapp.com' );
+
+
 // expose this function to our app using module.exports
 module.exports = function(passport) {
 
@@ -120,7 +125,7 @@ module.exports = function(passport) {
   passport.use(new GoogleStrategy({
     clientID: '1039303204244-ibed3rqe95qds98tkk4gfpja4r4ed6bh.apps.googleusercontent.com',
     clientSecret: 'hhdRHgPIL5ezFgwqiKalMNBc',
-    callbackURL: 'google/callback'
+    callbackURL: PROTOCOL_DOMAIN + '/auth/google/callback'
     },
     function(accessToken, refreshToken, profile, cb) {
     process.nextTick(function() {
@@ -165,7 +170,7 @@ module.exports = function(passport) {
   passport.use(new FacebookStrategy({
     clientID: '323161997808257',
     clientSecret: '3c8a18558adf92b62d696abd5be4fa15',
-    callbackURL: 'facebook/callback',
+    callbackURL: PROTOCOL_DOMAIN + '/auth/facebook/callback'
     enableProof: false,
     profileFields: ['id', 'displayName', 'email']
   },
