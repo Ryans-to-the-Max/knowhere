@@ -4,8 +4,8 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var User = require('../models/user');
 
 var PROTOCOL_DOMAIN = ( process.env.NODE_ENV === 'production' ?
-                        'http://localhost:3000' :
-                        'https://knowhere.herokuapp.com' );
+                        'https://knowhere.herokuapp.com' :
+                        'http://localhost:3000' );
 
 
 // expose this function to our app using module.exports
