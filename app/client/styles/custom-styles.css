@@ -6,6 +6,11 @@
   padding: 15px;
 }
 
+.modal {
+  float: left;
+  clear: left;
+}
+
 .signin {
   text-align: center;
 }
@@ -14,3 +19,30 @@
   float: right;
 }
 
+.move {
+  float: left;
+  clear: left;
+}
+
+.google {
+  height: 96%;
+  width: 40%;
+  padding-bottom: 15px;
+  padding-top: 10px;
+  float: left;
+}
+
+.facebook {
+  height: 98%;
+  width: 42%;
+  float: right;
+  padding-bottom: 15px;
+  padding-top: 8px;
+}
+
+.logins {
+  height: 54%;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+}

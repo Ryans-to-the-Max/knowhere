@@ -1,4 +1,6 @@
 var LocalStrategy   = require('passport-local').Strategy;
+var GoogleStrategy = require('passport-google-oauth2').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 var User = require('../models/user');
 
 // expose this function to our app using module.exports
@@ -36,21 +38,104 @@ module.exports = function(passport) {
     function(req, username, password, cb) {
         // asynchronous
         // User.findOne wont fire unless data is sent back
-        process.nextTick(function() {
+      process.nextTick(function() {
 
-        // find a user whose username is the same as the forms username
-        // we are checking to see if the user trying to login already exists
+      // find a user whose username is the same as the forms username
+      // we are checking to see if the user trying to login already exists
         User.findOne({ 'username' :  username }, function(err, user) {
             // if there are any errors, return the error
             if (err) {
               console.log(err);
               cb(err);
             }
-                
+          
+            // check to see if theres already a user with that email
+            // also check to see if they signed up already with facebook or google
+            if (user && user.oauth === false) {
+                cb(null, false, {message: "Username already exists"}); 
+            } else { 
+              if (user.oauth === false) { 
+                // if completely new user
+                // create the user
+                var newUser         = new User();
 
+                // set the user's local credentials
+                newUser.username    = username;
+                newUser.password    = newUser.generateHash(password);
+
+                // save the user
+                newUser.save(function(err, user) {
+                    if (err)
+                        throw err;
+                    return cb(null, newUser);
+
+                });
+              } else { //user has signed up with oauth - just set password
+                user.password = user.generateHash(password);
+                return cb(null, user);
+              }
+            }  
+
+        });    
+
+      });
+
+    }));
+
+       // =========================================================================
+    // LOCAL LOGIN =============================================================
+    // =========================================================================
+    // we are using named strategies since we have one for login and one for signup
+
+    passport.use('local-login', new LocalStrategy({
+        // by default, local strategy uses username and password, we will override with email
+      usernameField : 'username',
+      passwordField : 'password',
+      passReqToCallback : true // allows us to pass back the entire request to the callback
+    },
+    function(req, username, password, done) { // callback with username and password from our form
+
+        // find a user whose username is the same as the forms username
+        // we are checking to see if the user trying to login already exists
+        User.findOne({ 'username' :  username }, function(err, user) {
+            // if there are any errors, return the error before anything else
+            if (err)
+              return done(err);
+
+            // if no user is found, return the message
+            if (!user)
+              return done(null, false, {message: 'No user found'});
+
+            // if the user is found but the password is wrong
+            if (!user.validPassword(password))
+              return done(null, false, {message: 'Wrong Password'});
+
+            // all is well, return successful user
+            return done(null, user);
+        });
+
+    }));
+
+
+  passport.use(new GoogleStrategy({
+    clientID: '1039303204244-ibed3rqe95qds98tkk4gfpja4r4ed6bh.apps.googleusercontent.com',
+    clientSecret: 'hhdRHgPIL5ezFgwqiKalMNBc',
+    callbackURL: "http://127.0.0.1:3000/auth/google/callback"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+    process.nextTick(function() {
+
+        
+        User.findOne({ 'username' :  profile.emails[0].value }, function(err, user) {
+            // if there are any errors, return the error
+            if (err) {
+              console.log(err);
+              cb(err);
+            }
+                
             // check to see if theres already a user with that email
             if (user) {
-                cb(null, false, {message: "Username already exists"});
+                cb(null, user);
             } else {
 
                 // if there is no user with that email
@@ -58,8 +143,8 @@ module.exports = function(passport) {
                 var newUser            = new User();
 
                 // set the user's local credentials
-                newUser.username    = username;
-                newUser.password    = newUser.generateHash(password);
+                newUser.username    = profile.emails[0].value;
+                newUser.oauth       = true;
 
                 // save the user
                 newUser.save(function(err, user) {
@@ -73,41 +158,61 @@ module.exports = function(passport) {
         });    
 
         });
+     
+    }
+  ));
 
-    }));
+  passport.use(new FacebookStrategy({
+    clientID: '323161997808257',
+    clientSecret: '3c8a18558adf92b62d696abd5be4fa15',
+    callbackURL: "http://localhost:3000/auth/facebook/callback",
+    enableProof: false,
+    profileFields: ['id', 'displayName', 'email']
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    process.nextTick(function() {
 
-       // =========================================================================
-    // LOCAL LOGIN =============================================================
-    // =========================================================================
-    // we are using named strategies since we have one for login and one for signup
+        //TODO they might not have email - if so -login with id
+        User.findOne({ 'username' :  profile.emails[0].value }, function(err, user) {
+            // if there are any errors, return the error
+            if (err) {
+              console.log(err);
+              cb(err);
+            }
+                
 
-    passport.use('local-login', new LocalStrategy({
-        // by default, local strategy uses username and password, we will override with email
-        usernameField : 'username',
-        passwordField : 'password',
-        passReqToCallback : true // allows us to pass back the entire request to the callback
-    },
-    function(req, username, password, done) { // callback with username and password from our form
+            // check to see if theres already a user with that email
+            if (user) {
+                cb(null, user);
+            } else {
 
-        // find a user whose username is the same as the forms username
-        // we are checking to see if the user trying to login already exists
-        User.findOne({ 'username' :  username }, function(err, user) {
-            // if there are any errors, return the error before anything else
-            if (err)
-                return done(err);
+                // if there is no user with that email
+                // create the user
+                var newUser            = new User();
 
-            // if no user is found, return the message
-            if (!user)
-                return done(null, false, {message: 'No user found'});
+                // set the user's local credentials
+                newUser.username    = profile.emails[0].value;
+                newUser.oauth       = true;
+                
 
-            // if the user is found but the password is wrong
-            if (!user.validPassword(password))
-                return done(null, false, {message: 'Wrong Password'});
+                // save the user
+                newUser.save(function(err, user) {
+                    if (err)
+                        throw err;
+                    return cb(null, newUser);
 
-            // all is well, return successful user
-            return done(null, user);
+                });
+            }
+
+        });    
+
         });
+  }
+));
 
-    }));
+
 
 };
+
+
+
