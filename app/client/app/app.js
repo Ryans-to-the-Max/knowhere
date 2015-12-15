@@ -2,10 +2,6 @@ angular.module('travel', [
   'travel.services',
   'travel.landing',
   'travel.results',
-  'travel.hotels',
-  'travel.attractions',
-  'travel.restaurants',
-  'ngRoute',
   'ui.router',
   'ui.bootstrap',
   'signin'
