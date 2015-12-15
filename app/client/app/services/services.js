@@ -1,4 +1,9 @@
 angular.module('travel.services', [])
+
+
+////////////////// CITY //////////////////////
+
+
 .factory('City', function ($http) {
   var getCity = function(cityName){
     return $http({
@@ -15,7 +20,17 @@ angular.module('travel.services', [])
     getCity: getCity
   };
 })
-.factory('Restaurants', function ($http) {
+
+
+////////////////// RESTAURANTS //////////////////////
+
+
+.factory('Restaurants', function ($http) {3
+
+
+  ////////////////// PLACES TO EXPLORE //////////////////////
+
+
   var getRestaurants = function(cityName){
     return $http({
       method: 'GET',
@@ -27,11 +42,68 @@ angular.module('travel.services', [])
     });
   };
 
+
+  ////////////////// FAVORITES - PERSONAL AND GROUP //////////////////////
+
+
+  var getFavRestaurants = function(data){
+    return $http({
+      method: 'GET',
+      url: '/api/fav/rests',
+      params: {data: data}
+    })
+    .then(function(resp){
+      return resp.data;
+    });
+  };
+  var rateRestaurant = function(data) {
+    return $http({
+      method: 'POST',
+      url: '/api/fav/rests',
+      data: data
+    })   
+  };
+
+
+  ////////////////// GROUP FAVORITES - ADMIN ONLY //////////////////////
+
+
+  var addtoItinerary = function(data) {
+    return $http({
+      method: 'POST',
+      url: '/api/itin',
+      data: data
+    })   
+  };
+
+
+  ////////////////// ITINERARY //////////////////////
+
+
+  var getItinerary = function(data){
+    return $http({
+      method: 'GET',
+      url: '/api/itin',
+      params: {data: data}
+    })
+    .then(function(resp){
+      return resp.data;
+    });
+  };
   return {
-    getRestaurants: getRestaurants
+    getRestaurants: getRestaurants,
+    rateRestaurant: rateRestaurant,
+    getFavRestaurants: getFavRestaurants,
+    getItinerary: getItinerary,
+    addtoItinerary: addtoItinerary
   };
 
 })
+
+
+////////////////// ATTRACTIONS //////////////////////
+
+
 .factory('Attractions', function ($http) {
   var getAttractions = function(cityName){
     return $http({
@@ -49,6 +121,11 @@ angular.module('travel.services', [])
   };
 
 })
+
+
+////////////////// HOTELS //////////////////////
+
+
 .factory('Hotels', function ($http) {
   var getHotels = function(cityName){
     return $http({
@@ -65,6 +142,11 @@ angular.module('travel.services', [])
     getHotels: getHotels
   };
 })
+
+
+////////////////// TRANSFACTORY STORAGE //////////////////////
+
+
 .factory('CurrentInfo', function ($http) {
   var destination = {
     name: null,
@@ -85,6 +167,11 @@ angular.module('travel.services', [])
     origin: origin
   };
 })
+
+
+////////////////// SESSION STORAGE //////////////////////
+
+
 .factory('SessionStorage', function ($http, $location, $window) {
   var sessionExists = function () {
     return !!$window.sessionStorage.getItem('knowhere');
