@@ -1,6 +1,7 @@
 angular.module('travel', [
   'travel.services',
   'travel.landing',
+  'travel.results',
   'travel.hotels',
   'travel.attractions',
   'travel.restaurants',
@@ -9,30 +10,21 @@ angular.module('travel', [
   'ui.bootstrap',
   'signin'
 ])
-.config(function($routeProvider, $httpProvider) {
-  $routeProvider
-    .when('/', {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+  $stateProvider
+    .state('main', {
+      url: '/',
       templateUrl: 'app/landing/landing.html',
-      controller: 'LandingController'
-    })
-    .when('/attractions', {
-      templateUrl: 'app/attractions/attractions.html',
-      controller: 'AttractionsController',
+      controller: 'LandingController',
       authenticate: true
     })
-    .when('/hotels', {
-      templateUrl: 'app/hotels/hotels.html',
-      controller: 'HotelsController',
+    .state('results', {
+      url: '/results',
+      templateUrl: 'app/results/results.html',
+      controller: 'ResultsController',
       authenticate: true
     })
-    .when('/restaurants', {
-      templateUrl: 'app/restaurants/restaurants.html',
-      controller: 'RestaurantsController',
-      authenticate: true
-    })
-    .otherwise({
-      redirectTo: '/'
-    });
+    $urlRouterProvider.otherwise('/');
     $httpProvider.interceptors.push('AttachCity');
 })
 .factory('AttachCity', function ($window) {
