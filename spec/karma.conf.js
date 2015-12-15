@@ -1,6 +1,5 @@
 module.exports = function(config){
-  config.set({
-
+  var configuration = {
     basePath : '../',
 
     files : [
@@ -21,10 +20,9 @@ module.exports = function(config){
       // 'requirejs',
     ],
 
-    browsers : ['Chrome'],
-
     plugins : [
       'karma-chrome-launcher',
+      'karma-firefox-launcher',
       'karma-jasmine',
       // 'karma-requirejs',
     ],
@@ -33,6 +31,9 @@ module.exports = function(config){
     //   outputFile: 'test_out/unit.xml',
     //   suite: 'unit'
     // },
+  };
 
-  });
+  configuration.browsers = ( process.env.TRAVIS ? ['Firefox'] : ['Chrome', 'Firefox'] );
+
+  config.set(configuration);
 };
