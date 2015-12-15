@@ -1,0 +1,45 @@
+<div class="container-fluid text-center" ng-controller="ResultsController">
+  <div class="row">
+    <div class="jumbotron" ng-style="{'background-image':'url(' + city.splash_photo + ')'}">
+      <h1>{{ city.name }}</h1>
+      <div class="col-md-offset-3 col-md-6">
+        <ul class="nav nav-pills center-pills">
+          <!-- empty anchor tags may need to be fixed -->
+          <li role="navigation" class="active"><a href="" ng-click="getHotels()">Hotels</a></li>
+          <li role="navigation" class="active"><a href="" ng-click="getAttractions()">Attractions</a></li>
+          <li role="navigation" class="active"><a href="" ng-click="getRestaurants()">Restaurants</a></li>
+        </ul>
+      </div>
+    </div><!-- /.jumbotron -->
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <h2 class="text-center">{{ heading }}</h2>
+  </div>
+
+  <div ng-repeat="result in results | limitTo: 12" ng-if="$index % 3 == 0" class="row">
+    <div class="col-xs-4 thumbnail">
+      <img ng-src="{{ results[$index].index_photo }}" alt="photo: {{ results[$index].name }}">
+      <div class="caption">
+        <h3>{{ results[$index].name }}</h3>
+        <p>{{ results[$index].description }}</p>
+      </div>
+    </div>
+    <div class="col-xs-4 thumbnail">
+      <img ng-src="{{ results[$index + 1].index_photo }}" alt="photo: {{ results[$index + 1].name }}">
+      <div class="caption">
+        <h3>{{ results[$index + 1].name }}</h3>
+        <p>{{ results[$index + 1].description }}</p>
+      </div>
+    </div>
+    <div class="col-xs-4 thumbnail">
+      <img ng-src="{{ results[$index + 2].index_photo }}" alt="photo: {{ results[$index + 2].name }}">
+      <div class="caption">
+        <h3>{{ results[$index + 2].name }}</h3>
+        <p>{{ results[$index + 2].description }}</p>
+      </div>
+    </div>
+  </div>
+</div>
