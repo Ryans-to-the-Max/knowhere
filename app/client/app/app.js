@@ -19,7 +19,7 @@ angular.module('travel', [
       templateUrl: 'app/results/results.html',
       controller: 'ResultsController',
       authenticate: true
-    })
+    });
     $urlRouterProvider.otherwise('/');
     $httpProvider.interceptors.push('AttachCity');
 })

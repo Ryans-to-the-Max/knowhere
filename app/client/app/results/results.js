@@ -1,48 +1,49 @@
 angular.module('travel.results', [])
 
-.controller('ResultsController', function ($scope, $window, CurrentInfo, Hotels, Attractions, Restaurants, City) {
+.controller('ResultsController', function ($scope, $window, CurrentInfo, DestInfo, City) {
   var origin = CurrentInfo.origin.name;
   var destination = $window.sessionStorage.getItem('knowhere') || CurrentInfo.destination.name;
-  $scope.results = null;
+  $scope.apiVenueData = null;
+  $scope.venues = [];
   $scope.city = null;
   $scope.heading = null;
-  $scope.getHotels = function() {
-    Hotels.getHotels(destination)
-      .then(function(hotelsInfo) {
-        $scope.heading = 'Hotels';
-        $scope.results = hotelsInfo;
-        CurrentInfo.destination.hotels = hotelsInfo;
-        console.log('hotels', $scope.results);
+
+  /*
+    @param {number} filterType [venue_type_id]
+  */
+  $scope.filterVenueInformation = function (filterType) {
+    var venues = [];
+
+    // set heading to appropriate value
+    if (filterType === 1) {
+      $scope.heading = 'Hotels';
+    } else if (filterType === 2) {
+      $scope.heading = 'Restaurants';
+    } else if (filterType === 3) {
+      $scope.heading = 'Attractions';
+    }
+
+    // populate venues with appropriate results
+    $scope.apiVenueData.forEach(function(venue) {
+      if (venue.venue_type_id === filterType) {
+        venues.push(venue);
+      }
+    });
+    $scope.venues = venues;
+  };
+  $scope.getVenueInformation = function () {
+    DestInfo.getDestVenues(destination)
+      .then(function(venueInfo) {
+        $scope.apiVenueData = venueInfo;
+        CurrentInfo.destination.venues = venueInfo;
+        $scope.filterVenueInformation(1);
+        console.log('destVenueInfo', $scope.apiVenueData);
     })
       .catch(function(error){
         console.error(error);
       });
   };
-  $scope.getAttractions = function() {
-    Attractions.getAttractions(destination)
-      .then(function(attractionsInfo) {
-        $scope.heading = 'Attractions';
-        $scope.results = attractionsInfo;
-        CurrentInfo.destination.attractions = attractionsInfo;
-        console.log('attractions', $scope.results);
-    })
-      .catch(function(error){
-        console.error(error);
-      });
-  };
-  $scope.getRestaurants = function() {
-    Restaurants.getRestaurants(destination)
-      .then(function(restaurantsInfo) {
-        $scope.heading = 'Restaurants';
-        $scope.results = restaurantsInfo;
-        CurrentInfo.destination.restaurants = restaurantsInfo;
-        console.log('restaurants', $scope.results);
-    })
-      .catch(function(error){
-        console.error(error);
-      });
-  };
-  $scope.getCity = function() {
+  $scope.getCity = function () {
     City.getCity(destination)
       .then(function(cityInfo) {
         $scope.city = cityInfo;
@@ -53,5 +54,5 @@ angular.module('travel.results', [])
       });
   };
   $scope.getCity();
-  $scope.getHotels();
+  $scope.getVenueInformation();
 });
