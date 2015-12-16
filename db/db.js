@@ -29,7 +29,17 @@ var userSchema = new Schema ({
 
   oauth: {
     type: Boolean
-  }
+  },
+
+  groupId: [{
+    type: Schema.ObjectId,
+    ref: 'Group'
+  }],
+
+  favorites: [{
+    type: Schema.ObjectId,
+    ref: 'Venue'
+  }]
 });
 
 userSchema.methods.generateHash = function(password) {
@@ -42,6 +52,52 @@ userSchema.methods.validPassword = function(password) {
 };
 
 db.userSchema = userSchema;
+
+var groupSchema = new Schema ({
+  title: String,
+  destination: String,
+  members: [{
+    type: Schema.ObjectId,
+    ref: 'User'
+  }],
+  favorites: [{
+    type: Schema.ObjectId,
+    ref: 'Venue'
+  }]
+})
+
+db.groupSchema = groupSchema;
+
+var venueSchema = new Schema ({
+  lookupId: String,
+  latitude: String,
+  longitude: String,
+});
+
+db.venueSchema = venueSchema;
+
+var ratingSchema = new Schema ({
+  venueId: {
+    type: Schema.ObjectId,
+    ref: 'Venue'
+  },
+  groupId: {
+    type: Schema.ObjectId,
+    ref: 'Group'
+  },
+  rating: [{
+    user: {
+      type: Schema.ObjectId,
+      ref: 'User'
+    },
+    rating: Number
+  }] 
+});
+
+db.ratingSchema = ratingSchema;
+
+
+
 
 
 module.exports = db;
