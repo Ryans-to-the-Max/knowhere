@@ -25,12 +25,7 @@ angular.module('travel.services', [])
 ////////////////// RESTAURANTS //////////////////////
 
 
-.factory('Restaurants', function ($http) {3
-
-
-  ////////////////// PLACES TO EXPLORE //////////////////////
-
-
+.factory('Restaurants', function ($http) {
   var getRestaurants = function(cityName){
     return $http({
       method: 'GET',
@@ -42,60 +37,8 @@ angular.module('travel.services', [])
     });
   };
 
-
-  ////////////////// FAVORITES - PERSONAL AND GROUP //////////////////////
-
-
-  var getFavRestaurants = function(data){
-    return $http({
-      method: 'GET',
-      url: '/api/fav/rests',
-      params: {data: data}
-    })
-    .then(function(resp){
-      return resp.data;
-    });
-  };
-  var rateRestaurant = function(data) {
-    return $http({
-      method: 'POST',
-      url: '/api/fav/rests',
-      data: data
-    })   
-  };
-
-
-  ////////////////// GROUP FAVORITES - ADMIN ONLY //////////////////////
-
-
-  var addtoItinerary = function(data) {
-    return $http({
-      method: 'POST',
-      url: '/api/itin',
-      data: data
-    })   
-  };
-
-
-  ////////////////// ITINERARY //////////////////////
-
-
-  var getItinerary = function(data){
-    return $http({
-      method: 'GET',
-      url: '/api/itin',
-      params: {data: data}
-    })
-    .then(function(resp){
-      return resp.data;
-    });
-  };
   return {
-    getRestaurants: getRestaurants,
-    rateRestaurant: rateRestaurant,
-    getFavRestaurants: getFavRestaurants,
-    getItinerary: getItinerary,
-    addtoItinerary: addtoItinerary
+    getRestaurants: getRestaurants
   };
 
 })
@@ -144,6 +87,85 @@ angular.module('travel.services', [])
 })
 
 
+////////////////// VENUES //////////////////////
+
+
+.factory('Venues', function ($http) {
+
+
+  ////////////////// PLACES TO EXPLORE //////////////////////
+
+
+  var getVenues = function(city_permalink){
+    return $http({
+      method: 'GET',
+      url: '/api/dest/venues',
+      params: {name: city_permalink}
+    })
+    .then(function(resp){
+      return resp.data;
+    });
+  };
+
+
+  ////////////////// FAVORITES //////////////////////
+
+
+  var getFavs = function(data){
+    return $http({
+      method: 'GET',
+      url: '/api/dest/venues/favs',
+      params: {data: data}
+    })
+    .then(function(resp){
+      return resp.data;
+    });
+  };
+  var rateVenue = function(data) {
+    return $http({
+      method: 'POST',
+      url: '/api/dest/venues/favs',
+      data: data
+    })   
+  };
+
+
+  ////////////////// GROUP FAVORITES - ADMIN ONLY //////////////////////
+
+
+  var addtoItinerary = function(data) {
+    return $http({
+      method: 'POST',
+      url: '/api/itin',
+      data: data
+    })   
+  };
+
+
+  ////////////////// ITINERARY //////////////////////
+
+
+  var getItinerary = function(data){
+    return $http({
+      method: 'GET',
+      url: '/api/itin',
+      params: {data: data}
+    })
+    .then(function(resp){
+      return resp.data;
+    });
+  };
+  return {
+    getVenues: getVenues,
+    rateVenue: rateVenue,
+    getFavs: getFavs,
+    getItinerary: getItinerary,
+    addtoItinerary: addtoItinerary
+  };
+
+})
+
+
 ////////////////// TRANSFACTORY STORAGE //////////////////////
 
 
@@ -151,20 +173,10 @@ angular.module('travel.services', [])
   var destination = {
     name: null,
     basicInfo: null,
-    hotels: null,
-    attractions: null,
-    restaurants: null
-  };
-  var origin = {
-    name: null,
-    basicInfo: null,
-    hotels: null,
-    attractions: null,
-    restaurants: null
+    venues: null 
   };
   return {
-    destination: destination,
-    origin: origin
+    destination: destination
   };
 })
 

@@ -6,10 +6,6 @@ var destController = require('../controllers/destController');
 
 router.get('/', destController.getDestination);
 
-router.get('/hotels', destController.getHotels);
-
-router.get('/rests', destController.getRestaurants);
-
-router.get('/places', destController.getPlaces);
+router.get('/venues', destController.venues);
 
 module.exports = router;
