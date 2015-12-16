@@ -148,7 +148,6 @@ module.exports = {
     })
   },
 
-
   getAllInfo: function(title){
     var groupId = req.params.groupId;
 
@@ -165,6 +164,7 @@ module.exports = {
         function assignRatings(){
           if (index < group.favorites.length){
             venueId = group.favorites[index]._id;
+
             Rating.findOne({venue: venueId, group: groupId}, function (err, rating){
               if (rating) {
                 group.favorites[index].ratings = rating.ratings;

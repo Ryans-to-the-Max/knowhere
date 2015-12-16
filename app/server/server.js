@@ -18,7 +18,6 @@ var fav    = require(path.join(__dirname, 'routes/fav'));
 var rating = require(path.join(__dirname, 'routes/rating'));
 
 
-
 var app = express();
 
 // Log requests:

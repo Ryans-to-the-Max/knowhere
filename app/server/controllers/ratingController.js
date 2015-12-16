@@ -52,7 +52,7 @@ module.exports = {
     var rating   = req.body.rating;
 
     Rating.update({_id: ratingId}, {$pull: {user: userId}}, function (err, rating){
-      rating.ratings.rating = rating;
+      rating.ratings.rating = rating; //should probably change this around
       res.status(200).send(rating);
      });
   },
