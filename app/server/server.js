@@ -13,6 +13,7 @@ var cors = require('cors');
 // Server routers:
 var index = require(path.join(__dirname, 'routes/index'));
 var dest = require(path.join(__dirname, 'routes/dest'));
+var group = require(path.join(__dirname, 'routes/group'))
 
 
 var app = express();
@@ -42,6 +43,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 // Server routing:
 app.use('/api', index);
 app.use('/api/dest', dest);
+app.use('/api/group', group)
 app.use(cors());
 
 //Authentication Routing
