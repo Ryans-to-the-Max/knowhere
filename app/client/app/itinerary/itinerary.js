@@ -21,7 +21,7 @@ angular.module('travel.itinerary', [])
     Groups.getGroups(query)
       .then(function(groupsInfo){
         $scope.groups = groupsInfo;
-      })
+      });
   };
   $scope.getGroups();
 
@@ -34,7 +34,7 @@ angular.module('travel.itinerary', [])
     $rootScope.destinationPermalink = cleanInput(groupInfo.destination);
     var dest = $rootScope.destinationPermalink;
     $window.sessionStorage.setItem('knowhere', dest);
-    $state.go('itinerary')
+    $state.go('itinerary');
   };
 
 
@@ -87,7 +87,7 @@ angular.module('travel.itinerary', [])
       .then(function(itineraryData){
         $scope.itinerary = fullItineraryData;
         filterItinerary();
-      })
+      });
   };
 
   $scope.getItinerary();

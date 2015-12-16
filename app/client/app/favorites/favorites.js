@@ -20,7 +20,7 @@ angular.module('travel.favorites', [])
     Groups.getGroups(query)
       .then(function(groupsInfo){
         $scope.groups = groupsInfo;
-      })
+      });
   };
   $scope.getGroups();
 
@@ -33,7 +33,7 @@ angular.module('travel.favorites', [])
     $rootScope.destinationPermalink = cleanInput(groupInfo.destination);
     var dest = $rootScope.destinationPermalink;
     $window.sessionStorage.setItem('knowhere', dest);
-    $state.go('favorites')
+    $state.go('favorites');
   };
 
 
@@ -59,8 +59,8 @@ angular.module('travel.favorites', [])
         if (venue.userInfo === $rootScope.currentUser) {
           userFavs.push(venue);
         } else {
-          groupFavs.push(venue)
-        };
+          groupFavs.push(venue);
+        }
       }
     });
     $scope.filteredGroupFavs = groupFavs;
@@ -80,7 +80,7 @@ angular.module('travel.favorites', [])
       .then(function(venuesInfo){
         $scope.faves = venuesInfo;
         $scope.filterFavorites(1);
-      })
+      });
   };
   $scope.getFavs();
 
@@ -159,11 +159,11 @@ angular.module('travel.favorites', [])
         updateStars();
       }
     });
-  }
+  };
   return {
     restrict: restrict,
     template: template,
     scope: scope,
     link: link
-  }
+  };
 });

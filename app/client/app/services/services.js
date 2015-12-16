@@ -28,7 +28,7 @@ angular.module('travel.services', [])
       url: '/api/favs',
       data: data
     });   
-  }
+  };
   return {
     getGroups: getGroups,
     createGroup: createGroup,
@@ -97,7 +97,7 @@ angular.module('travel.services', [])
       method: 'POST',
       url: '/api/favs',
       data: data
-    })   
+    });
   };
 
 
@@ -109,7 +109,7 @@ angular.module('travel.services', [])
       method: 'POST',
       url: '/api/itin',
       data: data
-    })   
+    });
   };
 
 
