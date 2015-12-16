@@ -21,15 +21,11 @@ angular.module('travel.services', [])
   };
 })
 
-
-////////////////// RESTAURANTS //////////////////////
-
-
-.factory('Restaurants', function ($http) {
-  var getRestaurants = function(cityName){
+.factory('DestInfo', function ($http) {
+  var getDestVenues = function(cityName){
     return $http({
       method: 'GET',
-      url: '/api/dest/rests',
+      url: '/api/dest/venues',
       params: {name: cityName}
     })
     .then(function(resp){
@@ -38,51 +34,7 @@ angular.module('travel.services', [])
   };
 
   return {
-    getRestaurants: getRestaurants
-  };
-
-})
-
-
-////////////////// ATTRACTIONS //////////////////////
-
-
-.factory('Attractions', function ($http) {
-  var getAttractions = function(cityName){
-    return $http({
-      method: 'GET',
-      url: '/api/dest/places',
-      params: {name: cityName}
-    })
-    .then(function(resp){
-      return resp.data;
-    });
-  };
-
-  return {
-    getAttractions: getAttractions
-  };
-
-})
-
-
-////////////////// HOTELS //////////////////////
-
-
-.factory('Hotels', function ($http) {
-  var getHotels = function(cityName){
-    return $http({
-      method: 'GET',
-      url: '/api/dest/hotels',
-      params: {name: cityName}
-    })
-    .then(function(resp){
-      return resp.data;
-    });
-  };
-
-  return {
-    getHotels: getHotels
+    getDestVenues: getDestVenues
   };
 })
 

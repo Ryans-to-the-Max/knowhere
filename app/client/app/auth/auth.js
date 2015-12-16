@@ -30,7 +30,6 @@ angular.module('signin', ['ui.bootstrap'])
       });
   }();
 
-
 })
 
 .controller('signinCtrl', function ($scope, $uibModalInstance, $uibModal, authMe, $location, $rootScope) {
@@ -188,5 +187,3 @@ angular.module('signin', ['ui.bootstrap'])
   };
 
 });
-
-

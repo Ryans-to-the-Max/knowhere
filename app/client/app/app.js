@@ -1,37 +1,27 @@
 angular.module('travel', [
   'travel.services',
   'travel.landing',
-  'travel.hotels',
-  'travel.attractions',
-  'travel.restaurants',
-  'ngRoute',
+  'travel.results',
+  'ui.router',
+  'ui.bootstrap',
   'signin'
 ])
-.config(function($routeProvider, $httpProvider) {
-  $routeProvider
-    .when('/', {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+  $stateProvider
+    .state('main', {
+      url: '/',
       templateUrl: 'app/landing/landing.html',
-      controller: 'LandingController'
+      controller: 'LandingController',
+      authenticate: true
     })
-    .when('/attractions', {
-      templateUrl: 'app/attractions/attractions.html',
-      controller: 'AttractionsController',
-      authenticate: true 
-    })
-    .when('/hotels', {
-      templateUrl: 'app/hotels/hotels.html',
-      controller: 'HotelsController',
-      authenticate: true 
-    })
-    .when('/restaurants', {
-      templateUrl: 'app/restaurants/restaurants.html',
-      controller: 'RestaurantsController',
-      authenticate: true 
-    })
-    .otherwise({
-      redirectTo: '/'
+    .state('results', {
+      url: '/results',
+      templateUrl: 'app/results/results.html',
+      controller: 'ResultsController',
+      authenticate: true
     });
-    $httpProvider.interceptors.push('AttachCity');
+  $urlRouterProvider.otherwise('/');
+  $httpProvider.interceptors.push('AttachCity');
 })
 .factory('AttachCity', function ($window) {
   var attach = {

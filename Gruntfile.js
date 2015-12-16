@@ -3,6 +3,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-express-server');
+  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-mocha');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-nodemon');
@@ -17,28 +18,59 @@ module.exports = function (grunt) {
     express: {
       dev: {
         options: {
+          port: 5000,
           script: 'app/server/index.js'
         }
-      }
+      },
     },
+
     // deletes all files in the listed dirs
     // clean: {
     //   dist: 'dist/*'
     // },
+
     jshint: {
-      all: [
-        'Gruntfile.js',
-        'app/**/*.js',
+      client: [
+        'app/client/**/*.js',
         '!app/client/lib/**',
-        '!app/server/lib/**',
-        'db/**'
       ],
+      database: 'db/**',
+      gruntfile: 'Gruntfile.js',
+      server: ['app/server/**/*.js'],
+
       options: {
         globals: {
-          eqeqeq: true
-        }
-      }
+          eqeqeq: true,
+        },
+      },
     },
+
+    karma: {
+      options: {
+        configFile: 'spec/karma.conf.js',
+        reporters: [
+          'dots',
+          // 'coverage'
+        ],
+      },
+      watch: {
+        background: true,
+        reporters: ['progress'],
+      },
+      // Single-run config for dev
+      single: {
+        singleRun: true,
+      },
+      // Single-run config for CI
+      ci: {
+        singleRun: true,
+        // coverageReporter: {
+        //   type: 'lcov',
+        //   dir: 'results/coverage/'
+        // },
+      },
+    },
+
     mochaTest: {
       test: {
         options: {
@@ -51,35 +83,60 @@ module.exports = function (grunt) {
         ]
       }
     },
+
     nodemon: {
       dev: {
         script: 'app/server/index.js'
       }
     },
+
     watch: {
-      server: {
-        files: [
-          'app/**',
-          'db/**',
-        ],
+      client: {
+        files: ['app/client/**'],
         tasks: [
-          'jshint',
-          'test',
-          'express:dev'
+          'jshint:client',
+          'karma:single',
         ],
         options: {
-          spawn: false
-        }
+          atBegin: true,
+        },
       },
-      test: {
+      database: {
+        files: ['db/**'],
+        tasks: [
+          'jshint:database',
+          'mochaTest',
+        ],
+        options: {
+          atBegin: true,
+        },
+      },
+      server: {
         files: [
-          'test/**'
+          'app/server/**',
         ],
         tasks: [
-          'test'
-        ]
-      }
+          'jshint:server',
+          'mochaTest',
+        ],
+        options: {
+          atBegin: true,
+        },
+      },
+
+      startup: {
+        files: ['app/server/**'],
+        tasks: 'express:dev',
+        options: {
+          atBegin: true, // Run tasks at startup of the watcher to spin up server
+          // spawn tasks in child process
+          // set to false so server is spun up / restarted
+          // see more info at: https://github.com/gruntjs/grunt-contrib-watch
+          spawn: false,
+        },
+      },
     },
+
     // uglify: {
     //   client: {
     //     files: {
@@ -89,8 +146,13 @@ module.exports = function (grunt) {
     // },
   });
 
+  grunt.registerTask('testClient', ['karma:single']);
+
+  grunt.registerTask('testServer', ['mochaTest']);
+
   grunt.registerTask('test', [
     'jshint',
-    'mochaTest'
+    'testServer'
+    //'testClient',
   ]);
 };
