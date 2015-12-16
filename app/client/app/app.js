@@ -1,11 +1,9 @@
 angular.module('travel', [
   'travel.services',
   'travel.landing',
-  // UNCOMMENT BELOW WHEN READY
-  //'travel,groups',
-  // 'travel.itinerary',
-  // 'travel.favorites',
-  // UNCOMMENT ABOVE WHEN READY
+  'travel.groups',
+  'travel.itinerary',
+  'travel.favorites',
   'travel.results',
   'ui.router',
   'ui.bootstrap',
@@ -18,40 +16,30 @@ angular.module('travel', [
       templateUrl: 'app/landing/landing.html',
       controller: 'LandingController'
     })
-    // UNCOMMENT BELOW WHEN READY
     .state('results', {
       url: '/results',
-      templateUrl: 'app/sampleResults/sampleResults.html',
-      controller: 'SampleResultsController',
+      templateUrl: 'app/results/results.html',
+      controller: 'ResultsController',
       authenticate: true
     })
-    // UNCOMMENT ABOVE WHEN READY
-    // UNCOMMENT BELOW WHEN READY
-    // .state('results', {
-    //   url: '/results',
-    //   templateUrl: 'app/results/results.html',
-    //   controller: 'ResultsController',
-    //   authenticate: true
-    // })
-    // .state('favorites', {
-    //   url: '/favorites',
-    //   templateUrl: 'app/favorites/favorites.html',
-    //   controller: 'FavoritesController',
-    //   authenticate: true
-    // })
-    // .state('itinerary', {
-    //   url: '/itinerary',
-    //   templateUrl: 'app/itinerary/itinerary.html',
-    //   controller: 'ItineraryController',
-    //   authenticate: true
-    // })
-    // .state('groups', {
-    //   url: '/groups',
-    //   templateUrl: 'app/groups/groups.html',
-    //   controller: 'GroupsController',
-    //   authenticate: true
-    // })
-    // UNCOMMENT ABOVE WHEN READY
+    .state('favorites', {
+      url: '/favorites',
+      templateUrl: 'app/favorites/favorites.html',
+      controller: 'FavoritesController',
+      authenticate: true
+    })
+    .state('itinerary', {
+      url: '/itinerary',
+      templateUrl: 'app/itinerary/itinerary.html',
+      controller: 'ItineraryController',
+      authenticate: true
+    })
+    .state('groups', {
+      url: '/groups',
+      templateUrl: 'app/groups/groups.html',
+      controller: 'GroupsController',
+      authenticate: true
+    })
     ;
   $urlRouterProvider.otherwise('/');
   $httpProvider.interceptors.push('AttachCity');

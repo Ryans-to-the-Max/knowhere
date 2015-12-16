@@ -19,7 +19,7 @@ angular.module('travel.results', [])
     Groups.getGroups(query)
       .then(function(groupsInfo){
         $scope.groups = groupsInfo;
-      })
+      });
   };
   $scope.getGroups();
 
@@ -32,7 +32,7 @@ angular.module('travel.results', [])
     $rootScope.destinationPermalink = cleanInput(groupInfo.destination);
     var dest = $rootScope.destinationPermalink;
     $window.sessionStorage.setItem('knowhere', dest);
-    $state.go('results')
+    $state.go('results');
   };
 
 
