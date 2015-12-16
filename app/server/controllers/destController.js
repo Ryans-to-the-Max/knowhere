@@ -29,16 +29,9 @@ module.exports = {
     res.status(404).send();
   },
 
-  getHotels: function (req, res, next){
-    res.status(200).send(hotels);
-  },
-
-  getRestaurants: function (req, res, next){
-    res.status(200).send(rests);
-  },
-
-  getPlaces: function (req, res, next){
-    res.status(200).send(places);
+  getVenues: function (req, res, next){
+    res.status(200).send(venue);
   }
+
 
 };
