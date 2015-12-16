@@ -1,7 +1,7 @@
 var User   = require('../models/user');
 var Venue  = require('../models/venue');
 var Group  = require('../models/group');
-var Rating = require('../models/Rating');
+var Rating = require('../models/rating');
 
 // Mock Data Load
 var venues = require("../../../mock-data/venues.json");
