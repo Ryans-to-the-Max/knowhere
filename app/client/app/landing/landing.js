@@ -5,22 +5,21 @@ angular.module('travel.landing', [])
   $scope.data = {};
 
   $scope.sendData = function() {
-    $rootScope.destinationPermalink = Util.transToPermalink($scope.data.destination);
-    var dest = $rootScope.destinationPermalink;
-    $window.sessionStorage.setItem('knowhere', dest);
+    $window.sessionStorage.setItem('knowhere', Util.transToPermalink($scope.data.destination));
     $rootScope.currentUser = $rootScope.currentUser || "anonymous";
+
     if ($scope.data.group === undefined) {
       data = {
         groupName: "anonymous",
         userInfo: $rootScope.currentUser,
-        destination: $rootScope.destinationPermalink
+        destination: $window.sessionStorage.getItem('knowhere')
       };
       Groups.createGroup(data);
       Groups.getGroups("anonymous")
       .then(function(groupsInfo){
         groupsInfo.forEach(function(group){
           if (group.title === "anonymous") {
-            group.destination = $rootScope.destinationPermalink; 
+            group.destination = $window.sessionStorage.getItem('knowhere'); 
             $rootScope.currentGroup = group;
           }
         });
@@ -29,7 +28,7 @@ angular.module('travel.landing', [])
       data = {
         groupName: $scope.data.group,
         userInfo: $rootScope.currentUser,
-        destination: $rootScope.destinationPermalink
+        destination: $window.sessionStorage.getItem('knowhere')
       };
       Groups.createGroup(data);
       Groups.getGroups($rootScope.currentUser)
