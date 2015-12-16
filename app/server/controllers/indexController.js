@@ -1,7 +1,7 @@
 var User   = require('../models/user');
 var Venue  = require('../models/venue');
 var Group  = require('../models/group');
-var Rating = require('../models/Rating');
+var Rating = require('../models/rating');
 
 module.exports = {
   // fill in
