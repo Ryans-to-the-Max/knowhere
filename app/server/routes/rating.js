@@ -3,10 +3,13 @@ var router = express.Router();
 
 var ratingController = require('../controllers/ratingController');
 
-app.post('/', ratingController.addRating);
 
-app.post('/mod', ratingController.modifyRating);
+router.post('/', ratingController.addRating);
 
-app.post('/user', ratingController.addUserRating);
+router.post('/mod', ratingController.modifyRating);
 
-app.post('/usermod', ratingController.modifyUserRating);
+router.post('/user', ratingController.addUserRating);
+
+router.post('/usermod', ratingController.modifyUserRating);
+
+module.exports = router;

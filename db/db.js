@@ -72,10 +72,6 @@ var groupSchema = new Schema ({
     ref: 'Venue'
   }]
 });
-<<<<<<< dd8d20914a87a17d2aa6d60a372a85138684ffb4
-
-=======
->>>>>>> (fix) jshint errors
 
 db.groupSchema = groupSchema;
 
@@ -113,23 +109,5 @@ var ratingSchema = new Schema ({
 
 db.ratingSchema = ratingSchema;
 
-var userRatingSchema = new Schema ({
-  venueId: {
-    type: Schema.ObjectId,
-    ref: 'Venue'
-  },
 
-<<<<<<< dd8d20914a87a17d2aa6d60a372a85138684ffb4
-=======
-  userId: {
-    type: Schema.ObjectId,
-    ref: 'Group'
-  },
-
-  rating: Number
-});
-
-db.userRatingSchema = userRatingSchema;
-
->>>>>>> (fix) jshint errors
 module.exports = db;
