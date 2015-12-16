@@ -9,15 +9,16 @@
     "body-parser": "^1.14.1",
     "connect-flash": "0.1.1",
     "cookie-parser": "1.4.0",
+    "cors": "2.7.1",
     "express": "^4.13.3",
     "express-session": "1.12.1",
     "mongoose": "^4.2.6",
     "morgan": "^1.6.1",
+    "nodemailer": "^1.10.0",
     "passport": "0.3.2",
-    "passport-google-oauth2": "0.1.6",
-    "passport-local": "1.0.0",
     "passport-facebook": "2.0.0",
-    "cors": "2.7.1"
+    "passport-google-oauth2": "0.1.6",
+    "passport-local": "1.0.0"
   },
   "engines": {
     "node": "0.12.7"
