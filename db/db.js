@@ -37,8 +37,11 @@ var userSchema = new Schema ({
   }],
 
   favorites: [{
-    type: Schema.ObjectId,
-    ref: 'Venue'
+    venue: {
+      type: Schema.ObjectId,
+      ref: 'Venue'
+    },
+    rating: Number
   }]
 });
 
@@ -48,7 +51,7 @@ userSchema.methods.generateHash = function(password) {
 
 // checking if password is valid
 userSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.local.password);
+    return bcrypt.compareSync(password, this.password);
 };
 
 db.userSchema = userSchema;
@@ -56,6 +59,10 @@ db.userSchema = userSchema;
 var groupSchema = new Schema ({
   title: String,
   destination: String,
+  host: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
   members: [{
     type: Schema.ObjectId,
     ref: 'User'
@@ -64,15 +71,21 @@ var groupSchema = new Schema ({
     type: Schema.ObjectId,
     ref: 'Venue'
   }]
-})
+});
 
 db.groupSchema = groupSchema;
 
 var venueSchema = new Schema ({
-  lookupId: String,
-  latitude: String,
-  longitude: String,
+  lookUpId: Number,
+  name: String,
+  venue_type_id: Number,
+  tripexpert_score: Number,
+  rank: Number,
+  score: Number,
+  description: String,
+  photo: String
 });
+
 
 db.venueSchema = venueSchema;
 
@@ -96,8 +109,20 @@ var ratingSchema = new Schema ({
 
 db.ratingSchema = ratingSchema;
 
+var userRatingSchema = new Schema ({
+  venueId: {
+    type: Schema.ObjectId,
+    ref: 'Venue'
+  },
 
+  userId: {
+    type: Schema.ObjectId,
+    ref: 'Group'
+  },
 
+  rating: Number
+});
 
+db.userRatingSchema = userRatingSchema;
 
 module.exports = db;
