@@ -13,3 +13,4 @@ router.post('/user', ratingController.addUserRating);
 router.post('/usermod', ratingController.modifyUserRating);
 
 module.exports = router;
+

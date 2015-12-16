@@ -148,6 +148,7 @@ module.exports = {
     })
   },
 
+
   getAllInfo: function(title){
     var groupId = req.params.groupId;
 
