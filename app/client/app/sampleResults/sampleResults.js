@@ -1,6 +1,6 @@
 angular.module('travel.results', [])
 
-.controller('ResultsController', function ($scope, $window, $rootScope, CurrentInfo, Venues, City, Groups) {
+.controller('SampleResultsController', function ($scope, $window, $rootScope, CurrentInfo, Venues, City, Groups) {
   var destination = $window.sessionStorage.getItem('knowhere') || $rootScope.destinationPermalink;
   $scope.venues = [];
   $scope.filteredVenues = [];
@@ -22,18 +22,6 @@ angular.module('travel.results', [])
       })
   };
   $scope.getGroups();
-
-
-////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
-
-
-  $scope.selectGroup = function(groupInfo) {
-    $rootScope.currentGroup = groupInfo;
-    $rootScope.destinationPermalink = cleanInput(groupInfo.destination);
-    var dest = $rootScope.destinationPermalink;
-    $window.sessionStorage.setItem('knowhere', dest);
-    $state.go('results')
-  };
 
 
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////
@@ -67,6 +55,9 @@ angular.module('travel.results', [])
   $scope.getVenueInformation = function () {
     Venues.getVenues(destination)
       .then(function(venueInfo) {
+        venueInfo.forEach(function(venue) {
+          venue.rating = 5;
+        })
         $scope.venues = venueInfo;
         CurrentInfo.destination.venues = venueInfo;
         $scope.filterVenues(1);
@@ -103,4 +94,49 @@ angular.module('travel.results', [])
     venueData.rating = 5;
     Venues.rateVenue(venueData);
   };
+
+  $scope.addRating = function(venueData, rating) {
+    alert(rating);
+  }
+})
+.directive('starRating', function () {
+  var restrict = 'A';
+  var template = '<ul class="rating">' +
+            '<li ng-repeat="star in stars" ng-class="star" ng-click="toggle($index)">' +
+            '\u2605' +
+            '</li>' +
+            '</ul>';
+  var scope = {
+    ratingValue: '=',
+    max: '=',
+    onRatingSelected: '&'
+  };
+  var link = function (scope, elem, attrs) {
+    var updateStars = function () {
+      scope.stars = [];
+      for (var i = 0; i < scope.max; i++) {
+        scope.stars.push({
+          filled: i < scope.ratingValue
+        });
+      }
+    };
+    scope.toggle = function (index) {
+      scope.ratingValue = index + 1;
+      scope.onRatingSelected({
+        rating: index + 1
+      });
+    };
+    scope.$watch('ratingValue', function (oldVal, newVal) {
+      if (newVal) {
+        updateStars();
+      }
+    });
+  }
+  return {
+    restrict: restrict,
+    template: template,
+    scope: scope,
+    link: link
+  }
 });
+;
