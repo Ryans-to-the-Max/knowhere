@@ -97,6 +97,85 @@ describe('Knowhere controllers', function () {
 
   beforeEach(module('travel'));
 
+  describe('GroupsController', function () {
+
+    describe('$scope.getGroups()', function () {
+
+      var ctrl, groupsInfo, rootScope, scope, $httpBackend;
+
+      beforeEach(inject(function (_$httpBackend_, $rootScope, $controller) {
+        groupsInfo = [{ group1: 'test group 1 info' }, { group2: 'test group 2 info' }];
+
+        $httpBackend = _$httpBackend_;
+        $httpBackend.whenGET(/\/api\/groups/).respond(groupsInfo);
+        $httpBackend.whenGET(/\//).respond('');
+      }));
+
+      it('does nothing if there is no currentUser', function (done) {
+        inject(function ($controller, $rootScope) {
+          scope = $rootScope.$new();
+          $controller('ResultsController', { $scope: scope });
+
+          $httpBackend.flush();
+
+          expect(scope.groups.length).toEqual(0);
+          done();
+        });
+      });
+
+      it('gets the currentUser\'s groups by currentUser._id', function (done) {
+        inject(function ($controller, $rootScope) {
+          $rootScope.currentUser = { _id: 'testUserId' };
+          scope = $rootScope.$new();
+          $controller('ResultsController', { $scope: scope });
+
+          $httpBackend.flush();
+
+          expect(scope.groups).toEqual(groupsInfo);
+          done();
+        });
+      });
+    });
+
+    describe('initial state', function () {
+
+      var ctrl, groupsInfo, mockNYC, rootScope, $scope, $httpBackend;
+
+      beforeEach(inject(function (_$httpBackend_, $rootScope, $controller) {
+        groupsInfo = [{ group1: 'test group 1 info' }, { group2: 'test group 2 info' }];
+        mockNYC = {
+          "id": "1",
+          "name": "New York City",
+          "country_name": "United States",
+          "priority": 1,
+          "permalink": "new-york-city",
+          "index_photo" : "http://static.tripexpert.com/images/destinations/index_photos/explore/6.jpg",
+          "splash_photo": "http://static.tripexpert.com/images/destinations/splash_photos/index/6.jpg",
+          "distance": 3.4520683
+        };
+
+        $httpBackend = _$httpBackend_;
+        // TODO refactor this to look at param
+        // $httpBackend.whenGET(/\/api\/dest?name=destPermalink/).respond(mockVenues);
+        $httpBackend.whenGET(/\/api\/dest$/).respond(mockNYC);
+        $httpBackend.whenGET(/\/api\/dest\/venues/).respond(mockVenues.Results);
+        $httpBackend.whenGET(/\/api\/groups/).respond(groupsInfo);
+        $httpBackend.whenGET(/\//).respond('');
+
+        $rootScope.currentUser = { _id: 'testUserId' };
+        $scope = $rootScope.$new();
+        ctrl = $controller('ResultsController', { $scope: $scope });
+      }));
+
+      it('sets $scope.groups', function (done) {
+        $httpBackend.flush();
+
+        expect($scope.groups).toEqual(groupsInfo);
+        done();
+      });
+    });
+  });
+
   describe('ResultsController', function () {
 
     describe('$scope.getGroups()', function () {
