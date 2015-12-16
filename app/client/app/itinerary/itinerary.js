@@ -1,6 +1,6 @@
 angular.module('travel.itinerary', [])
 
-.controller('ItineraryController', function ($scope, $window, $rootScope, CurrentInfo, Venues, City, Groups) {
+.controller('ItineraryController', function ($scope, $window, $rootScope, CurrentInfo, Venues, City, Groups, Util) {
   var destination = $window.sessionStorage.getItem('knowhere') || CurrentInfo.destination.name;
   $scope.restaurants = [];
   $scope.attractions = [];
@@ -31,7 +31,7 @@ angular.module('travel.itinerary', [])
 
   $scope.selectGroup = function(groupInfo) {
     $rootScope.currentGroup = groupInfo;
-    $rootScope.destinationPermalink = cleanInput(groupInfo.destination);
+    $rootScope.destinationPermalink = Util.transToPermalink(groupInfo.destination);
     var dest = $rootScope.destinationPermalink;
     $window.sessionStorage.setItem('knowhere', dest);
     $state.go('itinerary');

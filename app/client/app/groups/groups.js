@@ -1,13 +1,10 @@
 angular.module('travel.groups', [])
 
-.controller('GroupsController', function ($scope, $window, $rootScope, $state, Groups) {
+.controller('GroupsController', function ($scope, $window, $rootScope, $state, Groups, Util) {
 	$scope.newGroupInput = null; 
 	$scope.groups = [];
 	$scope.newParticipantEmail = null;
 	$scope.destination = null;
-	var cleanInput = function (string) {
-    return string.trim().replace(/\s+/g, '-').toLowerCase();
-  };
 
 
   ////////////////// GET LIST OF ALL GROUPS A USER BELONGS TO //////////////////////
@@ -32,7 +29,7 @@ angular.module('travel.groups', [])
   	var data = {
   		groupName: $scope.newGroupInput,
   		userInfo: $rootScope.currentUser,
-  		destination: cleanInput($scope.destination)
+  		destination: Util.transToPermalink($scope.destination)
   	};
   	Groups.createGroup(data);
   	$scope.getGroups();
@@ -62,7 +59,7 @@ angular.module('travel.groups', [])
 
   $scope.selectGroup = function(groupInfo) {
   	$rootscope.currentGroup = groupInfo;
-  	$rootscope.destinationPermalink = cleanInput(groupInfo.destination);
+  	$rootscope.destinationPermalink = Util.transToPermalink(groupInfo.destination);
   	var dest = $rootscope.destinationPermalink;
   	$window.sessionStorage.setItem('knowhere', dest);
   	$state.go('results');

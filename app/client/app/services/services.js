@@ -5,11 +5,11 @@ angular.module('travel.services', [])
 
 
 .factory('Groups', function ($http) {
-  var getGroups = function(query){
+  var getGroups = function(userId){
     return $http({
       method: 'GET',
       url: '/api/groups',
-      params: {userInfo: query}
+      params: { userId: userId }
     })
     .then(function(resp){
       return resp.data;
@@ -54,6 +54,20 @@ angular.module('travel.services', [])
 
   return {
     getCity: getCity
+  };
+})
+
+
+////////////////// UTIL //////////////////////
+
+
+.factory('Util', function () {
+  var transToPermalink = function (string) {
+    return string.trim().replace(/\s+/g, '-').toLowerCase();
+  };
+
+  return {
+    transToPermalink: transToPermalink
   };
 })
 

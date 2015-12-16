@@ -1,6 +1,6 @@
 angular.module('travel.results', [])
 
-.controller('ResultsController', function ($scope, $window, $rootScope, CurrentInfo, Venues, City, Groups) {
+.controller('ResultsController', function ($scope, $window, $rootScope, CurrentInfo, Venues, City, Groups, Util) {
   var destination = $window.sessionStorage.getItem('knowhere') || $rootScope.destinationPermalink;
   $scope.venues = [];
   $scope.filteredVenues = [];
@@ -13,14 +13,14 @@ angular.module('travel.results', [])
 
 
   $scope.getGroups = function() {
-    var query = {
-      userInfo: $rootScope.currentUser
-    };
-    Groups.getGroups(query)
+    if (!$rootScope.currentUser || !$rootScope.currentUser._id) return;
+
+    Groups.getGroups($rootScope.currentUser._id)
       .then(function(groupsInfo){
         $scope.groups = groupsInfo;
       });
   };
+
   $scope.getGroups();
 
 
@@ -29,7 +29,7 @@ angular.module('travel.results', [])
 
   $scope.selectGroup = function(groupInfo) {
     $rootScope.currentGroup = groupInfo;
-    $rootScope.destinationPermalink = cleanInput(groupInfo.destination);
+    $rootScope.destinationPermalink = Util.transToPermalink(groupInfo.destination);
     var dest = $rootScope.destinationPermalink;
     $window.sessionStorage.setItem('knowhere', dest);
     $state.go('results');
@@ -67,6 +67,8 @@ angular.module('travel.results', [])
   $scope.getVenueInformation = function () {
     Venues.getVenues(destination)
       .then(function(venueInfo) {
+        if (!Array.isArray(venueInfo)) return;
+
         $scope.venues = venueInfo;
         CurrentInfo.destination.venues = venueInfo;
         $scope.filterVenues(1);
