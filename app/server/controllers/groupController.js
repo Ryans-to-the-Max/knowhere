@@ -145,7 +145,7 @@ module.exports = {
       }
       // TODO populate and add ratings.
       return res.status(200).send(group.favorites);
-    })
+    });
   },
 
 
