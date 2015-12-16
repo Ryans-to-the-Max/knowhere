@@ -56,5 +56,13 @@ module.exports = {
       res.status(200).send(rating);
     });
 
+  },
+
+  addUserRating: function (req, res, next){
+
+  },
+
+  modifyUserRating: function (req, res, next){
+    
   }
 };

@@ -109,20 +109,4 @@ var ratingSchema = new Schema ({
 
 db.ratingSchema = ratingSchema;
 
-var userRatingSchema = new Schema ({
-  venueId: {
-    type: Schema.ObjectId,
-    ref: 'Venue'
-  },
-
-  userId: {
-    type: Schema.ObjectId,
-    ref: 'Group'
-  },
-
-  rating: Number
-});
-
-db.userRatingSchema = userRatingSchema;
-
 module.exports = db;
