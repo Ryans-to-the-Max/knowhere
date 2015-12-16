@@ -22,7 +22,7 @@ module.exports = {
 
     User.findById(userId, function (err, user){
       if (err){
-        console.log(err)
+        console.log(err);
         res.status(500).send();
       }
 
