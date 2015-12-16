@@ -27,7 +27,8 @@
           <h3>{{ filteredVenues[$index].name }}</h3>
           <p>{{ filteredVenues[$index].description }}</p>
         </div>
-        <button class="btn btn-primary" type="button" name="button" ng-click="">Add to Favorites</button>
+        <button class="btn btn-primary" type="button" name="button"
+        ng-click="addVenueToUserFavorites(filteredVenues[$index])">Add to Favorites</button>
       </div>
       <div class="col-xs-4 thumbnail">
         <img ng-src="{{ filteredVenues[$index + 1].index_photo }}" alt="photo: {{ filteredVenues[$index + 1].name }}">
@@ -35,7 +36,8 @@
           <h3>{{ filteredVenues[$index + 1].name }}</h3>
           <p>{{ filteredVenues[$index + 1].description }}</p>
         </div>
-        <button class="btn btn-primary" type="button" name="button" ng-click="">Add to Favorites</button>
+        <button class="btn btn-primary" type="button" name="button"
+        ng-click="addVenueToUserFavorites(filteredVenues[$index + 1])">Add to Favorites</button>
       </div>
       <div class="col-xs-4 thumbnail">
         <img ng-src="{{ filteredVenues[$index + 2].index_photo }}" alt="photo: {{ filteredVenues[$index + 2].name }}">
@@ -43,7 +45,8 @@
           <h3>{{ filteredVenues[$index + 2].name }}</h3>
           <p>{{ filteredVenues[$index + 2].description }}</p>
         </div>
-        <button class="btn btn-primary" type="button" name="button" ng-click="">Add to Favorites</button>
+        <button class="btn btn-primary" type="button" name="button"
+        ng-click="addVenueToUserFavorites(filteredVenues[$index + 2])">Add to Favorites</button>
       </div>
     </div>
   </div>

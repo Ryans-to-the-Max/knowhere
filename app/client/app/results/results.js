@@ -103,6 +103,17 @@ angular.module('travel.results', [])
     Venues.rateVenue(venueData);
   };
 
+  /*
+    !!!Not sure if this currently works!!!
+    @param {obj} venue*
+    *the object associated with the
+    venue a user adds to their favorites...
+  */
+
+  $scope.addVenueToUserFavorites = function (venue) {
+    Venues.addToUserFavorites(venue, $rootScope.currentUser._id);
+  };
+
 
   ////////////////// INIT STATE //////////////////////
 
