@@ -38,7 +38,8 @@ angular.module('travel.results', [])
         CurrentInfo.destination.venues = venueInfo;
         $scope.filterVenueInformation(1);
         console.log('destVenueInfo', $scope.apiVenueData);
-    })
+
+      })
       .catch(function(error){
         console.error(error);
       });

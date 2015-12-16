@@ -20,8 +20,8 @@ angular.module('travel', [
       controller: 'ResultsController',
       authenticate: true
     });
-    $urlRouterProvider.otherwise('/');
-    $httpProvider.interceptors.push('AttachCity');
+  $urlRouterProvider.otherwise('/');
+  $httpProvider.interceptors.push('AttachCity');
 })
 .factory('AttachCity', function ($window) {
   var attach = {
