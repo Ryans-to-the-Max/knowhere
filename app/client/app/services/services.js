@@ -41,11 +41,11 @@ angular.module('travel.services', [])
 
 
 .factory('City', function ($http) {
-  var getCity = function(query){
+  var getCity = function(destPermalink){
     return $http({
       method: 'GET',
       url: '/api/dest',
-      params: {name: query}
+      params: { name: destPermalink }
     })
     .then(function(resp){
       return resp.data;

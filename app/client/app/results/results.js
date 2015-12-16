@@ -1,7 +1,6 @@
 angular.module('travel.results', [])
 
 .controller('ResultsController', function ($scope, $window, $rootScope, CurrentInfo, Venues, City, Groups, Util) {
-  var destination = $window.sessionStorage.getItem('knowhere') || $rootScope.destinationPermalink;
   $scope.venues = [];
   $scope.filteredVenues = [];
   $scope.city = null;
@@ -20,8 +19,6 @@ angular.module('travel.results', [])
         $scope.groups = groupsInfo;
       });
   };
-
-  $scope.getGroups();
 
 
 ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
@@ -65,7 +62,7 @@ angular.module('travel.results', [])
 
 
   $scope.getVenueInformation = function () {
-    Venues.getVenues(destination)
+    Venues.getVenues($window.sessionStorage.getItem('knowhere'))
       .then(function(venueInfo) {
         if (!Array.isArray(venueInfo)) return;
 
@@ -83,7 +80,7 @@ angular.module('travel.results', [])
 
 
   $scope.getCity = function () {
-    City.getCity(destination)
+    City.getCity($window.sessionStorage.getItem('knowhere'))
       .then(function(cityInfo) {
         $scope.city = cityInfo;
         CurrentInfo.destination.basicInfo = cityInfo;
@@ -92,8 +89,7 @@ angular.module('travel.results', [])
         console.error(error);
       });
   };
-  $scope.getCity();
-  $scope.getVenueInformation();
+
 
 
   ////////////////// ADD TO FAVORITE LIST //////////////////////
@@ -105,4 +101,9 @@ angular.module('travel.results', [])
     venueData.rating = 5;
     Venues.rateVenue(venueData);
   };
+
+
+  $scope.getGroups();
+  $scope.getCity();
+  $scope.getVenueInformation();
 });
