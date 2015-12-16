@@ -80,11 +80,8 @@ module.exports = function(passport) {
                 return cb(null, user);
               }
             }  
-
         });    
-
       });
-
     }));
 
        // =========================================================================
@@ -208,15 +205,10 @@ module.exports = function(passport) {
 
                 });
             }
-
         });    
-
-        });
-  }
-));
-
-
-
+      });
+    }
+  ));
 };
 
 
