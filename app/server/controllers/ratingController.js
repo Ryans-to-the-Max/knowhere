@@ -54,7 +54,14 @@ module.exports = {
     Rating.update({_id: ratingId}, {$pull: {user: userId}}, function (err, rating){
       rating.ratings.rating = rating;
       res.status(200).send(rating);
-    });
+     });
+  },
 
+  addUserRating: function (req, res, next){
+
+  },
+
+  modifyUserRating: function (req, res, next){
+    
   }
 };

@@ -18,6 +18,7 @@ var fav    = require(path.join(__dirname, 'routes/fav'));
 var rating = require(path.join(__dirname, 'routes/rating'));
 
 
+
 var app = express();
 
 // Log requests:
@@ -117,35 +118,3 @@ app.get('/auth/facebook',
     res.redirect('/');
   });
 module.exports = app;
-
-// function (req, res, next) {
-//   passport.authenticate('local-signup',
-//     function (err, user, info) {
-//       if (err || !user){
-//         res.status(200).send({message: info.message});
-//       } else {
-//         req.login(user, function (err){
-//           if (err) {
-//             console.log(err);
-//             res.status(500).send({message: err});
-//           } else {
-//             res.status(200).send({status: true, user: user});
-//           }
-//         });  
-//       }
-//     }) (req, res, next);
-// });
-
-// process.env.NODE_ENV
-// === 'dev'
-// 'prod'
-// knowhere.herokuapp.com
-// https://
-
-//https://www.googleapis.com/auth/userinfo.email
-//https://www.googleapis.com/oauth2/v2/userinfo
-//knowhere-1157
-// client ID
-// 1039303204244-ibed3rqe95qds98tkk4gfpja4r4ed6bh.apps.googleusercontent.com
-// client secret
-//hhdRHgPIL5ezFgwqiKalMNBc

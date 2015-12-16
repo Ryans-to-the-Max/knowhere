@@ -73,6 +73,7 @@ var groupSchema = new Schema ({
   }]
 });
 
+
 db.groupSchema = groupSchema;
 
 var venueSchema = new Schema ({
@@ -85,7 +86,6 @@ var venueSchema = new Schema ({
   description: String,
   photo: String
 });
-
 
 db.venueSchema = venueSchema;
 
@@ -109,20 +109,5 @@ var ratingSchema = new Schema ({
 
 db.ratingSchema = ratingSchema;
 
-var userRatingSchema = new Schema ({
-  venueId: {
-    type: Schema.ObjectId,
-    ref: 'Venue'
-  },
-
-  userId: {
-    type: Schema.ObjectId,
-    ref: 'Group'
-  },
-
-  rating: Number
-});
-
-db.userRatingSchema = userRatingSchema;
 
 module.exports = db;

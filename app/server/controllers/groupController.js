@@ -121,8 +121,6 @@ module.exports = {
     //TODO: also remove user ratings
   },
 
-  
-
   getAllMembers: function(req, res, next){
     var groupId = req.params.groupId;
 
@@ -136,6 +134,20 @@ module.exports = {
     });
 
   },
+
+  getAllFavs: function (req, res, next){
+    var groupId = req.params.groupId;
+
+    Group.findById(groupId, function(err, group){
+      if (err){
+        console.log(err);
+        return res.status(500).send();
+      }
+      // TODO populate and add ratings.
+      return res.status(200).send(group.favorites);
+    })
+  },
+
 
   getAllInfo: function(title){
     var groupId = req.params.groupId;
@@ -153,7 +165,6 @@ module.exports = {
         function assignRatings(){
           if (index < group.favorites.length){
             venueId = group.favorites[index]._id;
-
             Rating.findOne({venue: venueId, group: groupId}, function (err, rating){
               if (rating) {
                 group.favorites[index].ratings = rating.ratings;
@@ -168,5 +179,6 @@ module.exports = {
         assignRatings();
       })();
     });
-  }  
+  }
 };
+
