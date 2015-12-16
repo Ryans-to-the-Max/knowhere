@@ -127,6 +127,24 @@ angular.module('travel.services', [])
       return resp.data;
     });
   };
+
+  /* get user favorites */
+    // Get request /api/fav/user
+    // All their favorites (array of objs)
+
+  // triggered by add to group favorites button
+  /* add to group favorites */
+    // Post request to /api/fav
+    // Send whole venue object
+    // Send group ID
+
+  /* add to user favorites */
+    // Post Request to /api/fav/user
+    // Send whole venue object
+    // Send user ID
+
+
+
   var rateVenue = function(data) {
     return $http({
       method: 'POST',
@@ -179,7 +197,7 @@ angular.module('travel.services', [])
   var destination = {
     name: null,
     basicInfo: null,
-    venues: null 
+    venues: null
   };
   return {
     destination: destination
