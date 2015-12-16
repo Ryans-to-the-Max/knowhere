@@ -1,15 +1,11 @@
 angular.module('travel.landing', [])
 
-.controller('LandingController', function ($scope, $window, $state, $rootScope, CurrentInfo, City, Groups) {
+.controller('LandingController', function ($scope, $window, $state, $rootScope, CurrentInfo, City, Groups, Util) {
   var data;
   $scope.data = {};
 
-  var cleanInput = function (string) {
-    return string.trim().replace(/\s+/g, '-').toLowerCase();
-  };
-
   $scope.sendData = function() {
-    $rootScope.destinationPermalink = cleanInput($scope.data.destination);
+    $rootScope.destinationPermalink = Util.transToPermalink($scope.data.destination);
     var dest = $rootScope.destinationPermalink;
     $window.sessionStorage.setItem('knowhere', dest);
     $rootScope.currentUser = $rootScope.currentUser || "anonymous";

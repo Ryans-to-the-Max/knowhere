@@ -1,6 +1,6 @@
 angular.module('travel.favorites', [])
 
-.controller('FavoritesController', function ($scope, $window, $rootScope, CurrentInfo, Venues, City, Groups) {
+.controller('FavoritesController', function ($scope, $window, $rootScope, CurrentInfo, Venues, City, Groups, Util) {
   var destination = $window.sessionStorage.getItem('knowhere') || CurrentInfo.destination.name;
   $scope.filteredUserFavs = [];
   $scope.filteredGroupFavs = [];
@@ -30,7 +30,7 @@ angular.module('travel.favorites', [])
 
   $scope.selectGroup = function(groupInfo) {
     $rootScope.currentGroup = groupInfo;
-    $rootScope.destinationPermalink = cleanInput(groupInfo.destination);
+    $rootScope.destinationPermalink = Util.transToPermalink(groupInfo.destination);
     var dest = $rootScope.destinationPermalink;
     $window.sessionStorage.setItem('knowhere', dest);
     $state.go('favorites');

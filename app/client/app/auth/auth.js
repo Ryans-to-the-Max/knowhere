@@ -22,7 +22,7 @@ angular.module('signin', ['ui.bootstrap'])
   $scope.onLoad = function (){
     authMe.isLoggedIn()
       .then(function (data){
-        console.log("user is: ", data.user);
+        // console.log("user is: ", data.user);
         if (data.status === true){
           $rootScope.currentUserSignedIn = true;
           $rootScope.currentUser = data.user;
@@ -105,7 +105,7 @@ angular.module('signin', ['ui.bootstrap'])
         if (data.status === true){
           $uibModalInstance.close();
           $rootScope.currentUserSignedIn = true;
-          console.log(data.user);
+          // console.log(data.user);
           $rootScope.currentUser = data.user;
         } else {
           $scope.alerts = [{msg: data.message}];

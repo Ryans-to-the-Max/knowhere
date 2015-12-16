@@ -58,6 +58,20 @@ angular.module('travel.services', [])
 })
 
 
+////////////////// UTIL //////////////////////
+
+
+.factory('Util', function () {
+  var transToPermalink = function (string) {
+    return string.trim().replace(/\s+/g, '-').toLowerCase();
+  };
+
+  return {
+    transToPermalink: transToPermalink
+  };
+})
+
+
 ////////////////// VENUES //////////////////////
 
 
