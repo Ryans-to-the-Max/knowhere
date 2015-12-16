@@ -3,13 +3,13 @@ var router = express.Router();
 
 var groupController = require('../controllers/groupController');
 
-router.get('/', groupController.getUserGroups);
+//router.get('/', groupController.getUserGroups);
 
-router.get('/users', groupController.getAllMembers);
+router.get('/users', groupController.getMembers);
 
-router.get('/fav', groupController.getAllFavs);
+router.get('/fav', groupController.getFavs);
 
-router.get('/all', groupController.getAllInfo);
+router.get('/all', groupController.getInfo);
 
 router.post('/', groupController.createGroup);
 

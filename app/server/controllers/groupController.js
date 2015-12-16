@@ -121,7 +121,7 @@ module.exports = {
     //TODO: also remove user ratings
   },
 
-  getAllMembers: function(req, res, next){
+  getMembers: function(req, res, next){
     var groupId = req.params.groupId;
 
     Group.findById(groupId, function(err, group){
@@ -135,7 +135,7 @@ module.exports = {
 
   },
 
-  getAllFavs: function (req, res, next){
+  getFavs: function (req, res, next){
     var groupId = req.params.groupId;
 
     Group.findById(groupId, function(err, group){
@@ -149,7 +149,7 @@ module.exports = {
   },
 
 
-  getAllInfo: function(title){
+  getInfo: function(title){
     var groupId = req.params.groupId;
 
     Group.findById(groupId)
