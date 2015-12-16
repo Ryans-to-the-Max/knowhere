@@ -96,11 +96,11 @@ angular.module('travel.itinerary', [])
   ////////////////// ADD TO ITINERARY - ADMIN ONLY//////////////////////
 
 
-  $scope.addtoItinerary = function(venueData) {
+  $scope.addDatestoItinerary = function(venueData) {
     venueData.userInfo = $rootScope.currentUser;
     venueData.groupInfo = $rootScope.currentGroup;
-    venueData.fromDate = $scope.inputData.fromDate || null;
-    venueData.toDate = $scope.inputData.toDate || null;
+    venueData.fromDate = $scope.inputData.fromDate;
+    venueData.toDate = $scope.inputData.toDate;
     Venues.addtoItinerary(venueData);
   };
 

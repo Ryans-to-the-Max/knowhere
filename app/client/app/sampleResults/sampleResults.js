@@ -1,12 +1,11 @@
-angular.module('travel.favorites', [])
+angular.module('travel.results', [])
 
-.controller('FavoritesController', function ($scope, $window, $rootScope, CurrentInfo, Venues, City, Groups) {
-  var destination = $window.sessionStorage.getItem('knowhere') || CurrentInfo.destination.name;
-  $scope.filteredUserFavs = [];
-  $scope.filteredGroupFavs = [];
+.controller('SampleResultsController', function ($scope, $window, $rootScope, CurrentInfo, Venues, City, Groups) {
+  var destination = $window.sessionStorage.getItem('knowhere') || $rootScope.destinationPermalink;
+  $scope.venues = [];
+  $scope.filteredVenues = [];
   $scope.city = null;
   $scope.heading = null;
-  $scope.favs = {}; 
   $scope.groups = [];
 
 
@@ -25,24 +24,11 @@ angular.module('travel.favorites', [])
   $scope.getGroups();
 
 
-  ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
-
-
-  $scope.selectGroup = function(groupInfo) {
-    $rootScope.currentGroup = groupInfo;
-    $rootScope.destinationPermalink = cleanInput(groupInfo.destination);
-    var dest = $rootScope.destinationPermalink;
-    $window.sessionStorage.setItem('knowhere', dest);
-    $state.go('favorites')
-  };
-
-
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////
 
 
-  $scope.filterFavorites = function (filterType) {
-    var groupFavs = [];
-    var userFavs = [];
+  $scope.filterVenues = function (filterType) {
+    var venues = [];
 
     // set heading to appropriate value
     if (filterType === 1) {
@@ -54,35 +40,33 @@ angular.module('travel.favorites', [])
     }
 
     // populate venues with appropriate results
-    $scope.favs.forEach(function(venue) {
+    $scope.venues.forEach(function(venue) {
       if (venue.venue_type_id === filterType) {
-        if (venue.userInfo === $rootScope.currentUser) {
-          userFavs.push(venue);
-        } else {
-          groupFavs.push(venue)
-        };
+        venues.push(venue);
       }
     });
-    $scope.filteredGroupFavs = groupFavs;
-    $scope.filteredUserFavs = userFavs;
+    $scope.filteredVenues = venues;
   };
 
 
-  ////////////////// GET ALL FAVORITES OF THE GROUP //////////////////////
+  ////////////////// GET ALL VENUES BASED ON A DESTINATION CITY //////////////////////
 
 
-  $scope.getFavs = function() {
-    var query = {
-      userInfo : $rootScope.currentUser,
-      groupInfo : $rootScope.currentGroup,
-    };
-    Venues.getFavs(query)
-      .then(function(venuesInfo){
-        $scope.faves = venuesInfo;
-        $scope.filterFavorites(1);
+  $scope.getVenueInformation = function () {
+    Venues.getVenues(destination)
+      .then(function(venueInfo) {
+        venueInfo.forEach(function(venue) {
+          venue.rating = 5;
+        })
+        $scope.venues = venueInfo;
+        CurrentInfo.destination.venues = venueInfo;
+        $scope.filterVenues(1);
       })
+      .catch(function(error){
+        console.error(error);
+      });
   };
-  $scope.getFavs();
+
 
   ////////////////// GET BASIC DESTINATION CITY INFO //////////////////////
 
@@ -98,35 +82,23 @@ angular.module('travel.favorites', [])
       });
   };
   $scope.getCity();
+  $scope.getVenueInformation();
 
 
-  ////////////////// USER ADD RATING //////////////////////
+  ////////////////// ADD TO FAVORITE LIST //////////////////////
 
 
-  $scope.addRating = function(venueData, rating) {
+  $scope.addtoFavs = function(venueData) {
     venueData.userInfo = $rootScope.currentUser;
     venueData.groupInfo = $rootScope.currentGroup;
-    venueData.rating = rating;
+    venueData.rating = 5;
     Venues.rateVenue(venueData);
   };
 
-
-  ////////////////// ADMIN ONLY //////////////////////
-
-
-  $scope.addtoItinerary = function(venueData) {
-    venueData.userInfo = $rootScope.currentUser;
-    venueData.groupInfo = $rootScope.currentGroup;
-    venueData.fromDate = null;
-    venueData.toDate = null;
-    Venues.addtoItinerary(venueData);
-  };
+  $scope.addRating = function(venueData, rating) {
+    alert(rating);
+  }
 })
-
-
-////////////////// DYNAMIC STAR RATING //////////////////////
-
-
 .directive('starRating', function () {
   var restrict = 'A';
   var template = '<ul class="rating">' +
@@ -167,3 +139,4 @@ angular.module('travel.favorites', [])
     link: link
   }
 });
+;

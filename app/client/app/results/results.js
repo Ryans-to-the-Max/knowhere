@@ -24,6 +24,18 @@ angular.module('travel.results', [])
   $scope.getGroups();
 
 
+////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
+
+
+  $scope.selectGroup = function(groupInfo) {
+    $rootScope.currentGroup = groupInfo;
+    $rootScope.destinationPermalink = cleanInput(groupInfo.destination);
+    var dest = $rootScope.destinationPermalink;
+    $window.sessionStorage.setItem('knowhere', dest);
+    $state.go('results')
+  };
+
+
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////
 
 

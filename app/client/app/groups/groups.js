@@ -4,6 +4,7 @@ angular.module('travel.groups', [])
 	$scope.newGroupInput = null; 
 	$scope.groups = [];
 	$scope.newParticipantEmail = null;
+	$scope.destination = null;
 	var cleanInput = function (string) {
     return string.trim().replace(/\s+/g, '-').toLowerCase();
   };
@@ -30,10 +31,16 @@ angular.module('travel.groups', [])
   $scope.createGroup = function() {
   	var data = {
   		groupName: $scope.newGroupInput,
-  		userInfo: $rootScope.currentUser
+  		userInfo: $rootScope.currentUser,
+  		destination: cleanInput($scope.destination)
   	};
   	Groups.createGroup(data);
-  	$rootScope.currentGroup = $scope.newGroupInput;
+  	$scope.getGroups();
+  	$scope.groups.forEach(function(group){
+  		if (group.title === $scope.newGroupInput) {
+  			$rootScope.currentGroup = group;
+  		}
+  	});
   };
 
 

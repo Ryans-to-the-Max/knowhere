@@ -20,41 +20,41 @@
       <h2 class="text-center">{{ heading }}</h2>
     </div>
 
-    <div ng-repeat="venue in filteredVenues | limitTo: 12" ng-if="$index % 3 == 0" class="row">
+    <div ng-repeat="venue in filteredUserFavs | limitTo: 12" ng-if="$index % 3 == 0" class="row">
       <div class="col-xs-4 thumbnail">
-        <img ng-src="{{ filteredVenues[$index].index_photo }}" alt="photo: {{ filteredVenues[$index].name }}">
+        <img ng-src="{{ filteredUserFavs[$index].index_photo }}" alt="photo: {{ filteredUserFavs[$index].name }}">
         <div class="caption">
-          <h3>{{ filteredVenues[$index].name }}</h3>
+          <h3>{{ filteredUserFavs[$index].name }}</h3>
           <div> 
-            <span>Select your rating <br> {{filteredVenues[$index].rating}} out of 10
-              <div star-rating rating-value="filteredVenues[$index].rating" max="10" on-rating-selected="addRating(filteredVenues[$index], filteredVenues[$index].rating)"></div>
+            <span>Select your rating <br> {{filteredUserFavs[$index].rating}} out of 10
+              <div star-rating rating-value="filteredUserFavs[$index].rating" max="10" on-rating-selected="addRating(filteredUserFavs[$index], filteredUserFavs[$index].rating)"></div>
             </span>
           </div>
-          <p>{{ filteredVenues[$index].description }}</p>
+          <p>{{ filteredUserFavs[$index].description }}</p>
         </div>
       </div>
       <div class="col-xs-4 thumbnail">
-        <img ng-src="{{ filteredVenues[$index + 1].index_photo }}" alt="photo: {{ filteredVenues[$index + 1].name }}">
+        <img ng-src="{{ filteredUserFavs[$index + 1].index_photo }}" alt="photo: {{ filteredUserFavs[$index + 1].name }}">
         <div class="caption">
-          <h3>{{ filteredVenues[$index + 1].name }}</h3>
+          <h3>{{ filteredUserFavs[$index + 1].name }}</h3>
           <div> 
-            <span>Select your rating <br> {{filteredVenues[$index + 1].rating}} out of 10
-              <div star-rating rating-value="filteredVenues[$index + 1].rating" max="10" on-rating-selected="addRating(filteredVenues[$index + 1], filteredVenues[$index + 1].rating)"></div>
+            <span>Select your rating <br> {{filteredUserFavs[$index + 1].rating}} out of 10
+              <div star-rating rating-value="filteredUserFavs[$index + 1].rating" max="10" on-rating-selected="addRating(filteredUserFavs[$index + 1], filteredUserFavs[$index + 1].rating)"></div>
             </span>
           </div>
-          <p>{{ filteredVenues[$index + 1].description }}</p>
+          <p>{{ filteredUserFavs[$index + 1].description }}</p>
         </div>
       </div>
       <div class="col-xs-4 thumbnail">
-        <img ng-src="{{ filteredVenues[$index + 2].index_photo }}" alt="photo: {{ filteredVenues[$index + 2].name }}">
+        <img ng-src="{{ filteredUserFavs[$index + 2].index_photo }}" alt="photo: {{ filteredUserFavs[$index + 2].name }}">
         <div class="caption">
-          <h3>{{ filteredVenues[$index + 2].name }}</h3>
+          <h3>{{ filteredUserFavs[$index + 2].name }}</h3>
           <div> 
-            <span>Select your rating <br> {{filteredVenues[$index + 2].rating}} out of 10
-              <div star-rating rating-value="filteredVenues[$index + 2].rating" max="10" on-rating-selected="addRating(filteredVenues[$index + 2], filteredVenues[$index + 2].rating)"></div>
+            <span>Select your rating <br> {{filteredUserFavs[$index + 2].rating}} out of 10
+              <div star-rating rating-value="filteredUserFavs[$index + 2].rating" max="10" on-rating-selected="addRating(filteredUserFavs[$index + 2], filteredUserFavs[$index + 2].rating)"></div>
             </span>
           </div>
-          <p>{{ filteredVenues[$index + 2].description }}</p>
+          <p>{{ filteredUserFavs[$index + 2].description }}</p>
         </div>
       </div>
     </div>

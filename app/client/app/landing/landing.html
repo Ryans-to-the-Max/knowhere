@@ -7,6 +7,10 @@
           <input name="origin" type="text" class="form-control" id="origin-form" placeholder="From" ng-model="data.origin" required ng-class="{'error': location.$invalid && location.$dirty}">
         </div> -->
         <div class="form-group">
+          <label for="group-form">Group Name</label>
+          <input name="group" type="text" class="form-control" id="group-form" placeholder="Group Name" ng-model="data.group">
+        </div>
+        <div class="form-group">
           <label for="destination-form">Destination</label>
           <input name="destination" type="text" class="form-control" id="destination-form" placeholder="To" ng-model="data.destination" required ng-class="{'error': location.$invalid && location.$dirty}">
         </div>
