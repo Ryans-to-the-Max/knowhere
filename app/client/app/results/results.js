@@ -115,7 +115,6 @@ angular.module('travel.results', [])
   */
 
   $scope.addVenueToUserFavorites = function (venue) {
-    console.log($rootScope.currentUser._id);
     Venues.addToUserFavorites(venue, $rootScope.currentUser._id);
   };
 

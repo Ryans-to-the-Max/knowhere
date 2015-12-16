@@ -157,7 +157,7 @@ angular.module('travel.services', [])
 
   /*
     @param {object} venue should contain all venue data
-    @param {str? num?} userID should be the user's ID
+    @param {str} userID should be the user's ID
   */
   var addToUserFavorites = function (venue, userID) {
     return $http({
@@ -165,7 +165,7 @@ angular.module('travel.services', [])
       url: '/api/fav/user',
       data: {venue: venue, userID: userID}
     });
-  }
+  };
 
 
   var rateVenue = function(data) {
