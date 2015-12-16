@@ -128,13 +128,6 @@ angular.module('travel.services', [])
     });
   };
 
-  /* get user favorites */
-    // Get request /api/fav/user
-    // All their favorites (array of objs)
-
-  /*
-
-  */
 
   var getUserFavorites = function (userId) {
     return $http({
@@ -148,12 +141,6 @@ angular.module('travel.services', [])
     })
   };
 
-  // triggered by add to group favorites button
-  /* add to group favorites */
-    // Post request to /api/fav
-    // Send whole venue object
-    // Send group ID
-
 
   /*
     @param {object} venue should contain all venue data
@@ -166,7 +153,6 @@ angular.module('travel.services', [])
       data: {venue: venue, userId: userId}
     });
   };
-
 
 
   var rateVenue = function(data) {
