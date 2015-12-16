@@ -155,6 +155,15 @@ angular.module('travel.services', [])
   };
 
 
+  var addToUserFavorites = function (venue, user) {
+    return $http({
+      method: 'POST',
+      url: '/api/fav/user',
+      data: {venue: venue, user: user}
+    });
+  }
+
+
   var rateVenue = function(data) {
     return $http({
       method: 'POST',
