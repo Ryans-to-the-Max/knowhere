@@ -152,7 +152,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [
     'jshint',
-    'testServer'
-    //'testClient',
+    'testServer',
+    'testClient',
   ]);
 };

@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "angular-bootstrap-npm": "^0.14.3",
+    "angular-ui-router": "^0.2.15",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.1",
     "connect-flash": "0.1.1",

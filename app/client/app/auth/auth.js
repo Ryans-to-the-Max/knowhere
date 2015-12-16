@@ -105,6 +105,7 @@ angular.module('signin', ['ui.bootstrap'])
         if (data.status === true){
           $uibModalInstance.close();
           $rootScope.currentUserSignedIn = true;
+          console.log(data.user);
           $rootScope.currentUser = data.user;
         } else {
           $scope.alerts = [{msg: data.message}];
