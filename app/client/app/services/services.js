@@ -125,6 +125,14 @@ angular.module('travel.services', [])
     // Send whole venue object
     // Send user ID
 
+  var addToUserFavorites = function (venue, user) {
+    return $http({
+      method: 'POST',
+      url: '/api/fav/user',
+      data: {venue: venue, user: user}
+    });
+  }
+
 
 
   var rateVenue = function(data) {
