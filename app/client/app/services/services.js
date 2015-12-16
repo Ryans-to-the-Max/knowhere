@@ -1,15 +1,51 @@
 angular.module('travel.services', [])
 
 
+////////////////// Groups //////////////////////
+
+
+.factory('Groups', function ($http) {
+  var getGroups = function(query){
+    return $http({
+      method: 'GET',
+      url: '/api/groups',
+      params: {userInfo: query}
+    })
+    .then(function(resp){
+      return resp.data;
+    });
+  };
+  var createGroup = function(data){
+    return $http({
+      method: 'POST',
+      url: '/api/groups',
+      data: data
+    });   
+  };
+  var addParticipants = function(data) {
+    return $http({
+      method: 'POST',
+      url: '/api/favs',
+      data: data
+    });   
+  }
+  return {
+    getGroups: getGroups,
+    createGroup: createGroup,
+    addParticipants: addParticipants
+  };
+})
+
+
 ////////////////// CITY //////////////////////
 
 
 .factory('City', function ($http) {
-  var getCity = function(cityName){
+  var getCity = function(query){
     return $http({
       method: 'GET',
       url: '/api/dest',
-      params: {name: cityName}
+      params: {name: query}
     })
     .then(function(resp){
       return resp.data;
@@ -18,23 +54,6 @@ angular.module('travel.services', [])
 
   return {
     getCity: getCity
-  };
-})
-
-.factory('DestInfo', function ($http) {
-  var getDestVenues = function(cityName){
-    return $http({
-      method: 'GET',
-      url: '/api/dest/venues',
-      params: {name: cityName}
-    })
-    .then(function(resp){
-      return resp.data;
-    });
-  };
-
-  return {
-    getDestVenues: getDestVenues
   };
 })
 
@@ -48,11 +67,11 @@ angular.module('travel.services', [])
   ////////////////// PLACES TO EXPLORE //////////////////////
 
 
-  var getVenues = function(city_permalink){
+  var getVenues = function(query){
     return $http({
       method: 'GET',
       url: '/api/dest/venues',
-      params: {name: city_permalink}
+      params: {permalink: query}
     })
     .then(function(resp){
       return resp.data;
@@ -63,11 +82,11 @@ angular.module('travel.services', [])
   ////////////////// FAVORITES //////////////////////
 
 
-  var getFavs = function(data){
+  var getFavs = function(query){
     return $http({
       method: 'GET',
-      url: '/api/dest/venues/favs',
-      params: {data: data}
+      url: '/api/favs',
+      params: {query: query}
     })
     .then(function(resp){
       return resp.data;
@@ -76,7 +95,7 @@ angular.module('travel.services', [])
   var rateVenue = function(data) {
     return $http({
       method: 'POST',
-      url: '/api/dest/venues/favs',
+      url: '/api/favs',
       data: data
     })   
   };
@@ -97,11 +116,11 @@ angular.module('travel.services', [])
   ////////////////// ITINERARY //////////////////////
 
 
-  var getItinerary = function(data){
+  var getItinerary = function(query){
     return $http({
       method: 'GET',
       url: '/api/itin',
-      params: {data: data}
+      params: {query: query}
     })
     .then(function(resp){
       return resp.data;

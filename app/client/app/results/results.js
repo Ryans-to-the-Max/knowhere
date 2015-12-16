@@ -1,17 +1,33 @@
 angular.module('travel.results', [])
 
-.controller('ResultsController', function ($scope, $window, CurrentInfo, DestInfo, City) {
-  var origin = CurrentInfo.origin.name;
-  var destination = $window.sessionStorage.getItem('knowhere') || CurrentInfo.destination.name;
-  $scope.apiVenueData = null;
+.controller('ResultsController', function ($scope, $window, $rootScope, CurrentInfo, Venues, City, Groups) {
+  var destination = $window.sessionStorage.getItem('knowhere') || $rootScope.destinationPermalink;
   $scope.venues = [];
+  $scope.filteredVenues = [];
   $scope.city = null;
   $scope.heading = null;
+  $scope.groups = [];
 
-  /*
-    @param {number} filterType [venue_type_id]
-  */
-  $scope.filterVenueInformation = function (filterType) {
+
+  ////////////////// GET ALL THE GROUPS OF A USER //////////////////////
+
+
+  $scope.getGroups = function() {
+    var query = {
+      userInfo: $rootScope.currentUser
+    };
+    Groups.getGroups(query)
+      .then(function(groupsInfo){
+        $scope.groups = groupsInfo;
+      })
+  };
+  $scope.getGroups();
+
+
+  ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////
+
+
+  $scope.filterVenues = function (filterType) {
     var venues = [];
 
     // set heading to appropriate value
@@ -24,26 +40,34 @@ angular.module('travel.results', [])
     }
 
     // populate venues with appropriate results
-    $scope.apiVenueData.forEach(function(venue) {
+    $scope.venues.forEach(function(venue) {
       if (venue.venue_type_id === filterType) {
         venues.push(venue);
       }
     });
-    $scope.venues = venues;
+    $scope.filteredVenues = venues;
   };
-  $scope.getVenueInformation = function () {
-    DestInfo.getDestVenues(destination)
-      .then(function(venueInfo) {
-        $scope.apiVenueData = venueInfo;
-        CurrentInfo.destination.venues = venueInfo;
-        $scope.filterVenueInformation(1);
-        console.log('destVenueInfo', $scope.apiVenueData);
 
+
+  ////////////////// GET ALL VENUES BASED ON A DESTINATION CITY //////////////////////
+
+
+  $scope.getVenueInformation = function () {
+    Venues.getVenues(destination)
+      .then(function(venueInfo) {
+        $scope.venues = venueInfo;
+        CurrentInfo.destination.venues = venueInfo;
+        $scope.filterVenues(1);
       })
       .catch(function(error){
         console.error(error);
       });
   };
+
+
+  ////////////////// GET BASIC DESTINATION CITY INFO //////////////////////
+
+
   $scope.getCity = function () {
     City.getCity(destination)
       .then(function(cityInfo) {
@@ -56,4 +80,15 @@ angular.module('travel.results', [])
   };
   $scope.getCity();
   $scope.getVenueInformation();
+
+
+  ////////////////// ADD TO FAVORITE LIST //////////////////////
+
+
+  $scope.addtoFavs = function(venueData) {
+    venueData.userInfo = $rootScope.currentUser;
+    venueData.groupInfo = $rootScope.currentGroup;
+    venueData.rating = 5;
+    Venues.rateVenue(venueData);
+  };
 });
