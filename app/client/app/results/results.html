@@ -6,9 +6,9 @@
         <div class="col-md-offset-3 col-md-6">
           <ul class="nav nav-pills center-pills">
             <!-- empty anchor tags may need to be fixed -->
-            <li role="navigation" class="active"><a href="" ng-click="filterVenues(1)">Hotels</a></li>
-            <li role="navigation" class="active"><a href="" ng-click="filterVenues(2)">Restaurants</a></li>
-            <li role="navigation" class="active"><a href="" ng-click="filterVenues(3)">Attractions</a></li>
+            <li role="navigation" class="active"><a href="#/results">Explore</a></li>
+            <li role="navigation" class="active"><a href="#/favorites">Favorites</a></li>
+            <li role="navigation" class="active"><a href="#">Itinerary</a></li>
           </ul>
         </div>
       </div><!-- /.jumbotron -->
@@ -17,41 +17,27 @@
 
   <div class="container">
     <ul class="nav nav-tabs">
-      <li role="presentation" class="active"><a href="#/results">Explore</a></li>
-      <li role="presentation"><a href="#/favorites">Favorites</a></li>
-      <li role="presentation"><a href="#">Itenerary</a></li>
+      <li role="presentation"><a href="" ng-click="filterVenues(1)">Hotels</a></li>
+      <li role="presentation"><a href="" ng-click="filterVenues(2)">Restaurants</a></li>
+      <li role="presentation"><a href="" ng-click="filterVenues(3)">Attractions</a></li>
     </ul>
     <div class="row">
       <h2 class="text-center">{{ heading }}</h2>
     </div>
 
-    <div ng-repeat="venue in filteredVenues | limitTo: 12" ng-if="$index % 3 == 0" class="row">
-      <div class="col-xs-4 thumbnail">
-        <img ng-src="{{ filteredVenues[$index].index_photo }}" alt="photo: {{ filteredVenues[$index].name }}">
-        <div class="caption">
-          <h3>{{ filteredVenues[$index].name }}</h3>
-          <p>{{ filteredVenues[$index].description }}</p>
+    <div ng-repeat="venue in filteredVenues" class="row">
+      <div class="media venue-info">
+        <div class="media-left">
+          <a href="">
+            <img class="venue-thumbnail media-left" ng-src="{{ venue.index_photo }}" alt="photo: {{ venue.name }}">
+          </a>
         </div>
-        <button class="btn btn-primary" type="button" name="button"
-        ng-click="addVenueToUserFavorites(filteredVenues[$index])">Add to Favorites</button>
-      </div>
-      <div class="col-xs-4 thumbnail">
-        <img ng-src="{{ filteredVenues[$index + 1].index_photo }}" alt="photo: {{ filteredVenues[$index + 1].name }}">
-        <div class="caption">
-          <h3>{{ filteredVenues[$index + 1].name }}</h3>
-          <p>{{ filteredVenues[$index + 1].description }}</p>
+        <div class="media-body media-middle">
+          <h4 class="media-heading">{{ venue.name }}</h4>
+          <p>{{ venue.description }}</p>
+          <button class="btn btn-primary" type="button" name="button"
+          ng-click="addVenueToUserFavorites(venue)">Add to Favorites</button>
         </div>
-        <button class="btn btn-primary" type="button" name="button"
-        ng-click="addVenueToUserFavorites(filteredVenues[$index + 1])">Add to Favorites</button>
-      </div>
-      <div class="col-xs-4 thumbnail">
-        <img ng-src="{{ filteredVenues[$index + 2].index_photo }}" alt="photo: {{ filteredVenues[$index + 2].name }}">
-        <div class="caption">
-          <h3>{{ filteredVenues[$index + 2].name }}</h3>
-          <p>{{ filteredVenues[$index + 2].description }}</p>
-        </div>
-        <button class="btn btn-primary" type="button" name="button"
-        ng-click="addVenueToUserFavorites(filteredVenues[$index + 2])">Add to Favorites</button>
       </div>
     </div>
   </div>
