@@ -8,7 +8,8 @@ var flash        = require('connect-flash');
 var session      = require('express-session');
 var morgan       = require('morgan');
 var cors         = require('cors');
-
+var MongoStore   = require('connect-mongo')(session);
+var mongoose     = require('mongoose');
 
 // Server routers:
 var index  = require(path.join(__dirname, 'routes/index'));
@@ -34,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // needed for auth
 app.use(cookieParser());
 // required for passport
-app.use(session({secret: 'tripAppIsAmazing', cookie: { maxAge: 3600000}}));
+app.use(session({secret: 'tripAppIsAmazing', store: new MongoStore({ mongooseConnection: mongoose.connection }), cookie: { maxAge: 3600000}}));
 
 require('./config/passport')(passport);
 app.use(passport.initialize());
@@ -64,11 +65,11 @@ app.post('/login', function (req, res, next) {
             } else {
               res.status(200).send({status: true, user: user});
             }
-          });  
+          });
         }
     }) (req, res, next);
-}); 
- 
+});
+
 
 app.post('/signup', function (req, res, next) {
   passport.authenticate('local-signup',
@@ -83,7 +84,7 @@ app.post('/signup', function (req, res, next) {
           } else {
             res.status(200).send({status: true, user: user});
           }
-        });  
+        });
       }
     }) (req, res, next);
 });
@@ -96,7 +97,7 @@ app.get('/logout', function(req, res){
 app.get('/auth/google', passport.authenticate('google', { scope: [  'https://www.googleapis.com/auth/plus.login',
        'https://www.googleapis.com/auth/plus.profile.emails.read']}));
 
-app.get('/auth/google/callback', 
+app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   function(req, res) {
     console.log("shit worked");
