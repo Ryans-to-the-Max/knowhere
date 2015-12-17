@@ -6,7 +6,7 @@ angular.module('travel.favorites', [])
   $scope.filteredGroupFavs = [];
   $scope.city = null;
   $scope.heading = null;
-  $scope.faves = {};
+  $scope.favorites = [];
   $scope.groups = [];
 
 
@@ -52,17 +52,21 @@ angular.module('travel.favorites', [])
     }
 
     // populate venues with appropriate results
-    $scope.faves.forEach(function(venue) {
-      if (venue.venue_type_id === filterType) {
-        if (venue.userInfo === $rootScope.currentUser) {
-          userFavs.push(venue);
-        } else {
-          groupFavs.push(venue);
-        }
+    // not working with groups removed this code...
+    // if (favorite.userInfo === $rootScope.currentUser) {
+    //   console.log(favorite.venue);
+    // } else {
+    //   groupFavs.push(favorite);
+    // }
+
+    $scope.favorites.forEach(function(favorite) {
+      if (favorite.venue.venue_type_id === filterType) {
+        userFavs.push(favorite.venue);
       }
     });
     $scope.filteredGroupFavs = groupFavs;
-    $scope.filteredUserFavs = userFavs;
+    $scope.filteredUserFavs  = userFavs;
+    console.log('filteredUserFavs', $scope.filteredUserFavs);
   };
 
 
@@ -82,13 +86,15 @@ angular.module('travel.favorites', [])
   };
 
   $scope.fetchUserFavorites = function () {
-    Venues.getUserFavorites($rootScope.currentUser._id)
+    var userId = $rootScope.currentUser._id;
+    Venues.getUserFavorites(userId)
     .then(function(favorites) {
-      $scope.faves = favorites;
+      $scope.favorites = favorites;
+      console.log('favorites', $scope.favorites);
       $scope.filterFavorites(1);
     });
   };
-  $scope.fetchUserFavorites();
+
 
   ////////////////// GET BASIC DESTINATION CITY INFO //////////////////////
 
@@ -104,7 +110,7 @@ angular.module('travel.favorites', [])
       });
   };
   $scope.getCity();
-
+  $scope.fetchUserFavorites();
 
   ////////////////// USER ADD RATING //////////////////////
 

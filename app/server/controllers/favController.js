@@ -109,15 +109,20 @@ module.exports = {
   },
 
   getUserFavs: function (req, res, next){
-    var userId = req.params.userId;
+    console.log(req.query);
+    var userId = req.query.userId;
 
-    User.findById(userId, function (err, user){
+    User.findById(userId)
+    .populate('favorites.venue')
+    .exec(function (err, user){
+      console.log(user);
       if (err){
         console.log(err);
         return res.status(500).send();
       }
 
       if (user){
+        // User.populate('favorites')
         return res.status(200).send(user.favorites);
       } else {
         res.status(200).send();

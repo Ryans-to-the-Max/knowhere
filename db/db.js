@@ -32,7 +32,7 @@ var userSchema = new Schema ({
   },
 
   password: {
-    type: String  
+    type: String
   },
 
   oauth: {
@@ -91,7 +91,8 @@ var venueSchema = new Schema ({
   rank: Number,
   score: Number,
   description: String,
-  photo: String
+  photo: String,
+  userRating: {type: Number, default: 0}
 });
 
 
@@ -112,7 +113,7 @@ var ratingSchema = new Schema ({
       ref: 'User'
     },
     rating: Number
-  }] 
+  }]
 });
 
 db.ratingSchema = ratingSchema;
