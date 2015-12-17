@@ -6,7 +6,7 @@ angular.module('travel.favorites', [])
   $scope.filteredGroupFavs = [];
   $scope.city = null;
   $scope.heading = null;
-  $scope.favs = {};
+  $scope.faves = {};
   $scope.groups = [];
 
 
@@ -52,7 +52,7 @@ angular.module('travel.favorites', [])
     }
 
     // populate venues with appropriate results
-    $scope.favs.forEach(function(venue) {
+    $scope.faves.forEach(function(venue) {
       if (venue.venue_type_id === filterType) {
         if (venue.userInfo === $rootScope.currentUser) {
           userFavs.push(venue);
@@ -80,7 +80,15 @@ angular.module('travel.favorites', [])
         $scope.filterFavorites(1);
       });
   };
-  // $scope.getFavs();
+
+  $scope.fetchUserFavorites = function () {
+    Venues.getUserFavorites($rootScope.currentUser._id)
+    .then(function(favorites) {
+      $scope.faves = favorites;
+      $scope.filterFavorites(1);
+    });
+  };
+  $scope.fetchUserFavorites();
 
   ////////////////// GET BASIC DESTINATION CITY INFO //////////////////////
 
