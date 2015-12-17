@@ -20,6 +20,9 @@ angular.module('travel.services', [])
       method: 'POST',
       url: '/api/group',
       data: data
+    })
+    .then(function (resp) {
+      return resp.data;
     });
   };
   var addParticipants = function(data) {

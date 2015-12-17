@@ -15,12 +15,12 @@ angular.module('travel.landing', [])
       userInfo: $rootScope.currentUser,
       destination: $window.sessionStorage.getItem('knowhere')
     })
-    .then(function successCb (res) {
-      $scope.currentGroup = res.data;
-    }, function errCb (res) {
-      return console.error(res);
+    .then(function (newGroup) {
+      $scope.currentGroup = newGroup;
+      $state.go('results');
+    })
+    .catch(function (err) {
+      console.error(err);
     });
-
-    $state.go('results');
   };
 });
