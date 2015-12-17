@@ -59,13 +59,15 @@ angular.module('travel.results', [])
   ////////////////// GET ALL VENUES BASED ON A DESTINATION CITY //////////////////////
 
 
-  $scope.getVenueInformation = function () {
-    Venues.getVenues($window.sessionStorage.getItem('knowhere'))
+  $scope.getVenueInformation = function (permalink) {
+    permalink = permalink || $window.sessionStorage.getItem('knowhere');
+    if (!permalink) return;
+
+    Venues.getVenues(permalink)
       .then(function(venueInfo) {
         if (!Array.isArray(venueInfo)) return;
 
-        $scope.venues = venueInfo;
-        CurrentInfo.destination.venues = venueInfo;
+        CurrentInfo.destination.venues = $scope.venues = venueInfo;
         $scope.filterVenues(1);
       })
       .catch(function(error){
@@ -109,7 +111,7 @@ angular.module('travel.results', [])
 
   $scope.getGroups();
   $scope.getCity($window.sessionStorage.getItem('knowhere'));
-  $scope.getVenueInformation();
+  $scope.getVenueInformation($window.sessionStorage.getItem('knowhere'));
 
 
 });
