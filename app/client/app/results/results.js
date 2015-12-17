@@ -77,8 +77,11 @@ angular.module('travel.results', [])
   ////////////////// GET BASIC DESTINATION CITY INFO //////////////////////
 
 
-  $scope.getCity = function () {
-    City.getCity($window.sessionStorage.getItem('knowhere'))
+  $scope.getCity = function (permalink) {
+    permalink = permalink || $window.sessionStorage.getItem('knowhere');
+    if (!permalink) return;
+
+    City.getCity(permalink)
       .then(function(cityInfo) {
         $scope.city = cityInfo;
         CurrentInfo.destination.basicInfo = cityInfo;
@@ -105,7 +108,7 @@ angular.module('travel.results', [])
 
 
   $scope.getGroups();
-  $scope.getCity();
+  $scope.getCity($window.sessionStorage.getItem('knowhere'));
   $scope.getVenueInformation();
 
 

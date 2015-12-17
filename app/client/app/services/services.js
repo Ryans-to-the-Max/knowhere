@@ -20,14 +20,14 @@ angular.module('travel.services', [])
       method: 'POST',
       url: '/api/group',
       data: data
-    });   
+    });
   };
   var addParticipants = function(data) {
     return $http({
       method: 'POST',
       url: '/api/group/add',
       data: data
-    });   
+    });
   };
   return {
     getGroups: getGroups,
@@ -63,6 +63,9 @@ angular.module('travel.services', [])
 
 .factory('Util', function () {
   var transToPermalink = function (string) {
+    // Leave commented-out to let the server throw errors for now
+    // if (!string) return;
+
     return string.trim().replace(/\s+/g, '-').toLowerCase();
   };
 

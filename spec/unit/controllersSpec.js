@@ -95,6 +95,7 @@ describe('Knowhere controllers', function () {
 };
   });
 
+  
   beforeEach(module('travel'));
 
   describe('GroupsController', function () {
@@ -178,47 +179,9 @@ describe('Knowhere controllers', function () {
 
   describe('ResultsController', function () {
 
-    describe('$scope.getGroups()', function () {
-
-      var ctrl, groupsInfo, rootScope, scope, $httpBackend;
-
-      beforeEach(inject(function (_$httpBackend_, $rootScope, $controller) {
-        groupsInfo = [{ group1: 'test group 1 info' }, { group2: 'test group 2 info' }];
-
-        $httpBackend = _$httpBackend_;
-        $httpBackend.whenGET(/\/api\/groups/).respond(groupsInfo);
-        $httpBackend.whenGET(/\//).respond('');
-      }));
-
-      it('does nothing if there is no currentUser', function (done) {
-        inject(function ($controller, $rootScope) {
-          scope = $rootScope.$new();
-          $controller('ResultsController', { $scope: scope });
-
-          $httpBackend.flush();
-
-          expect(scope.groups.length).toEqual(0);
-          done();
-        });
-      });
-
-      it('gets the currentUser\'s groups by currentUser._id', function (done) {
-        inject(function ($controller, $rootScope) {
-          $rootScope.currentUser = { _id: 'testUserId' };
-          scope = $rootScope.$new();
-          $controller('ResultsController', { $scope: scope });
-
-          $httpBackend.flush();
-
-          expect(scope.groups).toEqual(groupsInfo);
-          done();
-        });
-      });
-    });
-
     describe('initial state', function () {
 
-      var ctrl, groupsInfo, mockNYC, rootScope, $scope, $httpBackend;
+      var groupsInfo, mockNYC, landingCtrl, resultsCtrl, $landingScope, $resultsScope, $httpBackend;
 
       beforeEach(inject(function (_$httpBackend_, $rootScope, $controller) {
         groupsInfo = [{ group1: 'test group 1 info' }, { group2: 'test group 2 info' }];
@@ -236,35 +199,40 @@ describe('Knowhere controllers', function () {
         $httpBackend = _$httpBackend_;
         // TODO refactor this to look at param
         // $httpBackend.whenGET(/\/api\/dest?name=destPermalink/).respond(mockVenues);
-        $httpBackend.whenGET(/\/api\/dest$/).respond(mockNYC);
         $httpBackend.whenGET(/\/api\/dest\/venues/).respond(mockVenues.Results);
+        $httpBackend.whenGET(/\/api\/dest/).respond(mockNYC);
         $httpBackend.whenGET(/\/api\/groups/).respond(groupsInfo);
+        // Set responses to all other GET requests to avoid "unexpected request" err
         $httpBackend.whenGET(/\//).respond('');
 
+        // Set responses to all other POST requests to avoid "unexpected request" err
+        $httpBackend.whenPOST(/\//).respond('');
+
+        $landingScope = $rootScope.$new();
+        landingCtrl = $controller('LandingController', { $scope: $landingScope });
+
         $rootScope.currentUser = { _id: 'testUserId' };
-        $scope = $rootScope.$new();
-        ctrl = $controller('ResultsController', { $scope: $scope });
+        $resultsScope = $rootScope.$new();
+        resultsCtrl = $controller('ResultsController', { $scope: $resultsScope });
+
+        $httpBackend.flush();
+
+        $landingScope.data = { destination: 'New York City' };
+        $landingScope.sendData();
+
+        $httpBackend.flush();
       }));
 
-      it('sets $scope.group to the currentUser\'s groups by currentUser._id', function (done) {
-        $httpBackend.flush();
-
-        expect($scope.groups).toEqual(groupsInfo);
-        done();
+      it('sets $resultsScope.group to the currentUser\'s groups by currentUser._id', function () {
+        expect($resultsScope.groups).toEqual(groupsInfo);
       });
 
-      it('sets $scope.city', function (done) {
-        $httpBackend.flush();
-
-        expect($scope.city).toEqual(mockNYC);
-        done();
+      it('sets $resultsScope.city', function () {
+        expect($resultsScope.city).toEqual(mockNYC);
       });
 
-      it('sets $scope.venues', function (done) {
-        $httpBackend.flush();
-
-        expect($scope.venues).toEqual(mockVenues.Results);
-        done();
+      it('sets $resultsScope.venues', function () {
+        expect($resultsScope.venues).toEqual(mockVenues.Results);
       });
     });
   });
