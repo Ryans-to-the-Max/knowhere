@@ -151,7 +151,7 @@ angular.module('travel.services', [])
     return $http({
       method: 'POST',
       url: '/api/fav/user',
-      data: {venue: venue, userID: userID}
+      data: {venue: venue, userId: userId}
     });
   };
 
@@ -191,7 +191,7 @@ angular.module('travel.services', [])
       return resp.data;
     });
   };
-  
+
   return {
     getVenues: getVenues,
     addToUserFavorites: addToUserFavorites,
