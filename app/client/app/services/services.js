@@ -8,7 +8,7 @@ angular.module('travel.services', [])
   var getGroups = function(userId){
     return $http({
       method: 'GET',
-      url: '/api/user/groups',
+      url: '/api/group',
       params: { userId: userId }
     })
     .then(function(resp){
