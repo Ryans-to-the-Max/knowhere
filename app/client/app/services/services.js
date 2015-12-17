@@ -132,16 +132,27 @@ angular.module('travel.services', [])
     // Get request /api/fav/user
     // All their favorites (array of objs)
 
+  /*
+
+  */
+
+  var getUserFavorites = function (userId) {
+    return $http({
+      method: 'GET',
+      url: '/api/fav/user',
+      params: {userId: userId}
+    })
+    .then(function(resp) {
+      return resp.data;
+    })
+  };
+
   // triggered by add to group favorites button
   /* add to group favorites */
     // Post request to /api/fav
     // Send whole venue object
     // Send group ID
 
-  /* add to user favorites */
-    // Post Request to /api/fav/user
-    // Send whole venue object
-    // Send user ID
 
   /*
     @param {object} venue should contain all venue data
