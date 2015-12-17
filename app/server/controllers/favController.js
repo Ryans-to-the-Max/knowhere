@@ -6,7 +6,7 @@ var Rating = require('../models/rating');
 module.exports = {
 
   addGroupFav: function(req, res, next){ //venueId, group
-    var venue = req.body.venue;
+    var venueInfo = req.body.venue;
     var groupId = req.body.groupId;
 
     Venue.findById(venueId, function (err, venue){
@@ -25,14 +25,14 @@ module.exports = {
           return res.status(200).send(group);
         } else {
           var newVenue = new Venue({
-            lookUpId: venue.id,
-            name: venue.name,
-            venue_type_id: venue.venue_type_id,
-            tripexpert_score: venue.tripexpert_score,
-            rank: venue.rank_in_destination,
-            score: venue.score,
-            description: venue.description,
-            photo: venue.index_photo
+            lookUpId: venueInfo.id,
+            name: venueInfo.name,
+            venue_type_id: venueInfo.venue_type_id,
+            tripexpert_score: venueInfo.tripexpert_score,
+            rank: venueInfo.rank_in_destination,
+            score: venueInfo.score,
+            description: venueInfo.description,
+            photo: venueInfo.index_photo
           });
 
           newVenue.save(function (err, venue){
@@ -51,7 +51,7 @@ module.exports = {
   },
 
   addUserFav: function(req, res, next) {
-    var venue = req.body.venue;
+    var venueInfo = req.body.venue;
     var userId = req.body.userId;
 
     Venue.findById(venue._id, function (err, venue){
@@ -71,14 +71,14 @@ module.exports = {
           user.save();
         } else {
           var newVenue = new Venue({
-              lookUpId: venue.id,
-              name: venue.name,
-              venue_type_id: venue.venue_type_id,
-              tripexpert_score: venue.tripexpert_score,
-              rank: venue.rank_in_destination,
-              score: venue.score,
-              description: venue.description,
-              photo: venue.index_photo
+              lookUpId: venueInfo.id,
+              name: venueInfo.name,
+              venue_type_id: venueInfo.venue_type_id,
+              tripexpert_score: venueInfo.tripexpert_score,
+              rank: venueInfo.rank_in_destination,
+              score: venueInfo.score,
+              description: venueInfo.description,
+              photo: venueInfo.index_photo
           });
 
           newVenue.save(function(err, venue){
