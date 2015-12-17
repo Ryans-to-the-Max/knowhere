@@ -1,11 +1,12 @@
 angular.module('travel.landing', [])
 
-.controller('LandingController', function ($scope, $window, $state, $rootScope, CurrentInfo, City, Groups, Util) {
-  var data;
+.controller('LandingController',
+            function ($scope, $window, $state, $rootScope, Groups, Util) {
   $scope.data = { };
 
   $scope.sendData = function() {
-    $window.sessionStorage.setItem('knowhere', Util.transToPermalink($scope.data.destination));
+    $window.sessionStorage.setItem('knowhere',
+                                Util.transToPermalink($scope.data.destination));
     $rootScope.currentUser = $rootScope.currentUser || "anonymous";
     $scope.data.group = $scope.data.group || "anonymous";
 
@@ -14,10 +15,10 @@ angular.module('travel.landing', [])
       userInfo: $rootScope.currentUser,
       destination: $window.sessionStorage.getItem('knowhere')
     })
-    .then(function (res) {
-      if (!res) return;
-
+    .then(function successCb (res) {
       $scope.currentGroup = res.data;
+    }, function errCb (res) {
+      return console.error(res);
     });
 
     $state.go('results');
