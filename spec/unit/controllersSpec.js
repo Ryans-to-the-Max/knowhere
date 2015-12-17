@@ -7,10 +7,54 @@
 
 
 describe('Knowhere controllers', function () {
-  var $httpBackend, groupsInfo, mockNYC, mockVenues, setHttpBackend;
+  var $httpBackend, groupsInfo, mockAttractions, mockHotels, mockNYC, mockRestaurants, mockVenues, setHttpBackend;
 
   beforeAll(function () {
     groupsInfo = [{ group1: 'test group 1 info' }, { group2: 'test group 2 info' }];
+    mockAttractions = [
+        {
+          "id": "41",
+          "venue_type_id": 3,
+          "name": "Central Park",
+          "tripexpert_score": 99,
+          "rank_in_destination": 1,
+          "score": 99,
+          "description": "Rambling yet contained, nature-filled yet man-made, this 843-acre oasis provides a welcome respite from the concrete jungle for locals and tourists alike.",
+          "index_photo": "http://static.tripexpert.com/images/venues/index_photos/index_retina/2325317.jpg"
+        },
+    ];
+    mockHotels = [
+        {
+          "id": "1",
+          "venue_type_id": 1,
+          "name": "Greenwich Hotel",
+          "tripexpert_score": 99,
+          "rank_in_destination": 1,
+          "score": 99,
+          "description": "Robert DeNiro and partners spared nothing in their luxurious eight-story hotel, which opened in 2008.",
+          "index_photo": "http://static.tripexpert.com/images/venues/index_photos/index_retina/637972.jpg"
+        },
+        {
+          "id": "2",
+          "venue_type_id": 1,
+          "name": "Crosby Street Hotel",
+          "tripexpert_score": 98,
+          "rank_in_destination": 2,
+          "score": 98,
+          "description": "Opened in SoHo in 2009, this Kit Kemp–designed 11-story brownstone has floor-to-ceiling windows throughout and is environmentally certified as an LEED Gold property.",
+          "index_photo": "http://static.tripexpert.com/images/venues/index_photos/index_retina/636532.jpg"
+        },
+        {
+          "id": "3",
+          "venue_type_id": 1,
+          "name": "The NoMad Hotel",
+          "tripexpert_score": 97,
+          "rank_in_destination": 3,
+          "score": 97,
+          "description": "That stray capital M is a nod to the neighborhood; fairly recently a no-man’s-land, the district North of Madison Park is a Manhattan renewal success story in the making.",
+          "index_photo": "http://static.tripexpert.com/images/venues/index_photos/index_retina/634638.jpg"
+        },
+    ];
     mockNYC = {
       "id": "1",
       "name": "New York City",
@@ -21,6 +65,38 @@ describe('Knowhere controllers', function () {
       "splash_photo": "http://static.tripexpert.com/images/destinations/splash_photos/index/6.jpg",
       "distance": 3.4520683
     };
+    mockRestaurants = [
+        {
+          "id": "21",
+          "venue_type_id": 2,
+          "name": "Daniel",
+          "tripexpert_score": 99,
+          "rank_in_destination": 1,
+          "score": 99,
+          "description": "Clearly this is a world-class dining establishment, as evidenced by a bunch of Michelin stars and Barack Obama visits.",
+          "index_photo": "http://static.tripexpert.com/images/venues/index_photos/index_retina/2377015.jpg"
+        },
+        {
+          "id": "23",
+          "venue_type_id": 2,
+          "name": "Per Se",
+          "tripexpert_score": 97,
+          "rank_in_destination": 3,
+          "score": 97,
+          "description": "A tasting menu for two at superchef Thomas Keller's plushly impersonal 16-table dining room overlooking Columbus Circle will last three hours and set you back a cool 500 clams. ",
+          "index_photo": "http://static.tripexpert.com/images/venues/index_photos/index_retina/2368725.jpg"
+        },
+        {
+          "id": "24",
+          "venue_type_id": 2,
+          "name": "Eleven Madison Park",
+          "tripexpert_score": 96,
+          "rank_in_destination": 4,
+          "score": 96,
+          "description": "Where the elite meet to greet.",
+          "index_photo": "http://static.tripexpert.com/images/venues/index_photos/index_retina/2382342.jpg"
+        },
+    ];
     mockVenues = {
       "Info": "List of Venues and IDs",
       "Query Parameters": {
@@ -162,7 +238,7 @@ describe('Knowhere controllers', function () {
 
   describe('ResultsController', function () {
 
-    describe('initial state', function () {
+    describe('initial $scope state', function () {
 
       var landingCtrl, resultsCtrl, $landingScope, $resultsScope, $httpBackend;
 
@@ -185,16 +261,58 @@ describe('Knowhere controllers', function () {
         $httpBackend.flush();
       }));
 
-      it('sets $resultsScope.group to the currentUser\'s groups by currentUser._id', function () {
+      it('sets $scope.group to the currentUser\'s groups by currentUser._id', function () {
         expect($resultsScope.groups).toEqual(groupsInfo);
       });
 
-      it('sets $resultsScope.city', function () {
+      it('sets $scope.city', function () {
         expect($resultsScope.city).toEqual(mockNYC);
       });
 
-      it('sets $resultsScope.venues', function () {
+      it('sets $scope.venues', function () {
         expect($resultsScope.venues).toEqual(mockVenues.Results);
+      });
+    });
+
+    describe('its methods', function () {
+
+      var landingCtrl, resultsCtrl, $landingScope, $resultsScope, $httpBackend;
+
+      beforeEach(inject(function (_$httpBackend_, $rootScope, $controller) {
+        $httpBackend = _$httpBackend_;
+        setHttpBackend($httpBackend);
+
+        $landingScope = $rootScope.$new();
+        landingCtrl = $controller('LandingController', { $scope: $landingScope });
+
+        $rootScope.currentUser = { _id: 'testUserId' };
+        $resultsScope = $rootScope.$new();
+        resultsCtrl = $controller('ResultsController', { $scope: $resultsScope });
+
+        $httpBackend.flush();
+
+        $landingScope.data = { destination: 'New York City' };
+        $landingScope.sendData();
+
+        $httpBackend.flush();
+      }));
+
+      it('filterVenues() sets $scope.heading and $scope.filteredVenues', function () {
+        // This is the initial state:
+        expect($resultsScope.heading).toEqual('Hotels');
+        expect($resultsScope.filteredVenues).toEqual(mockHotels);
+
+        $resultsScope.filterVenues(3);
+        expect($resultsScope.heading).toEqual('Attractions');
+        expect($resultsScope.filteredVenues).toEqual(mockAttractions);
+
+        $resultsScope.filterVenues(2);
+        expect($resultsScope.heading).toEqual('Restaurants');
+        expect($resultsScope.filteredVenues).toEqual(mockRestaurants);
+
+        $resultsScope.filterVenues(1);
+        expect($resultsScope.heading).toEqual('Hotels');
+        expect($resultsScope.filteredVenues).toEqual(mockHotels);
       });
     });
   });
