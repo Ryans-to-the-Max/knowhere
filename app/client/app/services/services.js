@@ -125,6 +125,7 @@ angular.module('travel.services', [])
       params: {userId: userId}
     })
     .then(function(resp) {
+      console.log(resp.data);
       return resp.data;
     })
   };
@@ -187,6 +188,7 @@ angular.module('travel.services', [])
 
   return {
     getVenues: getVenues,
+    getUserFavorites: getUserFavorites,
     addToUserFavorites: addToUserFavorites,
     rateVenue: rateVenue,
     getFavs: getFavs,
