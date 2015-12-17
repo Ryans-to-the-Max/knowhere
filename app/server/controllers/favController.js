@@ -41,7 +41,7 @@ module.exports = {
               return res.status(500).send();
             }
           });
-           group.favorites.push(venue);
+           group.favorites.push(newVenue);
            group.save();
 
           res.status(200).send(group);
@@ -87,7 +87,7 @@ module.exports = {
               return res.status(500).send();
             }
           });
-          user.favorites.push({venue: venue, rating: 0});
+          user.favorites.push({venue: newVenue, rating: 0});
           user.save();
         }
       });
