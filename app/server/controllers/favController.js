@@ -51,10 +51,11 @@ module.exports = {
   },
 
   addUserFav: function(req, res, next) {
+    console.log(req.body.venue);
     var venueInfo = req.body.venue;
     var userId = req.body.userId;
 
-    Venue.findById(venue._id, function (err, venue){
+    Venue.findById(venueInfo._id, function (err, venue){
       if (err){
         console.log(err);
         return res.status(500).send();
@@ -122,7 +123,7 @@ module.exports = {
         res.status(200).send();
       }
     });
-    
+
   },
 
   removeGroupFav: function(req, res, next){
