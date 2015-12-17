@@ -38,8 +38,6 @@
         </div>
         <div class="media-body media-middle">
           <h4 class="media-heading">{{ venue.name }}</h4>
-          <div>
-          </div>
           <span>Select your rating <br> {{venue.userRating}} out of 10
             <div star-rating rating-value="venue.userRating" max="10" on-rating-selected="addRating(venue, venue.userRating)"></div>
           </span>
