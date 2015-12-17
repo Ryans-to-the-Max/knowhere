@@ -90,8 +90,11 @@ angular.module('travel.services', [])
       url: '/api/dest/venues',
       params: {permalink: query}
     })
-    .then(function(resp){
+    .then(function successCb (resp){
       return resp.data;
+    }, function errCb (resp) {
+      console.error(resp);
+      return resp;
     });
   };
 
