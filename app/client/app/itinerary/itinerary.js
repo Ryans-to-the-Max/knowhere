@@ -23,7 +23,7 @@ angular.module('travel.itinerary', [])
         $scope.groups = groupsInfo;
       });
   };
-  $scope.getGroups();
+  // $scope.getGroups();
 
 
   ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
@@ -55,7 +55,7 @@ angular.module('travel.itinerary', [])
     });
     $scope.restaurants = restaurants;
     $scope.attractions = attractions;
-    $scope.hotels = hotels; 
+    $scope.hotels = hotels;
   };
 
 
@@ -88,7 +88,7 @@ angular.module('travel.itinerary', [])
       });
   };
 
-  $scope.getItinerary();
+  // $scope.getItinerary();
 
 
   ////////////////// ADD TO ITINERARY - ADMIN ONLY//////////////////////

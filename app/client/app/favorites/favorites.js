@@ -6,7 +6,7 @@ angular.module('travel.favorites', [])
   $scope.filteredGroupFavs = [];
   $scope.city = null;
   $scope.heading = null;
-  $scope.favs = {}; 
+  $scope.favs = {};
   $scope.groups = [];
 
 
@@ -22,7 +22,7 @@ angular.module('travel.favorites', [])
         $scope.groups = groupsInfo;
       });
   };
-  $scope.getGroups();
+  // $scope.getGroups();
 
 
   ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
@@ -80,7 +80,7 @@ angular.module('travel.favorites', [])
         $scope.filterFavorites(1);
       });
   };
-  $scope.getFavs();
+  // $scope.getFavs();
 
   ////////////////// GET BASIC DESTINATION CITY INFO //////////////////////
 
