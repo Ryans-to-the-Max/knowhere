@@ -66,7 +66,6 @@ angular.module('travel.favorites', [])
     });
     $scope.filteredGroupFavs = groupFavs;
     $scope.filteredUserFavs  = userFavs;
-    console.log('filteredUserFavs', $scope.filteredUserFavs);
   };
 
 
@@ -95,6 +94,7 @@ angular.module('travel.favorites', [])
     });
   };
 
+  $scope.fetchUserFavorites();
 
   ////////////////// GET BASIC DESTINATION CITY INFO //////////////////////
 
