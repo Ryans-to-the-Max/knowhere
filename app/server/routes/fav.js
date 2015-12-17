@@ -9,10 +9,10 @@ router.get('/user', favController.getUserFavs);
 
 router.post('/', favController.addGroupFav);
 
-router.post('user', favController.addUserFav);
+router.post('/user', favController.addUserFav);
 
 router.delete('/', favController.removeGroupFav);
 
-router.delete('/', favController.removeUserFav);
+router.delete('/user', favController.removeUserFav);
 
 module.exports = router;
