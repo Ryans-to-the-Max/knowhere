@@ -5,6 +5,8 @@ angular.module('travel.landing', [])
   $scope.data = { };
 
   $scope.sendData = function() {
+    if (!$rootScope.currentUser || !$rootScope.currentUser._id) return;
+
     $window.sessionStorage.setItem('knowhere',
                                 Util.transToPermalink($scope.data.destination));
     $rootScope.currentUser = $rootScope.currentUser || "anonymous";
@@ -12,7 +14,7 @@ angular.module('travel.landing', [])
 
     Groups.createGroup({
       groupName: $scope.data.group,
-      userInfo: $rootScope.currentUser,
+      userInfo: $rootScope.currentUser._id,
       destination: $window.sessionStorage.getItem('knowhere')
     })
     .then(function (newGroup) {
