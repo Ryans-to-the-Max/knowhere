@@ -8,7 +8,7 @@ var venues = require("../../../mock-data/venues.json");
 var venue  = venues.Results;
 
 module.exports = {
-  
+
   createGroup: function(req, res, next){
     var title  = req.body.groupName;
     var dest   = req.body.destination;
@@ -28,7 +28,7 @@ module.exports = {
 
       newGroup.members.push(user);
       newGroup.save(function (err, group){
-        if (err) { 
+        if (err) {
           console.log(err);
           return res.status(500).send();
         }
@@ -85,7 +85,7 @@ module.exports = {
             group.members.push(user);
             user.groupId.push(group);
             return res.status(200).send(group);
-          
+
           } else { //create new user  TODO send email here as well
 
           var newUser = new User ({
@@ -94,18 +94,18 @@ module.exports = {
 
           newUser.groupId.push(group);
           newUser.save(function (err, user){
-            if (err) { 
+            if (err) {
               console.log(err);
               return res.status(500).send();
             }
           });
-  
+
           group.members.push(newUser);
           group.save();
           return res.status(200).send(group);
         }
       });
-    });   
+    });
   },
 
   removeMember: function(req, res, next){
@@ -128,7 +128,7 @@ module.exports = {
       if (err){
         console.log(err);
         return res.status(500).send();
-      }   
+      }
 
       return res.status(200).send(group.members);
     });
@@ -158,7 +158,7 @@ module.exports = {
     .lean() // returns plain JS object
     .exec(function (err, group){
       var groupId = group._id;
-      
+
       (function(){ // the following is done for synchronous purposes
         var index = 0;
 
@@ -182,4 +182,3 @@ module.exports = {
     });
   }
 };
-

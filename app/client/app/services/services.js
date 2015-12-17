@@ -9,7 +9,7 @@ angular.module('travel.services', [])
   var getGroups = function(userId){
     return $http({
       method: 'GET',
-      url: '/api/group',
+      url: '/api/groups',
       params: { userId: userId }
     })
     .then(function(resp){
@@ -147,7 +147,7 @@ angular.module('travel.services', [])
     @param {object} venue should contain all venue data
     @param {str} userID should be the user's ID
   */
-  var addToUserFavorites = function (venue, userID) {
+  var addToUserFavorites = function (venue, userId) {
     return $http({
       method: 'POST',
       url: '/api/fav/user',
