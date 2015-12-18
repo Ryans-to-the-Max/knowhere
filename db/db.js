@@ -3,7 +3,15 @@ var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 
 // sets db location to Heroku Mongolab uri or local host
-var dbUri = process.env.MONGOLAB_URI || 'mongodb://localhost/tripapp';
+var dbUri;
+
+if (process.env.MONGOLAB_URI) {
+  dbUri = process.env.MONGOLAB_URI;
+} else if (process.env.NODE_ENV === 'test') {
+  dbUri = 'mongodb://localhost/tripapptest';
+} else {
+  dbUri = 'mongodb://localhost/tripapp';
+}
 
 mongoose.connect(dbUri);
 
