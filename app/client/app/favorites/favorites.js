@@ -29,8 +29,7 @@ angular.module('travel.favorites', [])
 
 
   $scope.selectGroup = function(groupInfo) {
-    $rootScope.currentGroup = groupInfo;
-    $rootScope.destinationPermalink = groupInfo.destination;
+    Groups.selectGroup(groupInfo, $rootScope);
     $window.sessionStorage.setItem('knowhere', groupInfo.destination);
     $state.go('favorites');
   };
