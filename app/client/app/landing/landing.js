@@ -25,4 +25,5 @@ angular.module('travel.landing', [])
       console.error(err);
     });
   };
+
 });

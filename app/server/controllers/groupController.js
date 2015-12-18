@@ -36,6 +36,7 @@ module.exports = {
 
       user.groupId.push(newGroup);
       user.save();
+      res.status(200).send(newGroup);
     });
 
   },
