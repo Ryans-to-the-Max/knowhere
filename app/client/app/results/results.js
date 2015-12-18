@@ -6,6 +6,7 @@ angular.module('travel.results', [])
   $scope.city = null;
   $scope.heading = null;
   $scope.groups = [];
+  $scope.activeClass = '';
 
 
   ////////////////// GET ALL THE GROUPS OF A USER //////////////////////
