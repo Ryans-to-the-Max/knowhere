@@ -12,7 +12,9 @@ angular.module('travel.results', [])
 
 
   $scope.getGroups = function() {
-    if (!$rootScope.currentUser || !$rootScope.currentUser._id) return;
+    if (!$rootScope.currentUser || !$rootScope.currentUser._id) {
+      return console.error("Cannot get groups. currentUser id not found!");
+    }
 
     Groups.getGroups($rootScope.currentUser._id)
       .then(function(groupsInfo){
@@ -98,7 +100,7 @@ angular.module('travel.results', [])
   ////////////////// ADD TO FAVORITE LIST //////////////////////
 
 
-  $scope.addtoFavs = function(venueData) {
+  $scope.addToFavs = function(venueData) {
     venueData.userInfo = $rootScope.currentUser;
     venueData.groupInfo = $rootScope.currentGroup;
     venueData.rating = 5;
