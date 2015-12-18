@@ -6,9 +6,9 @@
         <div class="col-md-offset-3 col-md-6">
           <ul class="nav nav-pills center-pills">
             <!-- empty anchor tags may need to be fixed -->
-            <li role="navigation" class="active"><a href="" ng-click="filterFavorites(1)">Hotels</a></li>
-            <li role="navigation" class="active"><a href="" ng-click="filterFavorites(2)">Restaurants</a></li>
-            <li role="navigation" class="active"><a href="" ng-click="filterFavorites(3)">Attractions</a></li>
+            <li role="navigation" class="active"><a href="#/results">Explore</a></li>
+            <li role="navigation" class="active"><a href="#/favorites">Favorites</a></li>
+            <li role="navigation" class="active"><a href="#">Itinerary</a></li>
           </ul>
         </div>
       </div><!-- /.jumbotron -->
@@ -17,9 +17,9 @@
 
   <div class="container">
     <ul class="nav nav-tabs">
-      <li role="presentation"><a href="#/results">Explore</a></li>
-      <li role="presentation" class="active"><a href="#/favorites">Favorites</a></li>
-      <li role="presentation"><a href="#">Itenerary</a></li>
+      <li role="presentation" class="active"><a href="" ng-click="filterVenues(1)">Hotels</a></li>
+      <li role="presentation"><a href="" ng-click="filterVenues(2)">Restaurants</a></li>
+      <li role="presentation"><a href="" ng-click="filterVenues(3)">Attractions</a></li>
     </ul>
     <div class="row">
       <h2 class="text-center">{{ heading }}</h2>
