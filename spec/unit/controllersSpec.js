@@ -7,11 +7,21 @@
 var xbeforeEach = function () { };
 
 describe('Knowhere controllers', function () {
-  var $httpBackend, group1, group2, groupsInfo, mockAttractions, mockHotels,
-      mockNYC, mockRestaurants, mockVenues, setHttpBackend;
+  var $httpBackend, centralPark, group1, group2, groupsInfo, mockAttractions, mockHotels,
+      mockNYC, mockParis, mockRestaurants, mockVenues, setHttpBackend, testUser;
 
   beforeAll(function () {
 
+    centralPark = {
+        "id": "41",
+        "venue_type_id": 3,
+        "name": "Central Park",
+        "tripexpert_score": 99,
+        "rank_in_destination": 1,
+        "score": 99,
+        "description": "Rambling yet contained, nature-filled yet man-made, this 843-acre oasis provides a welcome respite from the concrete jungle for locals and tourists alike.",
+        "index_photo": "http://static.tripexpert.com/images/venues/index_photos/index_retina/2325317.jpg"
+    };
     group1 = { destination: 'new-york-city', title: 'test group 1 info' };
     group2 = { destination: 'paris', title: 'test group 2 info' };
     groupsInfo = [group1, group2];
@@ -67,6 +77,16 @@ describe('Knowhere controllers', function () {
       "permalink": "new-york-city",
       "index_photo" : "http://static.tripexpert.com/images/destinations/index_photos/explore/6.jpg",
       "splash_photo": "http://static.tripexpert.com/images/destinations/splash_photos/index/6.jpg",
+      "distance": 3.4520683
+    };
+    mockParis = {
+      "id": "5",
+      "name": "Paris",
+      "country_name": "France",
+      "priority": 1,
+      "permalink": "paris",
+      "index_photo" : "http://static.tripexpert.com/images/destinations/index_photos/explore/4.jpg",
+      "splash_photo": "http://static.tripexpert.com/images/destinations/splash_photos/index/4.jpg",
       "distance": 3.4520683
     };
     mockRestaurants = [
@@ -185,12 +205,12 @@ describe('Knowhere controllers', function () {
         },
       ]
     };
+    testUser = { _id: 'testUserId' };
 
     setHttpBackend = function ($httpBackend) {
-      // TODO refactor this to look at param
-      // $httpBackend.whenGET(/\/api\/dest?name=destPermalink/).respond(mockVenues);
       $httpBackend.whenGET(/\/api\/dest\/venues/).respond(mockVenues.Results);
-      $httpBackend.whenGET(/\/api\/dest/).respond(mockNYC);
+      $httpBackend.whenGET(/\/api\/dest\?name=new-york-city/).respond(mockNYC);
+      $httpBackend.whenGET(/\/api\/dest\?name=paris/).respond(mockParis);
       $httpBackend.whenGET(/\/api\/group/).respond(groupsInfo);
       // Set responses to all other GET requests to avoid "unexpected request" err
       $httpBackend.whenGET(/\//).respond('');
@@ -367,7 +387,8 @@ describe('Knowhere controllers', function () {
         $landingScope = $rootScope.$new();
         landingCtrl = $controller('LandingController', { $scope: $landingScope });
 
-        $rootScope.currentUser = { _id: 'testUserId' };
+        $rootScope.currentUser = testUser;
+        $rootScope.currentGroup = group1;
         $resultsScope = $rootScope.$new();
         resultsCtrl = $controller('ResultsController', { $scope: $resultsScope });
 
@@ -397,6 +418,17 @@ describe('Knowhere controllers', function () {
         expect($resultsScope.filteredVenues).toEqual(mockHotels);
       });
 
+      it('getCity() sets $scope.city', function () {
+        // the beforeEach sets it to NYC
+        expect($resultsScope.city).toEqual(mockNYC);
+
+        $resultsScope.getCity('paris');
+
+        $httpBackend.flush();
+
+        expect($resultsScope.city).toEqual(mockParis);
+      });
+
       it('selectGroup() sets $rootScope.currentGroup', function () {
         $resultsScope.selectGroup(group2);
 
@@ -407,6 +439,15 @@ describe('Knowhere controllers', function () {
         $resultsScope.selectGroup(group2);
 
         expect($rootScope.destinationPermalink).toEqual(group2.destination);
+      });
+
+      it('addToFavs() sets $rootScope.currentUser, $rootScope.currentGroup, \
+                                        and rating of 5 on venue',function () {
+        $resultsScope.addToFavs(centralPark);
+
+        expect(centralPark.userInfo).toEqual(testUser);
+        expect(centralPark.groupInfo).toEqual(group1);
+        expect(centralPark.rating).toEqual(5);
       });
     });
   });
