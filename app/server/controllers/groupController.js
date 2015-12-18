@@ -33,11 +33,11 @@ module.exports = {
           return res.status(500).send();
         }
 
-      user.groupId.push(newGroup);
-      user.save();
-      res.status(200).send(newGroup);
+        user.groupId.push(newGroup);
+        user.save();
+        res.status(200).send(newGroup);
+      });
     });
-
   },
 
   getGroupByTitle: function(req, res, next){ //account for two groups with same name but with different hosts
