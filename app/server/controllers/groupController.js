@@ -33,10 +33,9 @@ module.exports = {
           return res.status(500).send();
         }
 
-        user.groupId.push(group);
-        user.save();
-        res.status(200).send(group);
-      });
+      user.groupId.push(newGroup);
+      user.save();
+      res.status(200).send(newGroup);
     });
 
   },
