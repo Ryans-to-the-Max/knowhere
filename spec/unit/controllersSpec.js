@@ -4,13 +4,17 @@
 // ResultsController initial state - look at CurrentInfo.destination.basicInfo etc.
 // Refactor mock data
 // refactor setHttpBackend() to look at param
-
+var xbeforeEach = function () { };
 
 describe('Knowhere controllers', function () {
-  var $httpBackend, groupsInfo, mockAttractions, mockHotels, mockNYC, mockRestaurants, mockVenues, setHttpBackend;
+  var $httpBackend, group1, group2, groupsInfo, mockAttractions, mockHotels,
+      mockNYC, mockRestaurants, mockVenues, setHttpBackend;
 
   beforeAll(function () {
-    groupsInfo = [{ group1: 'test group 1 info' }, { group2: 'test group 2 info' }];
+
+    group1 = { destination: 'new-york-city', title: 'test group 1 info' };
+    group2 = { destination: 'paris', title: 'test group 2 info' };
+    groupsInfo = [group1, group2];
     mockAttractions = [
         {
           "id": "41",
@@ -198,40 +202,106 @@ describe('Knowhere controllers', function () {
   
   beforeEach(module('travel'));
 
-  describe('GroupsController', function () {
+  describe('FavoritesController', function () {
+    describe('its methods', function () {
+      var $httpBackend, $rootScope, $scope;
 
-    describe('$scope.getGroups()', function () {
-
-      var $scope, $httpBackend;
-
-      beforeEach(inject(function (_$httpBackend_, $rootScope, $controller) {
+      beforeEach(inject(function (_$httpBackend_, _$rootScope_, $controller) {
         $httpBackend = _$httpBackend_;
+        $rootScope = _$rootScope_;
+
         setHttpBackend($httpBackend);
+
+        $scope = $rootScope.$new();
+        $controller('FavoritesController', { $scope: $scope });
       }));
 
-      it('does nothing if there is no currentUser', function (done) {
-        inject(function ($controller, $rootScope) {
-          $scope = $rootScope.$new();
-          $controller('ResultsController', { $scope: $scope });
+      it('$scope.selectGroup() should set $rootScope.currentGroup', function () {
+        $scope.selectGroup(group2);
 
-          $httpBackend.flush();
-
-          expect($scope.groups.length).toEqual(0);
-          done();
-        });
+        expect($rootScope.currentGroup).toEqual(group2);
       });
 
-      it('gets the currentUser\'s groups by currentUser._id', function (done) {
+      it('$scope.selectGroup() should set $rootScope.destinationPermalink', function () {
+        $scope.selectGroup(group2);
+
+        expect($rootScope.destinationPermalink).toEqual(group2.destination);
+      });
+    });
+  });
+
+  describe('GroupsController', function () {
+
+    describe('its methods', function () {
+
+      var $httpBackend, $rootScope, $scope;
+
+      beforeEach(inject(function (_$httpBackend_, _$rootScope_, $controller) {
+        $httpBackend = _$httpBackend_;
+        $rootScope = _$rootScope_;
+
+        setHttpBackend($httpBackend);
+
+        $scope = $rootScope.$new();
+        $controller('GroupsController', { $scope: $scope });
+      }));
+
+      it('$scope.getGroups() does nothing if there is no currentUser', function () {
+        $httpBackend.flush();
+
+        expect($scope.groups.length).toEqual(0);
+      });
+
+      it('$scope.getGroups() gets the currentUser\'s groups by currentUser._id', function () {
         inject(function ($controller, $rootScope) {
           $rootScope.currentUser = { _id: 'testUserId' };
           $scope = $rootScope.$new();
-          $controller('ResultsController', { $scope: $scope });
+          $controller('GroupsController', { $scope: $scope });
 
           $httpBackend.flush();
 
           expect($scope.groups).toEqual(groupsInfo);
-          done();
         });
+      });
+
+      it('$scope.selectGroup() should set $rootScope.currentGroup', function () {
+        $scope.selectGroup(group2);
+
+        expect($rootScope.currentGroup).toEqual(group2);
+      });
+
+      it('$scope.selectGroup() should set $rootScope.destinationPermalink', function () {
+        $scope.selectGroup(group2);
+
+        expect($rootScope.destinationPermalink).toEqual(group2.destination);
+      });
+    });
+  });
+
+  describe('ItineraryController', function () {
+    describe('its methods', function () {
+      var $httpBackend, $rootScope, $scope;
+
+      beforeEach(inject(function (_$httpBackend_, _$rootScope_, $controller) {
+        $httpBackend = _$httpBackend_;
+        $rootScope = _$rootScope_;
+
+        setHttpBackend($httpBackend);
+
+        $scope = $rootScope.$new();
+        $controller('ItineraryController', { $scope: $scope });
+      }));
+
+      it('$scope.selectGroup() should set $rootScope.currentGroup', function () {
+        $scope.selectGroup(group2);
+
+        expect($rootScope.currentGroup).toEqual(group2);
+      });
+
+      it('$scope.selectGroup() should set $rootScope.destinationPermalink', function () {
+        $scope.selectGroup(group2);
+
+        expect($rootScope.destinationPermalink).toEqual(group2.destination);
       });
     });
   });
@@ -276,10 +346,22 @@ describe('Knowhere controllers', function () {
 
     describe('its methods', function () {
 
-      var landingCtrl, resultsCtrl, $landingScope, $resultsScope, $httpBackend;
+      var landingCtrl, resultsCtrl, $landingScope, $resultsScope, $rootScope, $scope, $httpBackend;
 
-      beforeEach(inject(function (_$httpBackend_, $rootScope, $controller) {
+      xbeforeEach(inject(function (_$httpBackend_, _$rootScope_, $controller) {
         $httpBackend = _$httpBackend_;
+        $rootScope = _$rootScope_;
+
+        setHttpBackend($httpBackend);
+
+        $scope = $rootScope.$new();
+        $controller('GroupsController', { $scope: $scope });
+      }));
+
+      beforeEach(inject(function (_$httpBackend_, _$rootScope_, $controller) {
+        $httpBackend = _$httpBackend_;
+        $rootScope = _$rootScope_;
+
         setHttpBackend($httpBackend);
 
         $landingScope = $rootScope.$new();
@@ -313,6 +395,18 @@ describe('Knowhere controllers', function () {
         $resultsScope.filterVenues(1);
         expect($resultsScope.heading).toEqual('Hotels');
         expect($resultsScope.filteredVenues).toEqual(mockHotels);
+      });
+
+      it('selectGroup() sets $rootScope.currentGroup', function () {
+        $resultsScope.selectGroup(group2);
+
+        expect($rootScope.currentGroup).toEqual(group2);
+      });
+
+      it('selectGroup() sets $rootScope.destinationPermalink', function () {
+        $resultsScope.selectGroup(group2);
+
+        expect($rootScope.destinationPermalink).toEqual(group2.destination);
       });
     });
   });

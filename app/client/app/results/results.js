@@ -1,6 +1,6 @@
 angular.module('travel.results', [])
 
-.controller('ResultsController', function ($scope, $window, $rootScope, CurrentInfo, Venues, City, Groups, Util) {
+.controller('ResultsController', function ($scope, $window, $rootScope, $state, CurrentInfo, Venues, City, Groups, Util) {
   $scope.venues = [];
   $scope.filteredVenues = [];
   $scope.city = null;
@@ -25,8 +25,10 @@ angular.module('travel.results', [])
 
 
   $scope.selectGroup = function(groupInfo) {
+    // Groups.selectGroup(groupInfo);
     $rootScope.currentGroup = groupInfo;
-    $window.sessionStorage.setItem('knowhere', Util.transToPermalink(groupInfo.destination));
+    $rootScope.destinationPermalink = groupInfo.destination;
+    $window.sessionStorage.setItem('knowhere', groupInfo.destination);
     $state.go('results');
   };
 
