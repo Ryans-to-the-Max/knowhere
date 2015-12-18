@@ -1,7 +1,7 @@
 angular.module('travel.landing', [])
 
-.controller('LandingController',
-            function ($scope, $window, $state, $rootScope, Groups, Util) {
+.controller('LandingController', function ($scope, $window, $state, $rootScope, Groups, Util) {
+
   $scope.data = {};
 
   $scope.sendData = function() {
