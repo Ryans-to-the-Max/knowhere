@@ -92,7 +92,7 @@ var venueSchema = new Schema ({
   score: Number,
   description: String,
   photo: String,
-  userRating: {type: Number, default: 0}
+  userRating: {type: Number, default: 5}
 });
 
 

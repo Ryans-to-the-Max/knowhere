@@ -68,7 +68,7 @@ module.exports = {
         }
 
         if (venue){
-          user.favorites.push({venue: venue, rating: 0});
+          user.favorites.push({venue: venue, rating: 5});
           user.save();
         } else {
           var newVenue = new Venue({
@@ -88,7 +88,7 @@ module.exports = {
               return res.status(500).send();
             }
           });
-          user.favorites.push({venue: newVenue, rating: 0});
+          user.favorites.push({venue: newVenue, rating: 5});
           user.save();
         }
       });
