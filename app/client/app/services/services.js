@@ -5,6 +5,7 @@ angular.module('travel.services', [])
 
 
 .factory('Groups', function ($http) {
+  // HTTP REQ FUNCTIONS
   var getGroups = function(userId){
     return $http({
       method: 'GET',
@@ -20,6 +21,9 @@ angular.module('travel.services', [])
       method: 'POST',
       url: '/api/group',
       data: data
+    })
+    .then(function (resp) {
+      return resp.data;
     });
   };
   var addParticipants = function(data) {
@@ -29,10 +33,21 @@ angular.module('travel.services', [])
       data: data
     });
   };
+
+  // NOT HTTP REQ FUNCTIONS
+  var selectGroup = function (groupInfo, _$rootScope_) {
+    _$rootScope_.currentGroup = groupInfo;
+    _$rootScope_.destinationPermalink = groupInfo.destination;
+  };
+
   return {
+    // HTTP REQ FUNCTIONS
     getGroups: getGroups,
     createGroup: createGroup,
-    addParticipants: addParticipants
+    addParticipants: addParticipants,
+
+    // NOT HTTP REQ FUNCTIONS
+    selectGroup: selectGroup,
   };
 })
 
@@ -90,8 +105,11 @@ angular.module('travel.services', [])
       url: '/api/dest/venues',
       params: {permalink: query}
     })
-    .then(function(resp){
+    .then(function successCb (resp){
       return resp.data;
+    }, function errCb (resp) {
+      console.error(resp);
+      return resp;
     });
   };
 

@@ -1,6 +1,6 @@
 angular.module('travel.results', [])
 
-.controller('ResultsController', function ($scope, $window, $rootScope, CurrentInfo, Venues, City, Groups, Util) {
+.controller('ResultsController', function ($scope, $window, $rootScope, $state, CurrentInfo, Venues, City, Groups, Util) {
   $scope.venues = [];
   $scope.filteredVenues = [];
   $scope.city = null;
@@ -12,7 +12,9 @@ angular.module('travel.results', [])
 
 
   $scope.getGroups = function() {
-    if (!$rootScope.currentUser || !$rootScope.currentUser._id) return;
+    if (!$rootScope.currentUser || !$rootScope.currentUser._id) {
+      return console.error("Cannot get groups. currentUser id not found!");
+    }
 
     Groups.getGroups($rootScope.currentUser._id)
       .then(function(groupsInfo){
@@ -25,8 +27,8 @@ angular.module('travel.results', [])
 
 
   $scope.selectGroup = function(groupInfo) {
-    $rootScope.currentGroup = groupInfo;
-    $window.sessionStorage.setItem('knowhere', Util.transToPermalink(groupInfo.destination));
+    Groups.selectGroup(groupInfo, $rootScope);
+    $window.sessionStorage.setItem('knowhere', groupInfo.destination);
     $state.go('results');
   };
 
@@ -59,13 +61,15 @@ angular.module('travel.results', [])
   ////////////////// GET ALL VENUES BASED ON A DESTINATION CITY //////////////////////
 
 
-  $scope.getVenueInformation = function () {
-    Venues.getVenues($window.sessionStorage.getItem('knowhere'))
+  $scope.getVenueInformation = function (permalink) {
+    permalink = permalink || $window.sessionStorage.getItem('knowhere');
+    if (!permalink) return;
+
+    Venues.getVenues(permalink)
       .then(function(venueInfo) {
         if (!Array.isArray(venueInfo)) return;
 
-        $scope.venues = venueInfo;
-        CurrentInfo.destination.venues = venueInfo;
+        CurrentInfo.destination.venues = $scope.venues = venueInfo;
         $scope.filterVenues(1);
       })
       .catch(function(error){
@@ -96,7 +100,7 @@ angular.module('travel.results', [])
   ////////////////// ADD TO FAVORITE LIST //////////////////////
 
 
-  $scope.addtoFavs = function(venueData) {
+  $scope.addToFavs = function(venueData) {
     venueData.userInfo = $rootScope.currentUser;
     venueData.groupInfo = $rootScope.currentGroup;
     venueData.rating = 5;
@@ -109,7 +113,7 @@ angular.module('travel.results', [])
 
   $scope.getGroups();
   $scope.getCity($window.sessionStorage.getItem('knowhere'));
-  $scope.getVenueInformation();
+  $scope.getVenueInformation($window.sessionStorage.getItem('knowhere'));
 
 
 });

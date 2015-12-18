@@ -123,6 +123,22 @@ module.exports = function (grunt) {
           atBegin: true,
         },
       },
+      testClient: {
+        files: [
+          'spec/**',
+        ],
+        tasks: [
+          'testClient',
+        ],
+      },
+      testServer: {
+        files: [
+          'test/**',
+        ],
+        tasks: [
+          'testServer',
+        ],
+      },
 
       startup: {
         files: ['app/server/**'],
