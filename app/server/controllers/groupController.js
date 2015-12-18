@@ -15,9 +15,9 @@ module.exports = {
     var userId = req.body.userInfo;
 
     User.findById(userId, function (err, user) {
-      if (err){
+      if (err || !user){
         console.log(err);
-        return res.status(500).send();
+        return res.status(400).send();
       }
 
       var newGroup = new Group({
@@ -32,10 +32,11 @@ module.exports = {
           console.log(err);
           return res.status(500).send();
         }
-      });
 
-      user.groupId.push(newGroup);
-      user.save();
+        user.groupId.push(group);
+        user.save();
+        res.status(200).send(group);
+      });
     });
 
   },

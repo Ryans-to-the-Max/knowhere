@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'test'; // use test database
+
 var expect = require('chai').expect;
 var express = require('express');
 var mongoose = require('mongoose');
@@ -6,27 +8,39 @@ var path = require('path');
 var request = require('supertest');
 
 var server = require(path.join(__dirname, '../../app/server/server'));
+var testUtil = require(path.join(__dirname, '../testUtil'));
 var util = require(path.join(__dirname, '../../app/server/util'));
 
 
 describe('Server', function () {
+
   var con;
 
-  before(function () {
-    process.env.NODE_ENV = 'test'; // use test database
+  before(function (done) {
     request = request(server);
+
+    // TODO Refactor how how con is set?
+    con = mongoose.createConnection('mongodb://localhost/tripapptest');
+    // con = mongoose.connection;
+
+    setTimeout(function () {
+      testUtil.dropDb(con, done)
+    }, 100); // on @ZacharyRSmith's machine, connection needs ~15ms to set up
   });
 
   beforeEach(function (done) {
-    con = mongoose.createConnection('mongodb://localhost/knowheretest');
-    setTimeout(done, 100); // give connection enough time
+    testUtil.dropDb(con, done);
+  });
+
+
+  after(function (done) {
+    testUtil.dropDb(con, function () {
+      con.close(done);
+    });
   });
 
   afterEach(function (done) {
-    // This ensures no data persists between tests
-    con.db.dropDatabase(function (err, result) {
-      con.close(done);
-    });
+    testUtil.dropDb(con, done);
   });
 
   it('should work', function (done) {
