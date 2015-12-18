@@ -11,9 +11,9 @@ module.exports = {
 
   createGroup: function(req, res, next){
     console.log(req.body);
-    var title  = req.body.title;
-    var dest   = req.body.dest;
-    var userId = req.body.userId;
+    var title  = req.body.groupName;
+    var dest   = req.body.destination;
+    var userId = req.body.userInfo;
 
     User.findById(userId, function (err, user) {
       if (err){
