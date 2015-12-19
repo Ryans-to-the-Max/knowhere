@@ -70,10 +70,12 @@ module.exports = {
     var username = req.body.username;
 
     User.findOne({ username: username }, function (err, user){
-      if (err) return util.send400(res, err);
+      if (!user) return util.send400(res);
+      if (err) return util.send500(res, err);
 
       Group.findById(groupId, function (err, group){
-        if (err) return util.send400(res, err);
+        if (!group) return util.send400(res);
+        if (err) return util.send500(res, err);
 
         var userInGroup = group.members.some(function (member) {
           // Mongoose ObjectId comparisons are funky.
@@ -117,18 +119,18 @@ module.exports = {
   },
 
   getMembers: function(req, res, next){
-    var groupId = req.params.groupId;
+    var groupId = req.body.groupId;
 
     Group.findById(groupId, function(err, group){
-      if (err) return util.send400(res, err);
+      if (!group) return util.send400(res);
+      if (err) return util.send500(res, err);
 
       return res.status(200).send(group.members);
     });
-
   },
 
   getFavs: function (req, res, next){
-    var groupId = req.params.groupId;
+    var groupId = req.body.groupId;
 
     Group.findById(groupId, function(err, group){
       if (err) return util.send400(res, err);
@@ -140,7 +142,7 @@ module.exports = {
 
 
   getInfo: function(title){
-    var groupId = req.params.groupId;
+    var groupId = req.body.groupId;
 
     Group.findById(groupId)
     .populate('favorites')

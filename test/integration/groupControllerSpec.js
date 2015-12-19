@@ -1,5 +1,7 @@
 process.env.NODE_ENV = 'test';
 
+var _ = require('underscore');
+var assert = require('chai').expect;
 var expect = require('chai').expect;
 var mongoose = require('mongoose');
 var path = require('path');
@@ -192,6 +194,55 @@ describe('groupController', function () {
         expect(user.groupId.indexOf(newGroup._id)).not.to.equal(-1);
         done();
       });
+    });
+  });
+
+  describe('getMembers()', function () {
+    
+    var group;
+
+    beforeEach(function (done) {
+
+      request
+        .post('/api/group')
+        .send({
+          groupName: testGroupName,
+          destination: testGroupDestination,
+          userInfo: testUser._id,
+        })
+        .end(function (err, res) {
+          group = JSON.parse(res.text);
+
+          request
+            .post('/api/group/add')
+            .send({
+              groupId: group._id,
+              username: testUser2.username
+            })
+            .end(function (err, res) {
+              var group = JSON.parse(res.text);
+              done();
+            });
+        });
+    });
+
+    it('returns members as JSON', function (done) {
+      request
+        .get('/api/group/users')
+        .send({
+          groupId: group._id,
+        })
+        .end(function (err, res) {
+          var members = JSON.parse(res.text);
+          var membersIds = members.map(function (member) {
+            return member._id + '';
+          });
+
+          expect(membersIds.length).to.equal(2);
+          expect(_.contains(membersIds, testUser._id + ''));
+          expect(_.contains(membersIds, testUser2._id + ''));
+          done();
+        });
     });
   });
 
