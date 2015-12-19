@@ -13,7 +13,7 @@ router.get('/all', groupController.getInfo);
 
 router.post('/', groupController.createGroup);
 
-router.post('/set', groupController.setDest);
+router.post('/set', groupController.setDestination);
 
 router.post('/add', groupController.addMember);
 

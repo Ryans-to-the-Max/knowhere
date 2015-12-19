@@ -36,29 +36,30 @@ module.exports = {
         user.groupId.push(newGroup);
         user.save();
         res.status(200).send(newGroup);
-        
+
       });
     });
   },
 
-  getGroupByTitle: function(req, res, next){ //account for two groups with same name but with different hosts
-    Group.findOne({title: title}, function (err, group){
-      if (err){
-        console.log(err);
-        return res.status(500).send();
-      }
-      res.status(200).send(group);
-    });
-  },
+  // getGroupByTitle: function(req, res, next){ // FIXME account for two groups with same name but with different hosts
+    // title is undefined
+  //   Group.findOne({title: title}, function (err, group){
+  //     if (err){
+  //       console.log(err);
+  //       return res.status(500).send();
+  //     }
+  //     res.status(200).send(group);
+  //   });
+  // },
 
-  setDest: function(req, res, next){
-    var dest    = req.body.dest;
+  setDestination: function(req, res, next){
+    var dest    = req.body.destination;
     var groupId = req.body.groupId;
 
     Group.findById(groupId, function (err, group){
       if (err) {
         console.log(err);
-        return res.status(500).send();
+        return res.sendStatus(500);
       }
 
       group.destination = dest;
