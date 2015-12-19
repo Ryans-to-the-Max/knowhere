@@ -269,13 +269,13 @@ describe('Knowhere controllers', function () {
         $controller('GroupsController', { $scope: $scope });
       }));
 
-      it('$scope.getGroups() does nothing if there is no currentUser', function () {
+      it('$scope.getUserGroups() does nothing if there is no currentUser', function () {
         $httpBackend.flush();
 
         expect($scope.groups.length).toEqual(0);
       });
 
-      it('$scope.getGroups() gets the currentUser\'s groups by currentUser._id', function () {
+      it('$scope.getUserGroups() gets the currentUser\'s groups by currentUser._id', function () {
         inject(function ($controller, $rootScope) {
           $rootScope.currentUser = { _id: 'testUserId' };
           $scope = $rootScope.$new();
