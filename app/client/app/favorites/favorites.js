@@ -13,16 +13,16 @@ angular.module('travel.favorites', [])
   ////////////////// GET ALL THE GROUPS OF A USER //////////////////////
 
 
-  $scope.getGroups = function() {
+  $scope.getUserGroups = function() {
     var query = {
       userInfo: $rootScope.currentUser
     };
-    Groups.getGroups(query)
+    Groups.getUserGroups(query)
       .then(function(groupsInfo){
         $scope.groups = groupsInfo;
       });
   };
-  // $scope.getGroups();
+  // $scope.getUserGroups();
 
 
   ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////

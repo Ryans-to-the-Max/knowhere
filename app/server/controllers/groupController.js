@@ -122,6 +122,23 @@ module.exports = {
     //TODO: also remove user ratings
   },
 
+  getUserGroups: function (req, res, next){
+    var userId = req.body.userId;
+
+    User.findById(userId, function (err, user){
+      if (err){
+        console.log(err);
+        res.status(500).send();
+      }
+
+      if (user){
+        res.status(200).send(user.groupId);
+      } else {
+        res.status(200).send();
+      }
+    });
+  },
+
   getMembers: function(req, res, next){
     var groupId = req.body.groupId;
 

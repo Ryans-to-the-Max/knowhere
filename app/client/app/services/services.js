@@ -6,14 +6,11 @@ angular.module('travel.services', [])
 
 .factory('Groups', function ($http) {
   // HTTP REQ FUNCTIONS
-  var getGroups = function(userId){
+  var addParticipants = function(data) {
     return $http({
-      method: 'GET',
-      url: '/api/groups',
-      params: { userId: userId }
-    })
-    .then(function(resp){
-      return resp.data;
+      method: 'POST',
+      url: '/api/group/add',
+      data: data
     });
   };
   var createGroup = function(data){
@@ -26,11 +23,14 @@ angular.module('travel.services', [])
       return resp.data;
     });
   };
-  var addParticipants = function(data) {
+  var getUserGroups = function(userId){
     return $http({
-      method: 'POST',
-      url: '/api/group/add',
-      data: data
+      method: 'GET',
+      url: '/api/group',
+      data: { userId: userId }
+    })
+    .then(function(resp){
+      return resp.data;
     });
   };
 
@@ -42,7 +42,7 @@ angular.module('travel.services', [])
 
   return {
     // HTTP REQ FUNCTIONS
-    getGroups: getGroups,
+    getUserGroups: getUserGroups,
     createGroup: createGroup,
     addParticipants: addParticipants,
 

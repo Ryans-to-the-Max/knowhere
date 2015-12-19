@@ -13,8 +13,7 @@ router.get('/check', indexController.isLoggedIn);
 
 router.get('/info', indexController.getInfo);
 
-router.get('/groups', indexController.getGroups);
-
+// TODO Refactor to use just api/fav
 router.get('/favs', indexController.getFavs);
 
 // User sign up
