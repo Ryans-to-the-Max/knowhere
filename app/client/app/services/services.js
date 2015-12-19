@@ -138,7 +138,7 @@ angular.module('travel.services', [])
     .then(function(resp) {
       console.log(resp.data);
       return resp.data;
-    })
+    });
   };
 
 
@@ -153,7 +153,7 @@ angular.module('travel.services', [])
       data: {venue: venue, userId: userId}
     });
   };
-  
+
 
   var rateVenue = function(data) {
     return $http({
