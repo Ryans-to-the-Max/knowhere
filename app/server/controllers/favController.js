@@ -1,28 +1,29 @@
 var User = require('../models/user');
+var util = require('../util');
 var Venue = require('../models/venue');
 var Group = require('../models/group');
 var Rating = require('../models/rating');
 
 module.exports = {
 
-  addGroupFav: function(req, res, next){ //venueId, group
+  addGroupFav: function(req, res, next) { //venueInfo, groupId
     var venueInfo = req.body.venue;
     var groupId = req.body.groupId;
 
-    Venue.findById(venueId, function (err, venue){
-      if (err){
-        console.log(err);
-        return res.status(500).send();
-      }
-      Group.findById(groupId, function (err, group){
-        if (err){
-          console.log(err);
-          return res.status(500).send();
-        }
-        if (venue){
+    Group.findById(groupId, function (err, group) {
+      if (!group) return util.send400(res, err);
+      if (err) return util.send500(res, err);
+
+      Venue.findById(venueInfo.id, function (err, venue) {
+        if (err) return util.send500(res, err);
+
+        if (venue) {
           group.favorites.push(venue);
-          group.save();
-          return res.status(200).send(group);
+          group.save(function (err, group) {
+            if (err) return util.send500(res, err);
+
+            return res.status(200).send(group);
+          });
         } else {
           var newVenue = new Venue({
             lookUpId: venueInfo.id,
@@ -35,16 +36,16 @@ module.exports = {
             photo: venueInfo.index_photo
           });
 
-          newVenue.save(function (err, venue){
-            if (err){
-              console.log(err);
-              return res.status(500).send();
-            }
-          });
-           group.favorites.push(newVenue);
-           group.save();
+          newVenue.save(function (err, newVenue) {
+            if (err) return util.send500(res, err);
 
-          res.status(200).send(group);
+            group.favorites.push(newVenue);
+            group.save(function (err, group) {
+              if (err) return util.send500(res, err);
+
+              return res.status(200).send(group);
+            });
+          });
         }
       });
     });

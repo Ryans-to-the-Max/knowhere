@@ -13,5 +13,23 @@ var transporter = nodemailer.createTransport({
 module.exports = {
   mailer: {
     sendMail: transporter.sendMail.bind(transporter)
+  },
+
+  send400: function (res, err) {
+    if (err) {
+      console.error(err);
+      res.status(400).send(err);
+    } else {
+      res.sendStatus(400);
+    }
+  },
+
+  send500: function (res, err) {
+    if (err) {
+      console.error(err);
+      res.status(500).send(err);
+    } else {
+      res.sendStatus(500);
+    }
   }
 };
