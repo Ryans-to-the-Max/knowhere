@@ -72,12 +72,9 @@ angular.module('travel.favorites', [])
   ////////////////// GET ALL FAVORITES OF THE GROUP //////////////////////
 
 
-  $scope.getFavs = function() {
-    var query = {
-      userInfo : $rootScope.currentUser,
-      groupInfo : $rootScope.currentGroup,
-    };
-    Venues.getFavs(query)
+  $scope.getFavorites = function() {
+    Venues.getFavorites({ groupdId: $rootScope.currentGroup._id,
+                          userId: $rootScope.currentUser._id })
       .then(function(venuesInfo){
         $scope.faves = venuesInfo;
         $scope.filterFavorites(1);
@@ -119,7 +116,8 @@ angular.module('travel.favorites', [])
     venueData.userInfo = $rootScope.currentUser;
     venueData.groupInfo = $rootScope.currentGroup;
     venueData.rating = rating;
-    Venues.rateVenue(venueData);
+    Venues.addToUserFavorites({ venue: venueData,
+                                userId: $rootScope.currentUser._id });
   };
 
 

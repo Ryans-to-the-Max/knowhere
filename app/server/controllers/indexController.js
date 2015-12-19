@@ -17,10 +17,6 @@ module.exports = {
    }
   },
 
-  getFavs: function (req, res, next){
-
-  },
-
   getInfo: function (req, res, next){
     var userId = req.params.userId;
 

@@ -117,11 +117,16 @@ angular.module('travel.services', [])
   ////////////////// FAVORITES //////////////////////
 
 
-  var getFavs = function(query){
+  /*
+    @param {object} data should contain properties:
+      @groupId {str} groupId should be the group's Id
+      @userId {str} userId
+  */
+  var getFavorites = function(data){
     return $http({
       method: 'GET',
-      url: '/api/favs',
-      params: {query: query}
+      url: '/api/fav',
+      data: data
     })
     .then(function(resp){
       return resp.data;
@@ -141,25 +146,30 @@ angular.module('travel.services', [])
     });
   };
 
+  /*
+    @param {object} data should contain:
+      @groupId {str} groupId should be the group's Id
+      @venue {object} venue should contain all venue data
+  */
+  var addToGroupFavorites = function(data) {
+    return $http({
+      method: 'POST',
+      url: '/api/fav',
+      data: data
+    });
+  };
+
 
   /*
+    // TODO addToGroupFavorites & addToUserFavorites params should be uniform
     @param {object} venue should contain all venue data
-    @param {str} userID should be the user's ID
+    @param {str} userId should be the user's Id
   */
   var addToUserFavorites = function (venue, userId) {
     return $http({
       method: 'POST',
       url: '/api/fav/user',
-      data: {venue: venue, userId: userId}
-    });
-  };
-
-
-  var rateVenue = function(data) {
-    return $http({
-      method: 'POST',
-      url: '/api/favs',
-      data: data
+      data: { venue: venue, userId: userId }
     });
   };
 
@@ -191,11 +201,10 @@ angular.module('travel.services', [])
   };
 
   return {
+    getFavorites: getFavorites,
     getVenues: getVenues,
     getUserFavorites: getUserFavorites,
     addToUserFavorites: addToUserFavorites,
-    rateVenue: rateVenue,
-    getFavs: getFavs,
     getItinerary: getItinerary,
     addtoItinerary: addtoItinerary
   };

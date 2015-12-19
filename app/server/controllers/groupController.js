@@ -150,17 +150,20 @@ module.exports = {
     });
   },
 
-  getFavs: function (req, res, next){
-    var groupId = req.body.groupId;
+  // TODO ? Return { groupFavs: { }, userFavs: { }} ?
+  // THIS SHOULD BE MADE OBSOLETE BY favController.getFavs
+  // getFavorites: function (req, res, next){
+  //   var groupId = req.body.groupId;
+  //   var userId  = req.body.userId;
 
-    Group.findById(groupId, function(err, group){
-      if (!group) return util.send400(res, err);
-      if (err) return util.send500(res, err);
+  //   Group.findById(groupId, function(err, group){
+  //     if (!group) return util.send400(res, err);
+  //     if (err) return util.send500(res, err);
 
-      // TODO populate and add ratings.
-      return res.status(200).send(group.favorites);
-    });
-  },
+  //     // TODO populate and add ratings.
+  //     return res.status(200).send(group.favorites);
+  //   });
+  // },
 
   getInfo: function(req, res, next){
     var groupId = req.body.groupId;

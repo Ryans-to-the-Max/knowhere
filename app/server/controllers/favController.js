@@ -96,6 +96,20 @@ module.exports = {
     });
   },
 
+  // TODO ? Return { groupFavs: { }, userFavs: { }} ?
+  getFavs: function (req, res, next){
+    var groupId = req.body.groupId;
+    var userId  = req.body.userId;
+
+    Group.findById(groupId, function(err, group){
+      if (!group) return util.send400(res, err);
+      if (err) return util.send500(res, err);
+
+      // TODO populate and add ratings.
+      return res.status(200).send(group.favorites);
+    });
+  },
+
   getGroupFavs: function (req, res, next){
     var groupId = req.params.groupId;
 

@@ -105,7 +105,8 @@ angular.module('travel.results', [])
     venueData.userInfo = $rootScope.currentUser;
     venueData.groupInfo = $rootScope.currentGroup;
     venueData.rating = 5;
-    Venues.rateVenue(venueData);
+    Venues.addToUserFavorites({ userId: $rootScope.currentUser._id,
+                                venue: venueData });
   };
 
   /*

@@ -8,7 +8,8 @@ router.get('/', groupController.getUserGroups);
 
 router.get('/users', groupController.getMembers);
 
-router.get('/fav', groupController.getFavs);
+// This should be made obsolete by favController.getFavs
+// router.get('/fav', groupController.getFavs);
 
 router.get('/all', groupController.getInfo);
 
