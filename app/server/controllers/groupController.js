@@ -74,11 +74,11 @@ module.exports = {
     var username = req.body.username;
 
     User.findOne({ username: username }, function (err, user){
-      if (!user) return util.send400(res);
+      if (!user) return util.send400(res, err);
       if (err) return util.send500(res, err);
 
       Group.findById(groupId, function (err, group){
-        if (!group) return util.send400(res);
+        if (!group) return util.send400(res, err);
         if (err) return util.send500(res, err);
 
         var userInGroup = group.members.some(function (member) {
