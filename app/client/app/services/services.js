@@ -103,7 +103,7 @@ angular.module('travel.services', [])
     return $http({
       method: 'GET',
       url: '/api/dest/venues',
-      params: {permalink: query}
+      params: query
     })
     .then(function successCb (resp){
       return resp.data;
@@ -117,11 +117,11 @@ angular.module('travel.services', [])
   ////////////////// FAVORITES //////////////////////
 
 
-  var getFavs = function(query){
+  var getRatings = function(query){
     return $http({
       method: 'GET',
-      url: '/api/favs',
-      params: {query: query}
+      url: '/api/fav/user',
+      params: query
     })
     .then(function(resp){
       return resp.data;
@@ -141,11 +141,6 @@ angular.module('travel.services', [])
     });
   };
 
-
-  /*
-    @param {object} venue should contain all venue data
-    @param {str} userID should be the user's ID
-  */
   var addToUserFavorites = function (venue, userId) {
     return $http({
       method: 'POST',
@@ -155,10 +150,10 @@ angular.module('travel.services', [])
   };
 
 
-  var rateVenue = function(data) {
+  var addRating = function(data) {
     return $http({
       method: 'POST',
-      url: '/api/favs',
+      url: '/api/ratings',
       data: data
     });
   };
@@ -194,8 +189,8 @@ angular.module('travel.services', [])
     getVenues: getVenues,
     getUserFavorites: getUserFavorites,
     addToUserFavorites: addToUserFavorites,
-    rateVenue: rateVenue,
-    getFavs: getFavs,
+    addRating: addRating,
+    getRatings: getRatings,
     getItinerary: getItinerary,
     addtoItinerary: addtoItinerary
   };

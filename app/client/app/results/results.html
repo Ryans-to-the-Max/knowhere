@@ -7,7 +7,7 @@
           <ul class="nav nav-pills center-pills">
             <!-- empty anchor tags may need to be fixed -->
             <li role="navigation" class="active"><a href="#/results">Explore</a></li>
-            <li role="navigation" class="active"><a href="#/favorites">Favorites</a></li>
+            <li role="navigation" class="active"><a href="#/ratings">Ratings</a></li>
             <li role="navigation" class="active"><a href="#">Itinerary</a></li>
           </ul>
         </div>
@@ -36,7 +36,7 @@
           <h4 class="media-heading">{{ venue.name }}</h4>
           <p>{{ venue.description }}</p>
           <button class="btn btn-primary" type="button" name="button"
-          ng-click="addVenueToUserFavorites(venue)">Add to Favorites</button>
+          ng-click="addToRatings(venue)">Add to Favorites</button>
         </div>
       </div>
     </div>

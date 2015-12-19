@@ -3,7 +3,7 @@ angular.module('travel', [
   'travel.landing',
   'travel.groups',
   'travel.itinerary',
-  'travel.favorites',
+  'travel.ratings',
   'travel.results',
   'ui.router',
   'ui.bootstrap',
@@ -22,10 +22,10 @@ angular.module('travel', [
       controller: 'ResultsController',
       // authenticate: true
     })
-    .state('favorites', {
-      url: '/favorites',
-      templateUrl: 'app/favorites/favorites.html',
-      controller: 'FavoritesController',
+    .state('ratings', {
+      url: '/ratings',
+      templateUrl: 'app/ratings/ratings.html',
+      controller: 'RatingsController',
       // authenticate: true
     })
     .state('itinerary', {

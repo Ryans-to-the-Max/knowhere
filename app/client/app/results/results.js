@@ -6,7 +6,6 @@ angular.module('travel.results', [])
   $scope.city = null;
   $scope.heading = null;
   $scope.groups = [];
-  $scope.activeClass = '';
 
 
   ////////////////// GET ALL THE GROUPS OF A USER //////////////////////
@@ -65,8 +64,10 @@ angular.module('travel.results', [])
   $scope.getVenueInformation = function (permalink) {
     permalink = permalink || $rootScope.destinationPermalink;
     if (!permalink) return;
-
-    Venues.getVenues(permalink)
+    var query = {
+      permalink: permalink
+    };
+    Venues.getVenues(query)
       .then(function(venueInfo) {
         if (!Array.isArray(venueInfo)) return;
 
@@ -101,11 +102,12 @@ angular.module('travel.results', [])
   ////////////////// ADD TO FAVORITE LIST //////////////////////
 
 
-  $scope.addToFavs = function(venueData) {
-    venueData.userInfo = $rootScope.currentUser;
-    venueData.groupInfo = $rootScope.currentGroup;
-    venueData.rating = 5;
-    Venues.rateVenue(venueData);
+  $scope.addToRatings = function(venueData) {
+    var data = {
+      userId : $rootScope.currentUser._id,
+      groupId : $rootScope.currentGroup._id,
+    };
+    Venues.addRating(data);
   };
 
   /*
@@ -115,10 +117,10 @@ angular.module('travel.results', [])
     venue a user adds to their favorites...
   */
 
-  $scope.addVenueToUserFavorites = function (venue) {
-    console.log($rootScope.currentUser._id);
-    Venues.addToUserFavorites(venue, $rootScope.currentUser._id);
-  };
+  // $scope.addVenueToUserFavorites = function (venue) {
+  //   console.log($rootScope.currentUser._id);
+  //   Venues.addToUserFavorites(venue, $rootScope.currentUser._id);
+  // };
 
 
   ////////////////// INIT STATE //////////////////////

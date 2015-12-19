@@ -1,12 +1,12 @@
-angular.module('travel.favorites', [])
+angular.module('travel.ratings', [])
 
-.controller('FavoritesController', function ($scope, $window, $rootScope, $state, CurrentInfo, Venues, City, Groups, Util) {
+.controller('RatingsController', function ($scope, $window, $rootScope, $state, CurrentInfo, Venues, City, Groups, Util) {
   var destination = $rootScope.destinationPermalink || CurrentInfo.destination.name;
-  $scope.filteredUserFavs = [];
-  $scope.filteredGroupFavs = [];
+  $scope.filteredUserRatings = [];
+  $scope.filteredGroupRatings  = [];
   $scope.city = null;
   $scope.heading = null;
-  $scope.favorites = [];
+  $scope.ratings = [];
   $scope.groups = [];
 
 
@@ -38,9 +38,9 @@ angular.module('travel.favorites', [])
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////
 
 
-  $scope.filterFavorites = function (filterType) {
-    var groupFavs = [];
-    var userFavs = [];
+  $scope.filterRatings = function (filterType) {
+    var groupRatings = [];
+    var userRatings = [];
 
     // set heading to appropriate value
     if (filterType === 1) {
@@ -56,45 +56,47 @@ angular.module('travel.favorites', [])
     // if (favorite.userInfo === $rootScope.currentUser) {
     //   console.log(favorite.venue);
     // } else {
-    //   groupFavs.push(favorite);
+    //   GroupRatings.push(favorite);
     // }
 
-    $scope.favorites.forEach(function(favorite) {
-      if (favorite.venue.venue_type_id === filterType) {
-        userFavs.push(favorite.venue);
+    $scope.ratings.forEach(function(venue) {
+      if (venue.venue_type_id === filterType) {
+        groupRatings.push(rating.venue);
       }
     });
-    $scope.filteredGroupFavs = groupFavs;
-    $scope.filteredUserFavs  = userFavs;
+    $scope.filteredGroupRatings = groupRatings;
+    $scope.filteredUserRatings  = userRatings;
   };
 
 
-  ////////////////// GET ALL FAVORITES OF THE GROUP //////////////////////
+  ////////////////// GET ALL RATINGS OF THE GROUP //////////////////////
 
 
-  $scope.getFavs = function() {
+  $scope.getRatings = function() {
+    var userId = $rootScope.currentUser._id;
+    var groupId = $rootScope.currentGroup._id;
     var query = {
-      userInfo : $rootScope.currentUser,
-      groupInfo : $rootScope.currentGroup,
+      userId : userId,
+      groupId : groupId
     };
-    Venues.getFavs(query)
+    Venues.getRatings(query)
       .then(function(venuesInfo){
-        $scope.faves = venuesInfo;
-        $scope.filterFavorites(1);
+        $scope.ratings = venuesInfo;
+        $scope.filterRatings(1);
       });
   };
 
-  $scope.fetchUserFavorites = function () {
-    var userId = $rootScope.currentUser._id;
-    Venues.getUserFavorites(userId)
-    .then(function(favorites) {
-      $scope.favorites = favorites;
-      console.log('favorites', $scope.favorites);
-      $scope.filterFavorites(1);
-    });
-  };
+  // $scope.fetchUserFavorites = function () {
+  //   var userId = $rootScope.currentUser._id;
+  //   Venues.getUserFavorites(userId)
+  //   .then(function(favorites) {
+  //     $scope.ratings = favorites;
+  //     console.log('favorites', $scope.ratings);
+  //     $scope.filterRatings(1);
+  //   });
+  // };
 
-  $scope.fetchUserFavorites();
+  $scope.getRatings();
 
   ////////////////// GET BASIC DESTINATION CITY INFO //////////////////////
 
@@ -110,16 +112,18 @@ angular.module('travel.favorites', [])
       });
   };
   $scope.getCity();
-  $scope.fetchUserFavorites();
 
   ////////////////// USER ADD RATING //////////////////////
 
 
   $scope.addRating = function(venueData, rating) {
-    venueData.userInfo = $rootScope.currentUser;
-    venueData.groupInfo = $rootScope.currentGroup;
-    venueData.rating = rating;
-    Venues.rateVenue(venueData);
+    var data = {
+      venue : venueData,
+      userId : $rootScope.currentUser._id,
+      groupId : $rootScope.currentGroup._id,
+      rating : rating
+    };
+    Venues.addRating(data);
   };
 
 
@@ -127,11 +131,12 @@ angular.module('travel.favorites', [])
 
 
   $scope.addtoItinerary = function(venueData) {
-    venueData.userInfo = $rootScope.currentUser;
-    venueData.groupInfo = $rootScope.currentGroup;
-    venueData.fromDate = null;
-    venueData.toDate = null;
-    Venues.addtoItinerary(venueData);
+    var data = {
+      venue : venueData,
+      userId : $rootScope.currentUser._id,
+      groupId : $rootScope.currentGroup._id
+    };
+    Venues.addtoItinerary(data);
   };
 })
 
