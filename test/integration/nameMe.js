@@ -1,5 +1,6 @@
 process.env.NODE_ENV = 'test';
 
+var assert = require('chai').assert;
 var expect = require('chai').expect;
 var mongoose = require('mongoose');
 var path = require('path');
@@ -68,8 +69,18 @@ describe('groupController', function () {
         .expect(400, done);
     });
 
-    xit('should not create if no group destination is provided', function (done) {
-      // body...
+    it('should not create if no group destination is provided', function (done) {
+      request
+        .post('/api/group')
+        .send({
+          groupName: testGroupName,
+          destination: '            ',
+          userInfo: testUser._id,
+        })
+        .end(function (err, res) {
+          expect(res.ok).to.be.false;
+          done();
+        });
     });
 
     xit('should not create if no group title is provided', function (done) {
@@ -93,16 +104,10 @@ describe('groupController', function () {
     });
 
     xit('should add the new group to the host\'s groupId', function (done) {
-      Group.findOne({ destination: 'new-york-city' }, function (err, group) {
-        console.log('@@@@@@@@@@', err);
-        console.log('##########', group);
-        done();
-      });
+
     });
 
     it('should create and return the new group', function (done) {
-      this.timeout(5000);
-
       Group.count({ title: testGroupName }, function (err, c) {
         expect(c).to.equal(0);
 
@@ -114,9 +119,10 @@ describe('groupController', function () {
               userInfo: testUser._id,
             })
             .expect(200)
-            .then(function () {
-              Group.count({ title: testGroupName }, function (err, c) {
-                expect(c).to.equal(1);
+            .end(function (err, res) {
+              Group.findOne({ title: testGroupName }, function (err, group) {
+                var resObj = JSON.parse(res.text);
+                expect(resObj._id).to.equal(group._id + '');
                 done();
               });
             });
@@ -126,5 +132,5 @@ describe('groupController', function () {
     xit('should return the new group', function (done) {
       // body...
     });
-  })
-})
+  });
+});

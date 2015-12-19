@@ -17,7 +17,7 @@ module.exports = {
     User.findById(userId, function (err, user) {
       if (err || !user){
         console.log(err);
-        return res.status(400).send();
+        return res.sendStatus(400);
       }
 
       var newGroup = new Group({
@@ -30,7 +30,7 @@ module.exports = {
       newGroup.save(function (err, group){
         if (err) {
           console.log(err);
-          return res.status(500).send();
+          return res.sendStatus(500);
         }
 
         user.groupId.push(newGroup);
