@@ -65,8 +65,29 @@ userSchema.methods.validPassword = function(password) {
 db.userSchema = userSchema;
 
 var groupSchema = new Schema ({
-  title: String,
-  destination: String,
+  title: {
+    type: String,
+    required: true,
+    unique: false,
+    validate: [
+      function (title) {
+        return title.trim().length > 0;
+      },
+      'Group title too short'
+    ]
+  },
+  // TODO Compare this against destinations in DB
+  destination: {
+    type: String,
+    required: true,
+    unique: false,
+    validate: [
+      function (title) {
+        return title.trim().length > 0;
+      },
+      'Group needs a destination'
+    ]
+  },
   host: {
     type: Schema.ObjectId,
     ref: 'User'
