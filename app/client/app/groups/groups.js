@@ -62,7 +62,7 @@ angular.module('travel.groups', [])
   ////////////////// SET INIT STATE //////////////////////
 
 
-  // $scope.getGroups();
+  $scope.getGroups();
 
 
 });
