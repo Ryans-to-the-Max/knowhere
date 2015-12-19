@@ -1,7 +1,10 @@
+var path = require('path');
 var User   = require('../models/user');
 var Venue  = require('../models/venue');
 var Group  = require('../models/group');
 var Rating = require('../models/rating');
+
+var util = require(path.join(__dirname, '../util'));
 
 // Mock Data Load
 var venues = require("../../../mock-data/venues.json");
@@ -15,10 +18,7 @@ module.exports = {
     var userId = req.body.userInfo;
 
     User.findById(userId, function (err, user) {
-      if (err || !user){
-        console.log(err);
-        return res.sendStatus(400);
-      }
+      if (err) return util.send400(res, null, err);
 
       var newGroup = new Group({
         title: title,
@@ -28,10 +28,7 @@ module.exports = {
 
       newGroup.members.push(user);
       newGroup.save(function (err, group){
-        if (err) {
-          console.log(err);
-          return res.sendStatus(500);
-        }
+        if (err) return util.send400(res, err);
 
         user.groupId.push(newGroup);
         user.save();
@@ -57,55 +54,48 @@ module.exports = {
     var groupId = req.body.groupId;
 
     Group.findById(groupId, function (err, group){
-      if (err) {
-        console.log(err);
-        return res.sendStatus(500);
-      }
+      if (err) return util.send400(res, err);
 
       group.destination = dest;
-      group.save();
-      res.status(200).send(group);
+      group.save(function (err, group) {
+        if (err) return util.send500(err);
+
+        res.status(200).send(group);
+      });
     });
   },
 
   addMember: function(req, res, next){ //username, groupId
-    //Member may or may not already be in User - for that reason we need a username to
-    //either match or create a new User with. After that we can add user to group and group to user
     var groupId = req.body.groupId;
+    var username = req.body.username;
 
-    User.find({username: req.body.username}, function (err, user){
-      if (err){
-        console.log(err);
-        return res.status(500).send();
-      }
-        Group.findById(groupId, function (err, group){
-          if (err) {
-            console.log(err);
-            return res.status(500).send();
-          }
-          if (user){ //user already signed up
-            group.members.push(user);
-            user.groupId.push(group);
-            return res.status(200).send(group);
+    User.findOne({ username: username }, function (err, user){
+      if (err) return util.send400(res, err);
 
-          } else { //create new user  TODO send email here as well
+      Group.findById(groupId, function (err, group){
+        if (err) return util.send400(res, err);
 
-          var newUser = new User ({
-            username: req.body.username
-          });
+        var userInGroup = group.members.some(function (member) {
+          // Mongoose ObjectId comparisons are funky.
+          // Read more: http://stackoverflow.com/questions/11060213/mongoose-objectid-comparisons-fail-inconsistently
+          return member._id.equals(user._id);
+        });
 
-          newUser.groupId.push(group);
-          newUser.save(function (err, user){
-            if (err) {
-              console.log(err);
-              return res.status(500).send();
-            }
-          });
-
-          group.members.push(newUser);
-          group.save();
-          return res.status(200).send(group);
+        if (userInGroup){
+          return res.status(409).send(group);
         }
+
+        user.groupId.push(group);
+        user.save(function (err, user) {
+          if (err) return util.send400(res, err);
+
+          group.members.push(user);
+          group.save(function (err, group) {
+            if (err) return util.send400(res, err);
+
+            return res.status(200).send(group);
+          });
+        });
       });
     });
   },
@@ -115,9 +105,8 @@ module.exports = {
     var groupId = req.params.groupId;
 
     Group.update({_id: groupId}, {$pull : {members: userId}}, function(err, group){
-      if (err){
-        console.log(err);
-      }
+      if (err) return util.send400(res, err);
+
       res.status(200).send(group);
     });
     //TODO: also remove user ratings
@@ -127,10 +116,7 @@ module.exports = {
     var groupId = req.params.groupId;
 
     Group.findById(groupId, function(err, group){
-      if (err){
-        console.log(err);
-        return res.status(500).send();
-      }
+      if (err) return util.send400(res, err);
 
       return res.status(200).send(group.members);
     });
@@ -141,10 +127,8 @@ module.exports = {
     var groupId = req.params.groupId;
 
     Group.findById(groupId, function(err, group){
-      if (err){
-        console.log(err);
-        return res.status(500).send();
-      }
+      if (err) return util.send400(res, err);
+
       // TODO populate and add ratings.
       return res.status(200).send(group.favorites);
     });

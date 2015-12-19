@@ -16,7 +16,7 @@ var User = require(path.join(__dirname, '../../app/server/models/user'));
 
 describe('groupController', function () {
 
-  var testGroupDestination, testGroupDestination2, testGroupName, testUser;
+  var testGroupDestination, testGroupDestination2, testGroupName, testUser, testUser2;
 
   before(function (done) {
     request = request(server);
@@ -38,10 +38,16 @@ describe('groupController', function () {
     testUtil.dropDb(con, function () {
 
       User.create({ username: 'test user' }, function (err, user) {
-        if (err || !user) return console.error(err);
+        if (err || !user) console.error(err);
 
         testUser = user;
-        done();
+
+        User.create({ username: 'test user 2'}, function (err, user2) {
+          if (err || !user2) console.error(err);
+
+          testUser2 = user2;
+          done();
+        });
       });
     });
   });
@@ -56,8 +62,7 @@ describe('groupController', function () {
     testUtil.dropDb(con, done);
   });
 
-  describe('setDestination()', function () {
-
+  describe('addMember()', function () {
     var group;
 
     beforeEach(function (done) {
@@ -74,20 +79,32 @@ describe('groupController', function () {
         });
     });
 
-    it('changes group\'s destination', function (done) {
+    it('does not re-add user to group and vice versa if already in group', function (done) {
       request
-        .post('/api/group/set')
+        .post('/api/group/add')
         .send({
-          destination: testGroupDestination2,
           groupId: group._id,
+          username: testUser.username
         })
-        .expect(200)
         .end(function (err, res) {
-          if (err) console.error(err);
+          var updatedGroup = JSON.parse(res.text);
 
-          var actualDestination = JSON.parse(res.text).destination;
+          expect(updatedGroup.members.length).to.equal(1);
+          done();
+        });
+    });
 
-          expect(actualDestination).to.equal(testGroupDestination2);
+    it('adds user to group and vice versa if not already in group', function (done) {
+      request
+        .post('/api/group/add')
+        .send({
+          groupId: group._id,
+          username: testUser2.username
+        })
+        .end(function (err, res) {
+          var updatedGroup = JSON.parse(res.text);
+
+          expect(updatedGroup.members.length).to.equal(2);
           done();
         });
     });
@@ -165,6 +182,7 @@ describe('groupController', function () {
     });
 
     it('should add group\'s host to group.members', function () {
+      console.log('////////////////', newGroup.members);
       expect(newGroup.members.indexOf(testUser._id + '')).not.to.equal(-1);
     });
 
@@ -174,6 +192,43 @@ describe('groupController', function () {
         expect(user.groupId.indexOf(newGroup._id)).not.to.equal(-1);
         done();
       });
+    });
+  });
+
+  describe('setDestination()', function () {
+
+    var group;
+
+    beforeEach(function (done) {
+      request
+        .post('/api/group')
+        .send({
+          groupName: testGroupName,
+          destination: testGroupDestination,
+          userInfo: testUser._id,
+        })
+        .end(function (err, res) {
+          group = JSON.parse(res.text);
+          done();
+        });
+    });
+
+    it('changes group\'s destination and returns updated group', function (done) {
+      request
+        .post('/api/group/set')
+        .send({
+          destination: testGroupDestination2,
+          groupId: group._id,
+        })
+        .expect(200)
+        .end(function (err, res) {
+          if (err) console.error(err);
+
+          var actualDestination = JSON.parse(res.text).destination;
+
+          expect(actualDestination).to.equal(testGroupDestination2);
+          done();
+        });
     });
   });
 });
