@@ -4,7 +4,7 @@
 // ResultsController initial state - look at CurrentInfo.destination.basicInfo etc.
 // Refactor mock data
 // refactor setHttpBackend() to look at param
-var xbeforeEach = function () { };
+
 
 describe('Knowhere controllers', function () {
   var $httpBackend, centralPark, group1, group2, groupsInfo, mockAttractions, mockHotels,
@@ -222,7 +222,9 @@ describe('Knowhere controllers', function () {
 
   beforeEach(module('travel'));
 
+
   describe('FavoritesController', function () {
+
     describe('its methods', function () {
       var $httpBackend, $rootScope, $scope;
 
@@ -368,16 +370,6 @@ describe('Knowhere controllers', function () {
     describe('its methods', function () {
 
       var landingCtrl, resultsCtrl, $landingScope, $resultsScope, $rootScope, $scope, $httpBackend;
-
-      xbeforeEach(inject(function (_$httpBackend_, _$rootScope_, $controller) {
-        $httpBackend = _$httpBackend_;
-        $rootScope = _$rootScope_;
-
-        setHttpBackend($httpBackend);
-
-        $scope = $rootScope.$new();
-        $controller('GroupsController', { $scope: $scope });
-      }));
 
       beforeEach(inject(function (_$httpBackend_, _$rootScope_, $controller) {
         $httpBackend = _$httpBackend_;

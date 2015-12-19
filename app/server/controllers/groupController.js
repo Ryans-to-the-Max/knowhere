@@ -18,7 +18,8 @@ module.exports = {
     var userId = req.body.userInfo;
 
     User.findById(userId, function (err, user) {
-      if (err) return util.send400(res, null, err);
+      if (!user) return util.send400(res, err);
+      if (err) return util.send500(res, err);
 
       var newGroup = new Group({
         title: title,
@@ -28,7 +29,8 @@ module.exports = {
 
       newGroup.members.push(user);
       newGroup.save(function (err, group){
-        if (err) return util.send400(res, err);
+        if (!group) return util.send400(res, err);
+        if (err) return util.send500(res, err);
 
         user.groupId.push(newGroup);
         user.save();
@@ -54,11 +56,13 @@ module.exports = {
     var groupId = req.body.groupId;
 
     Group.findById(groupId, function (err, group){
-      if (err) return util.send400(res, err);
+      if (!group) return util.send400(res, err);
+      if (err) return util.send500(res, err);
 
       group.destination = dest;
       group.save(function (err, group) {
-        if (err) return util.send500(err);
+        if (!group) return util.send400(res, err);
+        if (err) return util.send500(res, err);
 
         res.status(200).send(group);
       });
@@ -70,10 +74,12 @@ module.exports = {
     var username = req.body.username;
 
     User.findOne({ username: username }, function (err, user){
-      if (err) return util.send400(res, err);
+      if (!user) return util.send400(res, err);
+      if (err) return util.send500(res, err);
 
       Group.findById(groupId, function (err, group){
-        if (err) return util.send400(res, err);
+        if (!group) return util.send400(res, err);
+        if (err) return util.send500(res, err);
 
         var userInGroup = group.members.some(function (member) {
           // Mongoose ObjectId comparisons are funky.
@@ -104,67 +110,71 @@ module.exports = {
     var userId = req.body.userId;
     var groupId = req.body.groupId;
 
-    Group.update({ _id: groupId }, { $pull: { members: userId } }, function (err, group){
-      if (err) return util.send400(res, err);
+    Group.update({ _id: groupId }, { $pull: { members: userId } }, function (err, groupOut){
+      if (err) return util.send500(res, err);
 
-      res.status(200).send(group);
+      User.update({ _id: userId }, { $pull: { groupId: groupId } }, function (err, userOut) {
+        if (err) return util.send500(res, err);
+
+        res.status(200).send(groupOut);
+      });
     });
     //TODO: also remove user ratings
   },
 
   getMembers: function(req, res, next){
-    var groupId = req.params.groupId;
+    var groupId = req.body.groupId;
 
     Group.findById(groupId, function(err, group){
-      if (err) return util.send400(res, err);
+      if (!group) return util.send400(res, err);
+      if (err) return util.send500(res, err);
 
       return res.status(200).send(group.members);
     });
-
   },
 
   getFavs: function (req, res, next){
-    var groupId = req.params.groupId;
+    var groupId = req.body.groupId;
 
     Group.findById(groupId, function(err, group){
-      if (err) return util.send400(res, err);
+      if (!group) return util.send400(res, err);
+      if (err) return util.send500(res, err);
 
       // TODO populate and add ratings.
       return res.status(200).send(group.favorites);
     });
   },
 
-
-  getInfo: function(title){
-    var groupId = req.params.groupId;
+  getInfo: function(req, res, next){
+    var groupId = req.body.groupId;
 
     Group.findById(groupId)
-    .populate('favorites')
-    .populate('members')
-    .lean() // returns plain JS object
-    .exec(function (err, group){
-      var groupId = group._id;
+        .populate('favorites')
+        .populate('members')
+        .lean() // lean() makes it return plain JS object
+        .exec(function (err, group){
 
-      (function(){ // the following is done for synchronous purposes
-        var index = 0;
+          // populate favorites' ratings
+          (function(){ // the following is done for synchronous purposes
+            var index = 0;
 
-        function assignRatings(){
-          if (index < group.favorites.length){
-            venueId = group.favorites[index]._id;
-
-            Rating.findOne({venue: venueId, group: groupId}, function (err, rating){
-              if (rating) {
-                group.favorites[index].ratings = rating.ratings;
+            function assignRatings(){
+              if (index >= group.favorites.length){
+                return res.status(200).send(group);
               }
-              index++;
-              assignRatings();
-            });
-          } else{
-            return res.status(200).send(group);
-          }
-        }
-        assignRatings();
-      })();
-    });
+
+              var venueId = group.favorites[index]._id;
+
+              Rating.findOne({ venue: venueId, group: group._id }, function (err, rating){
+                if (rating) {
+                  group.favorites[index].ratings = rating.ratings;
+                }
+                index++;
+                assignRatings();
+              });
+            }
+            assignRatings();
+          })();
+        });
   }
 };

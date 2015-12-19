@@ -128,7 +128,7 @@ var ratingSchema = new Schema ({
     type: Schema.ObjectId,
     ref: 'Group'
   },
-  rating: [{
+  ratings: [{
     user: {
       type: Schema.ObjectId,
       ref: 'User'
