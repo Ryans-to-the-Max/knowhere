@@ -100,11 +100,11 @@ module.exports = {
     });
   },
 
-  removeMember: function(req, res, next){
-    var userId = req.params.userId;
-    var groupId = req.params.groupId;
+  removeMember: function(req, res, next){ // delete api/group/user
+    var userId = req.body.userId;
+    var groupId = req.body.groupId;
 
-    Group.update({_id: groupId}, {$pull : {members: userId}}, function(err, group){
+    Group.update({ _id: groupId }, { $pull: { members: userId } }, function (err, group){
       if (err) return util.send400(res, err);
 
       res.status(200).send(group);
