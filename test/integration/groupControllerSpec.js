@@ -209,25 +209,39 @@ describe('groupController', function () {
         })
         .end(function (err, res) {
           group = JSON.parse(res.text);
-          done();
+
+          request
+            .del('/api/group/user')
+            .send({
+              groupId: group._id,
+              userId: testUser._id
+            })
+            .expect(200)
+            .end(function (err, res) {
+
+              // Update group
+              Group.findById(group._id, function (err, _group_) {
+                group = _group_;
+                done();
+              });
+            });
         });
     });
 
     it('removes user from group.members', function (done) {
-      request
-        .del('/api/group/user')
-        .send({
-          groupId: group._id,
-          userId: testUser._id
-        })
-        .expect(200)
-        .end(function (err, res) {
+      expect(group.members.length).to.equal(0);
+      done();
+    });
 
-          Group.findById(group._id, function (err, group) {
-            expect(group.members.length).to.equal(0);
-            done();
-          });
+    it('removes group from user.groupId', function (done) {
+      User.findById(testUser._id, function (err, user) {
+        var userHasGroup = user.groupId.some(function (id) {
+          return id.equals(group._id);
         });
+
+        expect(userHasGroup).to.equal(false);
+        done();
+      });
     });
   });
 

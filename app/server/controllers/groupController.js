@@ -104,10 +104,14 @@ module.exports = {
     var userId = req.body.userId;
     var groupId = req.body.groupId;
 
-    Group.update({ _id: groupId }, { $pull: { members: userId } }, function (err, group){
+    Group.update({ _id: groupId }, { $pull: { members: userId } }, function (err, rawGroup){
       if (err) return util.send400(res, err);
 
-      res.status(200).send(group);
+      User.update({ _id: userId }, { $pull: { groupId: groupId } }, function (err, rawUser) {
+        if (err) return util.send400(res, err);
+
+        res.status(200).send(rawGroup);
+      });
     });
     //TODO: also remove user ratings
   },
