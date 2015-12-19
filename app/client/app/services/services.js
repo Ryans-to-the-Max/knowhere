@@ -218,15 +218,15 @@ angular.module('travel.services', [])
 })
 
 
-////////////////// SESSION STORAGE //////////////////////
+// ////////////////// SESSION STORAGE //////////////////////
 
 
-.factory('SessionStorage', function ($http, $location, $window) {
-  var sessionExists = function () {
-    return !!$window.sessionStorage.getItem('knowhere');
-  };
+// .factory('SessionStorage', function ($http, $location, $window) {
+//   var sessionExists = function () {
+//     return !!$window.sessionStorage.getItem('knowhere');
+//   };
 
-  return {
-    sessionExists: sessionExists
-  };
-});
+//   return {
+//     sessionExists: sessionExists
+//   };
+// });

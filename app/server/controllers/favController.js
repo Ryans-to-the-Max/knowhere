@@ -96,7 +96,7 @@ module.exports = {
   },
 
   getGroupFavs: function (req, res, next){
-    var groupId = req.params.groupId;
+    var groupId = req.query.groupId;
 
     Group.findById(groupId, function(err, group){
       if (err){

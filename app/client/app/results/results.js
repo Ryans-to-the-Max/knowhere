@@ -29,7 +29,7 @@ angular.module('travel.results', [])
 
   $scope.selectGroup = function(groupInfo) {
     Groups.selectGroup(groupInfo, $rootScope);
-    $window.sessionStorage.setItem('knowhere', groupInfo.destination);
+    $rootScope.destinationPermalink = groupInfo.destination;
     $state.go('results');
   };
 
@@ -63,7 +63,7 @@ angular.module('travel.results', [])
 
 
   $scope.getVenueInformation = function (permalink) {
-    permalink = permalink || $window.sessionStorage.getItem('knowhere');
+    permalink = permalink || $rootScope.destinationPermalink;
     if (!permalink) return;
 
     Venues.getVenues(permalink)
@@ -83,7 +83,7 @@ angular.module('travel.results', [])
 
 
   $scope.getCity = function (permalink) {
-    permalink = permalink || $window.sessionStorage.getItem('knowhere');
+    permalink = permalink || $rootScope.destinationPermalink;
     if (!permalink) return;
 
     City.getCity(permalink)
@@ -125,8 +125,8 @@ angular.module('travel.results', [])
 
 
   $scope.getGroups();
-  $scope.getCity($window.sessionStorage.getItem('knowhere'));
-  $scope.getVenueInformation($window.sessionStorage.getItem('knowhere'));
+  $scope.getCity($rootScope.destinationPermalink);
+  $scope.getVenueInformation($rootScope.destinationPermalink);
 
 
 });
