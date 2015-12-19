@@ -145,37 +145,36 @@ module.exports = {
     });
   },
 
-
-  getInfo: function(title){
+  getInfo: function(req, res, next){
     var groupId = req.body.groupId;
 
     Group.findById(groupId)
-    .populate('favorites')
-    .populate('members')
-    .lean() // returns plain JS object
-    .exec(function (err, group){
-      var groupId = group._id;
+        .populate('favorites')
+        .populate('members')
+        .lean() // lean() makes it return plain JS object
+        .exec(function (err, group){
 
-      (function(){ // the following is done for synchronous purposes
-        var index = 0;
+          // populate favorites' ratings
+          (function(){ // the following is done for synchronous purposes
+            var index = 0;
 
-        function assignRatings(){
-          if (index < group.favorites.length){
-            venueId = group.favorites[index]._id;
-
-            Rating.findOne({venue: venueId, group: groupId}, function (err, rating){
-              if (rating) {
-                group.favorites[index].ratings = rating.ratings;
+            function assignRatings(){
+              if (index >= group.favorites.length){
+                return res.status(200).send(group);
               }
-              index++;
-              assignRatings();
-            });
-          } else{
-            return res.status(200).send(group);
-          }
-        }
-        assignRatings();
-      })();
-    });
+
+              var venueId = group.favorites[index]._id;
+
+              Rating.findOne({ venue: venueId, group: group._id }, function (err, rating){
+                if (rating) {
+                  group.favorites[index].ratings = rating.ratings;
+                }
+                index++;
+                assignRatings();
+              });
+            }
+            assignRatings();
+          })();
+        });
   }
 };
