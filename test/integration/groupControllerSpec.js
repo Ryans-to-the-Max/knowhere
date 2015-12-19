@@ -195,6 +195,42 @@ describe('groupController', function () {
     });
   });
 
+  describe('removeMember()', function () {
+
+    var group;
+
+    beforeEach(function (done) {
+      request
+        .post('/api/group')
+        .send({
+          groupName: testGroupName,
+          destination: testGroupDestination,
+          userInfo: testUser._id,
+        })
+        .end(function (err, res) {
+          group = JSON.parse(res.text);
+          done();
+        });
+    });
+
+    it('removes user from group.members', function (done) {
+      request
+        .del('/api/group/user')
+        .send({
+          groupId: group._id,
+          userId: testUser._id
+        })
+        .expect(200)
+        .end(function (err, res) {
+
+          Group.findById(group._id, function (err, group) {
+            expect(group.members.length).to.equal(0);
+            done();
+          });
+        });
+    });
+  });
+
   describe('setDestination()', function () {
 
     var group;
