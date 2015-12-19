@@ -18,7 +18,8 @@ var User = require(path.join(__dirname, '../../app/server/models/user'));
 
 describe('groupController', function () {
 
-  var testGroupDestination, testGroupDestination2, testGroupName, testUser, testUser2;
+  var group, testGroupDestination, testGroupDestination2, testGroupName,
+      testUser, testUser2;
 
   before(function (done) {
     request = request(server);
@@ -48,7 +49,19 @@ describe('groupController', function () {
           if (err || !user2) console.error(err);
 
           testUser2 = user2;
-          done();
+
+          request
+            .post('/api/group')
+            .send({
+              groupName: testGroupName,
+              destination: testGroupDestination,
+              userInfo: testUser._id,
+            })
+            .end(function (err, res) {
+              group = JSON.parse(res.text);
+              done();
+            });
+          // done();
         });
       });
     });
@@ -65,21 +78,6 @@ describe('groupController', function () {
   });
 
   describe('addMember()', function () {
-    var group;
-
-    beforeEach(function (done) {
-      request
-        .post('/api/group')
-        .send({
-          groupName: testGroupName,
-          destination: testGroupDestination,
-          userInfo: testUser._id,
-        })
-        .end(function (err, res) {
-          group = JSON.parse(res.text);
-          done();
-        });
-    });
 
     it('does not re-add user to group and vice versa if already in group', function (done) {
       request
@@ -113,27 +111,6 @@ describe('groupController', function () {
   });
 
   describe('createGroup()', function () {
-
-    var newGroup;
-
-    beforeEach(function (done) {
-      request
-        .post('/api/group')
-        .send({
-          groupName: testGroupName,
-          destination: testGroupDestination,
-          userInfo: testUser._id,
-        })
-        .expect(200)
-        .end(function (err, res) {
-          Group.findOne({ title: testGroupName }, function (err, group) {
-            newGroup = JSON.parse(res.text);
-
-            expect(newGroup._id).to.equal(group._id + '');
-            done();
-          });
-        });
-    });
 
     it('should not create when provided with invalid userId', function (done) {
       request
@@ -175,58 +152,45 @@ describe('groupController', function () {
     });
 
     it('should set provided userId as group host', function () {
-      expect(newGroup.host._id).to.equal(testUser.toObject()._id + '');
+      expect(group.host._id).to.equal(testUser._id + '');
     });
 
     it('should set title and destination', function () {
-      expect(newGroup.title).to.equal(testGroupName);
-      expect(newGroup.destination).to.equal(testGroupDestination);
+      expect(group.title).to.equal(testGroupName);
+      expect(group.destination).to.equal(testGroupDestination);
     });
 
     it('should add group\'s host to group.members', function () {
-      console.log('////////////////', newGroup.members);
-      expect(newGroup.members.indexOf(testUser._id + '')).not.to.equal(-1);
+      expect(_.contains(group.members, testUser._id + ''));
     });
 
     it('should add the new group to the host\'s groupId', function (done) {
       // Update testUser
       User.findOne({ _id: testUser._id }, function (err, user) {
-        expect(user.groupId.indexOf(newGroup._id)).not.to.equal(-1);
+        expect(_.contains(user.groupId, group._id));
         done();
       });
     });
   });
 
   describe('getMembers()', function () {
-    
-    var group;
 
     beforeEach(function (done) {
 
       request
-        .post('/api/group')
+        .post('/api/group/add')
         .send({
-          groupName: testGroupName,
-          destination: testGroupDestination,
-          userInfo: testUser._id,
+          groupId: group._id,
+          username: testUser2.username
         })
         .end(function (err, res) {
-          group = JSON.parse(res.text);
-
-          request
-            .post('/api/group/add')
-            .send({
-              groupId: group._id,
-              username: testUser2.username
-            })
-            .end(function (err, res) {
-              var group = JSON.parse(res.text);
-              done();
-            });
+          var group = JSON.parse(res.text);
+          done();
         });
     });
 
     it('returns members as JSON', function (done) {
+
       request
         .get('/api/group/users')
         .send({
@@ -248,34 +212,22 @@ describe('groupController', function () {
 
   describe('removeMember()', function () {
 
-    var group;
-
     beforeEach(function (done) {
+
       request
-        .post('/api/group')
+        .del('/api/group/user')
         .send({
-          groupName: testGroupName,
-          destination: testGroupDestination,
-          userInfo: testUser._id,
+          groupId: group._id,
+          userId: testUser._id
         })
+        .expect(200)
         .end(function (err, res) {
-          group = JSON.parse(res.text);
 
-          request
-            .del('/api/group/user')
-            .send({
-              groupId: group._id,
-              userId: testUser._id
-            })
-            .expect(200)
-            .end(function (err, res) {
-
-              // Update group
-              Group.findById(group._id, function (err, _group_) {
-                group = _group_;
-                done();
-              });
-            });
+          // Update group
+          Group.findById(group._id, function (err, _group_) {
+            group = _group_;
+            done();
+          });
         });
     });
 
@@ -298,23 +250,8 @@ describe('groupController', function () {
 
   describe('setDestination()', function () {
 
-    var group;
-
-    beforeEach(function (done) {
-      request
-        .post('/api/group')
-        .send({
-          groupName: testGroupName,
-          destination: testGroupDestination,
-          userInfo: testUser._id,
-        })
-        .end(function (err, res) {
-          group = JSON.parse(res.text);
-          done();
-        });
-    });
-
     it('changes group\'s destination and returns updated group', function (done) {
+
       request
         .post('/api/group/set')
         .send({
