@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 
 db.groupSchema.pre('init', function(next, data) {
   Group.populate(data, {
-    path: 'members'
+    path: 'members favorites'
   }, function(err, group) {
     data = group;
     next();

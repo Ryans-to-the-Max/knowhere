@@ -1,6 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var bcrypt = require('bcrypt-nodejs');
+var mongoose     = require('mongoose');
+var findOrCreate = require('mongoose-findorcreate');
+var Schema       = mongoose.Schema;
+var bcrypt       = require('bcrypt-nodejs');
 
 // sets db location to Heroku Mongolab uri or local host
 var dbUri;
@@ -58,7 +59,7 @@ userSchema.methods.generateHash = function(password) {
 };
 
 // checking if password is valid
-userSchema.methods.validPassword = function(password) {
+userSchema.methods.checkPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 };
 
@@ -106,13 +107,16 @@ db.groupSchema = groupSchema;
 
 var venueSchema = new Schema ({
   lookUpId: Number,
-  name: String,
   venue_type_id: Number,
+  name: String,
   tripexpert_score: Number,
-  rank: Number,
-  score: Number,
-  description: String,
-  photo: String,
+  rank_in_destination: Number,
+  address: String,
+  telephone: String,
+  website: String,
+  index_photo: String,
+  photos: Array,
+  amenities: Array,
   userRating: {type: Number, default: 5}
 });
 
@@ -138,6 +142,15 @@ var ratingSchema = new Schema ({
 });
 
 db.ratingSchema = ratingSchema;
+
+var destSchema = new Schema ({
+  perm: String,
+  destId: Number
+});
+
+destSchema.plugin(findOrCreate);
+
+db.destSchema = destSchema;
 
 
 module.exports = db;

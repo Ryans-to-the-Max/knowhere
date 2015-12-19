@@ -3,6 +3,7 @@ var User   = require('../models/user');
 var Venue  = require('../models/venue');
 var Group  = require('../models/group');
 var Rating = require('../models/rating');
+var mongoose = require('mongoose');
 
 var util = require(path.join(__dirname, '../util'));
 
@@ -31,11 +32,9 @@ module.exports = {
       newGroup.save(function (err, group){
         if (!group) return util.send400(res, err);
         if (err) return util.send500(res, err);
-
         user.groupId.push(newGroup);
         user.save();
         res.status(200).send(newGroup);
-
       });
     });
   },
@@ -142,7 +141,9 @@ module.exports = {
   getMembers: function(req, res, next){
     var groupId = req.body.groupId;
 
-    Group.findById(groupId, function(err, group){
+    Group.findById(groupId)
+    .populate('members')
+    .exec(function (err, group){
       if (!group) return util.send400(res, err);
       if (err) return util.send500(res, err);
 
@@ -165,9 +166,27 @@ module.exports = {
   //   });
   // },
 
+
+  getGroups: function (req, res, next){
+    console.log("in get groups ", req.query);
+    var userId = req.body.userId;
+
+    User.findById(userId, function (err, user){
+      if (err){
+        console.log(err);
+        res.status(500).send();
+      }
+
+      if (user){
+        res.status(200).send(user.groupId);
+      } else {
+        res.status(200).send();
+      }
+    });
+  },
+
   getInfo: function(req, res, next){
     var groupId = req.body.groupId;
-
     Group.findById(groupId)
         .populate('favorites')
         .populate('members')
