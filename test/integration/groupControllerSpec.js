@@ -16,11 +16,12 @@ var User = require(path.join(__dirname, '../../app/server/models/user'));
 
 describe('groupController', function () {
 
-  var testGroupDestination, testGroupName, testUser;
+  var testGroupDestination, testGroupDestination2, testGroupName, testUser;
 
   before(function (done) {
     request = request(server);
     testGroupDestination = 'new-york-city';
+    testGroupDestination2 = 'portland';
     testGroupName = 'test group';
 
     // TODO Refactor how how con is set?
@@ -53,6 +54,43 @@ describe('groupController', function () {
 
   afterEach(function (done) {
     testUtil.dropDb(con, done);
+  });
+
+  describe('setDestination()', function () {
+
+    var group;
+
+    beforeEach(function (done) {
+      request
+        .post('/api/group')
+        .send({
+          groupName: testGroupName,
+          destination: testGroupDestination,
+          userInfo: testUser._id,
+        })
+        .end(function (err, res) {
+          group = JSON.parse(res.text);
+          done();
+        });
+    });
+
+    it('changes group\'s destination', function (done) {
+      request
+        .post('/api/group/set')
+        .send({
+          destination: testGroupDestination2,
+          groupId: group._id,
+        })
+        .expect(200)
+        .end(function (err, res) {
+          if (err) console.error(err);
+
+          var actualDestination = JSON.parse(res.text).destination;
+
+          expect(actualDestination).to.equal(testGroupDestination2);
+          done();
+        });
+    });
   });
 
   describe('createGroup()', function () {
