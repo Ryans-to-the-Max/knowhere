@@ -173,6 +173,38 @@ describe('groupController', function () {
     });
   });
 
+  describe('getInfo()', function () {
+
+    beforeEach(function (done) {
+      request
+        .get('/api/group/all')
+        .send({ groupId: group._id })
+        .end(function (err, res) {
+          group = res.body;
+          console.log('@@@@@@@', group);
+          done();
+        });
+    });
+
+    it('returns a plain JS object', function () {
+      expect(group.constructor).to.equal(Object);
+    });
+
+    // Need test favorites to check this
+    xit('populates favorites', function () {
+      expect(group.favorites[0].constructor).to.equal(Object);
+    });
+
+    // Need test favorites to check this
+    xit('populates favorite\'s ratings', function () {
+      // body...
+    });
+
+    it('populates members', function () {
+      expect(group.members[0].constructor).to.equal(Object);
+    });
+  });
+
   describe('getMembers()', function () {
 
     beforeEach(function (done) {
@@ -213,7 +245,6 @@ describe('groupController', function () {
   describe('removeMember()', function () {
 
     beforeEach(function (done) {
-
       request
         .del('/api/group/user')
         .send({
