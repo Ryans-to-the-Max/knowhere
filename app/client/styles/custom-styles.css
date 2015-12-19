@@ -1,5 +1,5 @@
-.center-pills { 
-  display: inline-block; 
+.center-pills {
+  display: inline-block;
 }
 
 .modal-content {
@@ -64,4 +64,14 @@ ul.rating {
 }
 .rating .filled {
     color: navy;
+}
+
+.venue-thumbnail {
+  margin: 0 auto;
+  max-width: 140px;
+  max-height: 140px;
+}
+
+.venue-info {
+  margin-bottom: 15px;
 }

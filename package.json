@@ -29,6 +29,7 @@
     "angular-mocks": "^1.4.8",
     "angular-route": "^1.4.8",
     "chai": "^3.4.1",
+    "connect-mongo": "^1.0.2",
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^0.7.0",
     "grunt-contrib-jshint": "^0.11.3",

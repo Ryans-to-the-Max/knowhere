@@ -51,10 +51,11 @@ module.exports = {
   },
 
   addUserFav: function(req, res, next) {
+    console.log(req.body.venue);
     var venueInfo = req.body.venue;
     var userId = req.body.userId;
 
-    Venue.findById(venue._id, function (err, venue){
+    Venue.findById(venueInfo._id, function (err, venue){
       if (err){
         console.log(err);
         return res.status(500).send();
@@ -67,7 +68,7 @@ module.exports = {
         }
 
         if (venue){
-          user.favorites.push({venue: venue, rating: 0});
+          user.favorites.push({venue: venue, rating: 5});
           user.save();
         } else {
           var newVenue = new Venue({
@@ -87,7 +88,7 @@ module.exports = {
               return res.status(500).send();
             }
           });
-          user.favorites.push({venue: newVenue, rating: 0});
+          user.favorites.push({venue: newVenue, rating: 5});
           user.save();
         }
       });
@@ -108,21 +109,26 @@ module.exports = {
   },
 
   getUserFavs: function (req, res, next){
-    var userId = req.params.userId;
+    console.log(req.query);
+    var userId = req.query.userId;
 
-    User.findById(userId, function (err, user){
+    User.findById(userId)
+    .populate('favorites.venue')
+    .exec(function (err, user){
+      console.log(user);
       if (err){
         console.log(err);
         return res.status(500).send();
       }
 
       if (user){
+        // User.populate('favorites')
         return res.status(200).send(user.favorites);
       } else {
         res.status(200).send();
       }
     });
-    
+
   },
 
   removeGroupFav: function(req, res, next){

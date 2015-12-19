@@ -1,8 +1,8 @@
 angular.module('travel.landing', [])
 
-.controller('LandingController',
-            function ($scope, $window, $state, $rootScope, Groups, Util) {
-  $scope.data = { };
+.controller('LandingController', function ($scope, $window, $state, $rootScope, Groups, Util) {
+
+  $scope.data = {};
 
   $scope.sendData = function() {
     if (!$rootScope.currentUser || !$rootScope.currentUser._id) return;
@@ -25,4 +25,5 @@ angular.module('travel.landing', [])
       console.error(err);
     });
   };
+
 });

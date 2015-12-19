@@ -219,7 +219,7 @@ describe('Knowhere controllers', function () {
       $httpBackend.whenPOST(/\//).respond('');
     };
   });
-  
+
   beforeEach(module('travel'));
 
   describe('FavoritesController', function () {
@@ -232,6 +232,7 @@ describe('Knowhere controllers', function () {
 
         setHttpBackend($httpBackend);
 
+        $rootScope.currentUser = { _id: 'testUserId' };
         $scope = $rootScope.$new();
         $controller('FavoritesController', { $scope: $scope });
       }));

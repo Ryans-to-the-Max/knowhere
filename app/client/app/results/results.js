@@ -6,6 +6,7 @@ angular.module('travel.results', [])
   $scope.city = null;
   $scope.heading = null;
   $scope.groups = [];
+  $scope.activeClass = '';
 
 
   ////////////////// GET ALL THE GROUPS OF A USER //////////////////////
@@ -105,6 +106,18 @@ angular.module('travel.results', [])
     venueData.groupInfo = $rootScope.currentGroup;
     venueData.rating = 5;
     Venues.rateVenue(venueData);
+  };
+
+  /*
+    !!!Not sure if this currently works!!!
+    @param {obj} venue*
+    *the object associated with the
+    venue a user adds to their favorites...
+  */
+
+  $scope.addVenueToUserFavorites = function (venue) {
+    console.log($rootScope.currentUser._id);
+    Venues.addToUserFavorites(venue, $rootScope.currentUser._id);
   };
 
 

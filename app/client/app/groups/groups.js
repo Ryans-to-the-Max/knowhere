@@ -1,7 +1,7 @@
 angular.module('travel.groups', [])
 
 .controller('GroupsController', function ($scope, $window, $rootScope, $state, Groups, Util) {
-  $scope.newGroupInput = null; 
+  $scope.newGroupInput = null;
   $scope.groups = [];
   $scope.newParticipantEmail = null;
   $scope.destination = null;
