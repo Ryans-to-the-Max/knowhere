@@ -18,7 +18,8 @@ module.exports = {
     var userId = req.body.userInfo;
 
     User.findById(userId, function (err, user) {
-      if (err) return util.send400(res, null, err);
+      if (!user) return util.send400(res, err);
+      if (err) return util.send500(res, err);
 
       var newGroup = new Group({
         title: title,
@@ -28,7 +29,8 @@ module.exports = {
 
       newGroup.members.push(user);
       newGroup.save(function (err, group){
-        if (err) return util.send400(res, err);
+        if (!group) return util.send400(res, err);
+        if (err) return util.send500(res, err);
 
         user.groupId.push(newGroup);
         user.save();
@@ -54,11 +56,13 @@ module.exports = {
     var groupId = req.body.groupId;
 
     Group.findById(groupId, function (err, group){
-      if (err) return util.send400(res, err);
+      if (!group) return util.send400(res, err);
+      if (err) return util.send500(res, err);
 
       group.destination = dest;
       group.save(function (err, group) {
-        if (err) return util.send500(err);
+        if (!group) return util.send400(res, err);
+        if (err) return util.send500(res, err);
 
         res.status(200).send(group);
       });
@@ -122,7 +126,7 @@ module.exports = {
     var groupId = req.body.groupId;
 
     Group.findById(groupId, function(err, group){
-      if (!group) return util.send400(res);
+      if (!group) return util.send400(res, err);
       if (err) return util.send500(res, err);
 
       return res.status(200).send(group.members);
@@ -133,7 +137,8 @@ module.exports = {
     var groupId = req.body.groupId;
 
     Group.findById(groupId, function(err, group){
-      if (err) return util.send400(res, err);
+      if (!group) return util.send400(res, err);
+      if (err) return util.send500(res, err);
 
       // TODO populate and add ratings.
       return res.status(200).send(group.favorites);
