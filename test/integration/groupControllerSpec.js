@@ -1,6 +1,5 @@
 process.env.NODE_ENV = 'test';
 
-var assert = require('chai').assert;
 var expect = require('chai').expect;
 var mongoose = require('mongoose');
 var path = require('path');
@@ -58,6 +57,27 @@ describe('groupController', function () {
 
   describe('createGroup()', function () {
 
+    var newGroup;
+
+    beforeEach(function (done) {
+      request
+        .post('/api/group')
+        .send({
+          groupName: testGroupName,
+          destination: testGroupDestination,
+          userInfo: testUser._id,
+        })
+        .expect(200)
+        .end(function (err, res) {
+          Group.findOne({ title: testGroupName }, function (err, group) {
+            newGroup = JSON.parse(res.text);
+
+            expect(newGroup._id).to.equal(group._id + '');
+            done();
+          });
+        });
+    });
+
     it('should not create when provided with invalid userId', function (done) {
       request
         .post('/api/group')
@@ -83,54 +103,39 @@ describe('groupController', function () {
         });
     });
 
-    xit('should not create if no group title is provided', function (done) {
-      // body...
+    it('should not create if no group title is provided', function (done) {
+      request
+        .post('/api/group')
+        .send({
+          groupName: '          ',
+          destination: testGroupDestination,
+          userInfo: testUser._id,
+        })
+        .end(function (err, res) {
+          expect(res.ok).to.be.false;
+          done();
+        });
     });
 
-    xit('should not create if userId is invalid', function (done) {
-      // body...
+    it('should set provided userId as group host', function () {
+      expect(newGroup.host._id).to.equal(testUser.toObject()._id + '');
     });
 
-    xit('should set provided userId as group host', function (done) {
-      // body...
+    it('should set title and destination', function () {
+      expect(newGroup.title).to.equal(testGroupName);
+      expect(newGroup.destination).to.equal(testGroupDestination);
     });
 
-    xit('should set title and destination', function (done) {
-      // body...
+    it('should add group\'s host to group.members', function () {
+      expect(newGroup.members.indexOf(testUser._id + '')).not.to.equal(-1);
     });
 
-    xit('should add provided user to newGroup.members', function (done) {
-      // body...
-    });
-
-    xit('should add the new group to the host\'s groupId', function (done) {
-
-    });
-
-    it('should create and return the new group', function (done) {
-      Group.count({ title: testGroupName }, function (err, c) {
-        expect(c).to.equal(0);
-
-          request
-            .post('/api/group')
-            .send({
-              groupName: testGroupName,
-              destination: testGroupDestination,
-              userInfo: testUser._id,
-            })
-            .expect(200)
-            .end(function (err, res) {
-              Group.findOne({ title: testGroupName }, function (err, group) {
-                var resObj = JSON.parse(res.text);
-                expect(resObj._id).to.equal(group._id + '');
-                done();
-              });
-            });
+    it('should add the new group to the host\'s groupId', function (done) {
+      // Update testUser
+      User.findOne({ _id: testUser._id }, function (err, user) {
+        expect(user.groupId.indexOf(newGroup._id)).not.to.equal(-1);
+        done();
       });
-    });
-
-    xit('should return the new group', function (done) {
-      // body...
     });
   });
 });
