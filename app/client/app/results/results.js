@@ -99,13 +99,15 @@ angular.module('travel.results', [])
 
 
 
-  ////////////////// ADD TO FAVORITE LIST //////////////////////
+  ////////////////// ADD TO RESULT LIST //////////////////////
 
 
   $scope.addToRatings = function(venueData) {
     var data = {
+      venue: venueData,
       userId : $rootScope.currentUser._id,
       groupId : $rootScope.currentGroup._id,
+      rating: 5
     };
     Venues.addRating(data);
   };

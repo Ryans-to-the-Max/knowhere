@@ -120,7 +120,7 @@ angular.module('travel.services', [])
   var getRatings = function(query){
     return $http({
       method: 'GET',
-      url: '/api/fav/user',
+      url: '/api/rating',
       params: query
     })
     .then(function(resp){
@@ -153,7 +153,7 @@ angular.module('travel.services', [])
   var addRating = function(data) {
     return $http({
       method: 'POST',
-      url: '/api/ratings',
+      url: '/api/rating',
       data: data
     });
   };
