@@ -334,23 +334,16 @@ describe('Knowhere controllers', function () {
 
     describe('initial $scope state', function () {
 
-      var landingCtrl, resultsCtrl, $landingScope, $resultsScope, $httpBackend;
+      var landingCtrl, resultsCtrl, $resultsScope, $httpBackend;
 
       beforeEach(inject(function (_$httpBackend_, $rootScope, $controller) {
         $httpBackend = _$httpBackend_;
         setHttpBackend($httpBackend);
 
-        $landingScope = $rootScope.$new();
-        landingCtrl = $controller('LandingController', { $scope: $landingScope });
-
         $rootScope.currentUser = { _id: 'testUserId' };
+        $rootScope.destinationPermalink = 'new-york-city';
         $resultsScope = $rootScope.$new();
         resultsCtrl = $controller('ResultsController', { $scope: $resultsScope });
-
-        $httpBackend.flush();
-
-        $landingScope.data = { destination: 'New York City' };
-        $landingScope.sendData();
 
         $httpBackend.flush();
       }));
@@ -378,18 +371,11 @@ describe('Knowhere controllers', function () {
 
         setHttpBackend($httpBackend);
 
-        $landingScope = $rootScope.$new();
-        landingCtrl = $controller('LandingController', { $scope: $landingScope });
-
         $rootScope.currentUser = testUser;
         $rootScope.currentGroup = group1;
+        $rootScope.destinationPermalink = 'new-york-city';
         $resultsScope = $rootScope.$new();
         resultsCtrl = $controller('ResultsController', { $scope: $resultsScope });
-
-        $httpBackend.flush();
-
-        $landingScope.data = { destination: 'New York City' };
-        $landingScope.sendData();
 
         $httpBackend.flush();
       }));
