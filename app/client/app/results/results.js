@@ -110,6 +110,13 @@ angular.module('travel.results', [])
       rating: 5
     };
     Venues.addRating(data);
+
+  $scope.addToFavs = function(venueData) {
+    venueData.userInfo = $rootScope.currentUser;
+    venueData.groupInfo = $rootScope.currentGroup;
+    venueData.rating = 5;
+    Venues.addToUserFavorites({ userId: $rootScope.currentUser._id,
+                                venue: venueData });
   };
 
   /*
@@ -131,6 +138,4 @@ angular.module('travel.results', [])
   $scope.getUserGroups();
   $scope.getCity($rootScope.destinationPermalink);
   $scope.getVenueInformation($rootScope.destinationPermalink);
-
-
 });
