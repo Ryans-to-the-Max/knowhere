@@ -100,6 +100,31 @@ describe('server controllers', function () {
     testUtil.dropDb(con, done);
   });
 
+  
+  describe('destController', function () {
+
+    describe('getDestination()', function () {
+
+      it('should get destination by name', function (done) {
+        request
+          .get('/api/dest/?name=paris')
+          .expect(200)
+          .end(function (err, res) {
+            if (err) return done(err);
+
+            expect(res.body.name).to.equal('Paris');
+            done();
+          });
+      });
+
+      it('should return 404 when called with a bad param', function (done) {
+        request
+          .get('/api/dest/?name=Nowhere')
+          .expect(404, done);
+      });
+    });
+  });
+
   describe('favController', function () {
     
     describe('addGroupFav()', function () {
