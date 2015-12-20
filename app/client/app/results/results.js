@@ -11,12 +11,12 @@ angular.module('travel.results', [])
   ////////////////// GET ALL THE GROUPS OF A USER //////////////////////
 
 
-  $scope.getGroups = function() {
+  $scope.getUserGroups = function() {
     if (!$rootScope.currentUser || !$rootScope.currentUser._id) {
       return console.error("Cannot get groups. currentUser id not found!");
     }
 
-    Groups.getGroups($rootScope.currentUser._id)
+    Groups.getUserGroups($rootScope.currentUser._id)
       .then(function(groupsInfo){
         $scope.groups = groupsInfo;
       });
@@ -102,6 +102,7 @@ angular.module('travel.results', [])
   ////////////////// ADD TO RESULT LIST //////////////////////
 
 
+<<<<<<< HEAD
   $scope.addToRatings = function(venueData) {
     var data = {
       venue: venueData,
@@ -110,6 +111,14 @@ angular.module('travel.results', [])
       rating: 5
     };
     Venues.addRating(data);
+=======
+  $scope.addToFavs = function(venueData) {
+    venueData.userInfo = $rootScope.currentUser;
+    venueData.groupInfo = $rootScope.currentGroup;
+    venueData.rating = 5;
+    Venues.addToUserFavorites({ userId: $rootScope.currentUser._id,
+                                venue: venueData });
+>>>>>>> 1687dfbebf4170b78583fa15c063051cc9f85308
   };
 
   /*
@@ -128,9 +137,15 @@ angular.module('travel.results', [])
   ////////////////// INIT STATE //////////////////////
 
 
+<<<<<<< HEAD
   $scope.getGroups();
   $scope.getCity($rootScope.destinationPermalink);
   $scope.getVenueInformation($rootScope.destinationPermalink);
+=======
+  $scope.getUserGroups();
+  $scope.getCity($window.sessionStorage.getItem('knowhere'));
+  $scope.getVenueInformation($window.sessionStorage.getItem('knowhere'));
+>>>>>>> 1687dfbebf4170b78583fa15c063051cc9f85308
 
 
 });

@@ -10,10 +10,10 @@ angular.module('travel.groups', [])
   ////////////////// GET LIST OF ALL GROUPS A USER BELONGS TO //////////////////////
 
 
-  $scope.getGroups = function() {
+  $scope.getUserGroups = function() {
     if (!$rootScope.currentUser || !$rootScope.currentUser._id) return;
 
-    Groups.getGroups($rootScope.currentUser._id)
+    Groups.getUserGroups($rootScope.currentUser._id)
         .then(function(groupsInfo){
           $scope.groups = groupsInfo;
         });
@@ -62,7 +62,7 @@ angular.module('travel.groups', [])
   ////////////////// SET INIT STATE //////////////////////
 
 
-  $scope.getGroups();
+  $scope.getUserGroups();
 
 
 });
