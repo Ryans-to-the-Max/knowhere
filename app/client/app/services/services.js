@@ -210,7 +210,7 @@ angular.module('travel.services', [])
   return {
     destination: destination
   };
-})
+});
 
 
 // ////////////////// SESSION STORAGE //////////////////////
