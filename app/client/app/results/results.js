@@ -23,7 +23,7 @@ angular.module('travel.results', [])
   };
 
 
-////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
+  ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
 
 
   $scope.selectGroup = function(groupInfo) {
@@ -110,6 +110,7 @@ angular.module('travel.results', [])
       rating: 5
     };
     Venues.addRating(data);
+  };
 
   $scope.addToFavs = function(venueData) {
     venueData.userInfo = $rootScope.currentUser;
