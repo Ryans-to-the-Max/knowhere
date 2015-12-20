@@ -142,19 +142,11 @@ module.exports = {
     User.findById(userId)
     .populate('favorites.venue')
     .exec(function (err, user){
-      console.log(user);
+      if (!user) return util.send400(res, err);
+      if (err) return util.send500(res, err);
 
-      if (err){
-        console.log(err);
-        return res.status(500).send();
-      }
-
-      if (user){
-        // User.populate('favorites')
-        return res.status(200).send(user.favorites);
-      } else {
-        res.status(200).send();
-      }
+      // User.populate('favorites')
+      return res.status(200).send(user.favorites);
     });
 
   },
