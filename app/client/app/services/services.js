@@ -103,7 +103,7 @@ angular.module('travel.services', [])
     return $http({
       method: 'GET',
       url: '/api/dest/venues',
-      params: {permalink: query}
+      params: query
     })
     .then(function successCb (resp){
       return resp.data;
@@ -117,16 +117,11 @@ angular.module('travel.services', [])
   ////////////////// FAVORITES //////////////////////
 
 
-  /*
-    @param {object} data should contain properties:
-      @groupId {str} groupId should be the group's Id
-      @userId {str} userId
-  */
-  var getFavorites = function(data){
+  var getRatings = function(query){
     return $http({
       method: 'GET',
-      url: '/api/fav',
-      data: data
+      url: '/api/rating',
+      params: query
     })
     .then(function(resp){
       return resp.data;
@@ -146,12 +141,7 @@ angular.module('travel.services', [])
     });
   };
 
-  /*
-    @param {object} data should contain:
-      @groupId {str} groupId should be the group's Id
-      @venue {object} venue should contain all venue data
-  */
-  var addToGroupFavorites = function(data) {
+  var addToUserFavorites = function (venue, userId) {
     return $http({
       method: 'POST',
       url: '/api/fav',
@@ -160,16 +150,11 @@ angular.module('travel.services', [])
   };
 
 
-  /*
-    // TODO addToGroupFavorites & addToUserFavorites params should be uniform
-    @param {object} venue should contain all venue data
-    @param {str} userId should be the user's Id
-  */
-  var addToUserFavorites = function (venue, userId) {
+  var addRating = function(data) {
     return $http({
       method: 'POST',
-      url: '/api/fav/user',
-      data: { venue: venue, userId: userId }
+      url: '/api/rating',
+      data: data
     });
   };
 
@@ -201,10 +186,11 @@ angular.module('travel.services', [])
   };
 
   return {
-    getFavorites: getFavorites,
     getVenues: getVenues,
     getUserFavorites: getUserFavorites,
     addToUserFavorites: addToUserFavorites,
+    addRating: addRating,
+    getRatings: getRatings,
     getItinerary: getItinerary,
     addtoItinerary: addtoItinerary
   };
@@ -224,18 +210,18 @@ angular.module('travel.services', [])
   return {
     destination: destination
   };
-})
-
-
-////////////////// SESSION STORAGE //////////////////////
-
-
-.factory('SessionStorage', function ($http, $location, $window) {
-  var sessionExists = function () {
-    return !!$window.sessionStorage.getItem('knowhere');
-  };
-
-  return {
-    sessionExists: sessionExists
-  };
 });
+
+
+// ////////////////// SESSION STORAGE //////////////////////
+
+
+// .factory('SessionStorage', function ($http, $location, $window) {
+//   var sessionExists = function () {
+//     return !!$window.sessionStorage.getItem('knowhere');
+//   };
+
+//   return {
+//     sessionExists: sessionExists
+//   };
+// });

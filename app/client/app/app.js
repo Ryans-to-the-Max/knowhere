@@ -3,7 +3,7 @@ angular.module('travel', [
   'travel.landing',
   'travel.groups',
   'travel.itinerary',
-  'travel.favorites',
+  'travel.ratings',
   'travel.results',
   'ui.router',
   'ui.bootstrap',
@@ -20,47 +20,47 @@ angular.module('travel', [
       url: '/results',
       templateUrl: 'app/results/results.html',
       controller: 'ResultsController',
-      authenticate: true
+      // authenticate: true
     })
-    .state('favorites', {
-      url: '/favorites',
-      templateUrl: 'app/favorites/favorites.html',
-      controller: 'FavoritesController',
-      authenticate: true
+    .state('ratings', {
+      url: '/ratings',
+      templateUrl: 'app/ratings/ratings.html',
+      controller: 'RatingsController',
+      // authenticate: true
     })
     .state('itinerary', {
       url: '/itinerary',
       templateUrl: 'app/itinerary/itinerary.html',
       controller: 'ItineraryController',
-      authenticate: true
+      // authenticate: true
     })
     .state('groups', {
       url: '/groups',
       templateUrl: 'app/groups/groups.html',
       controller: 'GroupsController',
-      authenticate: true
+      // authenticate: true
     })
     ;
   $urlRouterProvider.otherwise('/');
-  $httpProvider.interceptors.push('AttachCity');
-})
-.factory('AttachCity', function ($window) {
-  var attach = {
-    request: function (object) {
-      var jwt = $window.sessionStorage.getItem('knowhere');
-      if (jwt) {
-        object.headers['x-access-token'] = jwt;
-      }
-      object.headers['Allow-Control-Allow-Origin'] = '*';
-      return object;
-    }
-  };
-  return attach;
-})
-.run(function ($rootScope, $state, SessionStorage) {
-  $rootScope.$on('$routeChangeStart', function (evt, next, current) {
-    if (next.$$route && next.$$route.authenticate && !SessionStorage.sessionExists()) {
-      $state.go('main');
-    }
-  });
+  // $httpProvider.interceptors.push('AttachCity');
 });
+// .factory('AttachCity', function ($window) {
+//   var attach = {
+//     request: function (object) {
+//       var jwt = $window.sessionStorage.getItem('knowhere');
+//       if (jwt) {
+//         object.headers['x-access-token'] = jwt;
+//       }
+//       object.headers['Allow-Control-Allow-Origin'] = '*';
+//       return object;
+//     }
+//   };
+//   return attach;
+// })
+// .run(function ($rootScope, $state, SessionStorage) {
+//   $rootScope.$on('$routeChangeStart', function (evt, next, current) {
+//     if (next.$$route && next.$$route.authenticate && !SessionStorage.sessionExists()) {
+//       $state.go('main');
+//     }
+//   });
+// });

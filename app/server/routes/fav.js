@@ -3,7 +3,7 @@ var router = express.Router();
 
 var favController = require('../controllers/favController');
 
-router.get('/', favController.getFavs);
+router.get('/', favController.getGroupFavs);
 
 // This might be made obsolete by .getFavs:
  router.get('/user', favController.getUserFavs);
