@@ -105,17 +105,17 @@ module.exports = {
     });
   },
 
-  getGroupFavs: function (req, res, next){
-    var groupId = req.query.groupId;
+  // getGroupFavs: function (req, res, next){
+  //   var groupId = req.query.groupId;
 
-    Group.findById(groupId, function(err, group){
-      if (!group) return util.send400(res, err);
-      if (err) return util.send500(res, err);
+  //   Group.findById(groupId, function(err, group){
+  //     if (!group) return util.send400(res, err);
+  //     if (err) return util.send500(res, err);
 
-      // TODO populate and add ratings.
-      return res.status(200).send(group.favorites);
-    });
-  },
+  //     // TODO populate and add ratings.
+  //     return res.status(200).send(group.favorites);
+  //   });
+  // },
 
   getGroupFavs: function (req, res, next){
     var groupId = req.query.groupId;
