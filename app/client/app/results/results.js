@@ -11,12 +11,12 @@ angular.module('travel.results', [])
   ////////////////// GET ALL THE GROUPS OF A USER //////////////////////
 
 
-  $scope.getGroups = function() {
+  $scope.getUserGroups = function() {
     if (!$rootScope.currentUser || !$rootScope.currentUser._id) {
       return console.error("Cannot get groups. currentUser id not found!");
     }
 
-    Groups.getGroups($rootScope.currentUser._id)
+    Groups.getUserGroups($rootScope.currentUser._id)
       .then(function(groupsInfo){
         $scope.groups = groupsInfo;
       });
@@ -128,7 +128,7 @@ angular.module('travel.results', [])
   ////////////////// INIT STATE //////////////////////
 
 
-  $scope.getGroups();
+  $scope.getUserGroups();
   $scope.getCity($rootScope.destinationPermalink);
   $scope.getVenueInformation($rootScope.destinationPermalink);
 

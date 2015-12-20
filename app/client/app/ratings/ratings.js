@@ -13,16 +13,16 @@ angular.module('travel.ratings', [])
   ////////////////// GET ALL THE GROUPS OF A USER //////////////////////
 
 
-  $scope.getGroups = function() {
+  $scope.getUserGroups = function() {
     var query = {
       userInfo: $rootScope.currentUser
     };
-    Groups.getGroups(query)
+    Groups.getUserGroups(query)
       .then(function(groupsInfo){
         $scope.groups = groupsInfo;
       });
   };
-  // $scope.getGroups();
+  // $scope.getUserGroups();
 
 
   ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
@@ -37,7 +37,7 @@ angular.module('travel.ratings', [])
 
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////
 
-
+  //FIXME: need updated data response object
   $scope.filterRatings = function (filterType) {
     var groupRatings = [];
     var userRatings = [];
@@ -71,7 +71,7 @@ angular.module('travel.ratings', [])
 
   ////////////////// GET ALL RATINGS OF THE GROUP //////////////////////
 
-
+  //FIXME: need updated data response object
   $scope.getRatings = function() {
     var userId = $rootScope.currentUser._id;
     var groupId = $rootScope.currentGroup._id;
