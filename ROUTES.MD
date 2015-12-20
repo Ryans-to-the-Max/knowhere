@@ -54,9 +54,11 @@ GET  /api/group  groupController#
   Get all groups to select groups from dropdown
   query: user object
   response: array of group objects
+
 POST  /api/group
   Create group
   data: groupName, userInfo object, destination permalink
+
 POST  /api/group
   Add participant (tentative)
   data: group object, user object, participant email
@@ -67,19 +69,24 @@ GET  /api/itin
   Get all itinerary
   query: groupId, userId
   response: array of venue objects
+
 POST  /api/itin
   Add to itinerary
   data: groupId, userId
+
 POST  /api/itin
   Add dates to itinerary
   data: groupId, userId, fromDate, toDate
 
 
 ## RATINGS
-GET  /api/ratings
+GET  /api/rating
   Get all ratings in current group
   query: userId, groupId
-  response: array of venue objects
+  response: array of venue objects.
+    each venue has an array like:
+      [{ user: userId, rating: rating }, { user: userId, rating: rating }]
 
-POST  /api/ratings
+POST  /api/rating
+  Creates a rating. Adds to user and group ratings
   data: userId, groupId, rating
