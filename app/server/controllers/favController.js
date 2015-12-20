@@ -60,19 +60,19 @@ module.exports = {
   addUserFav: function(req, res, next) {
     var venueInfo = req.body.venue;
     var userId = req.body.userId;
-
+    console.log(req.body);
     Venue.findOne({lookUpId: venueInfo.id}, function (err, venue){
       if (err){
         console.log(err);
         return res.status(500).send();
       }
-
+      console.log("venue is ", venue)
       User.findById(userId, function (err, user){
         if (err){
           console.log(err);
           return res.status(500).send();
         }
-
+        console.log("user is ", user);
         if (venue){
           user.favorites.push({venue: venue, rating: 5});
           user.save();
@@ -84,7 +84,6 @@ module.exports = {
             tripexpert_score: venueInfo.tripexpert_score,
             rank_in_destination: venueInfo.rank_in_destination,
             score: venueInfo.score,
-            description: venueInfo.description,
             index_photo: venueInfo.index_photo,
             address: venueInfo.address,
             telephone: venueInfo.telephone,
@@ -99,7 +98,10 @@ module.exports = {
             }
           });
           user.favorites.push({venue: newVenue, rating: 5});
-          user.save();
+          user.save(function(err, user){
+            res.status(200).send(user);
+          });
+          
         }
       });
     });

@@ -6,7 +6,7 @@ var favController = require('../controllers/favController');
 router.get('/', favController.getFavs);
 
 // This might be made obsolete by .getFavs:
-// router.get('/user', favController.getUserFavs);
+ router.get('/user', favController.getUserFavs);
 
 router.post('/', favController.addGroupFav);
 
