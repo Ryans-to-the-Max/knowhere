@@ -105,8 +105,11 @@ module.exports = {
     });
   },
 
-  // getGroupFavs: function (req, res, next){
+
+  // TODO ? Return { groupFavs: { }, userFavs: { }} ?
+  // getFavs: function (req, res, next){
   //   var groupId = req.query.groupId;
+  //   var userId  = req.query.userId;
 
   //   Group.findById(groupId, function(err, group){
   //     if (!group) return util.send400(res, err);

@@ -100,7 +100,7 @@ describe('server controllers', function () {
     testUtil.dropDb(con, done);
   });
 
-  
+
   describe('destController', function () {
 
     describe('getDestination()', function () {
@@ -182,7 +182,7 @@ describe('server controllers', function () {
             username: testUser.username
           })
           .end(function (err, res) {
-            var updatedGroup = JSON.parse(res.text);
+            var updatedGroup = res.body;
 
             expect(updatedGroup.members.length).to.equal(1);
             done();
@@ -197,7 +197,7 @@ describe('server controllers', function () {
             username: testUser2.username
           })
           .end(function (err, res) {
-            var updatedGroup = JSON.parse(res.text);
+            var updatedGroup = res.body;
 
             expect(updatedGroup.members.length).to.equal(2);
             done();
@@ -272,11 +272,9 @@ describe('server controllers', function () {
 
       beforeEach(function (done) {
         request
-          .get('/api/group/all')
-          .send({ groupId: group._id })
+          .get('/api/group/all?groupId=' + group._id)
           .end(function (err, res) {
             group = res.body;
-            console.log('@@@@@@', group);
             done();
           });
       });
@@ -296,8 +294,6 @@ describe('server controllers', function () {
       });
 
       it('populates members', function () {
-        console.log("@@@@@@@@@@@@@@@@@@");
-        console.log(group)
         expect(group.members[0].constructor).to.equal(Object);
       });
     });
@@ -305,7 +301,6 @@ describe('server controllers', function () {
     describe('getMembers()', function () {
 
       beforeEach(function (done) {
-
         request
           .post('/api/group/add')
           .send({
@@ -321,13 +316,9 @@ describe('server controllers', function () {
       it('returns members as JSON', function (done) {
 
         request
-          .get('/api/group/users')
-          .send({
-            groupId: group._id,
-          })
+          .get('/api/group/users?groupId=' + group._id)
           .end(function (err, res) {
-            var members = JSON.parse(res.text);
-            var membersIds = members.map(function (member) {
+            var membersIds = res.body.map(function (member) {
               return member._id + '';
             });
 
