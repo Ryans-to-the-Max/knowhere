@@ -10,14 +10,17 @@ module.exports = {
     var venueInfo = req.body.venue;
     var groupId = req.body.groupId;
 
-    Group.findById(groupId, function (err, group) {
-      if (!group) return util.send400(res, err);
-      if (err) return util.send500(res, err);
-
-      Venue.findById(venueInfo.id, function (err, venue) {
-        if (err) return util.send500(res, err);
-
-        if (venue) {
+    Venue.findOne({lookUpId: venueInfo.id}, function (err, venue){
+      if (err){
+        console.log(err);
+        return res.status(500).send();
+      }
+      Group.findById(groupId, function (err, group){
+        if (err){
+          console.log(err);
+          return res.status(500).send();
+        }
+        if (venue){
           group.favorites.push(venue);
           group.save(function (err, group) {
             if (err) return util.send500(res, err);
@@ -30,10 +33,13 @@ module.exports = {
             name: venueInfo.name,
             venue_type_id: venueInfo.venue_type_id,
             tripexpert_score: venueInfo.tripexpert_score,
-            rank: venueInfo.rank_in_destination,
+            rank_in_destination: venueInfo.rank_in_destination,
             score: venueInfo.score,
-            description: venueInfo.description,
-            photo: venueInfo.index_photo
+            index_photo: venueInfo.index_photo,
+            address: venueInfo.address,
+            telephone: venueInfo.telephone,
+            website: venueInfo.website,
+            photos: venueInfo.photos
           });
 
           newVenue.save(function (err, newVenue) {
@@ -52,35 +58,35 @@ module.exports = {
   },
 
   addUserFav: function(req, res, next) {
-    console.log(req.body.venue);
     var venueInfo = req.body.venue;
     var userId = req.body.userId;
-
-    Venue.findById(venueInfo._id, function (err, venue){
+    console.log(req.body);
+    Venue.findOne({lookUpId: venueInfo.id}, function (err, venue){
       if (err){
         console.log(err);
         return res.status(500).send();
       }
-
       User.findById(userId, function (err, user){
         if (err){
           console.log(err);
           return res.status(500).send();
         }
-
         if (venue){
           user.favorites.push({venue: venue, rating: 5});
           user.save();
         } else {
           var newVenue = new Venue({
-              lookUpId: venueInfo.id,
-              name: venueInfo.name,
-              venue_type_id: venueInfo.venue_type_id,
-              tripexpert_score: venueInfo.tripexpert_score,
-              rank: venueInfo.rank_in_destination,
-              score: venueInfo.score,
-              description: venueInfo.description,
-              photo: venueInfo.index_photo
+            lookUpId: venueInfo.id,
+            name: venueInfo.name,
+            venue_type_id: venueInfo.venue_type_id,
+            tripexpert_score: venueInfo.tripexpert_score,
+            rank_in_destination: venueInfo.rank_in_destination,
+            score: venueInfo.score,
+            index_photo: venueInfo.index_photo,
+            address: venueInfo.address,
+            telephone: venueInfo.telephone,
+            website: venueInfo.website,
+            photos: venueInfo.photos
           });
 
           newVenue.save(function(err, venue){
@@ -90,7 +96,10 @@ module.exports = {
             }
           });
           user.favorites.push({venue: newVenue, rating: 5});
-          user.save();
+          user.save(function(err, user){
+            res.status(200).send(user);
+          });
+          
         }
       });
     });
@@ -111,9 +120,11 @@ module.exports = {
   },
 
   getGroupFavs: function (req, res, next){
-    var groupId = req.params.groupId;
+    var groupId = req.query.groupId;
 
-    Group.findById(groupId, function(err, group){
+    Group.findById(groupId)
+    .populate('members favorites')
+    .exec(function (err, group){
       if (err){
         console.log(err);
         return res.status(500).send();
@@ -131,6 +142,7 @@ module.exports = {
     .populate('favorites.venue')
     .exec(function (err, user){
       console.log(user);
+
       if (err){
         console.log(err);
         return res.status(500).send();

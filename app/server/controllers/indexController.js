@@ -18,7 +18,7 @@ module.exports = {
   },
 
   getInfo: function (req, res, next){
-    var userId = req.params.userId;
+    var userId = req.query.userId;
 
     User.findById(userId, function (err, user){
       if (err){

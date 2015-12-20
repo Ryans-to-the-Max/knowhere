@@ -251,7 +251,7 @@ describe('server controllers', function () {
           .send({ groupId: group._id })
           .end(function (err, res) {
             group = res.body;
-            console.log('@@@@@@@', group);
+            console.log('@@@@@@', group);
             done();
           });
       });
@@ -271,6 +271,8 @@ describe('server controllers', function () {
       });
 
       it('populates members', function () {
+        console.log("@@@@@@@@@@@@@@@@@@");
+        console.log(group)
         expect(group.members[0].constructor).to.equal(Object);
       });
     });
