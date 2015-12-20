@@ -66,13 +66,11 @@ module.exports = {
         console.log(err);
         return res.status(500).send();
       }
-      console.log("venue is ", venue)
       User.findById(userId, function (err, user){
         if (err){
           console.log(err);
           return res.status(500).send();
         }
-        console.log("user is ", user);
         if (venue){
           user.favorites.push({venue: venue, rating: 5});
           user.save();
