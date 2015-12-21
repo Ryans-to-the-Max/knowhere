@@ -89,4 +89,5 @@ GET  /api/rating
 
 POST  /api/rating
   Creates a rating. Adds to user and group ratings
+  ALSO modifies rating
   data: userId, groupId, rating
