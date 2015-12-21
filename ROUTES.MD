@@ -48,6 +48,11 @@ GET  /api/dest/venues  destController#getVenues
   query: destination permalink
   response: array of venue objects
 
+GET  /api/dest/venues/info  destController#getVenues
+  Get specific information of a specific venue
+  query: venueId
+  response: object of venue information
+
 
 ## GROUP
 GET  /api/group  groupController#

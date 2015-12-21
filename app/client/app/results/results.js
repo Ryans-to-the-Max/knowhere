@@ -58,28 +58,6 @@ angular.module('travel.results', [])
   };
 
 
-  ////////////////// GET ALL VENUES BASED ON A DESTINATION CITY //////////////////////
-
-
-  $scope.getVenueInformation = function (permalink) {
-    permalink = permalink || $rootScope.destinationPermalink;
-    if (!permalink) return;
-    var query = {
-      permalink: permalink
-    };
-    Venues.getVenues(query)
-      .then(function(venueInfo) {
-        if (!Array.isArray(venueInfo)) return;
-
-        CurrentInfo.destination.venues = $scope.venues = venueInfo;
-        $scope.filterVenues(1);
-      })
-      .catch(function(error){
-        console.error(error);
-      });
-  };
-
-
   ////////////////// GET BASIC DESTINATION CITY INFO //////////////////////
 
 
@@ -97,6 +75,48 @@ angular.module('travel.results', [])
       });
   };
 
+
+  ////////////////// GET ALL VENUES BASED ON A DESTINATION CITY //////////////////////
+
+
+  $scope.getVenuesofDestination = function (permalink) {
+    permalink = permalink || $rootScope.destinationPermalink;
+    if (!permalink) return;
+    var query = {
+      permalink: permalink
+    };
+    Venues.getVenues(query)
+      .then(function(venuesInfo) {
+        if (!Array.isArray(venuesInfo)) return;
+
+        CurrentInfo.destination.venues = $scope.venues = venuesInfo;
+        $scope.filterVenues(1);
+      })
+      .catch(function(error){
+        console.error(error);
+      });
+  };
+
+
+  ////////////////// GET DETAILED INFO OF A VENUE //////////////////////
+
+
+  $scope.getDetailedVenueInfo = function(venueId) {
+    var query = {
+      venueId : venueId
+    };
+    Venues.getDetailedVenueInfo(query)
+      .then(function(venueInfo) {
+        $scope.filteredVenues.forEach(function(venue){
+          if (venue.id === venueId) {
+            venue.detailedInfo = venueInfo;
+          }
+        })
+      })
+      .catch(function(error){
+        console.error(error);
+      });
+  };
 
 
   ////////////////// ADD TO RESULT LIST //////////////////////
@@ -138,5 +158,5 @@ angular.module('travel.results', [])
 
   $scope.getUserGroups();
   $scope.getCity($rootScope.destinationPermalink);
-  $scope.getVenueInformation($rootScope.destinationPermalink);
+  $scope.getVenuesofDestination($rootScope.destinationPermalink);
 });
