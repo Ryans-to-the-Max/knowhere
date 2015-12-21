@@ -6,7 +6,7 @@
 // refactor setHttpBackend() to look at param
 
 
-describe('Knowhere controllers', function () {
+describe('Knowhere client controllers', function () {
   var $httpBackend, centralPark, group1, group2, groupsInfo, mockAttractions, mockHotels,
       mockNYC, mockParis, mockRestaurants, mockVenues, setHttpBackend, testUser;
 
@@ -221,6 +221,30 @@ describe('Knowhere controllers', function () {
   });
 
   beforeEach(module('travel'));
+
+  describe('AuthController', function () {
+
+    var $httpBackend, $rootScope, $scope;
+
+    beforeEach(inject(function (_$httpBackend_, _$rootScope_, $controller) {
+      $httpBackend = _$httpBackend_;
+      setHttpBackend($httpBackend);
+      $rootScope = _$rootScope_;
+
+      $scope = $rootScope.$new();
+      $controller('AuthController', { $rootScope: $rootScope, $scope: $scope });
+      $rootScope.currentUser = { _id: 'testUserId' };
+    }));
+
+    it('$scope.signout() sets $rootScope.currentUser to null', function () {
+      expect($rootScope.currentUser).not.toBeNull();
+
+      $scope.signout();
+      $httpBackend.flush();
+
+      expect($rootScope.currentUser).toBeNull();
+    });
+  });
 
   describe('GroupsController', function () {
 

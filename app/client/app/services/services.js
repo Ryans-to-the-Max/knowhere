@@ -56,15 +56,16 @@ angular.module('travel.services', [])
     });
   };
 
-  var logout = function(){
-    return $http({
-      method: 'GET',
-      url: '/logout'
-    });
-  };
+  // nothing implemented on backend
+  // var logout = function(){
+  //   return $http({
+  //     method: 'GET',
+  //     url: '/logout'
+  //   });
+  // };
 
   return {
-    logout: logout,
+    // logout: logout,
     facebookLogin: facebookLogin,
     googleLogin: googleLogin,
     createUser: createUser,
