@@ -1,40 +1,35 @@
 angular.module('signin', ['ui.bootstrap'])
 
-.controller('AuthController', function ($scope, $uibModal, $rootScope, authMe, $location) {
+.controller('AuthCtrl', function ($scope, $uibModal, $rootScope, authMe, $location) {
   $rootScope.currentUserSignedIn = false;
   $rootScope.currentUser = null;
-
   $scope.open = function() {
-    var modalInstance = $uibModal.open({
-      animation: $scope.animationsEnabled,
-      templateUrl: 'app/auth/signin.html',
-      controller: 'signinCtrl',
+      var modalInstance = $uibModal.open({
+        animation: $scope.animationsEnabled,
+        templateUrl: 'app/auth/signin.html',
+        controller: 'signinCtrl',
+        });
+      };
+
+  $scope.signout = function() {
+    $rootScope.currentUserSignedIn = false;
+    authMe.logout()
+      .then(function (data) {
+      console.log(data);
     });
   };
 
-  $scope.signout = function() {
-    $rootScope.currentUser = null;
-    $rootScope.currentUserSignedIn = false;
-
-    // makes call to un-implemented server
-    // authMe.logout()
-    //     .then(function (data) {
-    //       console.log(data);
-    //     });
-  };
-
-  $scope.onLoad = function() {
+  $scope.onLoad = function (){
     authMe.isLoggedIn()
-        .then(function (data){
+      .then(function (data){
+        // console.log("user is: ", data.user);
+        if (data.status === true){
+          $rootScope.currentUserSignedIn = true;
+          $rootScope.currentUser = data.user;
+        }
+      });
+  }();
 
-          if (data.status === true){
-            $rootScope.currentUserSignedIn = true;
-            $rootScope.currentUser = data.user;
-          }
-        });
-  };
-
-  $scope.onLoad();
 })
 
 .controller('signinCtrl', function ($scope, $uibModalInstance, $uibModal, authMe, $location, $rootScope) {
@@ -43,7 +38,6 @@ angular.module('signin', ['ui.bootstrap'])
   $scope.closeAlert = function() {
     $scope.alerts = [];
   };
-
   $scope.submit = function (){
     authMe.loginUser({username: $scope.email, password: $scope.password})
     .then(function (data){
@@ -85,7 +79,6 @@ angular.module('signin', ['ui.bootstrap'])
 
   $scope.create = function(){
     $uibModalInstance.close();
-
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'app/auth/signup.html',
@@ -112,6 +105,7 @@ angular.module('signin', ['ui.bootstrap'])
         if (data.status === true){
           $uibModalInstance.close();
           $rootScope.currentUserSignedIn = true;
+          // console.log(data.user);
           $rootScope.currentUser = data.user;
         } else {
           $scope.alerts = [{msg: data.message}];
@@ -121,6 +115,76 @@ angular.module('signin', ['ui.bootstrap'])
 
   $scope.exit = function(){
     $uibModalInstance.close();
+  };
+
+})
+
+.factory("authMe", function ($http){
+
+  var createUser = function(user){
+    return $http({
+      method: 'POST',
+      url: '/signup',
+      data: JSON.stringify(user)
+    })
+    .then(function (resp){
+      return resp.data;
+    });
+  };
+
+  var googleLogin = function(){
+    return $http({
+      method: 'GET',
+      url: '/auth/google'
+    }).then(function (resp){
+      return resp.data;
+    });
+  };
+
+  var facebookLogin = function(){
+    return $http({
+      method: 'GET',
+      url: '/auth/facebook'
+    }).then(function (resp){
+      return resp.data;
+    });
+  };
+
+  var loginUser = function(user){
+    return $http({
+      method: 'POST',
+      url: '/login',
+      data: JSON.stringify(user)
+    })
+    .then(function (resp){
+      return resp.data;
+    });
+  };
+
+  var isLoggedIn = function(){
+    return $http({
+      method: 'GET',
+      url: '/api/check'
+    })
+    .then(function (resp){
+      return resp.data;
+    });
+  };
+
+  var logout = function(){
+    return $http({
+      method: 'GET',
+      url: '/logout'
+    });
+  };
+
+  return {
+    logout: logout,
+    facebookLogin: facebookLogin,
+    googleLogin: googleLogin,
+    createUser: createUser,
+    loginUser: loginUser,
+    isLoggedIn: isLoggedIn
   };
 
 });
