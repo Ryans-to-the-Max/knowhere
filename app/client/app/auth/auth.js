@@ -1,6 +1,6 @@
 angular.module('signin', ['ui.bootstrap'])
 
-.controller('AuthCtrl', function ($scope, $uibModal, $rootScope, authMe, $location) {
+.controller('AuthController', function ($scope, $uibModal, $rootScope, authMe, $location) {
   $rootScope.currentUserSignedIn = false;
   $rootScope.currentUser = null;
   $scope.open = function() {
