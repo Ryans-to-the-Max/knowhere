@@ -122,7 +122,7 @@ module.exports = {
   },
 
   getUserGroups: function (req, res, next){
-    var userId = req.body.userId;
+    var userId = req.query.userId;
 
     User.findById(userId, function (err, user){
       if (err){
@@ -139,23 +139,23 @@ module.exports = {
   },
 
   getMembers: function(req, res, next){
-    var groupId = req.body.groupId;
+    var groupId = req.query.groupId;
 
     Group.findById(groupId)
-    .populate('members')
-    .exec(function (err, group){
-      if (!group) return util.send400(res, err);
-      if (err) return util.send500(res, err);
+        .populate('members')
+        .exec(function (err, group){
+          if (!group) return util.send400(res, err);
+          if (err) return util.send500(res, err);
 
-      return res.status(200).send(group.members);
-    });
+          return res.status(200).send(group.members);
+        });
   },
 
   // TODO ? Return { groupFavs: { }, userFavs: { }} ?
   // THIS SHOULD BE MADE OBSOLETE BY favController.getFavs
   // getFavorites: function (req, res, next){
-  //   var groupId = req.body.groupId;
-  //   var userId  = req.body.userId;
+  //   var groupId = req.query.groupId;
+  //   var userId  = req.query.userId;
 
   //   Group.findById(groupId, function(err, group){
   //     if (!group) return util.send400(res, err);
@@ -168,8 +168,7 @@ module.exports = {
 
 
   getGroups: function (req, res, next){
-    console.log("in get groups ", req.query);
-    var userId = req.body.userId;
+    var userId = req.query.userId;
 
     User.findById(userId, function (err, user){
       if (err){
@@ -186,7 +185,8 @@ module.exports = {
   },
 
   getInfo: function(req, res, next){
-    var groupId = req.body.groupId;
+    var groupId = req.query.groupId;
+
     Group.findById(groupId)
         .populate('favorites')
         .populate('members')

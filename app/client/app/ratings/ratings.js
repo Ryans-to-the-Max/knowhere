@@ -31,7 +31,7 @@ angular.module('travel.ratings', [])
   $scope.selectGroup = function(groupInfo) {
     Groups.selectGroup(groupInfo, $rootScope);
     $rootScope.destinationPermalink = groupInfo.destination;
-    $state.go('favorites');
+    $state.go('ratings');
   };
 
 
