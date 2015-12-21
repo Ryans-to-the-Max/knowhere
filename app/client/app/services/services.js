@@ -27,7 +27,7 @@ angular.module('travel.services', [])
     return $http({
       method: 'GET',
       url: '/api/group',
-      data: { userId: userId }
+      params: { userId: userId }
     })
     .then(function(resp){
       return resp.data;
@@ -145,7 +145,7 @@ angular.module('travel.services', [])
     return $http({
       method: 'POST',
       url: '/api/fav',
-      data: data
+      data: { venue: venue, userId: userId }
     });
   };
 

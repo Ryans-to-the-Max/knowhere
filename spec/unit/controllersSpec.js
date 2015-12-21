@@ -223,7 +223,7 @@ describe('Knowhere controllers', function () {
   beforeEach(module('travel'));
 
 
-  describe('FavoritesController', function () {
+  describe('RatingsController', function () {
 
     describe('its methods', function () {
       var $httpBackend, $rootScope, $scope;
@@ -235,8 +235,9 @@ describe('Knowhere controllers', function () {
         setHttpBackend($httpBackend);
 
         $rootScope.currentUser = { _id: 'testUserId' };
+        $rootScope.currentGroup = { _id: 'testGroupId' };
         $scope = $rootScope.$new();
-        $controller('FavoritesController', { $scope: $scope });
+        $controller('RatingsController', { $scope: $scope });
       }));
 
       it('$scope.selectGroup() should set $rootScope.currentGroup', function () {
@@ -333,43 +334,36 @@ describe('Knowhere controllers', function () {
 
     describe('initial $scope state', function () {
 
-      var landingCtrl, resultsCtrl, $landingScope, $resultsScope, $httpBackend;
+      var resultsCtrl, $scope, $httpBackend;
 
       beforeEach(inject(function (_$httpBackend_, $rootScope, $controller) {
         $httpBackend = _$httpBackend_;
         setHttpBackend($httpBackend);
 
-        $landingScope = $rootScope.$new();
-        landingCtrl = $controller('LandingController', { $scope: $landingScope });
-
         $rootScope.currentUser = { _id: 'testUserId' };
-        $resultsScope = $rootScope.$new();
-        resultsCtrl = $controller('ResultsController', { $scope: $resultsScope });
-
-        $httpBackend.flush();
-
-        $landingScope.data = { destination: 'New York City' };
-        $landingScope.sendData();
+        $rootScope.destinationPermalink = 'new-york-city';
+        $scope = $rootScope.$new();
+        resultsCtrl = $controller('ResultsController', { $scope: $scope });
 
         $httpBackend.flush();
       }));
 
-      it('sets $scope.group to the currentUser\'s groups by currentUser._id', function () {
-        expect($resultsScope.groups).toEqual(groupsInfo);
+      it('sets $scope.groups to the currentUser\'s groups by currentUser._id', function () {
+        expect($scope.groups).toEqual(groupsInfo);
       });
 
       it('sets $scope.city', function () {
-        expect($resultsScope.city).toEqual(mockNYC);
+        expect($scope.city).toEqual(mockNYC);
       });
 
       it('sets $scope.venues', function () {
-        expect($resultsScope.venues).toEqual(mockVenues.Results);
+        expect($scope.venues).toEqual(mockVenues.Results);
       });
     });
 
     describe('its methods', function () {
 
-      var landingCtrl, resultsCtrl, $landingScope, $resultsScope, $rootScope, $scope, $httpBackend;
+      var resultsCtrl, $rootScope, $scope, $httpBackend;
 
       beforeEach(inject(function (_$httpBackend_, _$rootScope_, $controller) {
         $httpBackend = _$httpBackend_;
@@ -377,66 +371,59 @@ describe('Knowhere controllers', function () {
 
         setHttpBackend($httpBackend);
 
-        $landingScope = $rootScope.$new();
-        landingCtrl = $controller('LandingController', { $scope: $landingScope });
-
         $rootScope.currentUser = testUser;
         $rootScope.currentGroup = group1;
-        $resultsScope = $rootScope.$new();
-        resultsCtrl = $controller('ResultsController', { $scope: $resultsScope });
-
-        $httpBackend.flush();
-
-        $landingScope.data = { destination: 'New York City' };
-        $landingScope.sendData();
+        $rootScope.destinationPermalink = 'new-york-city';
+        $scope = $rootScope.$new();
+        resultsCtrl = $controller('ResultsController', { $scope: $scope });
 
         $httpBackend.flush();
       }));
 
       it('filterVenues() sets $scope.heading and $scope.filteredVenues', function () {
         // This is the initial state:
-        expect($resultsScope.heading).toEqual('Hotels');
-        expect($resultsScope.filteredVenues).toEqual(mockHotels);
+        expect($scope.heading).toEqual('Hotels');
+        expect($scope.filteredVenues).toEqual(mockHotels);
 
-        $resultsScope.filterVenues(3);
-        expect($resultsScope.heading).toEqual('Attractions');
-        expect($resultsScope.filteredVenues).toEqual(mockAttractions);
+        $scope.filterVenues(3);
+        expect($scope.heading).toEqual('Attractions');
+        expect($scope.filteredVenues).toEqual(mockAttractions);
 
-        $resultsScope.filterVenues(2);
-        expect($resultsScope.heading).toEqual('Restaurants');
-        expect($resultsScope.filteredVenues).toEqual(mockRestaurants);
+        $scope.filterVenues(2);
+        expect($scope.heading).toEqual('Restaurants');
+        expect($scope.filteredVenues).toEqual(mockRestaurants);
 
-        $resultsScope.filterVenues(1);
-        expect($resultsScope.heading).toEqual('Hotels');
-        expect($resultsScope.filteredVenues).toEqual(mockHotels);
+        $scope.filterVenues(1);
+        expect($scope.heading).toEqual('Hotels');
+        expect($scope.filteredVenues).toEqual(mockHotels);
       });
 
       it('getCity() sets $scope.city', function () {
         // the beforeEach sets it to NYC
-        expect($resultsScope.city).toEqual(mockNYC);
+        expect($scope.city).toEqual(mockNYC);
 
-        $resultsScope.getCity('paris');
+        $scope.getCity('paris');
 
         $httpBackend.flush();
 
-        expect($resultsScope.city).toEqual(mockParis);
+        expect($scope.city).toEqual(mockParis);
       });
 
       it('selectGroup() sets $rootScope.currentGroup', function () {
-        $resultsScope.selectGroup(group2);
+        $scope.selectGroup(group2);
 
         expect($rootScope.currentGroup).toEqual(group2);
       });
 
       it('selectGroup() sets $rootScope.destinationPermalink', function () {
-        $resultsScope.selectGroup(group2);
+        $scope.selectGroup(group2);
 
         expect($rootScope.destinationPermalink).toEqual(group2.destination);
       });
 
       it('addToFavs() sets $rootScope.currentUser, $rootScope.currentGroup, \
                                         and rating of 5 on venue',function () {
-        $resultsScope.addToFavs(centralPark);
+        $scope.addToFavs(centralPark);
 
         expect(centralPark.userInfo).toEqual(testUser);
         expect(centralPark.groupInfo).toEqual(group1);
