@@ -43,7 +43,7 @@ describe('server controllers', function () {
     // TODO Refactor to use promise
     setTimeout(function () {
       testUtil.dropDb(con, done);
-    }, 3000); // on @ZacharyRSmith's machine, connection needs ~15ms to set up
+    }, 1000); // on @ZacharyRSmith's machine, connection needs ~15ms to set up
   });
 
   beforeEach(function (done) {
