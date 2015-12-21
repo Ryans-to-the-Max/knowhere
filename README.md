@@ -14,6 +14,7 @@
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
     1. [Issues](#issues)
+    1. [Test Coverage](#test-coverage)
 1. [Team](#team)
 1. [Contributing](#contributing)
 
@@ -40,6 +41,28 @@ npm install
 ### Issues
 
 View the project GitHub issues [here](https://waffle.io/HRR10-Ryans-to-the-Max/travel-app)
+
+### Test Coverage
+
+Run test coverage thus:
+
+```sh
+npm run coverage
+```
+
+This generates 3 reports in a `coverage/` dir at the project dir level. Note that Karma does not automatically close, so you will need to manually exit out of the script. The script is complete when you see a "Coverage Summary" in your shell terminal.
+
+The coverage report for the client tests on Chrome will be at `coverage/Chrome...`.
+
+The coverage report for the client tests on Firefox will be at `coverage/Firefox...`.
+
+The coverage report for the server tests will be at `coverage/lcov-report/index.html`.
+
+You can view the report for the server by running:
+
+```sh
+npm run coverageServerView
+```
 
 ## Contributing
 

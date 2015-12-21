@@ -5,9 +5,10 @@ angular.module('travel.landing', [])
   $scope.data = {};
 
   $scope.sendData = function() {
-    if (!$rootScope.currentUser || !$rootScope.currentUser._id) return;
+    if (!$rootScope || !$rootScope.currentUser || !$rootScope.currentUser._id) return;
+    // $rootScope.currentUser = $rootScope.currentUser || "anonymous";
+
     $rootScope.destinationPermalink = Util.transToPermalink($scope.data.destination);
-    $rootScope.currentUser = $rootScope.currentUser || "anonymous";
     $scope.data.group = $scope.data.group || "anonymous";
 
     Groups.createGroup({
