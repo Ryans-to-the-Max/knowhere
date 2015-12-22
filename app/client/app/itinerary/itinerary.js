@@ -31,7 +31,6 @@ angular.module('travel.itinerary', [])
 
   $scope.selectGroup = function(groupInfo) {
     Groups.selectGroup(groupInfo, $rootScope);
-    $window.sessionStorage.setItem('knowhere', groupInfo.destination);
     $state.go('itinerary');
   };
 

@@ -53,8 +53,6 @@ angular.module('travel.groups', [])
 
   $scope.selectGroup = function(groupInfo) {
     Groups.selectGroup(groupInfo, $rootScope);
-    var dest = $rootScope.destinationPermalink;
-    $window.sessionStorage.setItem('knowhere', dest);
     $state.go('results');
   };
 
