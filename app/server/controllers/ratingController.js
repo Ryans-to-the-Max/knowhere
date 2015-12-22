@@ -143,7 +143,7 @@ module.exports = {
   },
 
   getRating: function(req, res, next) {
-    var groupId = req.query.groupId
+    var groupId = req.query.groupId;
 
     Group.findById(groupId)
     .populate({
