@@ -17,20 +17,19 @@ module.exports = {
     var title  = req.body.groupName;
     var dest   = req.body.destination;
     var userId = req.body.userInfo;
-    var check  = false;
 
     User.findById(userId)
-    .populate('groupId')
-    .exec(function (err, user) {
-      if (!user) return res.status(400).send();
-      if (err) return res.status(500).send();
-      if (user.groupId.length) {
+      .populate('groupId')
+      .exec(function (err, user) {
+        if (!user) return res.status(400).send();
+        if (err) return res.status(500).send();
+
         for (var i = 0; i < user.groupId.length; i++){
           if (user.groupId[i].title === title){
             return res.status(200).send(user.groupId[i]);
           }
         }
-      }
+
         var newGroup = new Group({
           title: title,
           destination: dest,
@@ -40,14 +39,16 @@ module.exports = {
         newGroup.save(function (err, group){
           if (!group) return util.send400(res, err);
           if (err) return util.send500(res, err);
+
           user.groupId.push(group._id);
           user.save(function (err, user){
             if (!user) return util.send400(res, err);
             if (err) return util.send500(res, err);
+
+            res.status(200).send(group);
           });
-          res.status(200).send(group);
         });
-    });
+      });
   },
 
   // getGroupByTitle: function(req, res, next){ // FIXME account for two groups with same name but with different hosts
