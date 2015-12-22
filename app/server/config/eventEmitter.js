@@ -26,25 +26,23 @@ function getUserFavInfo(userId) {
       var index = 0;
       var list = [];
       var noCopies = {};
-      var length = user.groupId.length;
+      var numGroups = user.groupId.length;
 
       function findRatings(){ //combine user favorites and group into single array
-        if (index < length) {
+        if (index < numGroups) {
           Rating.findOne({groupId: user.groupId[index]}, function (err, rating){
-            if (err) return;
-            if (!rating) return;
+            if (err || !rating) return;
+
             if (rating.venueId.name) {
-              index++;
+              index += 1;
               findRatings();
-            } else{
+            } else {
               list = [rating.venueId.lookUpId, rating.venueId._id];
               loadVenues();
             }
           });
         }
       }
-
-      //findRatings();
 
       function loadVenues() {
         async.parallel({ // simultaneously get venue info from api and load venue from DB
