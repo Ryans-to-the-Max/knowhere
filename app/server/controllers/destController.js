@@ -88,5 +88,4 @@ module.exports = {
           return res.status(200).send(response.body.response.venue[0]);
         });
   }
-
 };
