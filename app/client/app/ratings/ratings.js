@@ -14,15 +14,11 @@ angular.module('travel.ratings', [])
 
 
   $scope.getUserGroups = function() {
-    var query = {
-      userInfo: $rootScope.currentUser
-    };
-    Groups.getUserGroups(query)
+    Groups.getUserGroups($rootScope.currentUser._id)
       .then(function(groupsInfo){
         $scope.groups = groupsInfo;
       });
   };
-  // $scope.getUserGroups();
 
 
   ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
@@ -30,7 +26,6 @@ angular.module('travel.ratings', [])
 
   $scope.selectGroup = function(groupInfo) {
     Groups.selectGroup(groupInfo, $rootScope);
-    $rootScope.destinationPermalink = groupInfo.destination;
     $state.go('ratings');
   };
 
@@ -108,7 +103,6 @@ angular.module('travel.ratings', [])
   //   });
   // };
 
-  $scope.getRatings();
 
   ////////////////// GET BASIC DESTINATION CITY INFO //////////////////////
 
@@ -123,7 +117,7 @@ angular.module('travel.ratings', [])
         console.error(error);
       });
   };
-  $scope.getCity();
+
 
   ////////////////// USER ADD RATING //////////////////////
 
@@ -150,6 +144,13 @@ angular.module('travel.ratings', [])
     };
     Venues.addtoItinerary(data);
   };
+
+
+  ////////////////// INIT STATE //////////////////////
+
+
+  $scope.getRatings();
+  $scope.getCity();
 })
 
 

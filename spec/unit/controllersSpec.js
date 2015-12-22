@@ -211,6 +211,8 @@ describe('Knowhere client controllers', function () {
       $httpBackend.whenGET(/\/api\/dest\/venues/).respond(mockVenues.Results);
       $httpBackend.whenGET(/\/api\/dest\?name=new-york-city/).respond(mockNYC);
       $httpBackend.whenGET(/\/api\/dest\?name=paris/).respond(mockParis);
+
+      $httpBackend.whenGET(/\/api\/group\?userId=testUserId/).respond(groupsInfo);
       $httpBackend.whenGET(/\/api\/group/).respond(groupsInfo);
       // Set responses to all other GET requests to avoid "unexpected request" err
       $httpBackend.whenGET(/\//).respond('');
@@ -343,6 +345,13 @@ describe('Knowhere client controllers', function () {
         $scope = $rootScope.$new();
         $controller('RatingsController', { $scope: $scope });
       }));
+
+      it('$scope.getUserGroups() should set $scope.groups to currentUser\'s groups', function () {
+        $scope.getUserGroups(testUser._id);
+        $httpBackend.flush();
+
+        expect($scope.groups).toEqual(groupsInfo);
+      });
 
       it('$scope.selectGroup() should set $rootScope.currentGroup', function () {
         $scope.selectGroup(group2);

@@ -142,22 +142,19 @@ module.exports = {
     });
   },
 
-  modifyRating: function(req, res, next){
-    var userId   = req.body.userId;
-    var ratingId = req.body.ratingId;
-    var rating   = req.body.rating;
+  getRating: function(req, res, next) {
+    var groupId = req.query.groupId;
 
-    Rating.update({_id: ratingId}, {$pull: {user: userId}}, function (err, rating){
-      rating.ratings.rating = rating; //should probably change this around
-      res.status(200).send(rating);
-     });
-  },
-
-  addUserRating: function (req, res, next){
-
-  },
-
-  modifyUserRating: function (req, res, next){
-    
+    Group.findById(groupId)
+    .populate({
+      path: 'favorites',
+      populate: {path: 'venue'}
+    })
+    .exec(function (err, group){
+      if (!group) return util.send400(res, err);
+      if (err) return util.send500(res, err);
+      res.status(200).send(group.favorites);
+    });
+      
   }
 };

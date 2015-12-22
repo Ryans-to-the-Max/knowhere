@@ -28,7 +28,6 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
 
   $scope.selectGroup = function(groupInfo) {
     Groups.selectGroup(groupInfo, $rootScope);
-    $rootScope.destinationPermalink = groupInfo.destination;
     $state.go('results');
   };
 

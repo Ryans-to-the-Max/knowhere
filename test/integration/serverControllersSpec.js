@@ -21,6 +21,9 @@ describe('server controllers', function () {
       testUser, testUser2;
 
   before(function (done) {
+    // TravisCI has been timing out at the default 2000
+    this.timeout(5000);
+
     greenwichHotelInfo = {
       "id": "1",
       "venue_type_id": 1,
