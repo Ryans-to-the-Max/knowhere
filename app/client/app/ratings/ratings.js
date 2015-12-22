@@ -22,7 +22,6 @@ angular.module('travel.ratings', [])
         $scope.groups = groupsInfo;
       });
   };
-  // $scope.getUserGroups();
 
 
   ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
@@ -97,7 +96,6 @@ angular.module('travel.ratings', [])
   //   });
   // };
 
-  $scope.getRatings();
 
   ////////////////// GET BASIC DESTINATION CITY INFO //////////////////////
 
@@ -112,7 +110,7 @@ angular.module('travel.ratings', [])
         console.error(error);
       });
   };
-  $scope.getCity();
+
 
   ////////////////// USER ADD RATING //////////////////////
 
@@ -139,6 +137,13 @@ angular.module('travel.ratings', [])
     };
     Venues.addtoItinerary(data);
   };
+
+
+  ////////////////// INIT STATE //////////////////////
+
+
+  $scope.getRatings();
+  $scope.getCity();
 })
 
 
