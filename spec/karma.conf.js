@@ -2,6 +2,11 @@ module.exports = function(config){
   var configuration = {
     basePath : '../',
 
+    coverageReporter: {
+      type: 'html',
+      dir: 'coverage/',
+    },
+
     files : [
       'node_modules/angular/angular.js',
       // 'app/client/lib/angular/angular.min.js',
@@ -11,7 +16,7 @@ module.exports = function(config){
       // // 'app/client/lib/angular-route/angular-route.min.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'app/client/app/**/*.js',
-      'spec/unit/**/*.js'
+      'spec/unit/**/*.js',
     ],
 
     autoWatch : true,
@@ -21,8 +26,17 @@ module.exports = function(config){
       // 'requirejs',
     ],
 
+    reporters: ['coverage'],
+
+    preprocessors: {
+      // Source files you want to generate coverage reports for
+      // This should not include tests or libraries
+      'app/client/app/**/*.js': 'coverage',
+    },
+
     plugins : [
       'karma-chrome-launcher',
+      'karma-coverage',
       'karma-firefox-launcher',
       'karma-jasmine',
       // 'karma-requirejs',
