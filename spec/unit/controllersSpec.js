@@ -459,4 +459,7 @@ describe('Knowhere client controllers', function () {
       });
     });
   });
+
+  xdescribe('SigninController', function () {
+  });
 });
