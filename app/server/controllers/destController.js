@@ -14,9 +14,9 @@ var oldDest = dests.Results;
 
 function loadDests(){
 
-function StupidJSHint(err, dest){
-  if (err) console.log(err);
-}
+  function StupidJSHint(err, dest){
+    if (err) console.log(err);
+  }
 
   request.get('http://api.tripexpert.com/v1/destinations?api_key=5d8756782b4f32d2004e811695ced8b6')
        .end(function (err, res) {
@@ -50,6 +50,7 @@ module.exports = {
     var permalink = req.query.permalink;
     console.log(permalink);
     Dest.findOne({perm: permalink}, function (err, dest) {
+      console.log(dest);
       if (err){
         console.log(err);
         return res.status(500).send();
