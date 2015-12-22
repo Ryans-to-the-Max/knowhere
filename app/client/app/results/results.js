@@ -1,6 +1,6 @@
-angular.module('travel.results', [])
+angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
 
-.controller('ResultsController', function ($scope, $window, $rootScope, $state, CurrentInfo, Venues, City, Groups, Util) {
+.controller('ResultsController', function ($scope, $window, $rootScope, $state, $uibModal, CurrentInfo, Venues, City, Groups, Util) {
   $scope.venues = [];
   $scope.filteredVenues = [];
   $scope.city = null;
@@ -101,21 +101,31 @@ angular.module('travel.results', [])
   ////////////////// GET DETAILED INFO OF A VENUE //////////////////////
 
 
+  $scope.myInterval = 5000;
+  $scope.noWrapSlides = false;
+  $scope.detailedInfo = $rootScope.detailedInfo;
   $scope.getDetailedVenueInfo = function(venueId) {
     var query = {
       venueId : venueId
     };
     Venues.getDetailedVenueInfo(query)
       .then(function(venueInfo) {
-        $scope.filteredVenues.forEach(function(venue){
-          if (venue.id === venueId) {
-            venue.detailedInfo = venueInfo;
-          }
-        })
+        $rootScope.detailedInfo = $scope.detailedInfo = venueInfo;
+        $scope.openModal();
       })
       .catch(function(error){
         console.error(error);
       });
+  };
+  $scope.exit = function(){
+    $uibModalInstance.close();
+  };
+  $scope.openModal = function() {
+    var modalInstance = $uibModal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'app/results/venueInfo.html',
+      controller: 'ResultsController',
+    });
   };
 
 
@@ -129,6 +139,7 @@ angular.module('travel.results', [])
       groupId : $rootScope.currentGroup._id,
       rating: 5
     };
+    console.log(data);
     Venues.addRating(data);
   };
 

@@ -212,7 +212,8 @@ angular.module('travel.services', [])
     addRating: addRating,
     getRatings: getRatings,
     getItinerary: getItinerary,
-    addtoItinerary: addtoItinerary
+    addtoItinerary: addtoItinerary,
+    getDetailedVenueInfo: getDetailedVenueInfo
   };
 
 })

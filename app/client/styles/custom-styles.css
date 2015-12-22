@@ -76,7 +76,7 @@ ul.rating {
   margin-top: 10px;
 }
 
-.thumbnail{
+.thumbnail {
   width: 250px;
   height: 335px;
   overflow: auto;
@@ -86,4 +86,8 @@ ul.rating {
 
 .title {
   height: 50px
+}
+
+.detailed-info {
+  margin-bottom: 10px;
 }

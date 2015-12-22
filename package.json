@@ -4,12 +4,14 @@
   "description": "A travel advising app",
   "main": "index.js",
   "dependencies": {
+    "angular-animate": "^1.4.8",
     "angular-bootstrap-npm": "^0.14.3",
     "angular-ui-router": "^0.2.15",
     "async": "^1.5.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.1",
     "connect-flash": "0.1.1",
+    "connect-mongo": "1.0.1",
     "cookie-parser": "1.4.0",
     "cors": "2.7.1",
     "express": "^4.13.3",
@@ -22,9 +24,8 @@
     "passport-facebook": "2.0.0",
     "passport-google-oauth2": "0.1.6",
     "passport-local": "1.0.0",
-    "underscore": "^1.8.3",
-    "connect-mongo": "1.0.1",
-    "superagent": "1.6.1"
+    "superagent": "1.6.1",
+    "underscore": "^1.8.3"
   },
   "engines": {
     "node": "0.12.7"
