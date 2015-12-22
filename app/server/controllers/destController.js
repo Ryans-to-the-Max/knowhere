@@ -5,6 +5,7 @@ var Venue = require('../models/venue');
 var User = require('../models/user');
 var Group = require('../models/group');
 
+var util = require('../util');
 var venues = require("../../../mock-data/venues.json");
 var dests = require("../../../mock-data/destinations.json");
 
@@ -13,9 +14,9 @@ var oldDest = dests.Results;
 
 function loadDests(){
 
-function StupidJSHint(err, dest){
-  if (err) console.log(err);
-}
+  function StupidJSHint(err, dest){
+    if (err) console.log(err);
+  }
 
   request.get('http://api.tripexpert.com/v1/destinations?api_key=5d8756782b4f32d2004e811695ced8b6')
        .end(function (err, res) {
@@ -49,6 +50,7 @@ module.exports = {
     var permalink = req.query.permalink;
     console.log(permalink);
     Dest.findOne({perm: permalink}, function (err, dest) {
+      console.log(dest);
       if (err){
         console.log(err);
         return res.status(500).send();
@@ -76,17 +78,15 @@ module.exports = {
   getDetailedInfo: function (req, res, next){
     var venueId = req.query.venueId;
     var url = 'http://api.tripexpert.com/v1/venues/' + venueId;
+
     request.get(url)
-          .query({
-            api_key: '5d8756782b4f32d2004e811695ced8b6'
-          })
-          .end(function (err, response) {
-            if (err){
-              console.log(err);
-              return res.status(500).send();
-            }
-            var text = JSON.parse(response.text);
-            return res.status(200).send(text.response.venue[0]);
-          });
+        .query({
+          api_key: '5d8756782b4f32d2004e811695ced8b6'
+        })
+        .end(function (err, response) {
+          if (err) return util.send500(res, err);
+
+          return res.status(200).send(response.body.response.venue[0]);
+        });
   }
 };

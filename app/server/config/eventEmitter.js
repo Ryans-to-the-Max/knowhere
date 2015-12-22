@@ -2,6 +2,7 @@ var events       = require('events');
 var eventEmitter = new events.EventEmitter();
 var User         = require('../models/user');
 var Venue        = require('../models/venue');
+var Rating       = require('../models/rating');
 var request      = require('superagent');
 var async        = require('async');
 var path         = require('path');
@@ -18,7 +19,6 @@ var util         = require(path.join(__dirname, '../util'));
 
 function getUserFavInfo(userId) {
   User.findById(userId)
-  .populate('favorites.venue groupId')
   .exec(function (err, user){
     if (!user) return;
     if (err) return;
@@ -26,35 +26,30 @@ function getUserFavInfo(userId) {
       var index = 0;
       var list = [];
       var noCopies = {};
+      var length = user.groupId.length;
 
-      function joinFavs(){ //combine user favorites and group into single array 
-        for (var i = 0; i < user.favorites.length; i++) {
-          if (!user.favorites[i].venue.name){ 
-            list.push(user.favorites[i].venue.lookUpId);
-            noCopies[user.favorites[i].venue.lookUpId] = true;
-          }
-        }
-
-        for (var x = 0; x < user.groupId.length; x++){
-          for (y = 0; y < user.groupId[x].favorites.length; y++){
-            if (!noCopies.hasOwnProperty(user.groupId[x].favorites[y].lookUpId)) {
-              if (!user.groupId[x].favorites[y].name) {
-                list.push(user.groupId[x].favorites[y].lookUpId);
-              }
+      function findRatings(){ //combine user favorites and group into single array
+        if (index < length) {
+          Rating.findOne({groupId: user.groupId[index]}, function (err, rating){
+            if (err) return;
+            if (!rating) return;
+            if (rating.venueId.name) {
+              index++;
+              findRatings();
+            } else{
+              list = [rating.venueId.lookUpId, rating.venueId._id];
+              loadVenues();
             }
-          }
-        }
-        if (list.length) {
-          loadVenues();
+          });
         }
       }
 
-      joinFavs();
+      //findRatings();
 
       function loadVenues() {
         async.parallel({ // simultaneously get venue info from api and load venue from DB
           getInfo: function(callback) {
-            var loadId  = list[index];
+            var loadId  = list[0];
               request.get('http://api.tripexpert.com/v1/venues/' + loadId + '?')
               .query({
               api_key: '5d8756782b4f32d2004e811695ced8b6'
@@ -71,7 +66,7 @@ function getUserFavInfo(userId) {
           },
 
           getVenue: function(callback){
-            var venueId = list[index];
+            var venueId = list[1];
             Venue.findOne({lookUpId: venueId} , function (err, venue){
               if (!venue) return;
               if (err) return;
@@ -98,13 +93,12 @@ function getUserFavInfo(userId) {
 
           venue.save();
 
-          if (index < list.length){
+          if (index < length){
             index++;
-            loadVenues();
+            findRatings();
           }
         });
       }
-      //loadVenues();
     })();
   });
 }

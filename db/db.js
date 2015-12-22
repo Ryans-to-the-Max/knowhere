@@ -46,11 +46,15 @@ var userSchema = new Schema ({
   }],
 
   favorites: [{
+    venueLU: Number,
     venue: {
       type: Schema.ObjectId,
       ref: 'Venue'
     },
-    rating: Number
+    rating: {
+      type: Number,
+      default: 5
+    }
   }]
 });
 
@@ -99,7 +103,7 @@ var groupSchema = new Schema ({
   }],
   favorites: [{
     type: Schema.ObjectId,
-    ref: 'Venue'
+    ref: 'Rating'
   }]
 });
 
@@ -116,15 +120,17 @@ var venueSchema = new Schema ({
   website: String,
   index_photo: String,
   photos: Array,
-  amenities: Array,
-  userRating: {type: Number, default: 5}
+  amenities: Array
 });
 
 
 db.venueSchema = venueSchema;
 
 var ratingSchema = new Schema ({
-  venueId: {
+
+  venueLU: Number,
+
+  venue: {
     type: Schema.ObjectId,
     ref: 'Venue'
   },
@@ -132,14 +138,16 @@ var ratingSchema = new Schema ({
     type: Schema.ObjectId,
     ref: 'Group'
   },
-  ratings: [{
+  allRatings: [{
     user: {
       type: Schema.ObjectId,
       ref: 'User'
     },
-    rating: Number
+    userRating: Number,
   }]
 });
+
+ratingSchema.plugin(findOrCreate);
 
 db.ratingSchema = ratingSchema;
 
