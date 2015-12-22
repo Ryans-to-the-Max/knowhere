@@ -5,11 +5,13 @@
   "main": "index.js",
   "dependencies": {
     "angular-bootstrap-npm": "^0.14.3",
+    "angular-ui-bootstrap": "^0.14.3",
     "angular-ui-router": "^0.2.15",
     "async": "^1.5.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.14.1",
     "connect-flash": "0.1.1",
+    "connect-mongo": "1.0.1",
     "cookie-parser": "1.4.0",
     "cors": "2.7.1",
     "express": "^4.13.3",
@@ -22,9 +24,8 @@
     "passport-facebook": "2.0.0",
     "passport-google-oauth2": "0.1.6",
     "passport-local": "1.0.0",
-    "underscore": "^1.8.3",
-    "connect-mongo": "1.0.1",
-    "superagent": "1.6.1"
+    "superagent": "1.6.1",
+    "underscore": "^1.8.3"
   },
   "engines": {
     "node": "0.12.7"
@@ -61,12 +62,11 @@
   },
   "scripts": {
     "//": "COVERAGE STUFF",
-      "coverage": "istanbul cover node_modules/.bin/_mocha -- -R spec test/**/*; node_modules/.bin/karma start spec/karma.conf.js",
-      "coverageClient": "node_modules/.bin/karma start spec/karma.conf.js",
-      "coverageServer": "istanbul cover node_modules/.bin/_mocha -- -R spec test/**/*",
-      "coverageView": "open -a 'Google Chrome' coverage/",
-
-    "dev": "nodemon ./app/server/index.js",
+    "coverage": "istanbul cover node_modules/.bin/_mocha -- -R spec test/**/*; node_modules/.bin/karma start spec/karma.conf.js",
+    "coverageClient": "node_modules/.bin/karma start spec/karma.conf.js",
+    "coverageServer": "istanbul cover node_modules/.bin/_mocha -- -R spec test/**/*",
+    "coverageView": "open -a 'Google Chrome' coverage/",
+    "dev": "nodemon -e js,coffee,css,html,litcoffee,json ./app/server/index.js",
     "karma": "node node_modules/karma/bin/karma start spec/karma.conf.js",
     "start": "node ./app/server/index.js",
     "test": "grunt test"
