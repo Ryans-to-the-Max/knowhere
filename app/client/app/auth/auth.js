@@ -44,7 +44,7 @@ angular.module('signin', ['ui.bootstrap'])
   };
 
   $scope.submit = function (){
-    AuthMe.loginUser({username: $scope.email, password: $scope.password})
+    AuthMe.loginUser({username: $scope.email.toLowerCase(), password: $scope.password})
     .then(function (data){
         if (data.status === true){
           $rootScope.currentUserSignedIn = true;
@@ -106,7 +106,7 @@ angular.module('signin', ['ui.bootstrap'])
   };
 
   $scope.signup = function (){
-    AuthMe.createUser({username: $scope.email, password: $scope.password})
+    AuthMe.createUser({username: $scope.email.toLowerCase(), password: $scope.password})
       .then(function (data){
         if (data.status === true){
           $uibModalInstance.close();
