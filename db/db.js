@@ -120,8 +120,7 @@ var venueSchema = new Schema ({
   website: String,
   index_photo: String,
   photos: Array,
-  amenities: Array,
-  userRating: {type: Number, default: 5}
+  amenities: Array
 });
 
 
@@ -131,7 +130,7 @@ var ratingSchema = new Schema ({
 
   venueLU: Number,
 
-  venueId: {
+  venue: {
     type: Schema.ObjectId,
     ref: 'Venue'
   },

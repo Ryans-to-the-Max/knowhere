@@ -10,7 +10,7 @@ sendGroup = function(groupId, res, rating) {
   Group.findById(groupId)
   .populate({
     path: 'favorites',
-    populate: {path: 'venueId'}
+    populate: {path: 'venue'}
   })
   .exec(function (err, group){
     console.log(group);
@@ -92,7 +92,7 @@ module.exports = {
               if (venue){ //venue exists so just need to create new rating
                 var anotherRating = new Rating({
                   venueLU: venue.lookUpId,
-                  venueId: venue._id,
+                  venue: venue._id,
                   groupId: groupId
                 });
                 anotherRating.allRatings.push({user: userId, userRating: newRating});
@@ -119,7 +119,7 @@ module.exports = {
                 });
                 var anotherRating = new Rating({
                   venueLU: newVenue.lookUpId,
-                  venueId: newVenue,
+                  venue: newVenue,
                   groupId: groupId
                 });
                 anotherRating.allRatings.push({user: userId, userRating: newRating})

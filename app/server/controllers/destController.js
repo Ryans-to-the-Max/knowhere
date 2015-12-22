@@ -50,6 +50,7 @@ module.exports = {
     var permalink = req.query.permalink;
     console.log(permalink);
     Dest.findOne({perm: permalink}, function (err, dest) {
+      console.log(dest);
       if (err){
         console.log(err);
         return res.status(500).send();
