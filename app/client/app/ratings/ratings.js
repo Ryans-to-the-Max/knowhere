@@ -14,10 +14,7 @@ angular.module('travel.ratings', [])
 
 
   $scope.getUserGroups = function() {
-    var query = {
-      userInfo: $rootScope.currentUser
-    };
-    Groups.getUserGroups(query)
+    Groups.getUserGroups($rootScope.currentUser._id)
       .then(function(groupsInfo){
         $scope.groups = groupsInfo;
       });
@@ -58,7 +55,7 @@ angular.module('travel.ratings', [])
     //   GroupRatings.push(favorite);
     // }
 
-    $scope.ratings.forEach(function(venue) {
+    $scope.ratings && $scope.ratings.forEach(function(venue) {
       if (venue.venue_type_id === filterType) {
         groupRatings.push(rating.venue);
       }
