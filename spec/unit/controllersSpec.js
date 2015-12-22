@@ -244,36 +244,9 @@ describe('Knowhere client controllers', function () {
 
       expect($rootScope.currentUser).toBeNull();
     });
-  });
 
-  describe('RatingsController', function () {
-
-    describe('its methods', function () {
-      var $httpBackend, $rootScope, $scope;
-
-      beforeEach(inject(function (_$httpBackend_, _$rootScope_, $controller) {
-        $httpBackend = _$httpBackend_;
-        $rootScope = _$rootScope_;
-
-        setHttpBackend($httpBackend);
-
-        $rootScope.currentUser = { _id: 'testUserId' };
-        $rootScope.currentGroup = { _id: 'testGroupId' };
-        $scope = $rootScope.$new();
-        $controller('RatingsController', { $scope: $scope });
-      }));
-
-      it('$scope.selectGroup() should set $rootScope.currentGroup', function () {
-        $scope.selectGroup(group2);
-
-        expect($rootScope.currentGroup).toEqual(group2);
-      });
-
-      it('$scope.selectGroup() should set $rootScope.destinationPermalink', function () {
-        $scope.selectGroup(group2);
-
-        expect($rootScope.destinationPermalink).toEqual(group2.destination);
-      });
+    xit('$scope.onLoad() sets $rootScope.currentUser to user', function () {
+      // body...
     });
   });
 
@@ -337,6 +310,38 @@ describe('Knowhere client controllers', function () {
 
         $scope = $rootScope.$new();
         $controller('ItineraryController', { $scope: $scope });
+      }));
+
+      it('$scope.selectGroup() should set $rootScope.currentGroup', function () {
+        $scope.selectGroup(group2);
+
+        expect($rootScope.currentGroup).toEqual(group2);
+      });
+
+      it('$scope.selectGroup() should set $rootScope.destinationPermalink', function () {
+        $scope.selectGroup(group2);
+
+        expect($rootScope.destinationPermalink).toEqual(group2.destination);
+      });
+    });
+  });
+
+  
+  describe('RatingsController', function () {
+
+    describe('its methods', function () {
+      var $httpBackend, $rootScope, $scope;
+
+      beforeEach(inject(function (_$httpBackend_, _$rootScope_, $controller) {
+        $httpBackend = _$httpBackend_;
+        $rootScope = _$rootScope_;
+
+        setHttpBackend($httpBackend);
+
+        $rootScope.currentUser = { _id: 'testUserId' };
+        $rootScope.currentGroup = { _id: 'testGroupId' };
+        $scope = $rootScope.$new();
+        $controller('RatingsController', { $scope: $scope });
       }));
 
       it('$scope.selectGroup() should set $rootScope.currentGroup', function () {
