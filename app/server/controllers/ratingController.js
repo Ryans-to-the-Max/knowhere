@@ -8,19 +8,24 @@ var util   = require(path.join(__dirname, '../util'));
 
 sendGroup = function(groupId, res, rating) {
   Group.findById(groupId)
-  .populate({
-    path: 'favorites',
-    populate: {path: 'venue'}
-  })
-  .exec(function (err, group){
-    console.log(group);
-    if (rating !== null) {
-      group.favorites.push(rating);
-      group.save();
-    }
-    
-    res.status(200).send(group.favorites);
-  });
+    .populate({
+      path: 'favorites',
+      populate: { path: 'venue' }
+    })
+    .exec(function (err, group){
+      console.log(group);
+
+      if (rating) {
+        group.favorites.push(rating);
+        group.save(function (err, group) {
+          if (err) return util.send500(res, err);
+
+          return res.status(200).send(group.favorites);
+        });
+      } else {
+        return res.status(200).send(group.favorites);
+      }
+    });
 };
 
 module.exports = {
