@@ -13,6 +13,7 @@
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
+    1. [Running With TRIPEXPERT_KEY](#running-with-tripexpert_key)
     1. [Issues](#issues)
     1. [Test Coverage](#test-coverage)
 1. [Team](#team)
@@ -37,6 +38,10 @@ From within the root directory:
 ```sh
 npm install
 ```
+
+### Running With TRIPEXPERT_KEY
+
+This app requires a TripExpert api_key, which is accessed in the code thus: `process.env.TRIPEXPERT_KEY`. To set this env var in a bash shell, start your commaned with `TRIPEXPERT_KEY=secrethash123`. Eg: `TRIPEXPERT_KEY=secrethash123 npm run dev`.
 
 ### Issues
 
