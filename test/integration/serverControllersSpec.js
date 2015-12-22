@@ -207,12 +207,12 @@ describe('server controllers', function () {
 
     describe('createGroup()', function () {
 
-      it('should not create when provided with invalid userId', function (done) {
+      it('should err when provided with invalid userId', function (done) {
         request
           .post('/api/group')
           .send({
-            groupName: testGroupName,
-            destination: testGroupDestination,
+            groupName: 'new group name',
+            destination: 'new group destination',
             userInfo: 'fakeUserId',
           })
           .expect(400, done);
@@ -222,7 +222,7 @@ describe('server controllers', function () {
         request
           .post('/api/group')
           .send({
-            groupName: testGroupName,
+            groupName: 'new group name',
             destination: '            ',
             userInfo: testUser._id,
           })
