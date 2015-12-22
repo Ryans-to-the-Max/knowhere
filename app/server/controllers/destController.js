@@ -14,9 +14,9 @@ var oldDest = dests.Results;
 
 function loadDests(){
 
-function StupidJSHint(err, dest){
-  if (err) console.log(err);
-}
+  function StupidJSHint(err, dest){
+    if (err) console.log(err);
+  };
 
   request.get('http://api.tripexpert.com/v1/destinations?api_key=5d8756782b4f32d2004e811695ced8b6')
        .end(function (err, res) {
@@ -30,7 +30,7 @@ function StupidJSHint(err, dest){
             Dest.findOrCreate({id: list[i].id}, {perm: list[i].permalink, destId: list[i].id}, StupidJSHint);
           }
        });
-}
+};
 
  loadDests();
 
@@ -88,4 +88,5 @@ module.exports = {
           return res.status(200).send(response.body.response.venue[0]);
         });
   }
+
 };
