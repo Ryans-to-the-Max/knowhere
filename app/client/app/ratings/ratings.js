@@ -54,11 +54,13 @@ angular.module('travel.ratings', [])
     //   GroupRatings.push(favorite);
     // }
 
-    $scope.ratings && $scope.ratings.forEach(function(venue) {
-      if (venue.venue_type_id === filterType) {
-        groupRatings.push(rating.venue);
-      }
-    });
+    if (Array.isArray($scope.ratings)) {
+      $scope.ratings.forEach(function(venue) {
+        if (venue.venue_type_id === filterType) {
+          groupRatings.push(rating.venue);
+        }
+      });
+    }
     $scope.filteredGroupRatings = groupRatings;
     $scope.filteredUserRatings  = userRatings;
   };
