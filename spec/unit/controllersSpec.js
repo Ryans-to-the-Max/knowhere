@@ -6,7 +6,7 @@
 // refactor setHttpBackend() to look at param
 
 
-describe('Knowhere client controllers', function () {
+describe('Knowhere controllers', function () {
   var $httpBackend, centralPark, group1, group2, groupsInfo, mockAttractions, mockHotels,
       mockNYC, mockParis, mockRestaurants, mockVenues, setHttpBackend, testUser;
 
@@ -222,27 +222,35 @@ describe('Knowhere client controllers', function () {
 
   beforeEach(module('travel'));
 
-  describe('AuthController', function () {
 
-    var $httpBackend, $rootScope, $scope;
+  describe('RatingsController', function () {
 
-    beforeEach(inject(function (_$httpBackend_, _$rootScope_, $controller) {
-      $httpBackend = _$httpBackend_;
-      setHttpBackend($httpBackend);
-      $rootScope = _$rootScope_;
+    describe('its methods', function () {
+      var $httpBackend, $rootScope, $scope;
 
-      $scope = $rootScope.$new();
-      $controller('AuthController', { $rootScope: $rootScope, $scope: $scope });
-      $rootScope.currentUser = { _id: 'testUserId' };
-    }));
+      beforeEach(inject(function (_$httpBackend_, _$rootScope_, $controller) {
+        $httpBackend = _$httpBackend_;
+        $rootScope = _$rootScope_;
 
-    it('$scope.signout() sets $rootScope.currentUser to null', function () {
-      expect($rootScope.currentUser).not.toBeNull();
+        setHttpBackend($httpBackend);
 
-      $scope.signout();
-      $httpBackend.flush();
+        $rootScope.currentUser = { _id: 'testUserId' };
+        $rootScope.currentGroup = { _id: 'testGroupId' };
+        $scope = $rootScope.$new();
+        $controller('RatingsController', { $scope: $scope });
+      }));
 
-      expect($rootScope.currentUser).toBeNull();
+      it('$scope.selectGroup() should set $rootScope.currentGroup', function () {
+        $scope.selectGroup(group2);
+
+        expect($rootScope.currentGroup).toEqual(group2);
+      });
+
+      it('$scope.selectGroup() should set $rootScope.destinationPermalink', function () {
+        $scope.selectGroup(group2);
+
+        expect($rootScope.destinationPermalink).toEqual(group2.destination);
+      });
     });
   });
 
@@ -306,118 +314,6 @@ describe('Knowhere client controllers', function () {
 
         $scope = $rootScope.$new();
         $controller('ItineraryController', { $scope: $scope });
-      }));
-
-      it('$scope.selectGroup() should set $rootScope.currentGroup', function () {
-        $scope.selectGroup(group2);
-
-        expect($rootScope.currentGroup).toEqual(group2);
-      });
-
-      it('$scope.selectGroup() should set $rootScope.destinationPermalink', function () {
-        $scope.selectGroup(group2);
-
-        expect($rootScope.destinationPermalink).toEqual(group2.destination);
-      });
-    });
-  });
-
-  describe('LandingController', function () {
-
-    describe('$scope.sendData() with no $rootScope.currentUser', function () {
-
-      var $httpBackend, $rootScope, $scope;
-
-      it('does nothing', function () {
-        inject(function (_$httpBackend_, $controller, $rootScope) {
-          $httpBackend = _$httpBackend_;
-          setHttpBackend($httpBackend);
-
-          $scope = $rootScope.$new();
-          $controller('LandingController', { $scope: $scope });
-
-          $scope.sendData();
-          $httpBackend.flush();
-
-          expect($rootScope.destinationPermalink).toBeUndefined();
-          expect($scope.data.group).toBeUndefined();
-          expect($rootScope.currentGroup).toBeUndefined();
-        });
-      });
-    });
-
-    describe('$scope.sendData() with $rootScope.currentUser', function () {
-
-      var $httpBackend, $rootScope, $scope;
-
-      beforeEach(inject(function (_$httpBackend_, _$rootScope_, $controller) {
-        $httpBackend = _$httpBackend_;
-        setHttpBackend($httpBackend);
-        $rootScope = _$rootScope_;
-
-        $rootScope.currentUser = { _id: 'testUserId' };
-        $scope = $rootScope.$new();
-        $controller('LandingController', { $rootScope: $rootScope, $scope: $scope });
-
-        $scope.data = { destination: 'paris' };
-        $scope.sendData();
-        $httpBackend.flush();
-      }));
-
-      it('sets $rootScope.destinationPermalink to $scope.data.destination', function () {
-        expect($rootScope.destinationPermalink).toEqual($scope.data.destination);
-      });
-
-      it('defaults $scope.data.group to "anonymous"', function () {
-        expect($scope.data.group).toBe('anonymous');
-      });
-
-      xit('sets $rootScope.currentGroup to the newly created group', function () {
-        // body...
-      });
-
-      xit('$scope.getUserGroups() gets the currentUser\'s groups by currentUser._id', function () {
-        inject(function ($controller, $rootScope) {
-          $scope = $rootScope.$new();
-          $controller('GroupsController', { $scope: $scope });
-
-          $httpBackend.flush();
-
-          expect($rootScope.destinationPermalink).toBeUndefined();
-          expect($scope.data.group).toBeUndefined();
-          expect($rootScope.currentGroup).toBeUndefined();
-        });
-      });
-
-      xit('$scope.selectGroup() should set $rootScope.currentGroup', function () {
-        $scope.selectGroup(group2);
-
-        expect($rootScope.currentGroup).toEqual(group2);
-      });
-
-      xit('$scope.selectGroup() should set $rootScope.destinationPermalink', function () {
-        $scope.selectGroup(group2);
-
-        expect($rootScope.destinationPermalink).toEqual(group2.destination);
-      });
-    });
-  });
-
-  describe('RatingsController', function () {
-
-    describe('its methods', function () {
-      var $httpBackend, $rootScope, $scope;
-
-      beforeEach(inject(function (_$httpBackend_, _$rootScope_, $controller) {
-        $httpBackend = _$httpBackend_;
-        $rootScope = _$rootScope_;
-
-        setHttpBackend($httpBackend);
-
-        $rootScope.currentUser = { _id: 'testUserId' };
-        $rootScope.currentGroup = { _id: 'testGroupId' };
-        $scope = $rootScope.$new();
-        $controller('RatingsController', { $scope: $scope });
       }));
 
       it('$scope.selectGroup() should set $rootScope.currentGroup', function () {
