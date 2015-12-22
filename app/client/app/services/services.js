@@ -206,6 +206,11 @@ angular.module('travel.services', [])
   ////////////////// RATINGS //////////////////////
 
 
+  /*
+    @param {object} query has:
+      @prop {str} groupId
+      @prop {str} userId
+  */
   var getRatings = function(query){
     return $http({
       method: 'GET',
@@ -268,11 +273,16 @@ angular.module('travel.services', [])
     });
   };
 
-  var addToUserFavorites = function (venue, userId) {
+  /*
+    @param {object} query has:
+      @prop {str} userId
+      @prop {object} venue
+  */
+  var addToUserFavorites = function (query) {
     return $http({
       method: 'POST',
       url: '/api/fav',
-      data: { venue: venue, userId: userId }
+      data: query
     });
   };
 

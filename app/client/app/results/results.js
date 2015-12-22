@@ -79,7 +79,7 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// GET ALL VENUES BASED ON A DESTINATION CITY //////////////////////
 
 
-  $scope.getVenuesofDestination = function (permalink) {
+  $scope.getVenuesOfDestination = function (permalink) {
     permalink = permalink || $rootScope.destinationPermalink;
     if (!permalink) return;
     var query = {
@@ -101,9 +101,11 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// GET DETAILED INFO OF A VENUE //////////////////////
 
 
+  // Sets image carousel interval
   $scope.myInterval = 5000;
   $scope.noWrapSlides = false;
   $scope.detailedInfo = $rootScope.detailedInfo;
+
   $scope.getDetailedVenueInfo = function(venueId) {
     var query = {
       venueId : venueId
@@ -151,23 +153,11 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
                                 venue: venueData });
   };
 
-  /*
-    !!!Not sure if this currently works!!!
-    @param {obj} venue*
-    *the object associated with the
-    venue a user adds to their favorites...
-  */
-
-  // $scope.addVenueToUserFavorites = function (venue) {
-  //   console.log($rootScope.currentUser._id);
-  //   Venues.addToUserFavorites(venue, $rootScope.currentUser._id);
-  // };
-
 
   ////////////////// INIT STATE //////////////////////
 
 
   $scope.getUserGroups();
   $scope.getCity($rootScope.destinationPermalink);
-  $scope.getVenuesofDestination($rootScope.destinationPermalink);
+  $scope.getVenuesOfDestination($rootScope.destinationPermalink);
 });

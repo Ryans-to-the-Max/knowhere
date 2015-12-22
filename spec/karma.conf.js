@@ -15,7 +15,7 @@ module.exports = function(config){
       'node_modules/angular-ui-router/build/angular-ui-router.min.js',
       'node_modules/angular-ui-router/build/angular-ui-router-tpls.min.js',
       // 'node_modules/angular-route/angular-route.js',
-      // // 'app/client/lib/angular-route/angular-route.min.js',
+      'app/client/lib/angular-animate/angular-animate.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'app/client/app/**/*.js',
       'spec/unit/**/*.js',
