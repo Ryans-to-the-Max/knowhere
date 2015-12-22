@@ -16,7 +16,7 @@ angular.module('travel.landing', [])
       destination: $rootScope.destinationPermalink
     })
     .then(function (newGroup) {
-      $scope.currentGroup = newGroup;
+      $rootScope.currentGroup = newGroup;
       $state.go('results');
     })
     .catch(function (err) {

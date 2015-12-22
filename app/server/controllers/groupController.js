@@ -17,25 +17,35 @@ module.exports = {
     var title  = req.body.groupName;
     var dest   = req.body.destination;
     var userId = req.body.userInfo;
+    var check  = false;
 
-    User.findById(userId, function (err, user) {
-      if (!user) return util.send400(res, err);
-      if (err) return util.send500(res, err);
-
-      var newGroup = new Group({
-        title: title,
-        destination: dest,
-        host: user
-      });
-
-      newGroup.members.push(user);
-      newGroup.save(function (err, group){
-        if (!group) return util.send400(res, err);
-        if (err) return util.send500(res, err);
-        user.groupId.push(newGroup);
-        user.save();
-        res.status(200).send(newGroup);
-      });
+    User.findById(userId)
+    .populate('groupId')
+    .exec(function (err, user) {
+      if (user.groupId.length) {
+        for (var i = 0; i < user.groupId.length; i++){
+          if (user.groupId[i].title === title){
+            check = true;
+            return res.status(200).send(user.groupId[i]);
+          }
+        }
+      }
+        var newGroup = new Group({
+          title: title,
+          destination: dest,
+          host: user
+        });
+        newGroup.members.push(user._id);
+        newGroup.save(function (err, group){
+          if (!group) return util.send400(res, err);
+          if (err) return util.send500(res, err);
+          user.groupId.push(group._id);
+          user.save(function (err, user){
+            if (!user) return util.send400(res, err);
+            if (err) return util.send500(res, err);
+          });
+          res.status(200).send(group);
+        });
     });
   },
 

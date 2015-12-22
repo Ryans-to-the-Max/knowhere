@@ -155,6 +155,10 @@ angular.module('travel.services', [])
       method: 'POST',
       url: '/api/rating',
       data: data
+    })
+    .then(function(resp){
+      console.log("rating info");
+      console.log(resp.data);
     });
   };
 
