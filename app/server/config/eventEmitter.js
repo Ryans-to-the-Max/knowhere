@@ -50,7 +50,7 @@ function getUserFavInfo(userId) {
             var loadId  = list[0];
               request.get('http://api.tripexpert.com/v1/venues/' + loadId + '?')
               .query({
-              api_key: '5d8756782b4f32d2004e811695ced8b6'
+                api_key: process.env.TRIPEXPERT_KEY
               })
               .end(function (err, res) {
                 if (err){

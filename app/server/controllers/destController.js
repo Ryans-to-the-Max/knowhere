@@ -18,7 +18,7 @@ function loadDests(){
     if (err) console.log(err);
   }
 
-  request.get('http://api.tripexpert.com/v1/destinations?api_key=5d8756782b4f32d2004e811695ced8b6')
+    request.get('http://api.tripexpert.com/v1/destinations?api_key=' + process.env.TRIPEXPERT_KEY)
        .end(function (err, res) {
           if (err){
             console.log(err);
@@ -62,7 +62,7 @@ module.exports = {
       request.get('http://api.tripexpert.com/v1/venues?')
          .query({
           destination_id: dest.destId,
-          api_key: '5d8756782b4f32d2004e811695ced8b6'
+          api_key: process.env.TRIPEXPERT_KEY
         })
          .end(function (err, response) {
             if (err){
@@ -81,7 +81,7 @@ module.exports = {
 
     request.get(url)
         .query({
-          api_key: '5d8756782b4f32d2004e811695ced8b6'
+          api_key: process.env.TRIPEXPERT_KEY
         })
         .end(function (err, response) {
           if (err) return util.send500(res, err);
