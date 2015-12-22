@@ -1,7 +1,7 @@
 angular.module('travel.itinerary', [])
 
 .controller('ItineraryController', function ($scope, $window, $rootScope, $state, CurrentInfo, Venues, City, Groups, Util) {
-  var destination = $window.sessionStorage.getItem('knowhere') || CurrentInfo.destination.name;
+  // var destination = $window.sessionStorage.getItem('knowhere') || CurrentInfo.destination.name;
   $scope.restaurants = [];
   $scope.attractions = [];
   $scope.hotels = [];
@@ -31,7 +31,6 @@ angular.module('travel.itinerary', [])
 
   $scope.selectGroup = function(groupInfo) {
     Groups.selectGroup(groupInfo, $rootScope);
-    $window.sessionStorage.setItem('knowhere', groupInfo.destination);
     $state.go('itinerary');
   };
 
@@ -63,7 +62,7 @@ angular.module('travel.itinerary', [])
 
 
   $scope.getCity = function () {
-    City.getCity(destination)
+    City.getCity($rootScope.destinationPermalink)
       .then(function(cityInfo) {
         $scope.city = cityInfo;
         CurrentInfo.destination.basicInfo = cityInfo;
