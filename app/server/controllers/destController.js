@@ -71,5 +71,22 @@ module.exports = {
             return res.status(200).send(text.response.venues);
          });
     });
+  },
+
+  getDetailedInfo: function (req, res, next){
+    var venueId = req.query.venueId;
+    var url = 'http://api.tripexpert.com/v1/venues/' + venueId;
+    request.get(url)
+          .query({
+            api_key: '5d8756782b4f32d2004e811695ced8b6'
+          })
+          .end(function (err, response) {
+            if (err){
+              console.log(err);
+              return res.status(500).send();
+            }
+            var text = JSON.parse(response.text);
+            return res.status(200).send(text.response.venue[0]);
+          });
   }
 };

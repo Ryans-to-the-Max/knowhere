@@ -8,4 +8,6 @@ router.get('/', destController.getDestination);
 
 router.get('/venues', destController.getVenues);
 
+router.get('/venues/info', destController.getDetailedInfo);
+
 module.exports = router;

@@ -188,8 +188,22 @@ angular.module('travel.services', [])
     });
   };
 
+  var getDetailedVenueInfo = function(query){
+    return $http({
+      method: 'GET',
+      url: '/api/dest/venues/info',
+      params: query
+    })
+    .then(function successCb (resp){
+      return resp.data;
+    }, function errCb (resp) {
+      console.error(resp);
+      return resp;
+    });
+  };
 
-  ////////////////// FAVORITES //////////////////////
+
+  ////////////////// RATINGS //////////////////////
 
 
   var getRatings = function(query){
@@ -202,28 +216,6 @@ angular.module('travel.services', [])
       return resp.data;
     });
   };
-
-
-  var getUserFavorites = function (userId) {
-    return $http({
-      method: 'GET',
-      url: '/api/fav/user',
-      params: {userId: userId}
-    })
-    .then(function(resp) {
-      console.log(resp.data);
-      return resp.data;
-    });
-  };
-
-  var addToUserFavorites = function (venue, userId) {
-    return $http({
-      method: 'POST',
-      url: '/api/fav',
-      data: { venue: venue, userId: userId }
-    });
-  };
-
 
   var addRating = function(data) {
     return $http({
@@ -260,6 +252,34 @@ angular.module('travel.services', [])
     });
   };
 
+
+  ////////////////// ADD TO USER FAVORITES - NON FUNCTIONAL - SAVE FOR LATER //////////////////////
+
+
+  var getUserFavorites = function (userId) {
+    return $http({
+      method: 'GET',
+      url: '/api/fav/user',
+      params: {userId: userId}
+    })
+    .then(function(resp) {
+      console.log(resp.data);
+      return resp.data;
+    });
+  };
+
+  var addToUserFavorites = function (venue, userId) {
+    return $http({
+      method: 'POST',
+      url: '/api/fav',
+      data: { venue: venue, userId: userId }
+    });
+  };
+
+
+  ////////////////// EXPORTING ALL THE FUNCTIONS //////////////////////
+
+
   return {
     getVenues: getVenues,
     getUserFavorites: getUserFavorites,
@@ -267,7 +287,8 @@ angular.module('travel.services', [])
     addRating: addRating,
     getRatings: getRatings,
     getItinerary: getItinerary,
-    addtoItinerary: addtoItinerary
+    addtoItinerary: addtoItinerary,
+    getDetailedVenueInfo: getDetailedVenueInfo
   };
 
 })

@@ -1,6 +1,6 @@
-angular.module('travel.results', [])
+angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
 
-.controller('ResultsController', function ($scope, $window, $rootScope, $state, CurrentInfo, Venues, City, Groups, Util) {
+.controller('ResultsController', function ($scope, $window, $rootScope, $state, $uibModal, CurrentInfo, Venues, City, Groups, Util) {
   $scope.venues = [];
   $scope.filteredVenues = [];
   $scope.city = null;
@@ -58,28 +58,6 @@ angular.module('travel.results', [])
   };
 
 
-  ////////////////// GET ALL VENUES BASED ON A DESTINATION CITY //////////////////////
-
-
-  $scope.getVenueInformation = function (permalink) {
-    permalink = permalink || $rootScope.destinationPermalink;
-    if (!permalink) return;
-    var query = {
-      permalink: permalink
-    };
-    Venues.getVenues(query)
-      .then(function(venueInfo) {
-        if (!Array.isArray(venueInfo)) return;
-
-        CurrentInfo.destination.venues = $scope.venues = venueInfo;
-        $scope.filterVenues(1);
-      })
-      .catch(function(error){
-        console.error(error);
-      });
-  };
-
-
   ////////////////// GET BASIC DESTINATION CITY INFO //////////////////////
 
 
@@ -98,6 +76,58 @@ angular.module('travel.results', [])
   };
 
 
+  ////////////////// GET ALL VENUES BASED ON A DESTINATION CITY //////////////////////
+
+
+  $scope.getVenuesofDestination = function (permalink) {
+    permalink = permalink || $rootScope.destinationPermalink;
+    if (!permalink) return;
+    var query = {
+      permalink: permalink
+    };
+    Venues.getVenues(query)
+      .then(function(venuesInfo) {
+        if (!Array.isArray(venuesInfo)) return;
+
+        CurrentInfo.destination.venues = $scope.venues = venuesInfo;
+        $scope.filterVenues(1);
+      })
+      .catch(function(error){
+        console.error(error);
+      });
+  };
+
+
+  ////////////////// GET DETAILED INFO OF A VENUE //////////////////////
+
+
+  $scope.myInterval = 5000;
+  $scope.noWrapSlides = false;
+  $scope.detailedInfo = $rootScope.detailedInfo;
+  $scope.getDetailedVenueInfo = function(venueId) {
+    var query = {
+      venueId : venueId
+    };
+    Venues.getDetailedVenueInfo(query)
+      .then(function(venueInfo) {
+        $rootScope.detailedInfo = $scope.detailedInfo = venueInfo;
+        $scope.openModal();
+      })
+      .catch(function(error){
+        console.error(error);
+      });
+  };
+  $scope.exit = function(){
+    $uibModalInstance.close();
+  };
+  $scope.openModal = function() {
+    var modalInstance = $uibModal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'app/results/venueInfo.html',
+      controller: 'ResultsController',
+    });
+  };
+
 
   ////////////////// ADD TO RESULT LIST //////////////////////
 
@@ -109,6 +139,7 @@ angular.module('travel.results', [])
       groupId : $rootScope.currentGroup._id,
       rating: 5
     };
+    console.log(data);
     Venues.addRating(data);
   };
 
@@ -138,5 +169,5 @@ angular.module('travel.results', [])
 
   $scope.getUserGroups();
   $scope.getCity($rootScope.destinationPermalink);
-  $scope.getVenueInformation($rootScope.destinationPermalink);
+  $scope.getVenuesofDestination($rootScope.destinationPermalink);
 });

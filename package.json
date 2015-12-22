@@ -4,6 +4,7 @@
   "description": "A travel advising app",
   "main": "index.js",
   "dependencies": {
+    "angular-animate": "^1.4.8",
     "angular-bootstrap-npm": "^0.14.3",
     "angular-ui-bootstrap": "^0.14.3",
     "angular-ui-router": "^0.2.15",

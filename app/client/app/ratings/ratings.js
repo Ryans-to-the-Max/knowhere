@@ -81,6 +81,7 @@ angular.module('travel.ratings', [])
     };
     Venues.getRatings(query)
       .then(function(venuesInfo){
+        console.log(venuesInfo);
         $scope.ratings = venuesInfo;
         $scope.filterRatings(1);
       });
