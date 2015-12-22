@@ -124,7 +124,7 @@ angular.module('travel.ratings', [])
       groupId : $rootScope.currentGroup._id,
       rating : rating
     };
-    Venues.addRating(data);j
+    Venues.addRating(data);
   };
 
 
