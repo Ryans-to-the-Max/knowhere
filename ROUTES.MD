@@ -9,7 +9,20 @@ HTTP Verb    URI Pattern    serverController#action
 etc.
 ```
 
+## Backend routes:
+
 ```
+auth routes
+NOTE: No /api/ , no controllers.  All in server.js and config/
+
+POST  /login
+POST  /signup
+GET   /logout
+GET   /auth/google
+GET   /auth/google/callback
+GET   /auth/facebook
+GET   /auth/facebook/callback
+
 "Index"
 GET  /api/       indexController#getIndex
 GET  /api/check  indexController#isLoggedIn
@@ -34,6 +47,8 @@ POST  /api/rating/mod      ratingController#modifyRating
 POST  /api/rating/user     ratingController#addUserRating
 POST  /api/rating/usermod  ratingController#modifyUserRating
 ```
+
+## Front-end routes:
 
 #The following API calls are seen on the [coggle](https://coggle.it/diagram/VnER1WcWk3oeczUt)
 
