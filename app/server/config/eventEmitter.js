@@ -44,7 +44,7 @@ function getUserFavInfo(userId) {
         }
       }
 
-      findRatings();
+      //findRatings();
 
       function loadVenues() {
         async.parallel({ // simultaneously get venue info from api and load venue from DB
@@ -99,7 +99,7 @@ function getUserFavInfo(userId) {
           }
         });
       }
-    });//();
+    })();
   });
 }
 

@@ -2,7 +2,7 @@ var User   = require('../models/user');
 var Venue  = require('../models/venue');
 var Group  = require('../models/group');
 var Rating = require('../models/rating');
-var path   = require('path')
+var path   = require('path');
 var util   = require(path.join(__dirname, '../util'));
 
 
@@ -63,7 +63,7 @@ module.exports = {
                 if (err) return util.send500(res, err); 
               });
               //now push to user
-              user.favorites.push({venueLU: venueInfo.id, venue: newVenue, rating: newRating})
+              user.favorites.push({venueLU: venueInfo.id, venue: newVenue, rating: newRating});
               user.save(function (err, user){
                 if (!user) return util.send400(res, err);
                 if (err) return util.send500(res, err); 
@@ -76,6 +76,7 @@ module.exports = {
     //user taken care of now add to group
     //check if there is a rating and also if that user has already rated
     Rating.update({'allRatings.user': userId}, {$set: {'allRatings.userRating': newRating}}, function (err, num){
+      var anotherRating;
       console.log(" wtf is this ", num);
       if (num.nModified === 0){ // user has not already voted so now check to see if rating exists
         Rating.findOne({venueLU: venueInfo.id, groupId: groupId}, function (err, rating){
@@ -90,7 +91,7 @@ module.exports = {
           } else { //no rating so now check to see if venue exists
             Venue.findOne({lookUpId: venueInfo.id}, function (err, venue){
               if (venue){ //venue exists so just need to create new rating
-                var anotherRating = new Rating({
+                anotherRating = new Rating({
                   venueLU: venue.lookUpId,
                   venue: venue._id,
                   groupId: groupId
@@ -117,12 +118,12 @@ module.exports = {
                   if (!venue) return util.send400(res, err);
                   if (err) return util.send500(res, err);
                 });
-                var anotherRating = new Rating({
+                anotherRating = new Rating({
                   venueLU: newVenue.lookUpId,
                   venue: newVenue,
                   groupId: groupId
                 });
-                anotherRating.allRatings.push({user: userId, userRating: newRating})
+                anotherRating.allRatings.push({user: userId, userRating: newRating});
                 anotherRating.save(function (err, rating){
                   if (!rating) return util.send400(res, err);
                   if (err) return util.send500(res, err);

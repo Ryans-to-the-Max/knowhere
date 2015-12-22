@@ -22,10 +22,11 @@ module.exports = {
     User.findById(userId)
     .populate('groupId')
     .exec(function (err, user) {
+      if (!user) return res.status(400).send();
+      if (err) return res.status(500).send();
       if (user.groupId.length) {
         for (var i = 0; i < user.groupId.length; i++){
           if (user.groupId[i].title === title){
-            check = true;
             return res.status(200).send(user.groupId[i]);
           }
         }
