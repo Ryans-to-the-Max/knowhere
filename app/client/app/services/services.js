@@ -1,6 +1,81 @@
 angular.module('travel.services', [])
 
 
+
+////////////////// AuthMe //////////////////////
+
+
+.factory("AuthMe", function ($http){
+
+  var createUser = function(user){
+    return $http({
+      method: 'POST',
+      url: '/signup',
+      data: JSON.stringify(user)
+    })
+    .then(function (resp){
+      return resp.data;
+    });
+  };
+
+  var googleLogin = function(){
+    return $http({
+      method: 'GET',
+      url: '/auth/google'
+    }).then(function (resp){
+      return resp.data;
+    });
+  };
+
+  var facebookLogin = function(){
+    return $http({
+      method: 'GET',
+      url: '/auth/facebook'
+    }).then(function (resp){
+      return resp.data;
+    });
+  };
+
+  var loginUser = function(user){
+    return $http({
+      method: 'POST',
+      url: '/login',
+      data: JSON.stringify(user)
+    })
+    .then(function (resp){
+      return resp.data;
+    });
+  };
+
+  var isLoggedIn = function(){
+    return $http({
+      method: 'GET',
+      url: '/api/check'
+    })
+    .then(function (resp){
+      return resp.data;
+    });
+  };
+
+  var logout = function(){
+    return $http({
+      method: 'GET',
+      url: '/logout'
+    });
+  };
+
+  return {
+    logout: logout,
+    facebookLogin: facebookLogin,
+    googleLogin: googleLogin,
+    createUser: createUser,
+    loginUser: loginUser,
+    isLoggedIn: isLoggedIn
+  };
+
+})
+
+
 ////////////////// Groups //////////////////////
 
 

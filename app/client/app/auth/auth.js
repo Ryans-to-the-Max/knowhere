@@ -1,6 +1,6 @@
 angular.module('signin', ['ui.bootstrap'])
 
-.controller('AuthController', function ($scope, $uibModal, $rootScope, authMe, $location) {
+.controller('AuthController', function ($scope, $uibModal, $rootScope, AuthMe, $location) {
   $rootScope.currentUserSignedIn = false;
   $rootScope.currentUser = null;
 
@@ -8,7 +8,7 @@ angular.module('signin', ['ui.bootstrap'])
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'app/auth/signin.html',
-      controller: 'signinCtrl',
+      controller: 'SigninController',
     });
   };
 
@@ -16,14 +16,14 @@ angular.module('signin', ['ui.bootstrap'])
     $rootScope.currentUser = null;
     $rootScope.currentUserSignedIn = false;
 
-    authMe.logout()
+    AuthMe.logout()
         .then(function (data) {
           console.log(data);
         });
   };
 
   $scope.onLoad = function() {
-    authMe.isLoggedIn()
+    AuthMe.isLoggedIn()
         .then(function (data){
 
           if (data.status === true){
@@ -36,7 +36,7 @@ angular.module('signin', ['ui.bootstrap'])
   $scope.onLoad();
 })
 
-.controller('signinCtrl', function ($scope, $uibModalInstance, $uibModal, authMe, $location, $rootScope) {
+.controller('SigninController', function ($scope, $uibModalInstance, $uibModal, AuthMe, $location, $rootScope) {
   $scope.alerts = [];
 
   $scope.closeAlert = function() {
@@ -44,7 +44,7 @@ angular.module('signin', ['ui.bootstrap'])
   };
 
   $scope.submit = function (){
-    authMe.loginUser({username: $scope.email, password: $scope.password})
+    AuthMe.loginUser({username: $scope.email, password: $scope.password})
     .then(function (data){
         if (data.status === true){
           $rootScope.currentUserSignedIn = true;
@@ -57,7 +57,7 @@ angular.module('signin', ['ui.bootstrap'])
   };
 
   $scope.google = function (){
-    authMe.googleLogin()
+    AuthMe.googleLogin()
     .then(function (data){
       if (data.status === true) {
           $rootScope.currentUserSignedIn = true;
@@ -70,7 +70,7 @@ angular.module('signin', ['ui.bootstrap'])
   };
 
   $scope.facebook = function (){
-    authMe.facebookLogin()
+    AuthMe.facebookLogin()
     .then(function (data){
       if (data.status === true) {
           $rootScope.currentUserSignedIn = true;
@@ -88,7 +88,7 @@ angular.module('signin', ['ui.bootstrap'])
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'app/auth/signup.html',
-      controller: 'signupCtrl',
+      controller: 'SignupController',
       background: 'static'
       });
     };
@@ -98,7 +98,7 @@ angular.module('signin', ['ui.bootstrap'])
   };
 })
 
-.controller('signupCtrl', function ($scope, $uibModalInstance, authMe, $location, $rootScope) {
+.controller('SignupController', function ($scope, $uibModalInstance, AuthMe, $location, $rootScope) {
   $scope.alerts = [];
 
    $scope.closeAlert = function() {
@@ -106,7 +106,7 @@ angular.module('signin', ['ui.bootstrap'])
   };
 
   $scope.signup = function (){
-    authMe.createUser({username: $scope.email, password: $scope.password})
+    AuthMe.createUser({username: $scope.email, password: $scope.password})
       .then(function (data){
         if (data.status === true){
           $uibModalInstance.close();
@@ -120,76 +120,6 @@ angular.module('signin', ['ui.bootstrap'])
 
   $scope.exit = function(){
     $uibModalInstance.close();
-  };
-
-})
-
-.factory("authMe", function ($http){
-
-  var createUser = function(user){
-    return $http({
-      method: 'POST',
-      url: '/signup',
-      data: JSON.stringify(user)
-    })
-    .then(function (resp){
-      return resp.data;
-    });
-  };
-
-  var googleLogin = function(){
-    return $http({
-      method: 'GET',
-      url: '/auth/google'
-    }).then(function (resp){
-      return resp.data;
-    });
-  };
-
-  var facebookLogin = function(){
-    return $http({
-      method: 'GET',
-      url: '/auth/facebook'
-    }).then(function (resp){
-      return resp.data;
-    });
-  };
-
-  var loginUser = function(user){
-    return $http({
-      method: 'POST',
-      url: '/login',
-      data: JSON.stringify(user)
-    })
-    .then(function (resp){
-      return resp.data;
-    });
-  };
-
-  var isLoggedIn = function(){
-    return $http({
-      method: 'GET',
-      url: '/api/check'
-    })
-    .then(function (resp){
-      return resp.data;
-    });
-  };
-
-  var logout = function(){
-    return $http({
-      method: 'GET',
-      url: '/logout'
-    });
-  };
-
-  return {
-    logout: logout,
-    facebookLogin: facebookLogin,
-    googleLogin: googleLogin,
-    createUser: createUser,
-    loginUser: loginUser,
-    isLoggedIn: isLoggedIn
   };
 
 });
