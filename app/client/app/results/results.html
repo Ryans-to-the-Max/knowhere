@@ -25,18 +25,17 @@
       <h2 class="text-center">{{ heading }}</h2>
     </div>
 
-    <div ng-repeat="venue in filteredVenues" class="row">
-      <div class="media venue-info">
-        <div class="media-left">
-          <a href="">
-            <img class="venue-thumbnail media-left" ng-src="{{ venue.index_photo }}" alt="photo: {{ venue.name }}">
-          </a>
-        </div>
-        <div class="media-body media-middle">
-          <h4 class="media-heading">{{ venue.name }}</h4>
-          <p>{{ venue.description }}</p>
-          <button class="btn btn-primary" type="button" name="button"
-          ng-click="addToRatings(venue)">Add to Ratings</button>
+    <div class="row" class="text-center">
+      <div ng-repeat="venue in filteredVenues" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 thumbnail" >
+        <div class="venue-info">
+          <img class="venue-thumbnail" ng-src="{{ venue.index_photo }}" alt="photo: {{ venue.name }}">
+          <div class="caption">
+            <div class="title">
+              <h4>{{ venue.name }}</h4>
+            </div>
+            <button class="btn btn-primary" type="button" name="button"
+            ng-click="addToRatings(venue)">More Info</button>
+          </div>
         </div>
       </div>
     </div>

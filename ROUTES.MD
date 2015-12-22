@@ -48,7 +48,7 @@ GET  /api/dest/venues  destController#getVenues
   query: destination permalink
   response: array of venue objects
 
-GET  /api/dest/venues/info  destController#getVenues
+GET  /api/dest/venues/info  destController#
   Get specific information of a specific venue
   query: venueId
   response: object of venue information
