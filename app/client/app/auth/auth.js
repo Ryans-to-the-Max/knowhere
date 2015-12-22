@@ -8,7 +8,7 @@ angular.module('signin', ['ui.bootstrap'])
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'app/auth/signin.html',
-      controller: 'signinCtrl',
+      controller: 'SigninController',
     });
   };
 
@@ -36,7 +36,7 @@ angular.module('signin', ['ui.bootstrap'])
   $scope.onLoad();
 })
 
-.controller('signinCtrl', function ($scope, $uibModalInstance, $uibModal, AuthMe, $location, $rootScope) {
+.controller('SigninController', function ($scope, $uibModalInstance, $uibModal, AuthMe, $location, $rootScope) {
   $scope.alerts = [];
 
   $scope.closeAlert = function() {
@@ -88,7 +88,7 @@ angular.module('signin', ['ui.bootstrap'])
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'app/auth/signup.html',
-      controller: 'signupCtrl',
+      controller: 'SignupController',
       background: 'static'
       });
     };
@@ -98,7 +98,7 @@ angular.module('signin', ['ui.bootstrap'])
   };
 })
 
-.controller('signupCtrl', function ($scope, $uibModalInstance, AuthMe, $location, $rootScope) {
+.controller('SignupController', function ($scope, $uibModalInstance, AuthMe, $location, $rootScope) {
   $scope.alerts = [];
 
    $scope.closeAlert = function() {
