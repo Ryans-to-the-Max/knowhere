@@ -66,7 +66,7 @@
     "coverageClient": "node_modules/.bin/karma start spec/karma.conf.js",
     "coverageServer": "istanbul cover node_modules/.bin/_mocha -- -R spec test/**/*",
     "coverageView": "open -a 'Google Chrome' coverage/",
-    "dev": "nodemon ./app/server/index.js",
+    "dev": "nodemon -e js,coffee,css,html,litcoffee,json ./app/server/index.js",
     "karma": "node node_modules/karma/bin/karma start spec/karma.conf.js",
     "start": "node ./app/server/index.js",
     "test": "grunt test"
