@@ -6,7 +6,7 @@ angular.module('travel.ratings', [])
   $scope.filteredGroupRatings  = [];
   $scope.city = null;
   $scope.heading = null;
-  $scope.ratings = [];
+  $scope.allVenuesnRatings = [];
   $scope.groups = [];
 
 
@@ -34,8 +34,10 @@ angular.module('travel.ratings', [])
 
   //FIXME: need updated data response object
   $scope.filterRatings = function (filterType) {
+    var venues = [];
     var groupRatings = [];
     var userRatings = [];
+    var userId = $rootScope.currentUser._id;
 
     // set heading to appropriate value
     if (filterType === 1) {
@@ -54,13 +56,20 @@ angular.module('travel.ratings', [])
     //   GroupRatings.push(favorite);
     // }
 
-    if (Array.isArray($scope.ratings)) {
-      $scope.ratings.forEach(function(venue) {
-        if (venue.venue_type_id === filterType) {
-          groupRatings.push(rating.venue);
+    $scope.allVenuesnRatings.forEach(function(ven) {
+      if (ven.venue.venue_type_id === filterType) {
+        venues.push(ven);
+      }
+    });
+    venues.forEach(function(ven) {
+      ven.allRatings.forEach(function(rating) {
+        if (rating.user === userId) {
+          userRatings.push(ven);
+        } else {
+          groupRatings.push(ven);
         }
       });
-    }
+    });
     $scope.filteredGroupRatings = groupRatings;
     $scope.filteredUserRatings  = userRatings;
   };
@@ -68,7 +77,7 @@ angular.module('travel.ratings', [])
 
   ////////////////// GET ALL RATINGS OF THE GROUP //////////////////////
 
-  //FIXME: need updated data response object
+
   $scope.getRatings = function() {
     var userId = $rootScope.currentUser._id;
     var groupId = $rootScope.currentGroup._id;
@@ -79,7 +88,7 @@ angular.module('travel.ratings', [])
     Venues.getRatings(query)
       .then(function(venuesInfo){
         console.log(venuesInfo);
-        $scope.ratings = venuesInfo;
+        $scope.allVenuesnRatings = venuesInfo;
         $scope.filterRatings(1);
       });
   };
@@ -88,8 +97,8 @@ angular.module('travel.ratings', [])
   //   var userId = $rootScope.currentUser._id;
   //   Venues.getUserFavorites(userId)
   //   .then(function(favorites) {
-  //     $scope.ratings = favorites;
-  //     console.log('favorites', $scope.ratings);
+  //     $scope.allVenuesnRatings = favorites;
+  //     console.log('favorites', $scope.allVenuesnRatings);
   //     $scope.filterRatings(1);
   //   });
   // };

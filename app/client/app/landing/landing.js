@@ -13,7 +13,7 @@ angular.module('travel.landing', [])
 
     Groups.createGroup({
       groupName: $scope.data.group,
-      userInfo: $rootScope.currentUser._id,
+      userId: $rootScope.currentUser._id,
       destination: $rootScope.destinationPermalink
     })
     .then(function (newGroup) {

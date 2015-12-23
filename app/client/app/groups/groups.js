@@ -2,6 +2,7 @@ angular.module('travel.groups', [])
 
 .controller('GroupsController', function ($scope, $window, $rootScope, $state, Groups, Util) {
   $scope.newGroupInput = null;
+  $scope.newDestinationInput = null;
   $scope.groups = [];
   $scope.newParticipantEmail = null;
   $scope.destination = null;
@@ -22,15 +23,16 @@ angular.module('travel.groups', [])
 
   ////////////////// CREATE A NEW GROUP //////////////////////
 
-
   $scope.createGroup = function() {
-    Groups.createGroup({
+    var data = {
       groupName: $scope.newGroupInput,
-      userInfo: $rootScope.currentUser,
-      destination: Util.transToPermalink($scope.destination)
-    })
-    .then(function (res) {
-      $rootScope.currentGroup = res.data;
+      userId: $rootScope.currentUser._id,
+      destination: Util.transToPermalink($scope.newDestinationInput)
+    };
+    Groups.createGroup(data)
+    .then(function (newGroup) {
+      $rootScope.currentGroup = newGroup;
+      $rootScope.destinationPermalink = Util.transToPermalink($scope.newDestinationInput);
     });
   };
 
@@ -40,8 +42,8 @@ angular.module('travel.groups', [])
 
   $scope.addParticipant = function() {
     var data = {
-      groupName: $rootScope.currentGroup,
-      userInfo: $rootScope.currentUser,
+      groupId: $rootScope.currentGroup._id,
+      userId: $rootScope.currentUser_id,
       participantInfo: $scope.newParticipantEmail
     };
     Groups.addParticipant(data);

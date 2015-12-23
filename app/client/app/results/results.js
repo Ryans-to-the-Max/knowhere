@@ -63,8 +63,11 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   $scope.getCity = function (permalink) {
     permalink = permalink || $rootScope.destinationPermalink;
     if (!permalink) return;
+    var query = {
+      permalink: permalink
+    };
 
-    City.getCity(permalink)
+    City.getCity(query)
       .then(function(cityInfo) {
         $scope.city = cityInfo;
         CurrentInfo.destination.basicInfo = cityInfo;

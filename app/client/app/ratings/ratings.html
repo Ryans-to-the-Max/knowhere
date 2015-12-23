@@ -25,11 +25,11 @@
       <h2 class="text-center">{{ heading }}</h2>
     </div>
 
-    <h1 class="text-center" ng-if="filteredUserFavs.length < 1">
-      You current do not have any favorites!
+    <h1 class="text-center" ng-if="filteredGroupRatings.length < 1">
+      You current do not have anything to rate!
     </h1>
     <div class="row" class="text-center">
-      <div ng-repeat="venue in filteredUserFavs" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 thumbnail" >
+      <div ng-repeat="venue in filteredGroupRatings" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 thumbnail" >
         <div class="venue-info">
           <img class="venue-thumbnail" ng-src="{{ venue.index_photo }}" alt="photo: {{ venue.name }}">
           <div class="caption">
@@ -37,8 +37,9 @@
               <h4>{{ venue.name }}</h4>
             </div>
             <span>Select your rating <br> {{venue.userRating}} out of 10
-            <div star-rating rating-value="venue.userRating" max="10" on-rating-selected="addRating(venue, venue.userRating)"></div>
-          </span>
+              <div star-rating rating-value="venue.userRating" max="10" on-rating-selected="addRating(venue, venue.userRating)"></div>
+            </span>
+            <button class="btn btn-primary" type="button" name="button">More Info</button>
           </div>
         </div>
       </div>

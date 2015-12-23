@@ -131,11 +131,11 @@ angular.module('travel.services', [])
 
 
 .factory('City', function ($http) {
-  var getCity = function(destPermalink){
+  var getCity = function(query){
     return $http({
       method: 'GET',
       url: '/api/dest',
-      params: { name: destPermalink }
+      params: query
     })
     .then(function(resp){
       return resp.data;
@@ -174,6 +174,10 @@ angular.module('travel.services', [])
   ////////////////// PLACES TO EXPLORE //////////////////////
 
 
+  /*
+    @params {object} query has:
+      @prop {str} permalink
+  */
   var getVenues = function(query){
     return $http({
       method: 'GET',
@@ -188,6 +192,10 @@ angular.module('travel.services', [])
     });
   };
 
+  /*
+    @params {object} query has:
+      @prop {str} venueId
+  */
   var getDetailedVenueInfo = function(query){
     return $http({
       method: 'GET',
@@ -207,7 +215,7 @@ angular.module('travel.services', [])
 
 
   /*
-    @param {object} query has:
+    @params {object} query has:
       @prop {str} groupId
       @prop {str} userId
   */
@@ -222,15 +230,18 @@ angular.module('travel.services', [])
     });
   };
 
+  /*
+    @data {object} data has:
+      @prop {str} groupId
+      @prop {str} userId
+      @prop {number} rating
+      @prop {object} venue
+  */
   var addRating = function(data) {
     return $http({
       method: 'POST',
       url: '/api/rating',
       data: data
-    })
-    .then(function(resp){
-      console.log("rating info");
-      console.log(resp.data);
     });
   };
 
@@ -238,6 +249,14 @@ angular.module('travel.services', [])
   ////////////////// GROUP FAVORITES - ADMIN ONLY //////////////////////
 
 
+  /*
+    @data {object} data has:
+      @prop {str} groupId
+      @prop {str} userId
+      @prop {object} venue
+      @prop {str} fromDate
+      @prop {str} toDate
+  */
   var addtoItinerary = function(data) {
     return $http({
       method: 'POST',
@@ -250,11 +269,16 @@ angular.module('travel.services', [])
   ////////////////// ITINERARY //////////////////////
 
 
+  /*
+    @params {object} query has:
+      @prop {str} groupId
+      @prop {str} userId
+  */
   var getItinerary = function(query){
     return $http({
       method: 'GET',
       url: '/api/itin',
-      params: {query: query}
+      params: query
     })
     .then(function(resp){
       return resp.data;

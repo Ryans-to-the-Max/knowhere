@@ -9,6 +9,7 @@ angular.module('travel.itinerary', [])
   $scope.inputData = {};
   $scope.fullItinerary = [];
   $scope.groups = [];
+  $scope.heading = null;
 
 
   ////////////////// GET ALL THE GROUPS OF A USER //////////////////////
@@ -38,23 +39,24 @@ angular.module('travel.itinerary', [])
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////
 
 
-  $scope.filterItinerary = function () {
-    var restaurants = [],
-        attractions = [],
-        hotels = [];
+  $scope.filterItinerary = function (filterType) {
+    var venues = [];
+
+    // set heading to appropriate value
+    if (filterType === 1) {
+      $scope.heading = 'Hotels';
+    } else if (filterType === 2) {
+      $scope.heading = 'Restaurants';
+    } else if (filterType === 3) {
+      $scope.heading = 'Attractions';
+    }
 
     $scope.fullItinerary.forEach(function(venue) {
-      if (venue.venue_type_id === 1) {
-        hotels.push(venue);
-      } else if (venue.venue_type_id === 2) {
-        restaurants.push(venue);
-      } else {
-        attractions.push(venue);
+      if (venue.venue_type_id === filterType) {
+        venues.push(rating.venue);
       }
     });
-    $scope.restaurants = restaurants;
-    $scope.attractions = attractions;
-    $scope.hotels = hotels;
+    $scope.filteredItinerary = venues;
   };
 
 
@@ -76,9 +78,11 @@ angular.module('travel.itinerary', [])
 
 
   $scope.getItinerary = function() {
+    var userId = $rootScope.currentUser._id;
+    var groupId = $rootScope.currentGroup._id;
     var query = {
-      userInfo : $rootScope.currentUser,
-      groupInfo : $rootScope.currentGroup,
+      userId : userId,
+      groupId : groupId
     };
     Venues.getItinerary(query)
       .then(function(itineraryData){
@@ -94,11 +98,18 @@ angular.module('travel.itinerary', [])
 
 
   $scope.addDatestoItinerary = function(venueData) {
-    venueData.userInfo = $rootScope.currentUser;
-    venueData.groupInfo = $rootScope.currentGroup;
-    venueData.fromDate = $scope.inputData.fromDate;
-    venueData.toDate = $scope.inputData.toDate;
-    Venues.addtoItinerary(venueData);
+    var userId = $rootScope.currentUser._id;
+    var groupId = $rootScope.currentGroup._id;
+    var fromDate = $scope.inputData.fromDate;
+    var toDate = $scope.inputData.toDate;
+    var data = {
+      venue : venueData,
+      userId : userId,
+      groupId : groupId,
+      fromDate : fromDate,
+      toDate : toDate
+    };
+    Venues.addtoItinerary(data);
   };
 
 

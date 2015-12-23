@@ -39,7 +39,7 @@ module.exports = {
 
   getDestination: function (req, res, next){
     for (var x = 0; x < oldDest.length; x++){
-      if (oldDest[x].permalink === req.query.name){
+      if (oldDest[x].permalink === req.query.permalink){
         return res.status(200).send(oldDest[x]);
       }
     }
