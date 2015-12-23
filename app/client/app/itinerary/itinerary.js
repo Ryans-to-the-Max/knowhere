@@ -108,7 +108,7 @@ angular.module('travel.itinerary', [])
       groupId : groupId,
       fromDate : fromDate,
       toDate : toDate
-    }
+    };
     Venues.addtoItinerary(data);
   };
 
