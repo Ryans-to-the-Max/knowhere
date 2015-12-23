@@ -34,7 +34,7 @@ angular.module('travel.ratings', [])
 
   //FIXME: need updated data response object
   $scope.filterRatings = function (filterType) {
-    if (!$scope.allVenuesRatings.length > 0) return;
+    if (!$scope.allVenuesRatings.length) return;
 
     var venues = [];
     var groupRatings = [];
