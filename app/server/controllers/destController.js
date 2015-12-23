@@ -62,19 +62,23 @@ module.exports = {
 
   getVenues: function (req, res, next){
     var destinationId = req.query.destinationId;
+
     request.get('http://api.tripexpert.com/v1/venues?')
-         .query({
-          destination_id: destinationId,
-          api_key: process.env.TRIPEXPERT_KEY
-        })
-         .end(function (err, response) {
-            if (err){
-              console.log(err);
-              return res.status(500).send();
-            }
-            var text = JSON.parse(response.text);
-            return res.status(200).send(text.response.venues);
-         });
+      .query({
+        destination_id: destinationId,
+        api_key: process.env.TRIPEXPERT_KEY
+      })
+      .end(function (err, response) {
+        if (err) return util.send500(res, err);
+
+        /* @response {object} has:
+            @prop {object} meta. Has:
+              @prop {int} code.  HTTP response code.
+            @prop {object} response.  Is the object of interest, having:
+              @prop {array} venues.  The venue objects.
+        */
+        return res.status(200).send(response.body.response.venues);
+      });
   },
 
   getDetailedInfo: function (req, res, next){

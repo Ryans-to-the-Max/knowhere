@@ -168,7 +168,7 @@ angular.module('travel.services', [])
 
   /*
     @params {object} query has:
-      @prop {str} permalink
+      @prop {int} destinationId
   */
   var getVenues = function(query){
     return $http({
