@@ -1,12 +1,11 @@
 angular.module('travel.ratings', [])
 
-.controller('RatingsController', function ($scope, $window, $rootScope, $state, CurrentInfo, Venues, City, Groups, Util) {
-  var destination = $rootScope.destinationPermalink || CurrentInfo.destination.name;
+.controller('RatingsController', function ($scope, $window, $rootScope, $state, CurrentInfo, Venues, Groups, Util) {
   $scope.filteredUserRatings = [];
   $scope.filteredGroupRatings  = [];
-  $scope.city = null;
+  $scope.city = $rootScope.destination;
   $scope.heading = null;
-  $scope.allVenuesnRatings = [];
+  $scope.allVenuesRatings = [];
   $scope.groups = [];
 
 
@@ -34,6 +33,8 @@ angular.module('travel.ratings', [])
 
   //FIXME: need updated data response object
   $scope.filterRatings = function (filterType) {
+    if (!$scope.allVenuesRatings.length) return;
+
     var venues = [];
     var groupRatings = [];
     var userRatings = [];
@@ -56,7 +57,7 @@ angular.module('travel.ratings', [])
     //   GroupRatings.push(favorite);
     // }
 
-    $scope.allVenuesnRatings.forEach(function(ven) {
+    $scope.allVenuesRatings.forEach(function(ven) {
       if (ven.venue.venue_type_id === filterType) {
         venues.push(ven);
       }
@@ -64,6 +65,7 @@ angular.module('travel.ratings', [])
     venues.forEach(function(ven) {
       ven.allRatings.forEach(function(rating) {
         if (rating.user === userId) {
+          ven.currentUserRating = rating;
           userRatings.push(ven);
         } else {
           groupRatings.push(ven);
@@ -72,6 +74,7 @@ angular.module('travel.ratings', [])
     });
     $scope.filteredGroupRatings = groupRatings;
     $scope.filteredUserRatings  = userRatings;
+    console.log(userRatings);
   };
 
 
@@ -87,8 +90,7 @@ angular.module('travel.ratings', [])
     };
     Venues.getRatings(query)
       .then(function(venuesInfo){
-        console.log(venuesInfo);
-        $scope.allVenuesnRatings = venuesInfo;
+        $scope.allVenuesRatings = venuesInfo;
         $scope.filterRatings(1);
       });
   };
@@ -97,26 +99,11 @@ angular.module('travel.ratings', [])
   //   var userId = $rootScope.currentUser._id;
   //   Venues.getUserFavorites(userId)
   //   .then(function(favorites) {
-  //     $scope.allVenuesnRatings = favorites;
-  //     console.log('favorites', $scope.allVenuesnRatings);
+  //     $scope.allVenuesRatings = favorites;
+  //     console.log('favorites', $scope.allVenuesRatings);
   //     $scope.filterRatings(1);
   //   });
   // };
-
-
-  ////////////////// GET BASIC DESTINATION CITY INFO //////////////////////
-
-
-  $scope.getCity = function () {
-    City.getCity(destination)
-      .then(function(cityInfo) {
-        $scope.city = cityInfo;
-        CurrentInfo.destination.basicInfo = cityInfo;
-    })
-      .catch(function(error){
-        console.error(error);
-      });
-  };
 
 
   ////////////////// USER ADD RATING //////////////////////
@@ -150,7 +137,6 @@ angular.module('travel.ratings', [])
 
 
   $scope.getRatings();
-  $scope.getCity();
 })
 
 
