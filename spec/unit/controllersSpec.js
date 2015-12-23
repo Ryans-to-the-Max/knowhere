@@ -209,8 +209,6 @@ describe('Knowhere client controllers', function () {
 
     setHttpBackend = function ($httpBackend) {
       $httpBackend.whenGET(/\/api\/dest\/venues/).respond(mockVenues.Results);
-      $httpBackend.whenGET(/\/api\/dest\?permalink=new-york-city/).respond(mockNYC);
-      $httpBackend.whenGET(/\/api\/dest\?permalink=paris/).respond(mockParis);
 
       $httpBackend.whenGET(/\/api\/group\?userId=testUserId/).respond(groupsInfo);
       $httpBackend.whenGET(/\/api\/group/).respond(groupsInfo);
@@ -295,7 +293,7 @@ describe('Knowhere client controllers', function () {
       it('$scope.selectGroup() should set $rootScope.destinationPermalink', function () {
         $scope.selectGroup(group2);
 
-        expect($rootScope.destinationPermalink).toEqual(group2.destination);
+        expect($rootScope.destination).toEqual(group2.destination);
       });
     });
   });
@@ -323,7 +321,7 @@ describe('Knowhere client controllers', function () {
       it('$scope.selectGroup() should set $rootScope.destinationPermalink', function () {
         $scope.selectGroup(group2);
 
-        expect($rootScope.destinationPermalink).toEqual(group2.destination);
+        expect($rootScope.destination).toEqual(group2.destination);
       });
     });
   });
@@ -343,7 +341,7 @@ describe('Knowhere client controllers', function () {
         $rootScope.currentUser = { _id: 'testUserId' };
         $rootScope.currentGroup = { _id: 'testGroupId' };
         $scope = $rootScope.$new();
-        $controller('RatingsController', { $scope: $scope });
+        $controller('RatingsController', { $rootScope: $rootScope, $scope: $scope });
       }));
 
       it('$scope.getUserGroups() should set $scope.groups to currentUser\'s groups', function () {
@@ -359,10 +357,10 @@ describe('Knowhere client controllers', function () {
         expect($rootScope.currentGroup).toEqual(group2);
       });
 
-      it('$scope.selectGroup() should set $rootScope.destinationPermalink', function () {
+      it('$scope.selectGroup() should set $rootScope.destination', function () {
         $scope.selectGroup(group2);
 
-        expect($rootScope.destinationPermalink).toEqual(group2.destination);
+        expect($rootScope.destination).toEqual(group2.destination);
       });
     });
   });
@@ -378,7 +376,7 @@ describe('Knowhere client controllers', function () {
         setHttpBackend($httpBackend);
 
         $rootScope.currentUser = { _id: 'testUserId' };
-        $rootScope.destinationPermalink = 'new-york-city';
+        $rootScope.destination = mockNYC;
         $scope = $rootScope.$new();
         resultsCtrl = $controller('ResultsController', { $scope: $scope });
 
@@ -410,7 +408,7 @@ describe('Knowhere client controllers', function () {
 
         $rootScope.currentUser = testUser;
         $rootScope.currentGroup = group1;
-        $rootScope.destinationPermalink = 'new-york-city';
+        $rootScope.destination = mockNYC;
         $scope = $rootScope.$new();
         resultsCtrl = $controller('ResultsController', { $scope: $scope });
 
@@ -435,17 +433,6 @@ describe('Knowhere client controllers', function () {
         expect($scope.filteredVenues).toEqual(mockHotels);
       });
 
-      it('getCity() sets $scope.city', function () {
-        // the beforeEach sets it to NYC
-        expect($scope.city).toEqual(mockNYC);
-
-        $scope.getCity('paris');
-
-        $httpBackend.flush();
-
-        expect($scope.city).toEqual(mockParis);
-      });
-
       it('selectGroup() sets $rootScope.currentGroup', function () {
         $scope.selectGroup(group2);
 
@@ -455,7 +442,7 @@ describe('Knowhere client controllers', function () {
       it('selectGroup() sets $rootScope.destinationPermalink', function () {
         $scope.selectGroup(group2);
 
-        expect($rootScope.destinationPermalink).toEqual(group2.destination);
+        expect($rootScope.destination).toEqual(group2.destination);
       });
 
       it('addToFavs() sets $rootScope.currentUser, $rootScope.currentGroup, \
