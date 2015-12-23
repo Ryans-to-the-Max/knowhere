@@ -38,18 +38,25 @@ function loadDests(){
 module.exports = {
 
   getDestinations: function (req, res, next) {
-    var url = 'http://api.tripexpert.com/v1/destinations?';
+    var url = 'http://api.tripexpert.com/v1/destinations';
     var limit = req.query.limit;
+
     request.get(url)
       .query({
         limit: limit,
-        api_key: process.env.TRIPEXPERT_KEY
+        api_key: process.env.TRIPEXPERT_KEY,
       })
       .end(function (err, response) {
-        if (err) {
-          return util.send500(res, err);
-        }
-        return res.status(200).send(response.body);
+        if (err) return util.send500(res, err);
+
+        /* @response {object} has:
+            @prop {object} meta. Has:
+              @prop {int} code.  HTTP response code.
+            @prop {object} response. Is the object of interest, having:
+              @prop {int} total_records. Number of destinations on TripExpert.
+              @prop {array} destinations. The destination objects.
+        */
+        return res.status(200).send(response.body.response);
       });
   },
 
