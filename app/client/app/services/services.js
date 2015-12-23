@@ -79,7 +79,7 @@ angular.module('travel.services', [])
 ////////////////// Groups //////////////////////
 
 
-.factory('Groups', function ($http) {
+.factory('Groups', function ($http, $rootScope) {
   // HTTP REQ FUNCTIONS
   var addParticipants = function(data) {
     return $http({
@@ -110,9 +110,12 @@ angular.module('travel.services', [])
   };
 
   // NOT HTTP REQ FUNCTIONS
-  var selectGroup = function (groupInfo, _$rootScope_) {
-    _$rootScope_.currentGroup = groupInfo;
-    _$rootScope_.destinationPermalink = groupInfo.destination;
+  var selectGroup = function (next) {
+    return function (groupInfo) {
+      $rootScope.currentGroup = groupInfo;
+      $rootScope.destination  = groupInfo.destination;
+      next();
+    };
   };
 
   return {

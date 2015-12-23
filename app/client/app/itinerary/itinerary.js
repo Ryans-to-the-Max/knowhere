@@ -26,13 +26,12 @@ angular.module('travel.itinerary', [])
   // $scope.getUserGroups();
 
 
-  ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
+  ////////////////// SELECTING A GROUP WILL REROUTE TO ITINERARY //////////////////////
 
 
-  $scope.selectGroup = function(groupInfo) {
-    Groups.selectGroup(groupInfo, $rootScope);
+  $scope.selectGroup = Groups.selectGroup(function () {
     $state.go('itinerary');
-  };
+  });
 
 
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////

@@ -295,7 +295,7 @@ describe('Knowhere client controllers', function () {
       it('$scope.selectGroup() should set $rootScope.destinationPermalink', function () {
         $scope.selectGroup(group2);
 
-        expect($rootScope.destinationPermalink).toEqual(group2.destination);
+        expect($rootScope.destination).toEqual(group2.destination);
       });
     });
   });
@@ -323,7 +323,7 @@ describe('Knowhere client controllers', function () {
       it('$scope.selectGroup() should set $rootScope.destinationPermalink', function () {
         $scope.selectGroup(group2);
 
-        expect($rootScope.destinationPermalink).toEqual(group2.destination);
+        expect($rootScope.destination).toEqual(group2.destination);
       });
     });
   });
@@ -343,7 +343,7 @@ describe('Knowhere client controllers', function () {
         $rootScope.currentUser = { _id: 'testUserId' };
         $rootScope.currentGroup = { _id: 'testGroupId' };
         $scope = $rootScope.$new();
-        $controller('RatingsController', { $scope: $scope });
+        $controller('RatingsController', { $rootScope: $rootScope, $scope: $scope });
       }));
 
       it('$scope.getUserGroups() should set $scope.groups to currentUser\'s groups', function () {
@@ -359,10 +359,10 @@ describe('Knowhere client controllers', function () {
         expect($rootScope.currentGroup).toEqual(group2);
       });
 
-      it('$scope.selectGroup() should set $rootScope.destinationPermalink', function () {
+      it('$scope.selectGroup() should set $rootScope.destination', function () {
         $scope.selectGroup(group2);
 
-        expect($rootScope.destinationPermalink).toEqual(group2.destination);
+        expect($rootScope.destination).toEqual(group2.destination);
       });
     });
   });
@@ -444,7 +444,7 @@ describe('Knowhere client controllers', function () {
       it('selectGroup() sets $rootScope.destinationPermalink', function () {
         $scope.selectGroup(group2);
 
-        expect($rootScope.destinationPermalink).toEqual(group2.destination);
+        expect($rootScope.destination).toEqual(group2.destination);
       });
 
       it('addToFavs() sets $rootScope.currentUser, $rootScope.currentGroup, \
