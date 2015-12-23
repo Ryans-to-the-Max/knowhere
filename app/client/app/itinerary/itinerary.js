@@ -1,7 +1,6 @@
 angular.module('travel.itinerary', [])
 
-.controller('ItineraryController', function ($scope, $window, $rootScope, $state, CurrentInfo, Venues, Groups, Util) {
-  // var destination = $window.sessionStorage.getItem('knowhere') || CurrentInfo.destination.name;
+.controller('ItineraryController', function ($scope, $window, $rootScope, $state, Venues, Groups, Util) {
   $scope.restaurants = [];
   $scope.attractions = [];
   $scope.hotels = [];
