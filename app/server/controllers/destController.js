@@ -43,7 +43,7 @@ module.exports = {
     request.get(url)
       .query({
         limit: limit,
-        api_key: '5d8756782b4f32d2004e811695ced8b6'
+        api_key: process.env.TRIPEXPERT_KEY
       })
       .end(function (err, response) {
         if (err) {
