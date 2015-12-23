@@ -378,7 +378,7 @@ describe('Knowhere client controllers', function () {
         setHttpBackend($httpBackend);
 
         $rootScope.currentUser = { _id: 'testUserId' };
-        $rootScope.destinationPermalink = 'new-york-city';
+        $rootScope.destination = mockNYC;
         $scope = $rootScope.$new();
         resultsCtrl = $controller('ResultsController', { $scope: $scope });
 
@@ -410,7 +410,7 @@ describe('Knowhere client controllers', function () {
 
         $rootScope.currentUser = testUser;
         $rootScope.currentGroup = group1;
-        $rootScope.destinationPermalink = 'new-york-city';
+        $rootScope.destination = mockNYC;
         $scope = $rootScope.$new();
         resultsCtrl = $controller('ResultsController', { $scope: $scope });
 
@@ -433,17 +433,6 @@ describe('Knowhere client controllers', function () {
         $scope.filterVenues(1);
         expect($scope.heading).toEqual('Hotels');
         expect($scope.filteredVenues).toEqual(mockHotels);
-      });
-
-      it('getCity() sets $scope.city', function () {
-        // the beforeEach sets it to NYC
-        expect($scope.city).toEqual(mockNYC);
-
-        $scope.getCity('paris');
-
-        $httpBackend.flush();
-
-        expect($scope.city).toEqual(mockParis);
       });
 
       it('selectGroup() sets $rootScope.currentGroup', function () {
