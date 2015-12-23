@@ -37,7 +37,7 @@ angular.module('travel.ratings', [])
     var venues = [];
     var groupRatings = [];
     var userRatings = [];
-    for userId = $rootScope.currentUser._id;
+    var userId = $rootScope.currentUser._id;
 
     // set heading to appropriate value
     if (filterType === 1) {

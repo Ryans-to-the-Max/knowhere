@@ -16,7 +16,7 @@ module.exports = {
   createGroup: function(req, res, next){
     var title  = req.body.groupName;
     var dest   = req.body.destination;
-    var userId = req.body.userInfo;
+    var userId = req.body.userId;
 
     User.findById(userId)
       .populate('groupId')
