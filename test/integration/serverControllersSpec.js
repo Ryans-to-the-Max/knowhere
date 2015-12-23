@@ -35,7 +35,7 @@ describe('server controllers', function () {
       "index_photo": "http://static.tripexpert.com/images/venues/index_photos/index_retina/637972.jpg"
     };
     request = request(server);
-    testGroupDestination = 'new-york-city';
+    nycId = 6;
     testGroupDestination2 = 'portland';
     testGroupName = 'test group';
 
@@ -80,7 +80,7 @@ describe('server controllers', function () {
               .post('/api/group')
               .send({
                 groupName: testGroupName,
-                destination: testGroupDestination,
+                destId: nycId,
                 userId: testUser._id,
               })
               .end(function (err, res) {
@@ -107,29 +107,36 @@ describe('server controllers', function () {
 
   describe('destController', function () {
 
-    describe('getDestination()', function () {
+    describe('getDestinations()', function () {
 
-      it('should get destination by name', function (done) {
+      it('defaults to returning 100 destinations', function (done) {
         request
-          .get('/api/dest/?permalink=paris')
+          .get('/api/dest/')
           .expect(200)
           .end(function (err, res) {
             if (err) return done(err);
 
-            expect(res.body.name).to.equal('Paris');
+            expect(res.body.destinations.length).to.equal(100);
             done();
           });
       });
 
-      it('should return 404 when called with a bad param', function (done) {
+      it('can get moar destinations', function (done) {
         request
-          .get('/api/dest/?name=Nowhere')
-          .expect(404, done);
+          .get('/api/dest/')
+          .query({ limit: 200 })
+          .expect(200)
+          .end(function (err, res) {
+            if (err) return done(err);
+
+            expect(res.body.destinations.length).to.equal(200);
+            done();
+          });
       });
     });
   });
 
-  describe('favController', function () {
+  xdescribe('favController', function () {
     
     describe('addGroupFav()', function () {
 
@@ -374,19 +381,21 @@ describe('server controllers', function () {
     describe('setDestination()', function () {
 
       it('changes group\'s destination and returns updated group', function (done) {
+        var parisId = 5;
+
         request
           .post('/api/group/set')
           .send({
-            destination: testGroupDestination2,
+            destination: parisId,
             groupId: group._id,
           })
           .expect(200)
           .end(function (err, res) {
             if (err) console.error(err);
 
-            var actualDestination = JSON.parse(res.text).destination;
+            var actualDestination = res.body.destination;
 
-            expect(actualDestination).to.equal(testGroupDestination2);
+            expect(actualDestination).to.equal(parisId);
             done();
           });
       });
