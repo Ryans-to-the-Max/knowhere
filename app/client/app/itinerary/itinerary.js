@@ -1,7 +1,6 @@
 angular.module('travel.itinerary', [])
 
-.controller('ItineraryController', function ($scope, $window, $rootScope, $state, CurrentInfo, Venues, City, Groups, Util) {
-  // var destination = $window.sessionStorage.getItem('knowhere') || CurrentInfo.destination.name;
+.controller('ItineraryController', function ($scope, $window, $rootScope, $state, Venues, Groups, Util) {
   $scope.restaurants = [];
   $scope.attractions = [];
   $scope.hotels = [];
@@ -27,13 +26,12 @@ angular.module('travel.itinerary', [])
   // $scope.getUserGroups();
 
 
-  ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
+  ////////////////// SELECTING A GROUP WILL REROUTE TO ITINERARY //////////////////////
 
 
-  $scope.selectGroup = function(groupInfo) {
-    Groups.selectGroup(groupInfo, $rootScope);
+  $scope.selectGroup = Groups.selectGroup(function () {
     $state.go('itinerary');
-  };
+  });
 
 
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////
@@ -59,20 +57,6 @@ angular.module('travel.itinerary', [])
     $scope.filteredItinerary = venues;
   };
 
-
-  ////////////////// GET BASIC DESTINATION CITY INFO //////////////////////
-
-
-  $scope.getCity = function () {
-    City.getCity($rootScope.destinationPermalink)
-      .then(function(cityInfo) {
-        $scope.city = cityInfo;
-        CurrentInfo.destination.basicInfo = cityInfo;
-    })
-      .catch(function(error){
-        console.error(error);
-      });
-  };
 
   ////////////////// GET GROUP ITINERARY //////////////////////
 

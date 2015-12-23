@@ -29,8 +29,8 @@ GET  /api/check  indexController#isLoggedIn
 GET  /api/info   indexController#getInfo
 
 dest
-GET  /api/dest/:permalink  destController#getDestination
-GET  /api/dest/venues      destController#getVenues
+GET  /api/dest/        destController#getDestinations
+GET  /api/dest/venues  destController#getVenues
 
 group
 GET     /api/group/       groupController#getUserGroups
@@ -53,15 +53,21 @@ POST  /api/rating/usermod  ratingController#modifyUserRating
 #The following API calls are seen on the [coggle](https://coggle.it/diagram/VnER1WcWk3oeczUt)
 
 ## DEST
-GET  /api/dest/        destController#getDestination
+GET  /api/dest/        destController#getDestinations
   Get basic city info
-  query: destination permalink
-  response: city object
+  @query {int} Max num destinations to return
+  /* @response {object} has:
+      @prop {object} meta. Has:
+        @prop {int} code.  HTTP response code.
+      @prop {object} response. Is the object of interest, having:
+        @prop {int} total_records. Number of destinations on TripExpert.
+        @prop {array} destinations. The destination objects.
+  */
 
 GET  /api/dest/venues  destController#getVenues
   Get all venues at a specific destination
-  query: destination permalink
-  response: array of venue objects
+  @query {int} destinationId
+  @response {array} Venue objects
 
 GET  /api/dest/venues/info  destController#
   Get specific information of a specific venue
@@ -75,9 +81,13 @@ GET  /api/group  groupController#
   query: user object
   response: array of group objects
 
-POST  /api/group
+POST  /api/group  groupController#createGroup
   Create group
-  data: groupName, userInfo object, destination permalink
+  @data
+    @prop {str} groupName.  Group title.
+    @prop {int} destinationId.
+    @prop {int} userId.
+  @response {object} new group
 
 POST  /api/group
   Add participant (tentative)

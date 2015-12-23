@@ -62,6 +62,7 @@ module.exports = {
   //   });
   // },
 
+  // Not currently implemented on the front-end
   setDestination: function(req, res, next){
     var dest    = req.body.destination;
     var groupId = req.body.groupId;
