@@ -29,8 +29,8 @@ GET  /api/check  indexController#isLoggedIn
 GET  /api/info   indexController#getInfo
 
 dest
-GET  /api/dest/        destController#getDestination
-GET  /api/dest/venues  destController#getVenues
+GET  /api/dest/:permalink  destController#getDestination
+GET  /api/dest/venues      destController#getVenues
 
 group
 GET     /api/group/       groupController#getUserGroups
