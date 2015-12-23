@@ -81,13 +81,25 @@ angular.module('travel.services', [])
 
 .factory('Groups', function ($http, $rootScope) {
   // HTTP REQ FUNCTIONS
-  var addParticipants = function(data) {
+
+  /*
+    @data {object} has:
+      @prop {str} username. (email)
+      @prop {int} groupId.
+  */
+  var addParticipant = function(data) {
     return $http({
       method: 'POST',
       url: '/api/group/add',
       data: data
     });
   };
+  /*
+    @data {object} has:
+      @prop {str} groupName.  Group title.
+      @prop {int} destinationId.
+      @prop {int} userId.
+  */
   var createGroup = function(data){
     return $http({
       method: 'POST',
@@ -122,7 +134,7 @@ angular.module('travel.services', [])
     // HTTP REQ FUNCTIONS
     getUserGroups: getUserGroups,
     createGroup: createGroup,
-    addParticipants: addParticipants,
+    addParticipant: addParticipant,
 
     // NOT HTTP REQ FUNCTIONS
     selectGroup: selectGroup,
