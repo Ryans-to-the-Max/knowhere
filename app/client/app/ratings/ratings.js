@@ -67,7 +67,7 @@ angular.module('travel.ratings', [])
           userRatings.push(ven);
         } else {
           groupRatings.push(ven);
-        };
+        }
       });
     });
     $scope.filteredGroupRatings = groupRatings;

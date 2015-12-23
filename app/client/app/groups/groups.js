@@ -28,11 +28,11 @@ angular.module('travel.groups', [])
       groupName: $scope.newGroupInput,
       userId: $rootScope.currentUser._id,
       destination: Util.transToPermalink($scope.newDestinationInput)
-    }
+    };
     Groups.createGroup(data)
     .then(function (newGroup) {
       $rootScope.currentGroup = newGroup;
-      $rootScope.destinationPermalink = Util.transToPermalink($scope.newDestinationInput)
+      $rootScope.destinationPermalink = Util.transToPermalink($scope.newDestinationInput);
     });
   };
 
