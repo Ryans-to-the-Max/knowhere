@@ -131,6 +131,11 @@ angular.module('travel.services', [])
 
 
 .factory('City', function ($http) {
+
+  /*
+    @param {object} query has:
+      @prop {str} permalink
+  */
   var getCity = function(query){
     return $http({
       method: 'GET',

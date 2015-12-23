@@ -209,8 +209,8 @@ describe('Knowhere client controllers', function () {
 
     setHttpBackend = function ($httpBackend) {
       $httpBackend.whenGET(/\/api\/dest\/venues/).respond(mockVenues.Results);
-      $httpBackend.whenGET(/\/api\/dest\?name=new-york-city/).respond(mockNYC);
-      $httpBackend.whenGET(/\/api\/dest\?name=paris/).respond(mockParis);
+      $httpBackend.whenGET(/\/api\/dest\?permalink=new-york-city/).respond(mockNYC);
+      $httpBackend.whenGET(/\/api\/dest\?permalink=paris/).respond(mockParis);
 
       $httpBackend.whenGET(/\/api\/group\?userId=testUserId/).respond(groupsInfo);
       $httpBackend.whenGET(/\/api\/group/).respond(groupsInfo);

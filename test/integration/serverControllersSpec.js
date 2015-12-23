@@ -81,10 +81,11 @@ describe('server controllers', function () {
               .send({
                 groupName: testGroupName,
                 destination: testGroupDestination,
-                userInfo: testUser._id,
+                userId: testUser._id,
               })
               .end(function (err, res) {
-                group = JSON.parse(res.text);
+
+                group = res.body;
                 done();
               });
           });
@@ -110,7 +111,7 @@ describe('server controllers', function () {
 
       it('should get destination by name', function (done) {
         request
-          .get('/api/dest/?name=paris')
+          .get('/api/dest/?permalink=paris')
           .expect(200)
           .end(function (err, res) {
             if (err) return done(err);

@@ -6,7 +6,7 @@ angular.module('travel.ratings', [])
   $scope.filteredGroupRatings  = [];
   $scope.city = null;
   $scope.heading = null;
-  $scope.allVenuesnRatings = [];
+  $scope.allVenuesRatings = [];
   $scope.groups = [];
 
 
@@ -34,6 +34,8 @@ angular.module('travel.ratings', [])
 
   //FIXME: need updated data response object
   $scope.filterRatings = function (filterType) {
+    if (!$scope.allVenuesRatings.length) return;
+
     var venues = [];
     var groupRatings = [];
     var userRatings = [];
@@ -56,7 +58,7 @@ angular.module('travel.ratings', [])
     //   GroupRatings.push(favorite);
     // }
 
-    $scope.allVenuesnRatings.forEach(function(ven) {
+    $scope.allVenuesRatings.forEach(function(ven) {
       if (ven.venue.venue_type_id === filterType) {
         venues.push(ven);
       }
@@ -88,7 +90,7 @@ angular.module('travel.ratings', [])
     Venues.getRatings(query)
       .then(function(venuesInfo){
         console.log(venuesInfo);
-        $scope.allVenuesnRatings = venuesInfo;
+        $scope.allVenuesRatings = venuesInfo;
         $scope.filterRatings(1);
       });
   };
@@ -97,8 +99,8 @@ angular.module('travel.ratings', [])
   //   var userId = $rootScope.currentUser._id;
   //   Venues.getUserFavorites(userId)
   //   .then(function(favorites) {
-  //     $scope.allVenuesnRatings = favorites;
-  //     console.log('favorites', $scope.allVenuesnRatings);
+  //     $scope.allVenuesRatings = favorites;
+  //     console.log('favorites', $scope.allVenuesRatings);
   //     $scope.filterRatings(1);
   //   });
   // };
