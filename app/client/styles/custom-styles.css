@@ -140,3 +140,6 @@ ul.rating {
   display: inline-block;
 }
 
+.landing-submit-button {
+  visibility: hidden;
+}

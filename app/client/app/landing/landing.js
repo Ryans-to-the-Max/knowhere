@@ -50,17 +50,18 @@ angular.module('travel.landing', ['ngAnimate', 'ui.bootstrap'])
 
   $scope.getDestsFromApi = function () {
     Venues.getAllDestinations()
-      .then(function (destinations) {
-        $scope.destinations = destinations;
-        $scope.destinations.forEach(function(destination) {
-          if (destination.permalink === "portland-or") {
-            destination.state = "OR"; 
-          } else if (destination.permalink === "portland-me") {
-            destination.state = "ME";
-          } else if (destination.permalink === "naples-fl") {
-            destination.state = "FL";
-          }
-        });
+    .then(function (destinations) {
+      $scope.destinations = destinations;
+      $scope.destinations.forEach(function(destination) {
+        if (destination.permalink === "portland-or") {
+          destination.state = "OR";
+        }
+        if (destination.permalink === "portland-me") {
+          destination.state = "ME";
+        }
+        if (destination.permalink === "naples-fl") {
+          destination.state = "FL";
+        }
       });
   };
 
