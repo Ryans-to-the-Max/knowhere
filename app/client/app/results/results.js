@@ -103,7 +103,13 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
     };
     Venues.getDetailedVenueInfo(query)
       .then(function(venueInfo) {
-        Venues.addRating(venueInfo, null);   
+        var data = {
+          venue: venueInfo,
+          userId : $rootScope.currentUser._id,
+          groupId : $rootScope.currentGroup._id,
+          rating: 0
+        };
+        Venues.addRating(data);
       })
       .catch(function(error){
         console.error(error);
