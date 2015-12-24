@@ -1,3 +1,7 @@
+body, html, .container, .container-fluid {
+  font-family: 'Open Sans', sans-serif;
+}
+
 .center-pills {
   display: inline-block;
 }
@@ -149,6 +153,7 @@ ul.rating {
 }
 
 #city-name {
+  font-family: 'Source Serif Pro', serif;
   color: #fff;
   text-shadow: 1px 1px 1px black, 0 0 0.1em black, 0 0 0.1em black;
 }
