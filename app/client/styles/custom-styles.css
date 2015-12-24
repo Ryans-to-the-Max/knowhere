@@ -143,3 +143,8 @@ ul.rating {
 .landing-submit-button {
   visibility: hidden;
 }
+
+#city-name {
+  color: #fff;
+  text-shadow: 1px 1px 1px black, 0 0 0.1em black, 0 0 0.1em black;
+}
