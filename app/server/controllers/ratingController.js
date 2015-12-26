@@ -13,7 +13,7 @@ var newVenueWithInfo = function (venueInfo) {
     venue_type_id: venueInfo.venue_type_id,
     tripexpert_score: venueInfo.tripexpert_score,
     rank_in_destination: venueInfo.rank_in_destination,
-    score: venueInfo.score,
+    score: venueInfo.score, // TODO ? remove Obsolete?
     index_photo: venueInfo.index_photo,
     address: venueInfo.address,
     telephone: venueInfo.telephone,
@@ -29,12 +29,16 @@ var sendGroup = function(groupId, res, rating) {
       populate: { path: 'venue' }
     })
     .exec(function (err, group){
+// console.log('######sendGroup0');
+      if (err) return util.send500(res, err);
+
       if (rating) {
         group.favorites.push(rating);
       }
       group.save(function (err, group) {
+// console.log('######sendGroup1');
         if (err) return util.send500(res, err);
-
+// console.log('######sendGroup2');
         return util.send200(res, group.favorites);
       });
     });
@@ -54,6 +58,8 @@ var updateGroupRating = function (paramHash) {
     if (update.n > 0) { // Rating exists for that user, and should've been updated.
       return sendGroup(groupId, res, null);
     }
+// console.log('########updateGroupRating');
+
     //user has not already voted, so add to group's ratings
     Rating.findOrCreate({venue: venue._id, venueLU: venue.lookUpId, groupId: groupId}, function (err, rating){
       if (err || !rating) return util.send500(res, err);
@@ -110,9 +116,9 @@ module.exports = {
         });
       }
 
-      var argHash = { res: res,
+      var argHash = { res: res, // used in #updateUserRating to send errs
                       venue: venue,
-                      groupId: groupId, // not used in updateUserRating()
+                      groupId: groupId, // not used in #updateUserRating
                       userId: userId,
                       newRating: newRating };
 
@@ -124,7 +130,7 @@ module.exports = {
     });
   },
 
-  getRating: function(req, res, next) {
+  getRatings: function(req, res, next) {
     var groupId = req.query.groupId;
 
     Group.findById(groupId)
@@ -135,7 +141,8 @@ module.exports = {
     .exec(function (err, group){
       if (!group) return util.send400(res, err);
       if (err) return util.send500(res, err);
-      res.status(200).send(group.favorites);
+
+      util.send200(res, group.favorites);
     });
   }
 };
