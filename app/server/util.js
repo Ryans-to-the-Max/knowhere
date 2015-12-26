@@ -26,7 +26,7 @@ module.exports = {
 
   send400: function (res, err) {
     if (err) {
-      // console.error(err);
+      console.error(err);
       res.status(400).send(err);
     } else {
       res.sendStatus(400);
@@ -35,7 +35,7 @@ module.exports = {
 
   send500: function (res, err) {
     if (err) {
-      // console.error(err);
+      console.error(err);
       res.status(500).send(err);
     } else {
       res.sendStatus(500);
