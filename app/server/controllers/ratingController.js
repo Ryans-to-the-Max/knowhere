@@ -100,7 +100,7 @@ var updateUserRating = function (paramHash) {
 
 module.exports = {
 
-  addRating: function(req, res, next){  //add to user and group favorites
+  addOrUpdateRating: function(req, res, next){  //add to user and group favorites
     var venueInfo = req.body.venue;
     var groupId = req.body.groupId;
     var userId  = req.body.userId;

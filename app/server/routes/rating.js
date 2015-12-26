@@ -5,7 +5,7 @@ var ratingController = require('../controllers/ratingController');
 
 router.get('/', ratingController.getRatings);
 
-router.post('/', ratingController.addRating);
+router.post('/', ratingController.addOrUpdateRating);
 
 module.exports = router;
 
