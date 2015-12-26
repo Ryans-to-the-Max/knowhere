@@ -16,7 +16,7 @@ var User = require(path.join(__dirname, '../../app/server/models/user'));
 var Venue = require(path.join(__dirname, '../../app/server/models/venue'));
 
 describe('server controllers', function () {
-  var greenwichHotel, greenwichHotelInfo, group, testGroupDestination,
+  var newHotelInfo, greenwichHotel, greenwichHotelInfo, group, testGroupDestination,
       testGroupDestination2, testGroupName,
       testUser, testUser2;
 
@@ -24,6 +24,16 @@ describe('server controllers', function () {
     // TravisCI has been timing out at the default 2000
     this.timeout(5000);
 
+    newHotelInfo = {
+      "id": "2",
+      "venue_type_id": 1,
+      "name": "Crosby Street Hotel",
+      "tripexpert_score": 98,
+      "rank_in_destination": 2,
+      "score": 98,
+      "description": "Opened in SoHo in 2009, this Kit Kemp–designed 11-story brownstone has floor-to-ceiling windows throughout and is environmentally certified as an LEED Gold property.",
+      "index_photo": "http://static.tripexpert.com/images/venues/index_photos/index_retina/636532.jpg"
+    };
     greenwichHotelInfo = {
       "id": "1",
       "venue_type_id": 1,
@@ -136,7 +146,7 @@ describe('server controllers', function () {
     });
   });
 
-  xdescribe('favController', function () {
+  describe('favController', function () {
     
     describe('addGroupFav()', function () {
 
@@ -397,6 +407,195 @@ describe('server controllers', function () {
 
             expect(actualDestination).to.equal(parisId);
             done();
+          });
+      });
+    });
+  });
+
+  describe('ratingController', function () {
+
+    describe('addRating()', function () {
+
+      it('adds venue to user.favorites', function (done) {
+        request
+          .post('/api/rating/')
+          .send({
+            groupId: group._id,
+            rating: 10,
+            userId: testUser._id,
+            venue: greenwichHotelInfo,
+          })
+          .end(function (err, res) {
+            User.findById(testUser._id, function (err, user) {
+              expect(user.favorites.length).to.equal(1);
+              done();
+            });
+          });
+      });
+
+      it('creates venue if it does not exist, and adds it to user.favorites', function (done) {
+        request
+          .post('/api/rating/')
+          .send({
+            groupId: group._id,
+            rating: 10,
+            userId: testUser._id,
+            venue: newHotelInfo,
+          })
+          .end(function (err, res) {
+            Venue.count({ lookUpId: newHotelInfo.id }, function (err, c) {
+              expect(c).to.equal(1);
+
+              User.findById(testUser._id, function (err, user) {
+                expect(user.favorites.length).to.equal(1);
+                done();
+              });
+            });
+          });
+      });
+
+      it('just $set updates user\'s rating when it exists', function (done) {
+        // add rating
+        request
+          .post('/api/rating/')
+          .send({
+            groupId: group._id,
+            rating: 10,
+            userId: testUser._id,
+            venue: greenwichHotelInfo,
+          })
+          .end(function (err, res) {
+            // update rating
+            request
+              .post('/api/rating/')
+              .send({
+                groupId: group._id,
+                rating: 7,
+                userId: testUser._id,
+                venue: greenwichHotelInfo,
+              })
+              .end(function (err, res) {
+                User.findById(testUser._id, function (err, user) {
+                  // there should still be only 1 rating
+                  expect(user.favorites.length).to.equal(1);
+                  // rating val should be updated
+                  expect(user.favorites[0].rating).to.equal(7);
+                  done();
+                });
+              });
+          });
+      });
+
+      it('creates group rating for venue when it does not exist', function (done) {
+        request
+          .post('/api/rating/')
+          .send({
+            groupId: group._id,
+            rating: 10,
+            userId: testUser._id,
+            venue: greenwichHotelInfo,
+          })
+          .end(function (err, res) {
+            Group.findById(group._id, function (err, group) {
+              // A rating should've been added by last request
+              expect(group.favorites.length).to.equal(1);
+
+              request
+                .post('/api/rating/')
+                .send({
+                  groupId: group._id,
+                  rating: 7,
+                  userId: testUser._id,
+                  venue: greenwichHotelInfo,
+                })
+                .end(function (err, res) {
+                  Group.findById(group._id, function (err, group) {
+                    // No rating should've been added by last request
+                    expect(group.favorites.length).to.equal(1);
+                    done();
+                  });
+                });
+            });
+          });
+      });
+
+      it('adds user rating to group\'s ratings', function (done) {
+        request
+          .post('/api/rating/')
+          .send({
+            groupId: group._id,
+            rating: 10,
+            userId: testUser._id,
+            venue: greenwichHotelInfo,
+          })
+          .end(function (err, res) {
+            Group.findById(group._id)
+              .populate({
+                path: 'favorites',
+                populate: { path: 'venue' }
+              })
+              .exec(function (err, group) {
+                var groupVenueRatings = group.favorites[0];
+                var userRating = groupVenueRatings.allRatings[0].userRating;
+
+                expect(userRating).to.equal(10);
+                done();
+              });
+          });
+      });
+
+      it('returns group.favorites, populated', function (done) {
+        request
+          .post('/api/rating/')
+          .send({
+            groupId: group._id,
+            rating: 10,
+            userId: testUser._id,
+            venue: greenwichHotelInfo,
+          })
+          .end(function (err, res) {
+            var favorites = res.body;
+            var groupVenueRatings = favorites[0];
+            var userRating = groupVenueRatings.allRatings[0].userRating;
+
+            expect(userRating).to.equal(10);
+            done();
+          });
+      });
+
+      it('just $set updates group\'s ratings when the user already rated it', function (done) {
+        // add rating
+        request
+          .post('/api/rating/')
+          .send({
+            groupId: group._id,
+            rating: 10,
+            userId: testUser._id,
+            venue: greenwichHotelInfo,
+          })
+          .end(function (err, res) {
+            // update rating
+            request
+              .post('/api/rating/')
+              .send({
+                groupId: group._id,
+                rating: 7,
+                userId: testUser._id,
+                venue: greenwichHotelInfo,
+              })
+              .end(function (err, res) {
+                var favorites = res.body;
+                var groupVenueRatings = favorites[0];
+
+                // Last request should not have added another rating
+                expect(groupVenueRatings.allRatings.length).to.equal(1);
+
+                var userRating = groupVenueRatings.allRatings[0].userRating;
+
+                // userRating should've been updated by last request
+                expect(userRating).to.equal(7);
+                done();
+              });
           });
       });
     });
