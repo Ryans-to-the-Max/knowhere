@@ -43,6 +43,7 @@ POST    /api/group/add    groupController#addMember
 DELETE  /api/group/user   groupController#removeMember
 
 rating
+GET   /api/rating/         ratingController#getRatings
 POST  /api/rating/         ratingController#addRating
 POST  /api/rating/mod      ratingController#modifyRating
 POST  /api/rating/user     ratingController#addUserRating
