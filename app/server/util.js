@@ -15,10 +15,10 @@ module.exports = {
     sendMail: transporter.sendMail.bind(transporter)
   },
 
-  send200: function (res, msg) {
-    if (msg) {
-      console.log(msg);
-      res.status(200).send(msg);
+  send200: function (res, data) {
+    if (data) {
+      // console.log(data);
+      res.status(200).send(data);
     } else {
       res.sendStatus(200);
     }
@@ -26,7 +26,7 @@ module.exports = {
 
   send400: function (res, err) {
     if (err) {
-      console.error(err);
+      // console.error(err);
       res.status(400).send(err);
     } else {
       res.sendStatus(400);
@@ -35,7 +35,7 @@ module.exports = {
 
   send500: function (res, err) {
     if (err) {
-      console.error(err);
+      // console.error(err);
       res.status(500).send(err);
     } else {
       res.sendStatus(500);
