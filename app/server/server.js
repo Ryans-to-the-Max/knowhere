@@ -16,7 +16,6 @@ var cors         = require('cors');
 var index  = require(path.join(__dirname, 'routes/index'));
 var dest   = require(path.join(__dirname, 'routes/dest'));
 var group  = require(path.join(__dirname, 'routes/group'));
-var fav    = require(path.join(__dirname, 'routes/fav'));
 var rating = require(path.join(__dirname, 'routes/rating'));
 
 // To init state:
@@ -54,7 +53,6 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 app.use('/api', index);
 app.use('/api/dest', dest);
 app.use('/api/group', group);
-app.use('/api/fav', fav);
 app.use('/api/rating', rating);
 app.use(cors());
 

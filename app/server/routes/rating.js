@@ -7,5 +7,5 @@ router.get('/', ratingController.getRatings);
 
 router.post('/', ratingController.addOrUpdateRating);
 
-module.exports = router;
 
+module.exports = router;

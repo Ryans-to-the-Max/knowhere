@@ -134,7 +134,7 @@ module.exports = {
     var groupId = req.query.groupId;
 
     Group.findById(groupId)
-      .populate({
+      .populate({  // TODO ? populate Group.members
         path: 'favorites',
         populate: {path: 'venue'}
       })
@@ -144,5 +144,34 @@ module.exports = {
 
         util.send200(res, group.favorites);
       });
-  }
+  },
+
+  // THE BELOW IS COPY&PASTED FROM FAV CONTROLLER
+
+  // removeGroupFav: function(req, res, next){
+  //   var venueId = req.params.venueId;
+  //   var groupId = req.params.groupId;
+
+  //   Group.update({_id: groupId}, {$pull : {favorites: venueId}}, function(err, group){
+  //     if (err){
+  //       console.log(err);
+  //     }
+  //     res.status(200).send(group);
+  //   });
+  //   //TODO also remove all ratings for that fav
+  // },
+
+  // removeUserFav: function (req, res, next) {
+  //   var venueId = req.params.venueId;
+  //   var userId = req.params.userId;
+
+  //   User.update({_id: groupId}, {$pull : {favorites: venueId}}, function(err, user){
+  //     if (err){
+  //       console.log(err);
+  //     }
+
+  //     res.status(200).send(user);
+  //   });
+  //   //TODO also remove all ratings for that fav
+  // }
 };
