@@ -15,6 +15,7 @@ var Group = require(path.join(__dirname, '../../app/server/models/group'));
 var User = require(path.join(__dirname, '../../app/server/models/user'));
 var Venue = require(path.join(__dirname, '../../app/server/models/venue'));
 
+
 describe('server controllers', function () {
   var newHotelInfo, greenwichHotel, greenwichHotelInfo, group, testGroupDestination,
       testGroupDestination2, testGroupName,
@@ -114,7 +115,6 @@ describe('server controllers', function () {
     testUtil.dropDb(con, done);
   });
 
-
   describe('destController', function () {
 
     describe('getDestinations()', function () {
@@ -143,51 +143,6 @@ describe('server controllers', function () {
             done();
           });
       });
-    });
-  });
-
-  describe('favController', function () {
-    
-    describe('addGroupFav()', function () {
-
-      xit('adds provided venue to group.favorites', function (done) {
-        request
-          .post('/api/fav/')
-          .send({
-            groupId: group._id,
-            venue: greenwichHotel
-          })
-          .end(function (err, res) {
-            group = res.body;
-
-            // expect(_.contains(group.favorites, )
-            done();
-          });
-      });
-
-      xit('saves venue to DB if it is a new venue', function (done) {
-        // body...
-      });
-    });
-
-    describe('addUserFav()', function () {
-      // body...
-    });
-
-    describe('getGroupFavs()', function () {
-      // body...
-    });
-
-    describe('getUserFavs', function () {
-      // body...
-    });
-
-    describe('removeGroupFav()', function () {
-      // body...
-    });
-
-    describe('removeUserFav()', function () {
-      // body...
     });
   });
 
@@ -409,6 +364,21 @@ describe('server controllers', function () {
             done();
           });
       });
+    });
+  });
+
+  describe('indexController', function () {
+
+    it('getInfo() returns user info', function (done) {
+      request
+        .get('/api/info')
+        .query({
+          userId: testUser._id + '' // cast BSON to str
+        })
+        .end(function (err, res) {
+          expect(res.body.username).to.equal(testUser.username);
+          done();
+        });
     });
   });
 
