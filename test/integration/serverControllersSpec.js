@@ -283,7 +283,7 @@ describe('server controllers', function () {
       it('should add the new group to the host\'s groupId', function (done) {
         // Update testUser
         User.findOne({ _id: testUser._id }, function (err, user) {
-          expect(_.contains(user.groupId, group._id));
+          expect(_.contains(user.groupIds, group._id));
           done();
         });
       });
@@ -376,9 +376,9 @@ describe('server controllers', function () {
         done();
       });
 
-      it('removes group from user.groupId', function (done) {
+      it('removes group from user.groupIds', function (done) {
         User.findById(testUser._id, function (err, user) {
-          var userHasGroup = user.groupId.some(function (id) {
+          var userHasGroup = user.groupIds.some(function (id) {
             return id.equals(group._id);
           });
 

@@ -134,15 +134,15 @@ module.exports = {
     var groupId = req.query.groupId;
 
     Group.findById(groupId)
-    .populate({
-      path: 'favorites',
-      populate: {path: 'venue'}
-    })
-    .exec(function (err, group){
-      if (!group) return util.send400(res, err);
-      if (err) return util.send500(res, err);
+      .populate({
+        path: 'favorites',
+        populate: {path: 'venue'}
+      })
+      .exec(function (err, group){
+        if (!group) return util.send400(res, err);
+        if (err) return util.send500(res, err);
 
-      util.send200(res, group.favorites);
-    });
+        util.send200(res, group.favorites);
+      });
   }
 };
