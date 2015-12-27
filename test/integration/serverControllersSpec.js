@@ -380,6 +380,15 @@ describe('server controllers', function () {
           done();
         });
     });
+
+    it('isLoggedIn() responds with false if !req.isAuthenticated', function (done) {
+      request
+        .get('/api/check') // indexController#isLoggedIn
+        .end(function (err, res) {
+          expect(res.body.status).to.equal(false);
+          done();
+        });
+    });
   });
 
   describe('ratingController', function () {
