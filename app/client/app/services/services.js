@@ -173,7 +173,7 @@ angular.module('travel.services', [])
       url: '/api/dest/',
       params: { limit: 500 } // As of 12/26/2015, TripExpert returns 375 destinations
     }).then(function(res) {
-      console.log(res.data);
+      // console.log(res.data);
       return res.data.destinations;
     });
   };
