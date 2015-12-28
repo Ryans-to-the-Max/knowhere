@@ -102,11 +102,12 @@ module.exports = {
 
   addOrUpdateRating: function(req, res, next){  //add to user and group favorites
     var venueInfo = req.body.venue;
+    venueInfo.lookUpId = venueInfo.lookUpId || venueInfo.id;
     var groupId = req.body.groupId;
     var userId  = req.body.userId;
     var newRating  = req.body.rating;
 
-    Venue.findOne({lookUpId: venueInfo.id}, function (err, venue) {
+    Venue.findOne({lookUpId: venueInfo.lookUpId}, function (err, venue) {
       if (err) return util.send500(res, err);
 
       if (!venue) {
