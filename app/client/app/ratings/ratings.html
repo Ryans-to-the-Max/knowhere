@@ -36,11 +36,13 @@
           <div class="caption">
             <div class="title">
               <h4>{{ venue.venue.name }}</h4>
+              <div>Select your rating <br> {{ratings[venue._id] || "0"}} out of 10 </div>
+              <uib-rating ng-init="ratings[venue._id] = 0" ng-click="addRating(venue.venue, ratings[venue._id])" ng-model="ratings[venue._id]" max="max" readonly="isReadonly" aria-labelledby="default-rating"></uib-rating>
+              <div>
+                <button type="button" class="btn btn-sm btn-danger" ng-click="ratings[venue._id] = 0; addRating(venue.venue, 0)" ng-disabled="isReadonly">Clear Rating</button>
+                <button class="btn btn-primary" type="button" name="button">More Info</button>
+              </div>
             </div>
-            <span>Select your rating <br> {{venue.currentUserRating.userRating}} out of 10
-              <div star-rating rating-value="venue.currentUserRating.userRating" max="10" on-rating-selected="addRating(venue.venue, venue.currentUserRating.userRating)"></div>
-            </span>
-            <button class="btn btn-primary" type="button" name="button">More Info</button>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-angular.module('travel.ratings', [])
+angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
 
 .controller('RatingsController', function ($scope, $window, $rootScope, $state, CurrentInfo, Venues, Groups, Util) {
   $scope.filteredUserRatings = [];
@@ -65,15 +65,12 @@ angular.module('travel.ratings', [])
     venues.forEach(function(ven) {
       ven.allRatings.forEach(function(rating) {
         if (rating.user === userId) {
-          ven.currentUserRating = rating;
-          userRatings.push(ven);
-        } else {
-          groupRatings.push(ven);
+          ven.currentRating = rating.userRating;
         }
       });
     });
     $scope.filteredGroupRatings = groupRatings;
-    $scope.filteredUserRatings  = userRatings;
+    $scope.filteredUserRatings  = venues;
     console.log(userRatings);
   };
 
@@ -90,6 +87,7 @@ angular.module('travel.ratings', [])
     };
     Venues.getRatings(query)
       .then(function(venuesInfo){
+        console.log(venuesInfo);
         $scope.allVenuesRatings = venuesInfo;
         $scope.filterRatings(1);
       });
@@ -108,6 +106,10 @@ angular.module('travel.ratings', [])
 
   ////////////////// USER ADD RATING //////////////////////
 
+
+  $scope.ratings = {};
+  $scope.max = 10;
+  $scope.isReadonly = false;
 
   $scope.addRating = function(venueData, rating) {
     var data = {
@@ -137,49 +139,5 @@ angular.module('travel.ratings', [])
 
 
   $scope.getRatings();
+
 })
-
-
-////////////////// DYNAMIC STAR RATING //////////////////////
-
-
-.directive('starRating', function () {
-  var restrict = 'A';
-  var template = '<ul class="rating">' +
-            '<li ng-repeat="star in stars" ng-class="star" ng-click="toggle($index)">' +
-            '\u2605' +
-            '</li>' +
-            '</ul>';
-  var scope = {
-    ratingValue: '=',
-    max: '=',
-    onRatingSelected: '&'
-  };
-  var link = function (scope, elem, attrs) {
-    var updateStars = function () {
-      scope.stars = [];
-      for (var i = 0; i < scope.max; i++) {
-        scope.stars.push({
-          filled: i < scope.ratingValue
-        });
-      }
-    };
-    scope.toggle = function (index) {
-      scope.ratingValue = index + 1;
-      scope.onRatingSelected({
-        rating: index + 1
-      });
-    };
-    scope.$watch('ratingValue', function (oldVal, newVal) {
-      if (newVal) {
-        updateStars();
-      }
-    });
-  };
-  return {
-    restrict: restrict,
-    template: template,
-    scope: scope,
-    link: link
-  };
-});
