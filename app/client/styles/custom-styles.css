@@ -148,6 +148,20 @@ ul.rating {
   visibility: hidden;
 }
 
+#landing {
+  height: 600px;
+  background: url(https://images.unsplash.com/photo-1444212568492-d2799d30943b?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=4303511cdcbfb509a05ea61cec0a2899) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+
 #banner {
   margin-top: -25px;
 }
