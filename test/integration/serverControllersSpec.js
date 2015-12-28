@@ -115,7 +115,7 @@ describe('server controllers', function () {
     testUtil.dropDb(con, done);
   });
 
-  describe('destController', function () {
+  xdescribe('destController', function () {
 
     describe('getDestinations()', function () {
 
