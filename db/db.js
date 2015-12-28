@@ -40,7 +40,7 @@ var userSchema = new Schema ({
     type: Boolean
   },
 
-  groupId: [{
+  groupIds: [{
     type: Schema.ObjectId,
     ref: 'Group'
   }],
@@ -83,12 +83,12 @@ var groupSchema = new Schema ({
   },
   // TODO Compare this against destinations in DB
   destination: {
-    type: String,
-    required: true,
+    type: Number,
+    required: false,
     unique: false,
     validate: [
-      function (title) {
-        return title.trim().length > 0;
+      function (id) {
+        return id >= 0;
       },
       'Group needs a destination'
     ]

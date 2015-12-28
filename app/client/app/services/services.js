@@ -79,15 +79,27 @@ angular.module('travel.services', [])
 ////////////////// Groups //////////////////////
 
 
-.factory('Groups', function ($http) {
+.factory('Groups', function ($http, $rootScope) {
   // HTTP REQ FUNCTIONS
-  var addParticipants = function(data) {
+
+  /*
+    @data {object} has:
+      @prop {str} username. (email)
+      @prop {int} groupId.
+  */
+  var addParticipant = function(data) {
     return $http({
       method: 'POST',
       url: '/api/group/add',
       data: data
     });
   };
+  /*
+    @data {object} has:
+      @prop {str} groupName.  Group title.
+      @prop {int} destinationId.
+      @prop {int} userId.
+  */
   var createGroup = function(data){
     return $http({
       method: 'POST',
@@ -110,16 +122,19 @@ angular.module('travel.services', [])
   };
 
   // NOT HTTP REQ FUNCTIONS
-  var selectGroup = function (groupInfo, _$rootScope_) {
-    _$rootScope_.currentGroup = groupInfo;
-    _$rootScope_.destinationPermalink = groupInfo.destination;
+  var selectGroup = function (next) {
+    return function (groupInfo) {
+      $rootScope.currentGroup = groupInfo;
+      $rootScope.destination  = groupInfo.destination;
+      next();
+    };
   };
 
   return {
     // HTTP REQ FUNCTIONS
     getUserGroups: getUserGroups,
     createGroup: createGroup,
-    addParticipants: addParticipants,
+    addParticipant: addParticipant,
 
     // NOT HTTP REQ FUNCTIONS
     selectGroup: selectGroup,
@@ -156,16 +171,16 @@ angular.module('travel.services', [])
     return $http({
       method: 'GET',
       url: '/api/dest/',
-      params: { limit: 375 }
+      params: { limit: 500 } // As of 12/26/2015, TripExpert returns 375 destinations
     }).then(function(res) {
-      console.log(res.data.response.destinations);
-      return res.data.response.destinations;
+      // console.log(res.data);
+      return res.data.destinations;
     });
   };
 
   /*
     @params {object} query has:
-      @prop {str} permalink
+      @prop {int} destinationId
   */
   var getVenues = function(query){
     return $http({

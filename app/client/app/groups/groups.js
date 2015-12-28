@@ -53,10 +53,9 @@ angular.module('travel.groups', [])
   ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
 
 
-  $scope.selectGroup = function(groupInfo) {
-    Groups.selectGroup(groupInfo, $rootScope);
+  $scope.selectGroup = Groups.selectGroup(function () {
     $state.go('results');
-  };
+  });
 
 
   ////////////////// SET INIT STATE //////////////////////

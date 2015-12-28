@@ -20,13 +20,12 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   };
 
 
-  ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
+  ////////////////// SELECTING A GROUP WILL REROUTE TO RATINGS //////////////////////
 
 
-  $scope.selectGroup = function(groupInfo) {
-    Groups.selectGroup(groupInfo, $rootScope);
+  $scope.selectGroup = Groups.selectGroup(function () {
     $state.go('ratings');
-  };
+  });
 
 
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////
