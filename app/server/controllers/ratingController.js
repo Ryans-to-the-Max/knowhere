@@ -51,8 +51,15 @@ var updateGroupRating = function (paramHash) {
   var userId = paramHash.userId;
   var venue = paramHash.venue;
 
+  console.log("==================");
+  console.log(venue._id);
+  console.log("==================");
+  console.log(venue);
+
   Rating.update({'allRatings.user': userId, 'groupId': groupId, 'venue': venue._id},
                 {$set: {'allRatings.$.userRating': newRating}}, function (err, update){
+    console.log("@@@@@@@@@@@@@@@@@");
+    console.log(update);
     if (err) return util.send500(res, err);
 
     if (update.n > 0) { // Rating exists for that user, and should've been updated.

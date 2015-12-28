@@ -104,6 +104,10 @@ var groupSchema = new Schema ({
   favorites: [{
     type: Schema.ObjectId,
     ref: 'Rating'
+  }],
+  itenerary: [{
+    type: Schema.ObjectId,
+    ref: 'Itinerary'
   }]
 });
 
@@ -159,6 +163,16 @@ var destSchema = new Schema ({
 destSchema.plugin(findOrCreate);
 
 db.destSchema = destSchema;
+
+var itinerarySchema = new Schema ({
+  startDate: Date,
+  endDate: Date,
+  venue: {type: Schema.ObjectId, ref: 'Venue'}
+})
+
+itinerarySchema.plugin(findOrCreate);
+
+db.itinerarySchema = itinerarySchema;
 
 
 module.exports = db;
