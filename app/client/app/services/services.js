@@ -328,26 +328,6 @@ angular.module('travel.services', [])
   };
 
 
-  ////////////////// ITINERARY //////////////////////
-
-
-  /*
-    @params {object} query has:
-      @prop {str} groupId
-      @prop {str} userId
-  */
-  var getItinerary = function(query){
-    return $http({
-      method: 'GET',
-      url: '/api/rating/itin',
-      params: query
-    })
-    .then(function(resp){
-      return resp.data;
-    });
-  };
-
-
   ////////////////// ADD TO USER FAVORITES - NON FUNCTIONAL - SAVE FOR LATER //////////////////////
 
 
@@ -373,7 +353,6 @@ angular.module('travel.services', [])
     getUserFavorites: getUserFavorites,
     addRating: addRating,
     getRatings: getRatings,
-    getItinerary: getItinerary,
     addToItinerary: addToItinerary,
     getDetailedVenueInfo: getDetailedVenueInfo
   };

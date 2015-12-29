@@ -149,23 +149,6 @@ module.exports = {
       });
   },
 
-  getItin: function(req, res, next){
-    console.log(req.params);
-    console.log(req.query);
-    var groupId   = req.query.groupId;
-    Group.findById(groupId)
-    .populate({
-      path: 'favorites',
-      populate: { path: 'venue' }
-    })
-    .exec(function (err, group){
-      if (err) return util.send500(res, err);
-      if (err) return util.send500(res, err);
-      return util.send200(res, group.favorites);
-    });
-
-  },
-
   addItin: function(req, res, next){
     var venueInfo = req.body.venue;
     var groupId   = req.body.groupId;
