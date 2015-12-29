@@ -137,9 +137,9 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   $scope.addRating = function(venueData, rating) {
     var userId = $rootScope.currentUser._id;
     venueData.allRatings.forEach(function(rate) {
-      if (rate.user = userId) {
+      if (rate.user === userId) {
         rate.userRating = rating;
-      };
+      }
     });
     venueData.currentRating = rating;
     console.log(venueData);
