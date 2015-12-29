@@ -163,6 +163,23 @@ ul.rating {
   text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
 }
 
+.results-nav li a {
+  color: #fff;
+  text-shadow: 1px 1px 1px black, 0 0 0.1em black, 0 0 0.1em black;
+}
+
+.results-nav li {
+  display: inline-block;
+  font-size: 1.5em;
+  font-weight: 200;
+  text-transform: uppercase;
+  padding: 10px;
+}
+
+.active-nav-results-tab {
+  color: navy;
+}
+
 #landing {
   background: url(https://images.unsplash.com/29/night-square.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=36e3089748ffd4e8a285318afb1a7a57) no-repeat center center fixed;
   -webkit-background-size: cover;

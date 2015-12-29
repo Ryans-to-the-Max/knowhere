@@ -4,11 +4,10 @@
       <div id="banner" class="jumbotron" ng-style="{'background-image':'url(' + city.splash_photo + ')'}">
         <h1 id="city-name">Places to explore in {{ city.name }}</h1>
         <div class="col-md-offset-3 col-md-6">
-          <ul class="nav nav-pills center-pills">
-            <!-- empty anchor tags may need to be fixed -->
-            <li role="navigation" class="active"><a href="#/results">Explore</a></li>
-            <li role="navigation" class="active"><a href="#/ratings">Ratings</a></li>
-            <li role="navigation" class="active"><a href="#/itinerary">Itinerary</a></li>
+          <ul class="results-nav">
+            <li role="navigation"><a href="#/results">Explore <span class="glyphicon glyphicon-plane" aria-hidden="true"></span></a></li>
+            <li role="navigation"><a href="#/ratings">Ratings <span class="glyphicon glyphicon-star" aria-hidden="true"></a></li>
+            <li role="navigation"><a href="#">Itinerary <span class="glyphicon glyphicon-calendar" aria-hidden="true"></a></li>
           </ul>
         </div>
       </div><!-- /.jumbotron -->
@@ -17,7 +16,7 @@
 
   <div class="container">
     <ul class="nav nav-tabs">
-      <li role="presentation"><a href="" ng-click="filterVenues(1)">Hotels</a></li>
+      <li role="presentation" class="active"><a href="" ng-click="filterVenues(1)">Hotels</a></li>
       <li role="presentation"><a href="" ng-click="filterVenues(2)">Restaurants</a></li>
       <li role="presentation"><a href="" ng-click="filterVenues(3)">Attractions</a></li>
     </ul>
