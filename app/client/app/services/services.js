@@ -264,7 +264,7 @@ angular.module('travel.services', [])
   var addtoItinerary = function(data) {
     return $http({
       method: 'POST',
-      url: '/api/itin',
+      url: '/api/rating/itin',
       data: data
     });
   };
@@ -281,7 +281,7 @@ angular.module('travel.services', [])
   var getItinerary = function(query){
     return $http({
       method: 'GET',
-      url: '/api/itin',
+      url: '/api/rating/itin',
       params: query
     })
     .then(function(resp){

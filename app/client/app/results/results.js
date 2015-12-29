@@ -118,7 +118,7 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
       venue: venueData,
       userId : $rootScope.currentUser._id,
       groupId : $rootScope.currentGroup._id,
-      rating: 5
+      rating: 0
     };
     console.log(data);
     Venues.addRating(data);
@@ -134,7 +134,7 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
           venue: venueInfo,
           userId : $rootScope.currentUser._id,
           groupId : $rootScope.currentGroup._id,
-          rating: 5
+          rating: 0
         };
         Venues.addRating(data);   
       })

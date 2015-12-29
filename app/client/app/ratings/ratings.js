@@ -1,6 +1,6 @@
-angular.module('travel.ratings', [])
+angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
 
-.controller('RatingsController', function ($scope, $window, $rootScope, $state, CurrentInfo, Venues, Groups, Util) {
+.controller('RatingsController', function ($scope, $window, $rootScope, $state, $uibModal, CurrentInfo, Venues, Groups, Util) {
   $scope.filteredUserRatings = [];
   $scope.filteredGroupRatings  = [];
   $scope.city = $rootScope.destination;
@@ -30,7 +30,7 @@ angular.module('travel.ratings', [])
 
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////
 
-  //FIXME: need updated data response object
+
   $scope.filterRatings = function (filterType) {
     if (!$scope.allVenuesRatings.length) return;
 
@@ -62,18 +62,34 @@ angular.module('travel.ratings', [])
       }
     });
     venues.forEach(function(ven) {
+      $scope.addAvg(ven);
       ven.allRatings.forEach(function(rating) {
         if (rating.user === userId) {
-          ven.currentUserRating = rating;
+          ven.currentRating = rating.userRating;
           userRatings.push(ven);
-        } else {
-          groupRatings.push(ven);
         }
       });
     });
     $scope.filteredGroupRatings = groupRatings;
     $scope.filteredUserRatings  = userRatings;
+    $rootScope.mockData = userRatings;
     console.log(userRatings);
+  };
+
+
+  ////////////////// ADD AVERAGES FOR A VENUE //////////////////////
+
+
+  $scope.addAvg = function (venue) {
+    var total = 0;
+    var numberofRatings = 0;
+    venue.allRatings.forEach(function(rating){
+      if (rating.userRating !== 0) {
+        total += rating.userRating;
+        numberofRatings ++;
+      }
+    });
+    venue.avgRating = (total / numberofRatings) || 0;
   };
 
 
@@ -89,6 +105,7 @@ angular.module('travel.ratings', [])
     };
     Venues.getRatings(query)
       .then(function(venuesInfo){
+        console.log(venuesInfo);
         $scope.allVenuesRatings = venuesInfo;
         $scope.filterRatings(1);
       });
@@ -108,10 +125,27 @@ angular.module('travel.ratings', [])
   ////////////////// USER ADD RATING //////////////////////
 
 
+  $scope.ratings = {};
+  $scope.max = 10;
+  $scope.isReadonly = false;
+  $scope.showRatings = {};
+  $scope.hoveringOver = function(value,id) {
+    $scope.showRatings[id] = value;
+  };
+
   $scope.addRating = function(venueData, rating) {
+    var userId = $rootScope.currentUser._id;
+    venueData.allRatings.forEach(function(rate) {
+      if (rate.user === userId) {
+        rate.userRating = rating;
+      }
+    });
+    venueData.currentRating = rating;
+    console.log(venueData);
+    $scope.addAvg(venueData);
     var data = {
-      venue : venueData,
-      userId : $rootScope.currentUser._id,
+      venue : venueData.venue,
+      userId : userId,
       groupId : $rootScope.currentGroup._id,
       rating : rating
     };
@@ -119,14 +153,47 @@ angular.module('travel.ratings', [])
   };
 
 
+  ////////////////// GET DETAILED INFO OF A VENUE //////////////////////
+
+
+  // Sets image carousel interval
+  $scope.myInterval = 5000;
+  $scope.noWrapSlides = false;
+  $scope.ratingsInfo = $rootScope.ratingsInfo;
+  $scope.phoneHide = $rootScope.phoneHide;
+
+  $scope.getDetailedVenueInfo = function(venue) {
+    if (venue.venue.telephone === null) {
+      $rootScope.phoneHide = true;
+    } else {
+      $rootScope.phoneHide = false;
+    }
+    $rootScope.ratingsInfo = venue;
+    $scope.ratingsInfo = venue;
+    $scope.openModal();
+  };
+  $scope.exit = function(){
+    $uibModalInstance.close();
+  };
+  $scope.openModal = function() {
+    var modalInstance = $uibModal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'app/ratings/moreInfo.html',
+      controller: 'RatingsController',
+    });
+  };
+
+
   ////////////////// ADMIN ONLY //////////////////////
 
 
-  $scope.addtoItinerary = function(venueData) {
+  $scope.addtoItin = function(venueData) {
     var data = {
       venue : venueData,
       userId : $rootScope.currentUser._id,
-      groupId : $rootScope.currentGroup._id
+      groupId : $rootScope.currentGroup._id,
+      startDate : null,
+      endDate : null
     };
     Venues.addtoItinerary(data);
   };
@@ -136,49 +203,5 @@ angular.module('travel.ratings', [])
 
 
   $scope.getRatings();
-})
 
-
-////////////////// DYNAMIC STAR RATING //////////////////////
-
-
-.directive('starRating', function () {
-  var restrict = 'A';
-  var template = '<ul class="rating">' +
-            '<li ng-repeat="star in stars" ng-class="star" ng-click="toggle($index)">' +
-            '\u2605' +
-            '</li>' +
-            '</ul>';
-  var scope = {
-    ratingValue: '=',
-    max: '=',
-    onRatingSelected: '&'
-  };
-  var link = function (scope, elem, attrs) {
-    var updateStars = function () {
-      scope.stars = [];
-      for (var i = 0; i < scope.max; i++) {
-        scope.stars.push({
-          filled: i < scope.ratingValue
-        });
-      }
-    };
-    scope.toggle = function (index) {
-      scope.ratingValue = index + 1;
-      scope.onRatingSelected({
-        rating: index + 1
-      });
-    };
-    scope.$watch('ratingValue', function (oldVal, newVal) {
-      if (newVal) {
-        updateStars();
-      }
-    });
-  };
-  return {
-    restrict: restrict,
-    template: template,
-    scope: scope,
-    link: link
-  };
 });
