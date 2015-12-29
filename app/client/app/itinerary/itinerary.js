@@ -72,19 +72,20 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// ADD TO ITINERARY - ADMIN ONLY//////////////////////
 
 
-  $scope.addDatesToItinerary = function(venueData, fromDate, toDate) {
-    console.log(venueData, fromDate, toDate);
-    var userId = $rootScope.currentUser._id;
-    var groupId = $rootScope.currentGroup._id;
-    var data = {
-      venue : venueData,
-      userId : userId,
-      groupId : groupId,
-      fromDate : fromDate,
-      toDate : toDate
-    };
-    Venues.addToItinerary(data);
-  };
+  $scope.addDatesToItinerary = Venues.addToItinerary;
+  // $scope.addDatesToItinerary = function(venueData, fromDate, toDate) {
+  //   console.log(venueData, fromDate, toDate);
+  //   var userId = $rootScope.currentUser._id;
+  //   var groupId = $rootScope.currentGroup._id;
+  //   var data = {
+  //     venue : venueData,
+  //     userId : userId,
+  //     groupId : groupId,
+  //     fromDate : fromDate || new Date(),
+  //     toDate : toDate || new Date()
+  //   };
+  //   Venues.addToItinerary(data);
+  // };
 
 
   ////////////////// GET DETAILED INFO OF A VENUE //////////////////////

@@ -145,16 +145,17 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// ADMIN ONLY //////////////////////
 
 
-  $scope.addToItin = function(venueData) {
-    var data = {
-      venue : venueData,
-      userId : $rootScope.currentUser._id,
-      groupId : $rootScope.currentGroup._id,
-      fromDate : new Date(),
-      toDate : new Date()
-    };
-    Venues.addToItinerary(data);
-  };
+  $scope.addToItin = Venues.addToItinerary;
+  // $scope.addToItin = function(venueData, fromDate, toDate) {
+  //   var data = {
+  //     venue : venueData,
+  //     userId : $rootScope.currentUser._id,
+  //     groupId : $rootScope.currentGroup._id,
+  //     fromDate : new Date(),
+  //     toDate : new Date()
+  //   };
+  //   Venues.addToItinerary(data);
+  // };
 
 
   ////////////////// INIT STATE //////////////////////

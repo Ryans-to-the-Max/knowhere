@@ -311,6 +311,24 @@ angular.module('travel.services', [])
   ////////////////// GROUP FAVORITES - ADMIN ONLY //////////////////////
 
 
+  var addToItinerary = function (venueData, fromDate, toDate) {
+    var data = {
+      venue: venueData,
+      userId: $rootScope.currentUser._id,
+      groupId: $rootScope.currentGroup._id,
+      fromDate: fromDate || new Date(),
+      toDate: toDate || new Date()
+    };
+
+    return $http({
+      method: 'POST',
+      url: '/api/rating/itin',
+      data: data
+    });
+  };
+
+
+
   /*
     @data {object} data has:
       @prop {str} groupId
@@ -319,13 +337,13 @@ angular.module('travel.services', [])
       @prop {str} fromDate
       @prop {str} toDate
   */
-  var addToItinerary = function(data) {
-    return $http({
-      method: 'POST',
-      url: '/api/rating/itin',
-      data: data
-    });
-  };
+  // var addToItinerary = function(data) {
+  //   return $http({
+  //     method: 'POST',
+  //     url: '/api/rating/itin',
+  //     data: data
+  //   });
+  // };
 
 
   ////////////////// ADD TO USER FAVORITES - NON FUNCTIONAL - SAVE FOR LATER //////////////////////
