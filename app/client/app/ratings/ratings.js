@@ -72,7 +72,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
     });
     $scope.filteredGroupRatings = groupRatings;
     $scope.filteredUserRatings  = userRatings;
-    $rootScope.mockData = userRatings;
+    // $rootScope.mockData = userRatings;
     console.log(userRatings);
   };
 
@@ -143,7 +143,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
     venueData.currentRating = rating;
     console.log(venueData);
     $scope.addAvg(venueData);
-    
+
     var data = {
       venue : venueData.venue,
       userId : userId,
@@ -193,8 +193,8 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
       venue : venueData,
       userId : $rootScope.currentUser._id,
       groupId : $rootScope.currentGroup._id,
-      startDate : null,
-      endDate : null
+      fromDate : new Date(),
+      toDate : new Date()
     };
     Venues.addtoItinerary(data);
   };

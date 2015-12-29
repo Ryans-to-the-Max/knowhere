@@ -7,8 +7,8 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   $scope.city = $rootScope.destination;
   $scope.heading = null;
   //TODO: REMOVE AND UNCOMMENT BELOW WHEN HAVE FULL DATA
-  $scope.fullItinerary = $rootScope.mockData;
-  // $scope.fullItinerary = [];
+  //$scope.fullItinerary = $rootScope.mockData;
+  $scope.fullItinerary = [];
   //TORO: REMOVE AND UNCOMMENT ABOVE WHEN HAVE FULL DATA 
   $scope.groups = [];
 
@@ -59,7 +59,7 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
     $scope.filteredItinerary = venues;
   };
   //TODO: REMOVE BELOW WHEN HAVE FULL DATA
-  $scope.filterItinerary(1);
+  //$scope.filterItinerary(1);
   //TORO: REMOVE ABOVE WHEN HAVE FULL DATA 
 
 
@@ -85,12 +85,12 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
     };
     Venues.getItinerary(query)
       .then(function(itineraryData){
-        $scope.itinerary = fullItineraryData;
-        filterItinerary();
+        $scope.fullItinerary = itineraryData;
+        $scope.filterItinerary(1);
       });
   };
 
-  // $scope.getItinerary();
+   $scope.getItinerary();
 
 
   ////////////////// ADD TO ITINERARY - ADMIN ONLY//////////////////////

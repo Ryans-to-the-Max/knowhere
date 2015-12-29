@@ -149,7 +149,9 @@ module.exports = {
   },
 
   getItin: function(req, res, next){
-    var groupId   = req.params.groupId;
+    console.log(req.params);
+    console.log(req.query);
+    var groupId   = req.query.groupId;
     Group.findById(groupId)
     .populate({
       path: 'favorites',
