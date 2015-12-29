@@ -75,7 +75,7 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// ADD TO ITINERARY - ADMIN ONLY//////////////////////
 
 
-  $scope.addDatestoItinerary = function(venueData, fromDate, toDate) {
+  $scope.addDatesToItinerary = function(venueData, fromDate, toDate) {
     console.log(venueData, fromDate, toDate);
     var userId = $rootScope.currentUser._id;
     var groupId = $rootScope.currentGroup._id;
