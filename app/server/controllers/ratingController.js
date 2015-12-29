@@ -169,12 +169,12 @@ module.exports = {
   addItin: function(req, res, next){
     var venueInfo = req.body.venue;
     var groupId   = req.body.groupId;
-    var start     = req.body.fromDate;
-    var end       = req.body.toDate;
+    var fromDate  = req.body.fromDate;
+    var toDate    = req.body.toDate;
 
 
     Rating.update({'groupId': groupId, 'venue': venueInfo.venue},
-                  {$set: {'itinerary.startDate': start, 'itinerary.endDate': end}}, function (err, update){
+                  {$set: {'itinerary.fromDate': fromDate, 'itinerary.toDate': toDate}}, function (err, update){
 
       if (err) return util.send500(res, err);
       if (update.nModified < 0) return util.send400(res, err);
