@@ -86,7 +86,7 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
       fromDate : fromDate,
       toDate : toDate
     };
-    Venues.addtoItinerary(data);
+    Venues.addToItinerary(data);
   };
 
 

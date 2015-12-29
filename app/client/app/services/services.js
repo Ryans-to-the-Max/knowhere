@@ -319,7 +319,7 @@ angular.module('travel.services', [])
       @prop {str} fromDate
       @prop {str} toDate
   */
-  var addtoItinerary = function(data) {
+  var addToItinerary = function(data) {
     return $http({
       method: 'POST',
       url: '/api/rating/itin',
@@ -374,7 +374,7 @@ angular.module('travel.services', [])
     addRating: addRating,
     getRatings: getRatings,
     getItinerary: getItinerary,
-    addtoItinerary: addtoItinerary,
+    addToItinerary: addToItinerary,
     getDetailedVenueInfo: getDetailedVenueInfo
   };
 
