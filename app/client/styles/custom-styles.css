@@ -196,6 +196,10 @@ ul.rating {
   box-shadow: 0 6px 6px -6px #999;
 }
 
+.jumbotron {
+
+}
+
 #landing {
   background: url(https://images.unsplash.com/29/night-square.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=36e3089748ffd4e8a285318afb1a7a57) no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -214,6 +218,7 @@ ul.rating {
 
 #banner {
   margin-top: -25px;
+  border-radius: 0;
 }
 
 #city-name {
