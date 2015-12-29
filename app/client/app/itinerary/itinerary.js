@@ -52,13 +52,13 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
 
 
   $scope.showFullItinerary = function() {
-    var venues = [];
     $scope.heading = "Full Itinerary";
     $scope.filteredItinerary = $scope.fullItinerary;
   };
 
 
   ////////////////// GET GROUP ITINERARY / RATINGS //////////////////////
+
 
   $scope.getRatings = function () {
     var query = {
