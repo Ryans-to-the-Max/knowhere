@@ -1,3 +1,7 @@
+body, html, .container, .container-fluid {
+  font-family: 'Open Sans', sans-serif;
+}
+
 .center-pills {
   display: inline-block;
 }
@@ -92,7 +96,7 @@ ul.rating {
   height: 520px;
 }
 .title {
-  height: 30px
+  height: 30px;
 }
 
 .detailed-info {
@@ -140,3 +144,68 @@ ul.rating {
   display: inline-block;
 }
 
+.landing-submit-button {
+  visibility: hidden;
+}
+
+.landing-thumbnail {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 100%;
+}
+
+.landing-message {
+  text-transform: uppercase;
+  font-weight: 100;
+  font-size: 2em;
+  letter-spacing: 0.2em;
+  color: #fff;
+  text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
+}
+
+.results-nav li a {
+  color: #fff;
+  text-shadow: 1px 1px 1px black, 0 0 0.1em black, 0 0 0.1em black;
+}
+
+.results-nav li {
+  display: inline-block;
+  font-size: 1.5em;
+  font-weight: 200;
+  text-transform: uppercase;
+  padding: 10px;
+}
+
+.active-nav-results-tab {
+  color: navy;
+}
+
+#landing {
+  background: url(https://images.unsplash.com/29/night-square.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=36e3089748ffd4e8a285318afb1a7a57) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 100vh;
+  margin-top: -25px;
+  padding-top: 50px;
+}
+
+#landing-form {
+  color: #fff;
+  margin-top: 100px;
+}
+
+#banner {
+  margin-top: -25px;
+}
+
+#city-name {
+  font-family: 'Source Serif Pro', serif;
+  color: #fff;
+  text-shadow: 1px 1px 1px black, 0 0 0.1em black, 0 0 0.1em black;
+}
+
+#api-attribution {
+  background-color: #EBEBEB;
+}

@@ -93,8 +93,15 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// ADD TO RESULT LIST //////////////////////
 
 
-  $scope.addToRatings = function(venueInfo) {
-    Venues.addRating(venueInfo, null);
+  $scope.addToRatings = function(venueData) {
+    var data = {
+      venue: venueData,
+      userId : $rootScope.currentUser._id,
+      groupId : $rootScope.currentGroup._id,
+      rating: 5
+    };
+    console.log(data);
+    Venues.addRating(data);
   };
 
   $scope.addToRatingsMain = function(venueId) {
@@ -103,7 +110,13 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
     };
     Venues.getDetailedVenueInfo(query)
       .then(function(venueInfo) {
-        Venues.addRating(venueInfo, null);   
+        var data = {
+          venue: venueInfo,
+          userId : $rootScope.currentUser._id,
+          groupId : $rootScope.currentGroup._id,
+          rating: 5
+        };
+        Venues.addRating(data);
       })
       .catch(function(error){
         console.error(error);
