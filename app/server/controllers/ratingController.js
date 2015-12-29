@@ -110,9 +110,6 @@ module.exports = {
 
     Venue.findOne({lookUpId: venueInfo.lookUpId}, function (err, venue) {
       if (err) return util.send500(res, err);
-
-    Venue.findOne({lookUpId: venueInfo.lookUpId}, function (err, venue) {
-      if (err) return util.send500(res, err);
       
       if (!venue) {
         venue = newVenueWithInfo(venueInfo);
@@ -172,7 +169,10 @@ module.exports = {
     var start     = req.body.startDate;
     var end       = req.body.endDate;
 
-    Rating.update({'groupId': groupId, 'venue': venueInfo._id},
+    console.log("@@@@@@@@@@@@@@@@");
+    console.log(venueInfo);
+
+    Rating.update({'groupId': groupId, 'venue': venueInfo.venue._id},
                   {$set: {'itinerary.$.startDate': start, 'itinerary.$.endDate': end}}, function (err, update){
       if (err) return util.send500(res, err);
       if (update.nModified < 0) return util.send400(res, err);

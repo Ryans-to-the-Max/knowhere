@@ -99,10 +99,10 @@ module.exports = function(passport) {
 
           transporter.sendMail({    
               from: 'mgaffney123@gmail.com',
-              to: 'mgaffney123@gmail.com',
+              to: newUser.username,
               subject: 'Welcome to Knowhere!',
               html: '<div> Welcome to Knowhere!.  Validate your account by clicking ' +
-              ' <a href=' + PROTOCOL_DOMAIN + '/#/validate>here!</a></div>'
+              ' <a href=' + PROTOCOL_DOMAIN + '/#/validate?id=' + newUser._id + '>here!</a></div>'
           })
         }  
       });    

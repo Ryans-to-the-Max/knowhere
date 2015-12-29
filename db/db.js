@@ -40,6 +40,11 @@ var userSchema = new Schema ({
     type: Boolean
   },
 
+  validUser: {
+    type: Boolean,
+    default: false
+  },
+
   groupIds: [{
     type: Schema.ObjectId,
     ref: 'Group'

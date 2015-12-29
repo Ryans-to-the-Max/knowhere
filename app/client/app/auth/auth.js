@@ -22,6 +22,14 @@ angular.module('signin', ['ui.bootstrap'])
         });
   };
 
+  $scope.validate = function(){
+    var user = $location.search().id;
+    AuthMe.validateUser(user)
+      .then(function (data){
+        console.log(data);
+      });
+  };
+
   $scope.onLoad = function() {
     AuthMe.isLoggedIn()
         .then(function (data){
