@@ -36,16 +36,7 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
     Util.setHeading($scope, venueTypeId);
 
     // populate venues with appropriate results
-<<<<<<< HEAD
     $scope.filteredVenues = Util.filterVenues($scope.venues, venueTypeId);
-=======
-    $scope.venues.forEach( function(venue) {
-      if (venue.venue_type_id === filterType) {
-        venues.push(venue);
-      }
-    });
-    $scope.filteredVenues = venues;
->>>>>>> (feat) basic groups template
   };
 
 
