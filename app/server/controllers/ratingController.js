@@ -149,6 +149,26 @@ module.exports = {
       });
   },
 
+  getItin: function(req, res, next) {
+    var groupId = req.query.groupId;
+
+    Group.findById(groupId)
+      .populate({  // TODO ? populate Group.members
+        path: 'favorites',
+        populate: {path: 'venue'}
+      })
+      .exec(function (err, group){
+        if (!group) return util.send400(res, err);
+        if (err) return util.send500(res, err);
+
+        var itin = group.favorites.filter(function (ratingObj) {
+          return !!ratingObj.itinerary.toDate; // will be truthy if added to itin
+        });
+
+        util.send200(res, itin);
+      });
+  },
+
   addItin: function(req, res, next){
     var venueInfo = req.body.venue;
     var groupId   = req.body.groupId;

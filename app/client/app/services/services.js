@@ -330,20 +330,20 @@ angular.module('travel.services', [])
 
 
   /*
-    @data {object} data has:
+    @params {object} query has:
       @prop {str} groupId
       @prop {str} userId
-      @prop {object} venue
-      @prop {str} fromDate
-      @prop {str} toDate
   */
-  // var addToItinerary = function(data) {
-  //   return $http({
-  //     method: 'POST',
-  //     url: '/api/rating/itin',
-  //     data: data
-  //   });
-  // };
+  var getItinerary = function(query){
+    return $http({
+      method: 'GET',
+      url: '/api/rating/itin',
+      params: query
+    })
+    .then(function(resp){
+      return resp.data;
+    });
+  };
 
 
   ////////////////// ADD TO USER FAVORITES - NON FUNCTIONAL - SAVE FOR LATER //////////////////////
@@ -370,6 +370,7 @@ angular.module('travel.services', [])
     getVenues: getVenues,
     getUserFavorites: getUserFavorites,
     addRating: addRating,
+    getItinerary: getItinerary,
     getRatings: getRatings,
     addToItinerary: addToItinerary,
     getDetailedVenueInfo: getDetailedVenueInfo

@@ -63,14 +63,14 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// GET GROUP ITINERARY / RATINGS //////////////////////
 
 
-  $scope.getRatings = function () {
+  $scope.getItinerary = function () {
     var query = {
       userId: $rootScope.currentUser._id,
       groupId: $rootScope.currentGroup._id
     };
-    Venues.getRatings(query)
-      .then(function (ratings) {
-        $scope.fullItinerary = ratings;
+    Venues.getItinerary(query)
+      .then(function (ratingsObjs) {
+        $scope.fullItinerary = ratingsObjs;
         $scope.filterItinerary(1);
       });
   };
@@ -98,7 +98,7 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
 //////////////////INIT STATE//////////////////////
 
 
-  $scope.getRatings();
+  $scope.getItinerary();
 
 
   //////////////////TEST//////////////////////
