@@ -87,7 +87,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
         total += rating.userRating;
         numberofRatings ++;
       }
-    })
+    });
     console.log(total);
     console.log(numberofRatings);
     venue.avgRating = (total / numberofRatings) || 0;
@@ -140,7 +140,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
       if (rate.user = userId) {
         rate.userRating = rating;
       };
-    })
+    });
     venueData.currentRating = rating;
     console.log(venueData);
     $scope.addAvg(venueData);
@@ -168,7 +168,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
       $rootScope.phoneHide = true;
     } else {
       $rootScope.phoneHide = false;
-    };
+    }
     $rootScope.moreInfo = venue;
     $scope.moreInfo = venue;
     $scope.openModal();
@@ -205,4 +205,4 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
 
   $scope.getRatings();
 
-})
+});
