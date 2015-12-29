@@ -72,6 +72,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
     });
     $scope.filteredGroupRatings = groupRatings;
     $scope.filteredUserRatings  = userRatings;
+    $rootScope.mockData = userRatings;
     console.log(userRatings);
   };
 
@@ -88,8 +89,6 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
         numberofRatings ++;
       }
     });
-    console.log(total);
-    console.log(numberofRatings);
     venue.avgRating = (total / numberofRatings) || 0;
   };
 
@@ -160,7 +159,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   // Sets image carousel interval
   $scope.myInterval = 5000;
   $scope.noWrapSlides = false;
-  $scope.moreInfo = $rootScope.moreInfo;
+  $scope.ratingsInfo = $rootScope.ratingsInfo;
   $scope.phoneHide = $rootScope.phoneHide;
 
   $scope.getDetailedVenueInfo = function(venue) {
@@ -169,8 +168,8 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
     } else {
       $rootScope.phoneHide = false;
     }
-    $rootScope.moreInfo = venue;
-    $scope.moreInfo = venue;
+    $rootScope.ratingsInfo = venue;
+    $scope.ratingsInfo = venue;
     $scope.openModal();
   };
   $scope.exit = function(){

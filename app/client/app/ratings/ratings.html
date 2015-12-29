@@ -17,15 +17,15 @@
 
   <div class="container">
     <ul class="nav nav-tabs">
-      <li role="presentation"><a href="" ng-click="filterFavorites(1)">Hotels</a></li>
-      <li role="presentation"><a href="" ng-click="filterFavorites(2)">Restaurants</a></li>
-      <li role="presentation"><a href="" ng-click="filterFavorites(3)">Attractions</a></li>
+      <li role="presentation"><a href="" ng-click="filterRatings(1)">Hotels</a></li>
+      <li role="presentation"><a href="" ng-click="filterRatings(2)">Restaurants</a></li>
+      <li role="presentation"><a href="" ng-click="filterRatings(3)">Attractions</a></li>
     </ul>
     <div class="row">
       <h2 class="text-center">{{ heading }}</h2>
     </div>
 
-    <h1 class="text-center" ng-if="filteredGroupRatings.length < 1 && filteredUserRatings.length < 1">
+    <h1 class="text-center" ng-if="filteredUserRatings.length < 1">
       You current do not have anything to rate!
     </h1>
     <div class="row" class="text-center ">
@@ -41,7 +41,7 @@
               <uib-rating ng-init="ratings[venue._id] = venue.currentRating; showRatings[venue._id] = venue.currentRating" on-hover="hoveringOver(value, venue._id)" ng-model="ratings[venue._id]" ng-click="addRating(venue, ratings[venue._id])" max="max" readonly="isReadonly" aria-labelledby="default-rating"></uib-rating>
               <div class="detailed-info">
                 <span class="label" ng-class="{'label-danger': showRatings[venue._id]<3,'label-warning': showRatings[venue._id]<5, 'label-info': showRatings[venue._id]>=5 && showRatings[venue._id]<8, 'label-success': showRatings[venue._id]>=8}" ng-show="!isReadonly">{{showRatings[venue._id]}}/10</span>
-                <button type="button" class="btn label label-danger" ng-click="ratings[venue._id] = 0; showRatings[venue._id] = 0; addRating(venue, 0)" ng-disabled="isReadonly">Clear Rating</button>
+                <button type="button" class="btn label label-danger" ng-click="ratings[venue._id] = 0; showRatings[venue._id] = 0; addRating(venue, 0)">Clear Rating</button>
               </div>
               <div>
                 <button class="btn btn-sm btn-info" type="button" name="button" ng-click="getDetailedVenueInfo(venue)">More Info</button>

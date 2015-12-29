@@ -85,10 +85,12 @@ ul.rating {
 }
 
 .ratings {
-  width: 250px;
   height: 380px;
 }
 
+.itinerary {
+  height: 520px;
+}
 .title {
   height: 30px
 }
@@ -121,4 +123,15 @@ ul.rating {
   border: none;
   border-radius: 0;
   box-shadow: none;
+}
+
+.full button span {
+  background-color: limegreen;
+  border-radius: 32px;
+  color: black;
+}
+.partially button span {
+  background-color: orange;
+  border-radius: 32px;
+  color: black;
 }
