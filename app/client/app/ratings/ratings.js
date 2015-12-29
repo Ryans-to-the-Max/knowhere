@@ -1,6 +1,21 @@
 angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
 
-.controller('RatingsController', function ($scope, $window, $rootScope, $state, $uibModal, CurrentInfo, Venues, Groups, Util) {
+.controller('RatingsController', function ($scope, $window, $rootScope, $state,
+      $uibModal, CurrentInfo, MoreInfo, Venues, Groups, Util) {
+  // begin moreInfo modal config:
+  angular.extend($scope, MoreInfo);
+  $scope.initMoreInfoState();
+
+  $scope.openModal = function() {
+    var modalInstance = $uibModal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'app/ratings/moreInfo.html',
+      controller: 'RatingsController',
+    });
+  };
+  // end moreInfo modal config
+
+
   $scope.filteredUserRatings = [];
   $scope.filteredGroupRatings  = [];
   $scope.city = $rootScope.destination;
@@ -13,13 +28,6 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   $scope.max = 10;
   $scope.isReadonly = false;
   $scope.showRatings = {};
-
-  // For detailed venue info view
-  // Sets image carousel interval
-  $scope.myInterval = 5000;
-  $scope.noWrapSlides = false;
-  $scope.ratingsInfo = $rootScope.ratingsInfo;
-  $scope.phoneHide = $rootScope.phoneHide;
 
 
   ////////////////// GET ALL THE GROUPS OF A USER //////////////////////
@@ -85,6 +93,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// GET ALL RATINGS OF THE GROUP //////////////////////
 
 
+  // itin
   $scope.getRatings = function() {
     var query = {
       userId : $rootScope.currentUser._id,
@@ -117,34 +126,10 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   };
 
 
-  ////////////////// GET DETAILED INFO OF A VENUE //////////////////////
-
-
-  $scope.getDetailedVenueInfo = function(venue) {
-    if (venue.venue.telephone === null) {
-      $rootScope.phoneHide = true;
-    } else {
-      $rootScope.phoneHide = false;
-    }
-    $rootScope.ratingsInfo = venue;
-    $scope.ratingsInfo = venue;
-    $scope.openModal();
-  };
-  $scope.exit = function(){
-    $uibModalInstance.close();
-  };
-  $scope.openModal = function() {
-    var modalInstance = $uibModal.open({
-      animation: $scope.animationsEnabled,
-      templateUrl: 'app/ratings/moreInfo.html',
-      controller: 'RatingsController',
-    });
-  };
-
-
   ////////////////// ADMIN ONLY //////////////////////
 
 
+  // itin
   $scope.addToItin = Venues.addToItinerary;
   // $scope.addToItin = function(venueData, fromDate, toDate) {
   //   var data = {

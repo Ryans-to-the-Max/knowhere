@@ -1,6 +1,20 @@
 angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
 
-.controller('ItineraryController', function ($scope, $window, $rootScope, $state, $uibModal, CurrentInfo, Venues, Groups, Util) {
+.controller('ItineraryController', function ($scope, $window, $rootScope, $state,
+      $uibModal, CurrentInfo, MoreInfo, Venues, Groups, Util) {
+  // begin moreInfo modal config:
+  angular.extend($scope, MoreInfo);
+  $scope.initMoreInfoState();
+
+  $scope.openModal = function() {
+    var modalInstance = $uibModal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'app/itinerary/moreInfo.html',
+      controller: 'ItineraryController',
+    });
+  };
+  // end moreInfo modal config.
+
   $scope.restaurants = [];
   $scope.attractions = [];
   $scope.hotels = [];
@@ -8,13 +22,6 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   $scope.heading = null;
   $scope.fullItinerary = [];
   $scope.groups = [];
-
-  // For detailed venue info view
-  // Sets image carousel interval
-  $scope.myInterval = 5000;
-  $scope.noWrapSlides = false;
-  $scope.itinInfo = $rootScope.itinInfo;
-  $scope.phoneHide = $rootScope.phoneHide;
 
 
   ////////////////// GET ALL THE GROUPS OF A USER //////////////////////
@@ -86,31 +93,6 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   //   };
   //   Venues.addToItinerary(data);
   // };
-
-
-  ////////////////// GET DETAILED INFO OF A VENUE //////////////////////
-
-
-  $scope.getDetailedVenueInfo = function(venue) {
-    if (venue.venue.telephone === null) {
-      $rootScope.phoneHide = true;
-    } else {
-      $rootScope.phoneHide = false;
-    }
-    $rootScope.itinInfo = venue;
-    $scope.itinInfo = venue;
-    $scope.openModal();
-  };
-  $scope.exit = function(){
-    $uibModalInstance.close();
-  };
-  $scope.openModal = function() {
-    var modalInstance = $uibModal.open({
-      animation: $scope.animationsEnabled,
-      templateUrl: 'app/itinerary/moreInfo.html',
-      controller: 'ItineraryController',
-    });
-  };
 
 
 //////////////////INIT STATE//////////////////////

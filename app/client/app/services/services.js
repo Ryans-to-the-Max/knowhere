@@ -378,6 +378,41 @@ angular.module('travel.services', [])
 })
 
 
+////////////////// FOR MOREINFO MODAL //////////////////////
+
+
+.factory('MoreInfo', function ($http, $rootScope) {
+
+  var initMoreInfoState = function () {
+    // sets image carousel interval
+    this.myInterval = 5000;
+    this.noWrapSlides = false;
+    this.ratingsInfo = $rootScope.ratingsInfo;
+    this.phoneHide = $rootScope.phoneHide;
+  };
+
+  var getDetailedVenueInfo = function (venue) {
+    $rootScope.phoneHide = ( venue.venue.telephone ? false : true );
+    $rootScope.ratingsInfo = venue;
+    this.ratingsInfo = venue;
+    this.openModal();
+  };
+
+  var exit = function () {
+    $uibModalInstance.close();
+  };
+  
+  return {
+    // Cannot directly extend properties. Must use
+    // this method because $rootScope.ratingsInfo / .phoneHide needs to be set first
+    initMoreInfoState: initMoreInfoState,
+
+    getDetailedVenueInfo: getDetailedVenueInfo,
+    exit: exit,
+  };
+})
+
+
 ////////////////// TRANSFACTORY STORAGE //////////////////////
 
 
