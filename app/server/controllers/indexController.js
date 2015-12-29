@@ -33,8 +33,6 @@ module.exports = {
 
   validateUser: function (req, res, next){
 
-    console.log(req.body)
-
     var userId = req.body.id;
 
     User.findById(userId, function (err, user){
@@ -49,7 +47,7 @@ module.exports = {
         if (!user) return util.send400(res, err);
 
         res.status(200).send(user);
-      })
+      });
     }); 
   }
 };

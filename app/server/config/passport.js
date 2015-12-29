@@ -103,7 +103,7 @@ module.exports = function(passport) {
               subject: 'Welcome to Knowhere!',
               html: '<div> Welcome to Knowhere!.  Validate your account by clicking ' +
               ' <a href=' + PROTOCOL_DOMAIN + '/#/validate?id=' + newUser._id + '>here!</a></div>'
-          })
+          });
         }  
       });    
     });

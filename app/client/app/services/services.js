@@ -72,7 +72,7 @@ angular.module('travel.services', [])
     })
     .then(function (resp){
       return resp.data;
-    })
+    });
   };
 
   return {
