@@ -51,6 +51,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
  // pass passport for configuration
 
 // Server routing:
+
 app.use('/api', index);
 app.use('/api/dest', dest);
 app.use('/api/group', group);

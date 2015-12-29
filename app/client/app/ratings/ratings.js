@@ -143,6 +143,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
     venueData.currentRating = rating;
     console.log(venueData);
     $scope.addAvg(venueData);
+    
     var data = {
       venue : venueData.venue,
       userId : userId,

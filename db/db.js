@@ -40,6 +40,11 @@ var userSchema = new Schema ({
     type: Boolean
   },
 
+  validUser: {
+    type: Boolean,
+    default: false
+  },
+
   groupIds: [{
     type: Schema.ObjectId,
     ref: 'Group'
@@ -53,7 +58,6 @@ var userSchema = new Schema ({
     },
     rating: {
       type: Number,
-      default: 5
     }
   }]
 });
@@ -104,6 +108,10 @@ var groupSchema = new Schema ({
   favorites: [{
     type: Schema.ObjectId,
     ref: 'Rating'
+  }],
+  itinerary: [{
+    type: Schema.ObjectId,
+    ref: 'Itinerary'
   }]
 });
 
@@ -144,7 +152,12 @@ var ratingSchema = new Schema ({
       ref: 'User'
     },
     userRating: Number,
-  }]
+  }],
+
+  itinerary: {
+    startDate: Date,
+    endDate: Date
+  }
 });
 
 ratingSchema.plugin(findOrCreate);

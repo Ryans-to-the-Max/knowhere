@@ -13,5 +13,7 @@ router.get('/check', indexController.isLoggedIn);
 
 router.get('/info', indexController.getInfo);
 
+router.post('/validate', indexController.validateUser);
+
 
 module.exports = router;

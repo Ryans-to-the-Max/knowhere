@@ -22,6 +22,14 @@ angular.module('signin', ['ui.bootstrap'])
         });
   };
 
+  $scope.validate = function(){
+    var user = $location.search().id;
+    AuthMe.validateUser(user)
+      .then(function (data){
+        console.log(data);
+      });
+  };
+
   $scope.onLoad = function() {
     AuthMe.isLoggedIn()
         .then(function (data){
@@ -106,14 +114,19 @@ angular.module('signin', ['ui.bootstrap'])
   };
 
   $scope.signup = function (){
+    if ($scope.password !== $scope.passwordCheck) {
+      $scope.alerts = [{msg: 'Passwords do not match!'}];
+      return;
+    }
     AuthMe.createUser({username: $scope.email.toLowerCase(), password: $scope.password})
       .then(function (data){
         if (data.status === true){
-          $uibModalInstance.close();
+          $scope.alerts = [];
+          $scope.emailAlert = true;
           $rootScope.currentUserSignedIn = true;
           $rootScope.currentUser = data.user;
         } else {
-          $scope.alerts = [{msg: data.message}];
+          $scope.alerts = [{type: 'danger', msg: data.message}];
         }
       });
   };

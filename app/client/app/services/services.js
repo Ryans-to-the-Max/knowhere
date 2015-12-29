@@ -64,7 +64,19 @@ angular.module('travel.services', [])
     });
   };
 
+  var validateUser = function(user){
+    return $http({
+      method: 'POST',
+      url: '/api/validate',
+      data: JSON.stringify({id: user})
+    })
+    .then(function (resp){
+      return resp.data;
+    });
+  };
+
   return {
+    validateUser: validateUser,
     logout: logout,
     facebookLogin: facebookLogin,
     googleLogin: googleLogin,
