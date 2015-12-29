@@ -51,23 +51,23 @@ body, html, .container, .container-fluid {
   margin: 0px;
 }
 .rating {
-    color: #a9a9a9;
-    margin: 0;
-    padding: 0;
+  color: #a9a9a9;
+  margin: 0;
+  padding: 0;
 }
 ul.rating {
-    display: inline-block;
+  display: inline-block;
 }
 .rating li {
-    list-style-type: none;
-    display: inline-block;
-    padding: 1px;
-    text-align: center;
-    font-weight: bold;
-    cursor: pointer;
+  list-style-type: none;
+  display: inline-block;
+  padding: 1px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
 }
 .rating .filled {
-    color: navy;
+  color: navy;
 }
 
 .venue-thumbnail {
@@ -164,9 +164,8 @@ ul.rating {
 }
 
 .landing-message {
+  padding-top: 5%;
   text-transform: uppercase;
-  font-weight: 100;
-  font-size: 2em;
   letter-spacing: 0.2em;
   color: #fff;
   text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
@@ -189,6 +188,11 @@ ul.rating {
   color: navy;
 }
 
+.navbar, .navbar-default {
+  padding: 5px;
+  border-radius: 0;
+}
+
 #landing {
   background: url(https://images.unsplash.com/29/night-square.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=36e3089748ffd4e8a285318afb1a7a57) no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -197,12 +201,12 @@ ul.rating {
   background-size: cover;
   height: 100vh;
   margin-top: -25px;
-  padding-top: 50px;
+  padding-top: 25px;
 }
 
 #landing-form {
   color: #fff;
-  margin-top: 100px;
+  margin-top: 10%;
 }
 
 #banner {
