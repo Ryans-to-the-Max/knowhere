@@ -192,7 +192,9 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
     var data = {
       venue : venueData,
       userId : $rootScope.currentUser._id,
-      groupId : $rootScope.currentGroup._id
+      groupId : $rootScope.currentGroup._id,
+      startDate : null,
+      endDate : null
     };
     Venues.addtoItinerary(data);
   };
