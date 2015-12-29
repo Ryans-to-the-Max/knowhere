@@ -6,10 +6,7 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   $scope.hotels = [];
   $scope.city = $rootScope.destination;
   $scope.heading = null;
-  //TODO: REMOVE AND UNCOMMENT BELOW WHEN HAVE FULL DATA
-  //$scope.fullItinerary = $rootScope.mockData;
   $scope.fullItinerary = [];
-  //TORO: REMOVE AND UNCOMMENT ABOVE WHEN HAVE FULL DATA 
   $scope.groups = [];
 
 
