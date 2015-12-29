@@ -48,6 +48,8 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
 
     var filteredRatings = Util.filterRatingsByVenueType($scope.allVenuesRatings,
                                                         venueTypeId);
+    $scope.filteredUserRatings = [];
+    $scope.filteredGroupRatings = [];
 
     filteredRatings.forEach(function (ratingObj) {
       $scope.addAvg(ratingObj);
