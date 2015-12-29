@@ -78,14 +78,19 @@ ul.rating {
 
 .thumbnail {
   width: 250px;
-  height: 400px;
+  height: 340px;
   overflow: auto;
   margin-bottom: 15px;
   margin-left: 20px;
 }
 
+.ratings {
+  width: 250px;
+  height: 380px;
+}
+
 .title {
-  height: 50px
+  height: 30px
 }
 
 .detailed-info {

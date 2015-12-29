@@ -1,0 +1,29 @@
+<div>
+	<div class="text-center">
+		<h2>{{moreInfo.venue.name}}</h2> 
+		<div>
+			<p>{{moreInfo.venue.address}}</p> 
+			<p ng-show="!phoneHide">{{moreInfo.venue.telephone}}</p>
+			<a href="{{moreInfo.venue.website}}">{{moreInfo.venue.website}}</a> <br>
+			<p>Group Average Rating: {{moreInfo.avgRating}}</p> 
+		</div>
+		<div class="detailed-info">
+			<div class="detailed-info">
+				<uib-rating ng-init="ratings[moreInfo._id] = moreInfo.currentRating; showRatings[moreInfo._id] = moreInfo.currentRating " on-hover="hoveringOver(value, moreInfo._id)" on-leave="overStar = null" ng-click="addRating(moreInfo, ratings[moreInfo._id])" ng-model="ratings[moreInfo._id]" max="max" readonly="isReadonly" aria-labelledby="default-rating"></uib-rating>
+				<span class="label" ng-class="{'label-danger': showRatings[moreInfo._id]<3,'label-warning': showRatings[moreInfo._id]<5, 'label-info': showRatings[moreInfo._id]>=5 && showRatings[moreInfo._id]<8, 'label-success': showRatings[moreInfo._id]>=8}" ng-show="!isReadonly">{{showRatings[moreInfo._id]}}/10</span>
+			</div>
+			<div class="caption">
+      	<button type="button" class="btn btn-sm btn-danger" ng-click="ratings[moreInfo._id] = 0; showRatings[moreInfo._id] = 0; addRating(moreInfo, 0)" ng-disabled="isReadonly">Clear Rating</button>
+      	<button class="btn btn-sm btn-primary" type="button" name="button" ng-click="addToItin(moreInfo)">Add to Itinerary
+				</button> 
+      </div>
+		</div>
+	</div>
+  <uib-carousel interval="myInterval" no-wrap="noWrapSlides">
+    <uib-slide ng-repeat="photo in moreInfo.venue.photos" active="slide.active">
+      <img ng-src="{{photo}}" style="margin:auto;">
+      <div class="carousel-caption">
+      </div>
+    </uib-slide>
+  </uib-carousel>
+</div>
