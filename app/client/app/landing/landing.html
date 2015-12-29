@@ -1,6 +1,9 @@
 <div class="container-fluid">
-  <div id="" class="row">
-    <div class="col-md-offset-4 col-md-4">
+  <div id="landing" class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <h1 class="text-center"><span class="landing-message">Know where you're going</span></h1>
+    </div>
+    <div id="landing-form" class="col-md-offset-4 col-md-4">
       <form name="location" ng-submit='sendData(selected)' novalidate>
         <div class="form-group">
           <label for="group-form">Group Name</label>
@@ -22,4 +25,27 @@
       </div>
     </div>
   </div><!-- ./row -->
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2 text-center">
+      <h2>Plan a trip with the people you love</h2>
+      <h3>An easy, democratic way to organize a trip and suggest places of interest at your destination.</h3>
+    </div>
+  </div>
+  <div id="api-attribution" class="row">
+    <div class="col-md-offset-2 col-md-8 text-center">
+      <h2>Trip Expert's API provides everything you need to know</h2>
+      <div class="col-md-4">
+        <img class="thumbnail landing-thumbnail" src="http://static.tripexpert.com/images/venues/index_photos/index_retina/1149751.jpg?1418190762" alt="Default Restaurant Thumbnail">
+        <h3>Restaurants</h3>
+      </div>
+      <div class="col-md-4">
+        <img class="thumbnail landing-thumbnail" src="http://static.tripexpert.com/images/venues/index_photos/index_retina/468585.jpg?1402296926" alt="Default Hotel Thumbnail">
+        <h3>Hotels</h3>
+      </div>
+      <div class="col-md-4">
+        <img class="thumbnail landing-thumbnail" src="http://static.tripexpert.com/images/venues/index_photos/index_retina/1307478.jpg?1428371332" alt="Default Attractions Thumbnail">
+        <h3>Attractions</h3>
+      </div>
+    </div>
+  </div>
 </div><!-- ./container -->

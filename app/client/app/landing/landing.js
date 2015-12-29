@@ -63,6 +63,7 @@ angular.module('travel.landing', ['ngAnimate', 'ui.bootstrap'])
           destination.state = "FL";
         }
       });
+    });
   };
 
   $scope.getDestsFromApi();

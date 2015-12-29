@@ -148,18 +148,35 @@ ul.rating {
   visibility: hidden;
 }
 
+.landing-thumbnail {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 100%;
+}
+
+.landing-message {
+  text-transform: uppercase;
+  font-weight: 100;
+  font-size: 2em;
+  letter-spacing: 0.2em;
+  color: #fff;
+  text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
+}
+
 #landing {
-  height: 600px;
-  background: url(https://images.unsplash.com/photo-1444212568492-d2799d30943b?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=4303511cdcbfb509a05ea61cec0a2899) no-repeat center center fixed;
+  background: url(https://images.unsplash.com/29/night-square.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=36e3089748ffd4e8a285318afb1a7a57) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  -webkit-filter: blur(5px);
-  -moz-filter: blur(5px);
-  -o-filter: blur(5px);
-  -ms-filter: blur(5px);
-  filter: blur(5px);
+  height: 100vh;
+  margin-top: -25px;
+  padding-top: 50px;
+}
+
+#landing-form {
+  color: #fff;
+  margin-top: 100px;
 }
 
 #banner {
@@ -170,4 +187,8 @@ ul.rating {
   font-family: 'Source Serif Pro', serif;
   color: #fff;
   text-shadow: 1px 1px 1px black, 0 0 0.1em black, 0 0 0.1em black;
+}
+
+#api-attribution {
+  background-color: #EBEBEB;
 }
