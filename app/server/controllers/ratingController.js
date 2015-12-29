@@ -51,15 +51,9 @@ var updateGroupRating = function (paramHash) {
   var userId = paramHash.userId;
   var venue = paramHash.venue;
 
-  console.log("==================");
-  console.log(venue._id);
-  console.log("==================");
-  console.log(venue);
 
   Rating.update({'allRatings.user': userId, 'groupId': groupId, 'venue': venue._id},
                 {$set: {'allRatings.$.userRating': newRating}}, function (err, update){
-    console.log("@@@@@@@@@@@@@@@@@");
-    console.log(update);
     if (err) return util.send500(res, err);
 
     if (update.n > 0) { // Rating exists for that user, and should've been updated.
@@ -117,6 +111,9 @@ module.exports = {
     Venue.findOne({lookUpId: venueInfo.lookUpId}, function (err, venue) {
       if (err) return util.send500(res, err);
 
+    Venue.findOne({lookUpId: venueInfo.lookUpId}, function (err, venue) {
+      if (err) return util.send500(res, err);
+      
       if (!venue) {
         venue = newVenueWithInfo(venueInfo);
         venue.save(function (err, venue){
@@ -153,6 +150,35 @@ module.exports = {
         util.send200(res, group.favorites);
       });
   },
+
+  getItin: function(req, res, next){
+    var groupId   = req.params.groupId;
+    Group.findById(groupId)
+    .populate({
+      path: 'favorites',
+      populate: { path: 'venue' }
+    })
+    .exec(function (err, group){
+      if (err) return util.send500(res, err);
+      if (err) return util.send500(res, err);
+      return util.send200(res, group.favorites);
+    });
+
+  },
+
+  addItin: function(req, res, next){
+    var venueInfo = req.body.venue;
+    var groupId   = req.body.groupId;
+    var start     = req.body.startDate;
+    var end       = req.body.endDate;
+
+    Rating.update({'groupId': groupId, 'venue': venueInfo._id},
+                  {$set: {'itinerary.$.startDate': start, 'itinerary.$.endDate': end}}, function (err, update){
+      if (err) return util.send500(res, err);
+      if (update.nModified < 0) return util.send400(res, err);
+      sendGroup(groupId, res);
+    });
+  }
 
   // THE BELOW IS COPY&PASTED FROM FAV CONTROLLER
 

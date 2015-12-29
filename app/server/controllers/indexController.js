@@ -3,6 +3,7 @@ var util = require('../util');
 var Venue  = require('../models/venue');
 var Group  = require('../models/group');
 var Rating = require('../models/rating');
+var path = require('path')
 
 
 module.exports = {

@@ -1,10 +1,26 @@
-var LocalStrategy   = require('passport-local').Strategy;
-var GoogleStrategy = require('passport-google-oauth2').Strategy;
+var LocalStrategy    = require('passport-local').Strategy;
+var GoogleStrategy   = require('passport-google-oauth2').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
-var User = require('../models/user');
-var eventEmitter = require('./eventEmitter');
+var eventEmitter     = require('./eventEmitter');
+var User             = require('../models/user');
+var path             = require('path');
+var util             = require(path.join(__dirname, '../util'));
 
-var PROTOCOL_DOMAIN = ( process.env.NODE_ENV === 'production' ?
+var nodemailer = require('nodemailer');
+
+
+var transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: 'mgaffney123@gmail.com',
+    pass: 'duchess6907'
+  }
+});
+
+//process.env.GMAIL_PASS
+
+
+var PROTOCOL_DOMAIN  = ( process.env.NODE_ENV === 'production' ?
                         'https://knowhere.herokuapp.com' :
                         'http://localhost:3000' );
 
@@ -78,8 +94,16 @@ module.exports = function(passport) {
             if (err) {
               throw err;
             }
-            return cb(null, newUser);
+            cb(null, newUser);
           });
+
+          transporter.sendMail({    
+              from: 'mgaffney123@gmail.com',
+              to: 'mgaffney123@gmail.com',
+              subject: 'Welcome to Knowhere!',
+              html: '<div> Welcome to Knowhere!.  Validate your account by clicking ' +
+              ' <a href=' + PROTOCOL_DOMAIN + '/#/validate>here!</a></div>'
+          })
         }  
       });    
     });

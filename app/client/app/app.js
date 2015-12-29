@@ -40,6 +40,12 @@ angular.module('travel', [
       controller: 'GroupsController',
       // authenticate: true
     })
+    .state('validate', {
+      url: '/validate',
+      templateUrl: 'app/auth/emailValidate.html',
+      controller: 'AuthController',
+      // authenticate: true
+    })
     ;
   $urlRouterProvider.otherwise('/');
   // $httpProvider.interceptors.push('AttachCity');

@@ -53,7 +53,6 @@ var userSchema = new Schema ({
     },
     rating: {
       type: Number,
-      default: 5
     }
   }]
 });
@@ -105,7 +104,7 @@ var groupSchema = new Schema ({
     type: Schema.ObjectId,
     ref: 'Rating'
   }],
-  itenerary: [{
+  itinerary: [{
     type: Schema.ObjectId,
     ref: 'Itinerary'
   }]
@@ -148,7 +147,12 @@ var ratingSchema = new Schema ({
       ref: 'User'
     },
     userRating: Number,
-  }]
+  }],
+
+  itinerary: {
+    startDate: Date,
+    endDate: Date
+  }
 });
 
 ratingSchema.plugin(findOrCreate);
@@ -163,16 +167,6 @@ var destSchema = new Schema ({
 destSchema.plugin(findOrCreate);
 
 db.destSchema = destSchema;
-
-var itinerarySchema = new Schema ({
-  startDate: Date,
-  endDate: Date,
-  venue: {type: Schema.ObjectId, ref: 'Venue'}
-})
-
-itinerarySchema.plugin(findOrCreate);
-
-db.itinerarySchema = itinerarySchema;
 
 
 module.exports = db;
