@@ -77,6 +77,9 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
         rating.itinerary.fromDate = new Date(rating.itinerary.fromDate);
         rating.itinerary.toDate = new Date(rating.itinerary.toDate);
       });
+      ratingsObjs.sort(function (a, b) {
+        return a.itinerary.fromDate - b.itinerary.fromDate;
+      });
       $scope.fullItinerary = ratingsObjs;
       $scope.filterItinerary(1);
     })
