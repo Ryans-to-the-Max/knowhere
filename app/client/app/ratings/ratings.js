@@ -15,10 +15,10 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   };
   // end moreInfo modal config
 
+  $scope.headerText = 'Favorites in ' + $rootScope.destination.name;
 
   $scope.filteredUserRatings = [];
   $scope.filteredGroupRatings  = [];
-  $scope.city = $rootScope.destination;
   $scope.heading = null;
   $scope.allVenuesRatings = [];
   $scope.groups = [];
@@ -28,14 +28,6 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   $scope.max = 10;
   $scope.isReadonly = false;
   $scope.showRatings = {};
-
-
-  ////////////////// GET ALL THE GROUPS OF A USER //////////////////////
-
-
-  $scope.getUserGroups = function() {
-    Groups.getUserGroups($scope);
-  };
 
 
   ////////////////// SELECTING A GROUP WILL REROUTE TO RATINGS //////////////////////
@@ -90,23 +82,6 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   };
 
 
-  ////////////////// GET ALL RATINGS OF THE GROUP //////////////////////
-
-
-  // itin
-  $scope.getRatings = function() {
-    var query = {
-      userId : $rootScope.currentUser._id,
-      groupId : $rootScope.currentGroup._id
-    };
-    Venues.getRatings(query)
-      .then(function(ratings){
-        $scope.allVenuesRatings = ratings;
-        $scope.filterRatings(1);
-      });
-  };
-
-
   ////////////////// USER ADD RATING //////////////////////
 
 
@@ -129,23 +104,13 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// ADMIN ONLY //////////////////////
 
 
-  // itin
   $scope.addToItin = Venues.addToItinerary;
-  // $scope.addToItin = function(venueData, fromDate, toDate) {
-  //   var data = {
-  //     venue : venueData,
-  //     userId : $rootScope.currentUser._id,
-  //     groupId : $rootScope.currentGroup._id,
-  //     fromDate : new Date(),
-  //     toDate : new Date()
-  //   };
-  //   Venues.addToItinerary(data);
-  // };
 
 
   ////////////////// INIT STATE //////////////////////
 
 
-  $scope.getRatings();
+  Venues.setRatings($scope);
+
 
 });

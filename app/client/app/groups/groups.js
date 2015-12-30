@@ -5,15 +5,6 @@ angular.module('travel.groups', [])
   $scope.newDestinationInput = null;
   $scope.groups = [];
   $scope.newParticipantEmail = null;
-  $scope.destination = null;
-
-
-  ////////////////// GET LIST OF ALL GROUPS A USER BELONGS TO //////////////////////
-
-
-  $scope.getUserGroups = function() {
-    Groups.getUserGroups($scope);
-  };
 
 
   ////////////////// CREATE A NEW GROUP //////////////////////
@@ -56,7 +47,7 @@ angular.module('travel.groups', [])
   ////////////////// SET INIT STATE //////////////////////
 
 
-  $scope.getUserGroups();
+  Groups.setUserGroups($scope);
 
 
 });

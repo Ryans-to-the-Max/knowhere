@@ -340,16 +340,10 @@ describe('Knowhere client controllers', function () {
 
         $rootScope.currentUser = { _id: 'testUserId' };
         $rootScope.currentGroup = { _id: 'testGroupId' };
+        $rootScope.destination = group1.destination;
         $scope = $rootScope.$new();
         $controller('RatingsController', { $rootScope: $rootScope, $scope: $scope });
       }));
-
-      it('$scope.getUserGroups() should set $scope.groups to currentUser\'s groups', function () {
-        $scope.getUserGroups(testUser._id);
-        $httpBackend.flush();
-
-        expect($scope.groups).toEqual(groupsInfo);
-      });
 
       it('$scope.selectGroup() should set $rootScope.currentGroup', function () {
         $scope.selectGroup(group2);
@@ -385,11 +379,7 @@ describe('Knowhere client controllers', function () {
 
       it('sets $scope.groups to the currentUser\'s groups by currentUser._id', function () {
         expect($scope.groups).toEqual(groupsInfo);
-      });
-
-      it('sets $scope.city', function () {
-        expect($scope.city).toEqual(mockNYC);
-      });
+      }); 
 
       it('sets $scope.venues', function () {
         expect($scope.venues).toEqual(mockVenues.Results);
