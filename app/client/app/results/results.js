@@ -16,6 +16,8 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   };
   // end moreInfo modal
 
+  $scope.headerText = 'Places to explore in ' + $rootScope.destination.name;
+
   $scope.venues = [];
   $scope.filteredVenues = [];
   $scope.heading = null;

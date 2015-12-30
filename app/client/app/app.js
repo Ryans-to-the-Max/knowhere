@@ -1,10 +1,11 @@
-angular.module('travel', [
+var app = angular.module('travel', [
   'travel.services',
   'travel.landing',
   'travel.groups',
   'travel.itinerary',
   'travel.ratings',
   'travel.results',
+  'travel.headerDirective',
   'ui.router',
   'ui.bootstrap',
   'signin'
@@ -50,6 +51,11 @@ angular.module('travel', [
   $urlRouterProvider.otherwise('/');
   // $httpProvider.interceptors.push('AttachCity');
 });
+
+
+
+
+
 // .factory('AttachCity', function ($window) {
 //   var attach = {
 //     request: function (object) {

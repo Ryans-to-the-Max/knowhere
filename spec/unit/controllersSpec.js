@@ -340,6 +340,7 @@ describe('Knowhere client controllers', function () {
 
         $rootScope.currentUser = { _id: 'testUserId' };
         $rootScope.currentGroup = { _id: 'testGroupId' };
+        $rootScope.destination = group1.destination;
         $scope = $rootScope.$new();
         $controller('RatingsController', { $rootScope: $rootScope, $scope: $scope });
       }));

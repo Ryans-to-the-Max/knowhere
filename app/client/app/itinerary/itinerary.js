@@ -15,6 +15,8 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   };
   // end moreInfo modal config.
 
+  $scope.headerText = 'Itinerary in ' + $rootScope.destination.name;
+
   $scope.restaurants = [];
   $scope.attractions = [];
   $scope.hotels = [];
