@@ -390,11 +390,9 @@ angular.module('travel.services', [])
   };
 
   var getDetailedVenueInfo = function (venueId) {
-    var query = {
-      venueId: venueId
-    };
     var _this_ = this;
-    Venues.getDetailedVenueInfo(query)
+
+    Venues.getDetailedVenueInfo(venueId)
       .then(function (venueInfo) {
         $rootScope.detailedInfo = _this_.detailedInfo = venueInfo;
         _this_.openModal();
