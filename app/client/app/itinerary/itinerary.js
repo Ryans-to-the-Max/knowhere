@@ -28,9 +28,11 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// SELECTING A GROUP WILL REROUTE TO ITINERARY //////////////////////
 
 
-  $scope.selectGroup = Groups.selectGroup(function () {
-    $state.go('itinerary');
-  });
+  $scope.selectGroup = function (groupInfo) {
+    Groups.selectGroup(groupInfo, function () {
+      $state.go('itinerary');
+    });
+  };
 
 
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////
@@ -42,7 +44,7 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
     $scope.filteredItinerary = Util.filterRatingsByVenueType($scope.fullItinerary,
                                                              venueTypeId);
     $scope.showInput = true;
-    console.log($scope.filteredItinerary);
+    // console.log($scope.filteredItinerary);
   };
 
 
@@ -54,9 +56,7 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
     $rootScope.showInputModal = false;
     $scope.showInput = false;
     $scope.fullItinerary.sort(function(a,b) {
-      var check1 = a.itinerary.fromDate;
-      var check2 = b.itinerary.fromDate;
-      return check1 - check2;
+      return a.itinerary.fromDate - b.itinerary.fromDate;
     });
     $scope.filteredItinerary = $scope.fullItinerary;
   };

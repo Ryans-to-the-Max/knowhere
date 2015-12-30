@@ -158,11 +158,11 @@ angular.module('travel.services', [])
 
   // NOT HTTP REQ FUNCTIONS
   var selectGroup = function (groupInfo, next) {
-    return function () {
-      $rootScope.currentGroup = groupInfo._id;
-      $rootScope.destination  = groupInfo.destination;
+    $rootScope.currentGroup = groupInfo;
+    $rootScope.destination = groupInfo.destination;
+    if (next) {
       next();
-    };
+    }
   };
 
   return {
@@ -307,7 +307,6 @@ angular.module('travel.services', [])
 
 
   var addToItinerary = function (venueData, fromDate, toDate) {
-    console.log(fromDate);
     var data = {
       venue: venueData,
       userId: $rootScope.currentUser._id,

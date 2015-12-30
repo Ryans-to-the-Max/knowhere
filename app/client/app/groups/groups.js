@@ -23,8 +23,10 @@ angular.module('travel.groups', [])
   ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
 
 
-  $scope.selectGroup = function(groupInfo) {
-    Groups.selectGroup(groupInfo, function () {$state.go('results');})();
+  $scope.selectGroup = function (groupInfo) {
+    Groups.selectGroup(groupInfo, function () {
+      $state.go('results');
+    });
   };
 
 
@@ -43,7 +45,7 @@ angular.module('travel.groups', [])
   };
   for (var i = 0; i < 5; i++) {
     $scope.groups.push($scope.mockGroup);
-  };
+  }
   console.log($scope.mockGroup);
   //TODO: Comment above when have actual data
 });
