@@ -311,15 +311,15 @@ angular.module('travel.services', [])
   ////////////////// GROUP FAVORITES - ADMIN ONLY //////////////////////
 
 
-  /*
-    @data {object} data has:
-      @prop {str} groupId
-      @prop {str} userId
-      @prop {object} venue
-      @prop {str} fromDate
-      @prop {str} toDate
-  */
-  var addtoItinerary = function(data) {
+  var addToItinerary = function (venueData, fromDate, toDate) {
+    var data = {
+      venue: venueData,
+      userId: $rootScope.currentUser._id,
+      groupId: $rootScope.currentGroup._id,
+      fromDate: fromDate || new Date(),
+      toDate: toDate || new Date()
+    };
+
     return $http({
       method: 'POST',
       url: '/api/rating/itin',
@@ -327,8 +327,6 @@ angular.module('travel.services', [])
     });
   };
 
-
-  ////////////////// ITINERARY //////////////////////
 
 
   /*
@@ -372,12 +370,47 @@ angular.module('travel.services', [])
     getVenues: getVenues,
     getUserFavorites: getUserFavorites,
     addRating: addRating,
-    getRatings: getRatings,
     getItinerary: getItinerary,
-    addtoItinerary: addtoItinerary,
+    getRatings: getRatings,
+    addToItinerary: addToItinerary,
     getDetailedVenueInfo: getDetailedVenueInfo
   };
 
+})
+
+
+////////////////// FOR MOREINFO MODAL //////////////////////
+
+
+.factory('MoreInfo', function ($http, $rootScope) {
+
+  var initMoreInfoState = function () {
+    // sets image carousel interval
+    this.myInterval = 5000;
+    this.noWrapSlides = false;
+    this.ratingsInfo = $rootScope.ratingsInfo;
+    this.phoneHide = $rootScope.phoneHide;
+  };
+
+  var getDetailedVenueInfo = function (venue) {
+    $rootScope.phoneHide = ( venue.venue.telephone ? false : true );
+    $rootScope.ratingsInfo = venue;
+    this.ratingsInfo = venue;
+    this.openModal();
+  };
+
+  var exit = function () {
+    $uibModalInstance.close();
+  };
+  
+  return {
+    // Cannot directly extend properties. Must use
+    // this method because $rootScope.ratingsInfo / .phoneHide needs to be set first
+    initMoreInfoState: initMoreInfoState,
+
+    getDetailedVenueInfo: getDetailedVenueInfo,
+    exit: exit,
+  };
 })
 
 

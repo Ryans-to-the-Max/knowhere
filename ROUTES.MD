@@ -44,6 +44,7 @@ DELETE  /api/group/user   groupController#removeMember
 
 rating
 GET   /api/rating/         ratingController#getRatings
+GET   /api/rating/itin     ratingController#getItin
 POST  /api/rating/         ratingController#addOrUpdateRating
 ```
 
