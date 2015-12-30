@@ -81,11 +81,8 @@ ul.rating {
 }
 
 .thumbnail {
-  width: 250px;
   height: 340px;
-  overflow: auto;
   margin-bottom: 15px;
-  margin-left: 20px;
 }
 
 .ratings {
@@ -196,8 +193,9 @@ ul.rating {
   box-shadow: 0 6px 6px -6px #999;
 }
 
-.jumbotron {
-
+.form-control {
+  padding: 20px;
+  border-radius: 0;
 }
 
 #landing {
