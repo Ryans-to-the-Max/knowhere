@@ -41,6 +41,8 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
 
     $scope.filteredItinerary = Util.filterRatingsByVenueType($scope.fullItinerary,
                                                              venueTypeId);
+    $scope.showInput = true;
+    console.log($scope.filteredItinerary);
   };
 
 
@@ -49,6 +51,13 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
 
   $scope.showFullItinerary = function() {
     $scope.heading = "Full Itinerary";
+    $rootScope.showInputModal = false;
+    $scope.showInput = false;
+    $scope.fullItinerary.sort(function(a,b) {
+      var check1 = a.itinerary.fromDate;
+      var check2 = b.itinerary.fromDate;
+      return check1 - check2;
+    });
     $scope.filteredItinerary = $scope.fullItinerary;
   };
 
@@ -64,6 +73,10 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
 
   Venues.getItinerary()
     .then(function (ratingsObjs) {
+      ratingsObjs.forEach(function(rating) {
+        rating.itinerary.fromDate = new Date(rating.itinerary.fromDate);
+        rating.itinerary.toDate = new Date(rating.itinerary.toDate);
+      });
       $scope.fullItinerary = ratingsObjs;
       $scope.filterItinerary(1);
     })
