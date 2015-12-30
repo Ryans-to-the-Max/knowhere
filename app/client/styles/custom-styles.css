@@ -76,8 +76,24 @@ ul.rating {
 }
 
 .venue-info {
+  background-color: #FFF;
   text-align: center;
+  padding: 10px;
   margin-top: 10px;
+  margin-bottom: 10px;
+  border-top: 1px solid #eee;
+  -webkit-box-shadow: 0px 3px 3px #999;
+  -moz-box-shadow: 0px 3px 3px #999;
+  box-shadow: 0px 3px 3px #999;
+}
+
+.title {
+  height: 40px;
+  padding-bottom: 0.3em;
+}
+
+.venue-btn-container {
+  padding-top: .1em;
 }
 
 .thumbnail {
@@ -168,6 +184,10 @@ ul.rating {
   text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
 }
 
+/*.results {
+  border: 1px solid #000;
+}*/
+
 .results-nav li a {
   color: #fff;
   text-shadow: 1px 1px 1px black, 0 0 0.1em black, 0 0 0.1em black;
@@ -187,6 +207,7 @@ ul.rating {
 
 .navbar, .navbar-default {
   padding: 5px;
+  margin-bottom: 0;
   border-radius: 0;
   -webkit-box-shadow: 0 6px 6px -6px #999;
   -moz-box-shadow: 0 6px 6px -6px #999;
@@ -209,13 +230,20 @@ ul.rating {
   padding-top: 25px;
 }
 
+#results-wrapper {
+  /*background: url(https://images.unsplash.com/29/night-square.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=36e3089748ffd4e8a285318afb1a7a57) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;*/
+}
+
 #landing-form {
   color: #fff;
   margin-top: 10%;
 }
 
 #banner {
-  margin-top: -25px;
   border-radius: 0;
 }
 

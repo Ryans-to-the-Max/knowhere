@@ -1,7 +1,7 @@
-<div>
+<div id="results-wrapper">
   <header></header>
 
-  <div class="container">
+  <div class="container results-container">
 
     <ul class="nav nav-tabs">
       <li role="presentation"><a href="" ng-click="filterVenues(1)">Hotels</a></li>
@@ -14,14 +14,14 @@
     </div>
 
     <div class="row text-center results">
-      <div ng-repeat="venue in filteredVenues" class="col-md-3">
+      <div ng-repeat="venue in filteredVenues" class=" col-lg-3 col-md-3 col-sm-4">
         <div class="venue-info">
           <div class="title">
             <h4>{{ venue.name }}</h4>
           </div>
           <img class="venue-thumbnail" ng-src="{{ venue.index_photo }}" alt="photo: {{ venue.name }}">
           <div class="caption">
-            <div>
+            <div class="venue-btn-container">
               <button class="btn btn-sm btn-primary" type="button" name="button" ng-click="addToRatingsMain(venue.id)">Add to Ratings</button>
               <button class="btn btn-sm btn-info" type="button" name="button" ng-click="getDetailedVenueInfo(venue.id)">More Info</button>
             </div>
