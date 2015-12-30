@@ -202,6 +202,12 @@ ul.rating {
   padding: 10px;
 }
 
+.sub-nav {
+  /*-webkit-box-shadow: 0px 3px 3px #999;
+  -moz-box-shadow: 0px 3px 3px #999;
+  box-shadow: 0px 3px 3px #999;*/
+}
+
 .active-nav-results-tab {
   color: navy;
 }

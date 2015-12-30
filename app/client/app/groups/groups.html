@@ -15,7 +15,7 @@
       <li role="presentation"><a href="" ng-click="">Create a new group</a></li>
     </ul>
     <div class="row text-center">
-      <div ng-repeat="group in groups track by $index" class="col-lg-4 col-lg-offset-2 col-md-6 col-md-offset-2 col-sm-12 col-xs-12 itinerary" > <!-- had thumbnail/groups-setting -->
+      <div ng-repeat="group in groups track by $index" class="col-lg-3 col-md-3 col-sm-4 itinerary" >
         <div class="venue-info">
           <img class="venue-thumbnail" ng-src="{{ group.destination.index_photo }}" alt="photo: {{ group.destination.name }}">
           <div class="caption">
