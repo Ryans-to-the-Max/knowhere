@@ -386,17 +386,36 @@ angular.module('travel.services', [])
 ////////////////// FOR MOREINFO MODAL //////////////////////
 
 
-.factory('MoreInfo', function ($http, $rootScope) {
+.factory('MoreInfo', function ($http, $rootScope, Venues) {
+
+
 
   var initMoreInfoState = function () {
     // sets image carousel interval
     this.myInterval = 5000;
     this.noWrapSlides = false;
+
+    // used by Ratings and Itinerary
     this.ratingsInfo = $rootScope.ratingsInfo;
     this.phoneHide = $rootScope.phoneHide;
   };
 
-  var getDetailedVenueInfo = function (venue) {
+  var getDetailedVenueInfo = function (venueId) {
+    var query = {
+      venueId: venueId
+    };
+    var _this_ = this;
+    Venues.getDetailedVenueInfo(query)
+      .then(function (venueInfo) {
+        $rootScope.detailedInfo = _this_.detailedInfo = venueInfo;
+        _this_.openModal();
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
+
+  var showDetailedVenueInfo = function (venue) {
     $rootScope.phoneHide = ( venue.venue.telephone ? false : true );
     $rootScope.ratingsInfo = venue;
     this.ratingsInfo = venue;
@@ -413,6 +432,7 @@ angular.module('travel.services', [])
     initMoreInfoState: initMoreInfoState,
 
     getDetailedVenueInfo: getDetailedVenueInfo,
+    showDetailedVenueInfo: showDetailedVenueInfo,
     exit: exit,
   };
 })
