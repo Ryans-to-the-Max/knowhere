@@ -144,7 +144,9 @@ module.exports = {
   getUserGroups: function (req, res, next){
     var userId = req.query.userId;
 
-    User.findById(userId, function (err, user){
+    User.findById(userId)
+        .populate("groupIds")
+        .exec (function (err, user){
       if (err) return util.send500(res, err);
 
       var data = ( user ? user.groupIds : null );

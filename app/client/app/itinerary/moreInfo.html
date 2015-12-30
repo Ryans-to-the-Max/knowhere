@@ -8,13 +8,8 @@
 			<p>Group Average Rating: {{ratingsInfo.avgRating}}</p> 
 		</div>
 		<div class="detailed-info ">
-      <div>Start date: <br> <em>{{fromDate | date:'fullDate' }}</em></div>
-      <input class="detailed-info" type="date" class="form-control" ng-model="fromDate" ng-required="true"/>
-      <div>End date: <br> <em>{{toDate | date:'fullDate' }}</em></div>
-      <input class="detailed-info" type="date" class="form-control" ng-model="toDate" ng-required="true"/>
-      <div>
-        <button class="btn btn-sm btn-success" type="button" name="button" ng-click="addDatesToItinerary(ratingsInfo, fromDate, toDate)">Submit</button>
-      </div>
+      <div>Start date: <br> <em>{{ratingsInfo.itinerary.fromDate | date:'longDate' }}</em></div>
+      <div>End date: <br> <em>{{ratingsInfo.itinerary.toDate | date:'longDate' }}</em></div>
     </div> 
 	</div>
   <uib-carousel interval="myInterval" no-wrap="noWrapSlides">

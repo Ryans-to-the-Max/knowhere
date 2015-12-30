@@ -307,7 +307,7 @@ angular.module('travel.services', [])
 
 
   var addToItinerary = function (venueData, fromDate, toDate) {
-
+    console.log(fromDate);
     var data = {
       venue: venueData,
       userId: $rootScope.currentUser._id,
