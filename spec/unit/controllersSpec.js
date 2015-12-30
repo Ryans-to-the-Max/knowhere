@@ -250,7 +250,7 @@ describe('Knowhere client controllers', function () {
     });
   });
 
-  describe('GroupsController', function () {
+  xdescribe('GroupsController', function () {
 
     describe('its methods', function () {
 
@@ -298,7 +298,6 @@ describe('Knowhere client controllers', function () {
     });
   });
 
-  // TODO ITIN run tests after removing mockData hack
   xdescribe('ItineraryController', function () {
     describe('its methods', function () {
       var $httpBackend, $rootScope, $scope;
