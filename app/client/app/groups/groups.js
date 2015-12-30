@@ -5,7 +5,6 @@ angular.module('travel.groups', [])
   $scope.newDestinationInput = null;
   $scope.groups = [];
   $scope.newParticipantEmail = null;
-  $scope.destination = null;
 
 
   ////////////////// CREATE A NEW GROUP //////////////////////

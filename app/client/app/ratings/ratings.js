@@ -18,7 +18,6 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
 
   $scope.filteredUserRatings = [];
   $scope.filteredGroupRatings  = [];
-  $scope.city = $rootScope.destination;
   $scope.heading = null;
   $scope.allVenuesRatings = [];
   $scope.groups = [];

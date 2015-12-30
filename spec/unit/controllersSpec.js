@@ -378,11 +378,7 @@ describe('Knowhere client controllers', function () {
 
       it('sets $scope.groups to the currentUser\'s groups by currentUser._id', function () {
         expect($scope.groups).toEqual(groupsInfo);
-      });
-
-      it('sets $scope.city', function () {
-        expect($scope.city).toEqual(mockNYC);
-      });
+      }); 
 
       it('sets $scope.venues', function () {
         expect($scope.venues).toEqual(mockVenues.Results);

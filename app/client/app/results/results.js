@@ -18,7 +18,6 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
 
   $scope.venues = [];
   $scope.filteredVenues = [];
-  $scope.city = $rootScope.destination;
   $scope.heading = null;
   $scope.groups = [];
 

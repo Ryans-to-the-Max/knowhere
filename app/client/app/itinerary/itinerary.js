@@ -18,7 +18,6 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   $scope.restaurants = [];
   $scope.attractions = [];
   $scope.hotels = [];
-  $scope.city = $rootScope.destination;
   $scope.heading = null;
   $scope.fullItinerary = [];
   $scope.groups = [];
