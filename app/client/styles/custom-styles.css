@@ -79,6 +79,7 @@ ul.rating {
   background-color: #FFF;
   text-align: center;
   padding: 10px;
+  padding-bottom: 25px;
   margin-top: 10px;
   margin-bottom: 10px;
   border-top: 1px solid #eee;
@@ -219,6 +220,11 @@ ul.rating {
   border-radius: 0;
 }
 
+.text-outline {
+  color: #fff;
+  text-shadow: 1px 1px 1px black, 0 0 0.1em black, 0 0 0.1em black;
+}
+
 #landing {
   background: url(https://images.unsplash.com/29/night-square.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=36e3089748ffd4e8a285318afb1a7a57) no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -244,6 +250,7 @@ ul.rating {
 }
 
 #banner {
+  overflow: auto;
   border-radius: 0;
 }
 
