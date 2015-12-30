@@ -30,14 +30,6 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   $scope.showRatings = {};
 
 
-  ////////////////// GET ALL THE GROUPS OF A USER //////////////////////
-
-
-  $scope.getUserGroups = function() {
-    Groups.getUserGroups($scope);
-  };
-
-
   ////////////////// SELECTING A GROUP WILL REROUTE TO RATINGS //////////////////////
 
 

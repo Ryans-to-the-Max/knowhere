@@ -24,14 +24,6 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   $scope.groups = [];
 
 
-  ////////////////// GET ALL THE GROUPS OF A USER //////////////////////
-
-
-  $scope.getUserGroups = function() {
-    Groups.getUserGroups($scope);
-  };
-
-
   ////////////////// SELECTING A GROUP WILL REROUTE TO ITINERARY //////////////////////
 
 

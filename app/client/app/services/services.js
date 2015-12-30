@@ -122,7 +122,7 @@ angular.module('travel.services', [])
       return resp.data;
     });
   };
-  var getUserGroups = function ($scope) {
+  var setUserGroups = function ($scope) {
     if (!$rootScope.currentUser || !$rootScope.currentUser._id) {
       return console.error("Cannot get groups. currentUser id not found!");
     }
@@ -167,7 +167,7 @@ angular.module('travel.services', [])
 
   return {
     // HTTP REQ FUNCTIONS
-    getUserGroups: getUserGroups,
+    setUserGroups: setUserGroups,
     createGroup: createGroup,
     addParticipant: addParticipant,
 

@@ -344,13 +344,6 @@ describe('Knowhere client controllers', function () {
         $controller('RatingsController', { $rootScope: $rootScope, $scope: $scope });
       }));
 
-      it('$scope.getUserGroups() should set $scope.groups to currentUser\'s groups', function () {
-        $scope.getUserGroups(testUser._id);
-        $httpBackend.flush();
-
-        expect($scope.groups).toEqual(groupsInfo);
-      });
-
       it('$scope.selectGroup() should set $rootScope.currentGroup', function () {
         $scope.selectGroup(group2);
 

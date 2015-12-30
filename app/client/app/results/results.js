@@ -23,14 +23,6 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   $scope.groups = [];
 
 
-  ////////////////// GET ALL THE GROUPS OF A USER //////////////////////
-
-
-  $scope.getUserGroups = function() {
-    Groups.getUserGroups($scope);
-  };
-
-
   ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
 
 
@@ -91,6 +83,6 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// INIT STATE //////////////////////
 
 
-  $scope.getUserGroups();
+  Groups.setUserGroups($scope);
   $scope.getVenuesOfDestination($rootScope.destination.id);
 });
