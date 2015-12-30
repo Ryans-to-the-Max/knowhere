@@ -60,22 +60,6 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   };
 
 
-  ////////////////// GET GROUP ITINERARY / RATINGS //////////////////////
-
-
-  $scope.getItinerary = function () {
-    var query = {
-      userId: $rootScope.currentUser._id,
-      groupId: $rootScope.currentGroup._id
-    };
-    Venues.getItinerary(query)
-      .then(function (ratingsObjs) {
-        $scope.fullItinerary = ratingsObjs;
-        $scope.filterItinerary(1);
-      });
-  };
-
-
   ////////////////// ADD TO ITINERARY - ADMIN ONLY//////////////////////
 
 
@@ -85,7 +69,14 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
 //////////////////INIT STATE//////////////////////
 
 
-  $scope.getItinerary();
+  Venues.getItinerary()
+    .then(function (ratingsObjs) {
+      $scope.fullItinerary = ratingsObjs;
+      $scope.filterItinerary(1);
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
 
 
 });

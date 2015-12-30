@@ -323,14 +323,11 @@ angular.module('travel.services', [])
     });
   };
 
-
-
-  /*
-    @params {object} query has:
-      @prop {str} groupId
-      @prop {str} userId
-  */
-  var getItinerary = function(query){
+  var getItinerary = function($scope){
+    var query = {
+      userId: $rootScope.currentUser._id,
+      groupId: $rootScope.currentGroup._id
+    };
     return $http({
       method: 'GET',
       url: '/api/rating/itin',
