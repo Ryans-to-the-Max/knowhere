@@ -58,6 +58,7 @@ module.exports = function(passport) {
       passReqToCallback: true
   },
   function(req, username, password, cb) {
+    console.log(req.body)
     username = username.toLowerCase();
 
       // asynchronous
@@ -79,6 +80,8 @@ module.exports = function(passport) {
             if (user.oauth !== true) {
               cb(null, false, {message: "Username already exists"}); 
             } else {
+              user.firstName = req.first;
+              user.lastName = req.last;
               user.password = user.generateHash(password);
               user.save();
               cb(null, user);
@@ -86,11 +89,14 @@ module.exports = function(passport) {
         } else { 
           var newUser = new User();
           // set the user's local credentials
+          newUser.firstName = req.body.first;
+          newUser.lastName = req.body.last;
           newUser.username = username;
           newUser.password = newUser.generateHash(password);
 
           // save the user
           newUser.save(function(err, user) {
+            console.log(newUser);
             if (err) {
               throw err;
             }
@@ -120,7 +126,8 @@ module.exports = function(passport) {
     passwordField : 'password',
     passReqToCallback : true // allows us to pass back the entire request to the callback
   },
-  function(req, username, password, done) { // callback with username and password from our form
+  function(req, username, password, done) {
+   // callback with username and password from our form
     username = username.toLowerCase();
 
     // find a user whose username is the same as the forms username
@@ -209,6 +216,7 @@ module.exports = function(passport) {
   function(accessToken, refreshToken, profile, cb) {
     process.nextTick(function() {
 
+      console.log(profile);
       //TODO they might not have email - if so -login with id
       User.findOne({ 'username' :  profile.emails[0].value }, function(err, user) {
           // if there are any errors, return the error

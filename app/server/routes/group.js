@@ -4,7 +4,7 @@ var router = express.Router();
 var groupController = require('../controllers/groupController');
 
 
-router.get('/', groupController.getUserGroups);
+router.get('/', groupController.getGroups);
 
 router.get('/users', groupController.getMembers);
 

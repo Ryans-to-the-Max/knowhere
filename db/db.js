@@ -2,6 +2,7 @@ var mongoose     = require('mongoose');
 var findOrCreate = require('mongoose-findorcreate');
 var Schema       = mongoose.Schema;
 var bcrypt       = require('bcrypt-nodejs');
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 // sets db location to Heroku Mongolab uri or local host
 var dbUri;
@@ -33,6 +34,14 @@ var userSchema = new Schema ({
   },
 
   password: {
+    type: String
+  },
+
+  firstName: {
+    type: String
+  },
+
+  lastName: {
     type: String
   },
 
@@ -71,6 +80,15 @@ userSchema.methods.checkPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 };
 
+userSchema.plugin(deepPopulate, {
+  whitelist: [
+    'username',
+    'firstName',
+    'lastName',
+    'groupIds'
+  ]
+})
+
 db.userSchema = userSchema;
 
 var groupSchema = new Schema ({
@@ -97,10 +115,10 @@ var groupSchema = new Schema ({
       'Group needs a destination'
     ]
   },
-  host: {
+  hosts: [{
     type: Schema.ObjectId,
     ref: 'User'
-  },
+  }],
   members: [{
     type: Schema.ObjectId,
     ref: 'User'
@@ -110,6 +128,17 @@ var groupSchema = new Schema ({
     ref: 'Rating'
   }]
 });
+
+groupSchema.plugin(deepPopulate);
+// groupSchema.plugin(deepPopulate, {
+//   whitelist: [
+//     'title',
+//     'destination',
+//     'hosts',
+//     'members',
+//     'favorites.venueLU'
+//   ]
+// });
 
 db.groupSchema = groupSchema;
 
@@ -153,9 +182,14 @@ var ratingSchema = new Schema ({
   itinerary: {
     fromDate: Date,
     toDate:   Date
+  },
+
+  average: {
+    type: Number
   }
 });
 
+ratingSchema.plugin(deepPopulate);
 ratingSchema.plugin(findOrCreate);
 
 db.ratingSchema = ratingSchema;

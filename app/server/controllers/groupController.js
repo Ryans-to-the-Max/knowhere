@@ -15,9 +15,10 @@ var venue  = venues.Results;
 module.exports = {
 
   createGroup: function(req, res, next){
-    var title  = req.body.groupName;
+    var title    = req.body.groupName;
     var destId   = req.body.destinationId;
-    var userId = req.body.userId;
+    var destName = req.body.destinationName;
+    var userId   = req.body.userId;
 
     User.findById(userId)
       .populate('groupIds')
@@ -36,8 +37,8 @@ module.exports = {
         var newGroup = new Group({
           title: title,
           destination: destId,
-          host: user
         });
+        newGroup.hosts.push(user._id);
         newGroup.members.push(user._id);
         newGroup.save(function (err, group){
           if (!group) return util.send400(res, err);
@@ -141,18 +142,6 @@ module.exports = {
     });
   },
 
-  getUserGroups: function (req, res, next){
-    var userId = req.query.userId;
-
-    User.findById(userId)
-        .populate("groupIds")
-        .exec (function (err, user){
-      if (err) return util.send500(res, err);
-
-      var data = ( user ? user.groupIds : null );
-      util.send200(res, data);
-    });
-  },
 
   getMembers: function(req, res, next){
     var groupId = req.query.groupId;
@@ -186,11 +175,46 @@ module.exports = {
   getGroups: function (req, res, next){
     var userId = req.query.userId;
 
-    User.findById(userId, function (err, user){
-      if (err) return util.send500(res, err);
+  //  https://github.com/buunguyen/mongoose-deep-populate#changelog
+  //   User.findById(userId)
+  //   .deepPopulate('groupIds.members groupIds.favorites')
+  //   .exec(function (err, user){
+  //     console.log(user.groupIds);
+  //     if (err) return util.send500(res, err);
 
-      var data = ( user ? user.groupIds : null );
-      util.send200(res, data);
+  //     var data = ( user ? user.groupIds : null );
+
+
+  //     util.send200(res, data);
+  //   })
+
+    
+    User.findOne({_id: userId})
+    // .populate({
+    //   path:'groupIds',
+    //   populate: {path: 'members ', select: 'username firstName lastName', model: 'User'},
+    //   populate: {path: 'hosts', select: 'username firstName lastName', model: 'User'}
+    // })
+    .populate({
+      path: 'groupIds',
+      populate: {path: 'favorites', select: 'venue', model: 'Rating',
+                populate: {path: 'venue', select: 'name index_photo', model: 'Venue'}},
+    })
+    .exec(function (err, person){
+      User.populate(
+        person,
+        {path: 'groupIds.members ', select: 'username firstName lastName', model: 'User'}, function (err, person) {
+        User.populate(
+          person,
+          {path: 'groupIds.hosts', select: 'username firstName lastName', model: 'User'}, function (err, person){
+            console.log(person.groupIds);
+
+          var data = ( person ? person.groupIds : null );
+
+
+          util.send200(res, data);
+        });
+      });
     });
   },
 
@@ -198,32 +222,20 @@ module.exports = {
     var groupId = req.query.groupId;
 
     Group.findById(groupId)
-        .populate('favorites')
         .populate('members')
-        .lean() // lean() makes it return plain JS object
+        .populate({
+          path: 'favorites',
+          populate: {path: 'venue'}
+        })
         .exec(function (err, group){
+          if (err) return util.send500(res, err);
+          if (!group) return util.send400(res, err);
 
-          // populate favorites' ratings
-          (function(){ // the following is done for synchronous purposes
-            var index = 0;
-
-            function assignRatings(){
-              if (index >= group.favorites.length){
-                return res.status(200).send(group);
-              }
-
-              var venueId = group.favorites[index]._id;
-
-              Rating.findOne({ venue: venueId, group: group._id }, function (err, rating){
-                if (rating) {
-                  group.favorites[index].ratings = rating.ratings;
-                }
-                index++;
-                assignRatings();
-              });
-            }
-            assignRatings();
-          })();
+          util.send200(res, group);         
         });
+  },
+
+  setHost: function(req, res, next){
+
   }
 };
