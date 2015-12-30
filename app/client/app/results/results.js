@@ -27,9 +27,11 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
 
 
-  $scope.selectGroup = Groups.selectGroup(function () {
-    $state.go('results');
-  });
+  $scope.selectGroup = function (groupInfo) {
+    Groups.selectGroup(groupInfo, function () {
+      $state.go('results');
+    });
+  };
 
 
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////

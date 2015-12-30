@@ -50,10 +50,11 @@ var updateGroupRating = function (paramHash) {
   var res = paramHash.res;
   var userId = paramHash.userId;
   var venue = paramHash.venue;
+  var average = paramHash.average;
 
 
   Rating.update({'allRatings.user': userId, 'groupId': groupId, 'venue': venue._id},
-                {$set: {'allRatings.$.userRating': newRating}}, function (err, update){
+                {$set: {'allRatings.$.userRating': newRating, 'average': average}}, function (err, update){
     if (err) return util.send500(res, err);
 
     if (update.n > 0) { // Rating exists for that user, and should've been updated.
@@ -61,11 +62,12 @@ var updateGroupRating = function (paramHash) {
     }
 // console.log('########updateGroupRating');
 
-    //user has not already voted, so add to group's ratings
+    
     Rating.findOrCreate({venue: venue._id, venueLU: venue.lookUpId, groupId: groupId}, function (err, rating){
-      if (err || !rating) return util.send500(res, err);
 
+      if (err || !rating) return util.send500(res, err);
       rating.allRatings.push({user: userId, userRating: newRating});
+      rating.average = average;
       rating.save(function (err, rating) {
         if (err) return util.send500(res, err);
 
@@ -101,13 +103,15 @@ var updateUserRating = function (paramHash) {
 
 module.exports = {
 
-  addOrUpdateRating: function(req, res, next){  //add to user and group favorites
+  addOrUpdateRating: function(req, res, next){
+    console.log(req.body.venue);  //add to user and group favorites
     var venueInfo = req.body.venue;
     // If we are getting just the TripExpert object, then .lookUpId is undefined
     venueInfo.lookUpId = venueInfo.lookUpId || venueInfo.id;
     var groupId = req.body.groupId;
     var userId  = req.body.userId;
     var newRating  = req.body.rating;
+    var average  = req.body.average || 0;
 
     Venue.findOne({lookUpId: venueInfo.lookUpId}, function (err, venue) {
       if (err) return util.send500(res, err);
@@ -123,7 +127,9 @@ module.exports = {
                       venue: venue,
                       groupId: groupId, // not used in #updateUserRating
                       userId: userId,
-                      newRating: newRating };
+                      newRating: newRating,
+                      average: average 
+                    };
 
       updateUserRating(argHash);
 

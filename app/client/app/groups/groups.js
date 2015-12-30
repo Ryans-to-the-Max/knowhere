@@ -23,27 +23,30 @@ angular.module('travel.groups', [])
   ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
 
 
-  $scope.selectGroup = function(groupInfo) {
-    Groups.selectGroup(groupInfo, function () {$state.go('results');})();
+  $scope.selectGroup = function (groupInfo) {
+    Groups.selectGroup(groupInfo, function () {
+      $state.go('results');
+    });
   };
+
 
 
   ////////////////// SET INIT STATE //////////////////////
 
   //TODO: Uncomment below when have actual data
-  // Groups.setUserGroups($scope);
+   Groups.setUserGroups($scope);
   //TODO: Uncomment above when have actual data
   //TODO: Comment below when have actual data
-  $scope.mockGroup = {
-    _id : $rootScope.currentGroup._id,
-    destination : $rootScope.destination,
-    host : $rootScope.currentUser,
-    members : [$rootScope.currentUser, $rootScope.currentUser],
-    title : "Best Group Ever",
-  };
-  for (var i = 0; i < 5; i++) {
-    $scope.groups.push($scope.mockGroup);
-  };
-  console.log($scope.mockGroup);
+  // $scope.mockGroup = {
+  //   _id : $rootScope.currentGroup._id,
+  //   destination : $rootScope.destination,
+  //   host : $rootScope.currentUser,
+  //   members : [$rootScope.currentUser, $rootScope.currentUser],
+  //   title : "Best Group Ever",
+  // };
+  // for (var i = 0; i < 5; i++) {
+  //   $scope.groups.push($scope.mockGroup);
+  // }
+  // console.log($scope.mockGroup);
   //TODO: Comment above when have actual data
 });

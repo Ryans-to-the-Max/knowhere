@@ -118,7 +118,8 @@ angular.module('signin', ['ui.bootstrap'])
       $scope.alerts = [{msg: 'Passwords do not match!'}];
       return;
     }
-    AuthMe.createUser({username: $scope.email.toLowerCase(), password: $scope.password})
+    AuthMe.createUser({username: $scope.email.toLowerCase(), password: $scope.password, 
+                      first: $scope.firstName, last: $scope.lastName})
       .then(function (data){
         if (data.status === true){
           $scope.alerts = [];
