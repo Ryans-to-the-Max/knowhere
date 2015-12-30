@@ -7,22 +7,6 @@ angular.module('travel.groups', [])
   $scope.newParticipantEmail = null;
 
 
-  ////////////////// CREATE A NEW GROUP //////////////////////
-
-  $scope.createGroup = function() {
-    var data = {
-      groupName: $scope.newGroupInput,
-      userId: $rootScope.currentUser._id,
-      destination: Util.transToPermalink($scope.newDestinationInput)
-    };
-    Groups.createGroup(data)
-    .then(function (newGroup) {
-      $rootScope.currentGroup = newGroup;
-      $rootScope.destinationPermalink = Util.transToPermalink($scope.newDestinationInput);
-    });
-  };
-
-
   ////////////////// ADD PARTICIPANT (THROUGH EMAIL?) //////////////////////
 
 
@@ -39,15 +23,13 @@ angular.module('travel.groups', [])
   ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
 
 
-  $scope.selectGroup = Groups.selectGroup(function () {
-    $state.go('results');
-  });
+  $scope.selectGroup = function(groupInfo) {
+    Groups.selectGroup(groupInfo, function () {$state.go('results');});
+  };
 
 
   ////////////////// SET INIT STATE //////////////////////
 
 
   Groups.setUserGroups($scope);
-
-
 });
