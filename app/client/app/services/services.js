@@ -278,19 +278,22 @@ angular.module('travel.services', [])
   ////////////////// RATINGS //////////////////////
 
 
-  /*
-    @params {object} query has:
-      @prop {str} groupId
-      @prop {str} userId
-  */
-  var getRatings = function(query){
+  var setRatings = function(_$scope_){
+    var query = {
+      groupId: $rootScope.currentGroup._id,
+      userId: $rootScope.currentUser._id,
+    };
     return $http({
       method: 'GET',
       url: '/api/rating',
       params: query
     })
     .then(function(resp){
-      return resp.data;
+      _$scope_.allVenuesRatings = resp.data;
+      _$scope_.filterRatings(1);
+    })
+    .catch(function (error) {
+      console.error(error);
     });
   };
 
@@ -312,6 +315,7 @@ angular.module('travel.services', [])
 
 
   var addToItinerary = function (venueData, fromDate, toDate) {
+
     var data = {
       venue: venueData,
       userId: $rootScope.currentUser._id,
@@ -371,7 +375,7 @@ angular.module('travel.services', [])
     getUserFavorites: getUserFavorites,
     addRating: addRating,
     getItinerary: getItinerary,
-    getRatings: getRatings,
+    setRatings: setRatings,
     addToItinerary: addToItinerary,
     getDetailedVenueInfo: getDetailedVenueInfo
   };

@@ -80,19 +80,6 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
 
 
   $scope.addDatesToItinerary = Venues.addToItinerary;
-  // $scope.addDatesToItinerary = function(venueData, fromDate, toDate) {
-  //   console.log(venueData, fromDate, toDate);
-  //   var userId = $rootScope.currentUser._id;
-  //   var groupId = $rootScope.currentGroup._id;
-  //   var data = {
-  //     venue : venueData,
-  //     userId : userId,
-  //     groupId : groupId,
-  //     fromDate : fromDate || new Date(),
-  //     toDate : toDate || new Date()
-  //   };
-  //   Venues.addToItinerary(data);
-  // };
 
 
 //////////////////INIT STATE//////////////////////
@@ -101,35 +88,4 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   $scope.getItinerary();
 
 
-  //////////////////TEST//////////////////////
-  $scope.today = function() {
-    $scope.dt = new Date();
-  };
-  $scope.today();
-
-  $scope.clear = function () {
-    $scope.dt = null;
-  };
-
-  $scope.toggleMin = function() {
-    $scope.minDate = $scope.minDate ? null : new Date();
-  };
-  $scope.toggleMin();
-  $scope.maxDate = new Date(2020, 5, 22);
-
-  $scope.open = function($event) {
-    $scope.status.opened = true;
-  };
-
-  $scope.dateOptions = {
-    formatYear: 'yy',
-    startingDay: 1
-  };
-
-  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-  $scope.format = $scope.formats[1];
-  //format = 2016-01-01T09:59:23.891Z
-  $scope.status = {
-    opened: false
-  };
 });
