@@ -50,11 +50,11 @@ var updateGroupRating = function (paramHash) {
   var res = paramHash.res;
   var userId = paramHash.userId;
   var venue = paramHash.venue;
-  //var average = paramHash.average;
+  var average = paramHash.average;
 
 
   Rating.update({'allRatings.user': userId, 'groupId': groupId, 'venue': venue._id},
-                {$set: {'allRatings.$.userRating': newRating}}, function (err, update){
+                {$set: {'allRatings.$.userRating': newRating, 'average': average}}, function (err, update){
     if (err) return util.send500(res, err);
 
     if (update.n > 0) { // Rating exists for that user, and should've been updated.
@@ -67,7 +67,7 @@ var updateGroupRating = function (paramHash) {
 
       if (err || !rating) return util.send500(res, err);
       rating.allRatings.push({user: userId, userRating: newRating});
-      //rating.average = average;
+      rating.average = average;
       rating.save(function (err, rating) {
         if (err) return util.send500(res, err);
 
@@ -111,7 +111,7 @@ module.exports = {
     var groupId = req.body.groupId;
     var userId  = req.body.userId;
     var newRating  = req.body.rating;
-    //var average  = req.body.average;
+    var average  = req.body.average || 0;
 
     Venue.findOne({lookUpId: venueInfo.lookUpId}, function (err, venue) {
       if (err) return util.send500(res, err);
@@ -128,7 +128,7 @@ module.exports = {
                       groupId: groupId, // not used in #updateUserRating
                       userId: userId,
                       newRating: newRating,
-                      //average: average 
+                      average: average 
                     };
 
       updateUserRating(argHash);

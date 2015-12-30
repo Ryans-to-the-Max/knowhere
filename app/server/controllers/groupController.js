@@ -207,7 +207,7 @@ module.exports = {
         User.populate(
           person,
           {path: 'groupIds.hosts', select: 'username firstName lastName', model: 'User'}, function (err, person){
-            console.log(person.groupIds);
+            //console.log(person.groupIds);
 
           var data = ( person ? person.groupIds : null );
 
@@ -230,6 +230,7 @@ module.exports = {
         .exec(function (err, group){
           if (err) return util.send500(res, err);
           if (!group) return util.send400(res, err);
+          console.log(group);
 
           util.send200(res, group);         
         });

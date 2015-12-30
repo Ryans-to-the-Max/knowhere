@@ -87,7 +87,7 @@ userSchema.plugin(deepPopulate, {
     'lastName',
     'groupIds'
   ]
-})
+});
 
 db.userSchema = userSchema;
 

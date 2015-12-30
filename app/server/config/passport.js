@@ -58,7 +58,6 @@ module.exports = function(passport) {
       passReqToCallback: true
   },
   function(req, username, password, cb) {
-    console.log(req.body)
     username = username.toLowerCase();
 
       // asynchronous
