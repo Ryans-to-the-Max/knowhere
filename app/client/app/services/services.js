@@ -134,6 +134,7 @@ angular.module('travel.services', [])
     })
     .then(function (resp) {
       $scope.groups = resp.data;
+      console.log(resp.data);
     })
     .catch(function (err) {
       console.error(err);

@@ -12,4 +12,8 @@ var bcrypt = require('bcrypt-nodejs');
 // });
 var User = mongoose.model('User', db.userSchema);
 
+// User.deepPopulate(users, 'groupIds.members', function (err, _users){
+
+// });
+
 module.exports = User;

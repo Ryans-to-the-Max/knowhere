@@ -18,6 +18,7 @@
     "express": "^4.13.3",
     "express-session": "1.12.1",
     "mongoose": "^4.2.6",
+    "mongoose-deep-populate": "^2.0.3",
     "mongoose-findorcreate": "^0.1.2",
     "morgan": "^1.6.1",
     "nodemailer": "^1.10.0",

@@ -24,7 +24,7 @@
             </div>
             <div class="caption">
               <div>Destination: {{ group.destination.name }} </div>
-              <div>Host: {{ group.host.username }} </div>
+              <div>Host: {{ group.hosts.username }} </div>
               <div>Members: <p ng-repeat="member in group.members track by $index"> {{member.username}}, </p>
               <button class="btn btn-sm btn-primary" type="button" name="button" ng-click="selectGroup(group)">Select Group</button>
             </div>
