@@ -134,7 +134,6 @@ angular.module('travel.services', [])
     })
     .then(function (resp) {
       $scope.groups = resp.data;
-      console.log($scope.groups);
     })
     .catch(function (err) {
       console.error(err);
@@ -160,8 +159,7 @@ angular.module('travel.services', [])
   // NOT HTTP REQ FUNCTIONS
   var selectGroup = function (groupInfo, next) {
     return function () {
-      $rootScope.currentGroup = groupInfo;
-      //need destination object
+      $rootScope.currentGroup = groupInfo._id;
       $rootScope.destination  = groupInfo.destination;
       next();
     };

@@ -13,7 +13,7 @@ angular.module('travel.groups', [])
   $scope.addParticipant = function() {
     var data = {
       groupId: $rootScope.currentGroup._id,
-      userId: $rootScope.currentUser_id,
+      userId: $rootScope.currentUser._id,
       participantInfo: $scope.newParticipantEmail
     };
     Groups.addParticipant(data);
@@ -24,12 +24,26 @@ angular.module('travel.groups', [])
 
 
   $scope.selectGroup = function(groupInfo) {
-    Groups.selectGroup(groupInfo, function () {$state.go('results');});
+    Groups.selectGroup(groupInfo, function () {$state.go('results');})();
   };
 
 
   ////////////////// SET INIT STATE //////////////////////
 
-
-  Groups.setUserGroups($scope);
+  //TODO: Uncomment below when have actual data
+  // Groups.setUserGroups($scope);
+  //TODO: Uncomment above when have actual data
+  //TODO: Comment below when have actual data
+  $scope.mockGroup = {
+    _id : $rootScope.currentGroup._id,
+    destination : $rootScope.destination,
+    host : $rootScope.currentUser,
+    members : [$rootScope.currentUser, $rootScope.currentUser],
+    title : "Best Group Ever",
+  };
+  for (var i = 0; i < 5; i++) {
+    $scope.groups.push($scope.mockGroup);
+  };
+  console.log($scope.mockGroup);
+  //TODO: Comment above when have actual data
 });
