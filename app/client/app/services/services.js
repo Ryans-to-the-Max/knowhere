@@ -289,7 +289,7 @@ angular.module('travel.services', [])
     });
   };
 
-  var addRating = function(venueInfo, rating) {
+  var addRating = function(venueInfo, rating, avgRating) {
     return $http({
       method: 'POST',
       url: '/api/rating',
@@ -297,7 +297,8 @@ angular.module('travel.services', [])
         venue: venueInfo,
         userId: $rootScope.currentUser._id,
         groupId: $rootScope.currentGroup._id,
-        rating: rating || 0
+        rating: rating || 0, 
+        average: avgRating || 0
       }
     });
   };
@@ -307,7 +308,6 @@ angular.module('travel.services', [])
 
 
   var addToItinerary = function (venueData, fromDate, toDate) {
-    console.log(fromDate);
     var data = {
       venue: venueData,
       userId: $rootScope.currentUser._id,
