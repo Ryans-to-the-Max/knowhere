@@ -238,15 +238,11 @@ angular.module('travel.services', [])
     });
   };
 
-  /*
-    @params {object} query has:
-      @prop {int} destinationId
-  */
-  var getVenues = function(query){
+  var getVenues = function(destinationId){
     return $http({
       method: 'GET',
       url: '/api/dest/venues',
-      params: query
+      params: { destinationId: destinationId }
     })
     .then(function successCb (resp){
       return resp.data;
@@ -256,15 +252,11 @@ angular.module('travel.services', [])
     });
   };
 
-  /*
-    @params {object} query has:
-      @prop {str} venueId
-  */
-  var getDetailedVenueInfo = function(query){
+  var getDetailedVenueInfo = function(venueId){
     return $http({
       method: 'GET',
       url: '/api/dest/venues/info',
-      params: query
+      params: { venueId: venueId }
     })
     .then(function successCb (resp){
       return resp.data;

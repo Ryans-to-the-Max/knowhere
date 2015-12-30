@@ -57,10 +57,7 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   $scope.getVenuesOfDestination = function (destinationId) {
     if (!destinationId) return;
 
-    var query = {
-      destinationId: destinationId
-    };
-    Venues.getVenues(query)
+    Venues.getVenues(destinationId)
       .then(function(venuesInfo) {
         if (!Array.isArray(venuesInfo)) return;
 
@@ -81,10 +78,7 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   };
 
   $scope.addToRatingsMain = function(venueId) {
-    var query = {
-      venueId : venueId
-    };
-    Venues.getDetailedVenueInfo(query)
+    Venues.getDetailedVenueInfo(venueId)
       .then(function(venueInfo) {
         Venues.addRating(venueInfo, null);
       })
