@@ -44,7 +44,7 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
     $scope.filteredItinerary = Util.filterRatingsByVenueType($scope.fullItinerary,
                                                              venueTypeId);
     $scope.showInput = true;
-    // console.log($scope.filteredItinerary);
+    console.log($scope.filteredItinerary);
   };
 
 

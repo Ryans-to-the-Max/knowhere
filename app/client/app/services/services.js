@@ -142,7 +142,6 @@ angular.module('travel.services', [])
         });
       });
       $scope.groups = groups;
-      console.log($scope.groups);
     })
     .catch(function (err) {
       console.error(err);
