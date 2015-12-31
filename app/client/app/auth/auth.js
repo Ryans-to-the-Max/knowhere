@@ -24,6 +24,7 @@ angular.module('signin', ['ui.bootstrap'])
         });
   };
 
+
   $scope.validate = function(){
     var user = $location.search().id;
     AuthMe.validateUser(user)
@@ -48,9 +49,25 @@ angular.module('signin', ['ui.bootstrap'])
 
 .controller('SigninController', function ($scope, $uibModalInstance, $uibModal, AuthMe, $location, $rootScope) {
   $scope.alerts = [];
+  var group = $location.search().group;
 
   $scope.closeAlert = function() {
     $scope.alerts = [];
+  };
+
+  $scope.emailSignup = function(){
+  Authme.createUser({username: $scope.email.toLowerCase(), password: $scope.password, 
+                    first: $scope.firstName, last: $scope.lastName, groupId: group})
+    .then(function (data){
+      if (data.status === true){
+        $scope.alerts = [];
+        $scope.emailAlert = true;
+        $rootScope.currentUserSignedIn = true;
+        $rootScope.currentUser = data.user;
+      } else {
+        $scope.alerts = [{type: 'danger', msg: data.message}];
+      }
+    });
   };
 
   $scope.submit = function (){
@@ -67,7 +84,7 @@ angular.module('signin', ['ui.bootstrap'])
   };
 
   $scope.google = function (){
-    AuthMe.googleLogin()
+    AuthMe.googleLogin({groupId: group})
     .then(function (data){
       if (data.status === true) {
           $rootScope.currentUserSignedIn = true;
@@ -80,7 +97,7 @@ angular.module('signin', ['ui.bootstrap'])
   };
 
   $scope.facebook = function (){
-    AuthMe.facebookLogin()
+    AuthMe.facebookLogin({groupId: group})
     .then(function (data){
       if (data.status === true) {
           $rootScope.currentUserSignedIn = true;
@@ -116,6 +133,7 @@ angular.module('signin', ['ui.bootstrap'])
   };
 
   $scope.signup = function (){
+    var group = $location.search().group || null;
     if ($scope.password !== $scope.passwordCheck) {
       $scope.alerts = [{msg: 'Passwords do not match!'}];
       return;

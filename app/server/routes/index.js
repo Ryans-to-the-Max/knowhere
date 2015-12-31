@@ -13,5 +13,7 @@ router.get('/info', indexController.getInfo);
 
 router.post('/validate', indexController.validateUser);
 
+router.post('/invite', indexController.sendInvite);
+
 
 module.exports = router;

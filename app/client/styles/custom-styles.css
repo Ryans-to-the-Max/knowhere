@@ -31,6 +31,7 @@ header {
 
 .signin {
   text-align: center;
+  color: white;
 }
 
 .exit {
@@ -338,4 +339,8 @@ nav.navbar.navbar-default {
 
 #api-attribution {
   background-color: #EBEBEB;
+}
+
+.signupPage {
+  text-align: center;
 }

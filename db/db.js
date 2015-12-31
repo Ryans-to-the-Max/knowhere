@@ -89,6 +89,8 @@ userSchema.plugin(deepPopulate, {
   ]
 });
 
+userSchema.plugin(findOrCreate);
+
 db.userSchema = userSchema;
 
 var groupSchema = new Schema ({
@@ -202,6 +204,5 @@ var destSchema = new Schema ({
 destSchema.plugin(findOrCreate);
 
 db.destSchema = destSchema;
-
 
 module.exports = db;

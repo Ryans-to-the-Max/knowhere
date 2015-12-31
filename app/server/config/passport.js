@@ -3,27 +3,42 @@ var GoogleStrategy   = require('passport-google-oauth2').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var eventEmitter     = require('./eventEmitter');
 var User             = require('../models/user');
+var Group            = require('../models/group');
 var path             = require('path');
 var util             = require(path.join(__dirname, '../util'));
 
-var nodemailer = require('nodemailer');
-
-
-var transporter = nodemailer.createTransport({
-  service: 'Gmail',
-  auth: {
-    user: 'appKnowhere@gmail.com',
-    pass: process.env.GMAIL_PASS
-  }
-});
-
-//process.env.GMAIL_PASS
 
 
 var PROTOCOL_DOMAIN  = ( process.env.NODE_ENV === 'production' ?
                         'https://knowhere.herokuapp.com' :
                         'http://localhost:3000' );
 
+
+addToGroup = function(group, user){
+  Group.findByID(group, function (err, group){
+    if (!group) return util.send400(res, err);
+    if (err) return util.send500(res, err);
+    User.findByID(user._id, function (err, user){
+      if (!user) return util.send400(res, err);
+      if (err) return util.send500(res, err);
+
+      group.members.push(user);
+      group.save();
+
+      user.groupIds.push(group);
+      user.save();
+    });
+  });
+};
+
+validate = function(user){
+  var context = {
+    PROTOCOL_DOMAIN: PROTOCOL_DOMAIN,
+    userId: user._id.toString()
+  };
+
+  util.mail('validateUser.html', context, "Welcome to Knowhere!", user.username);
+};
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
@@ -89,9 +104,9 @@ module.exports = function(passport) {
           var newUser = new User();
           // set the user's local credentials
           newUser.firstName = req.body.first;
-          newUser.lastName = req.body.last;
-          newUser.username = username;
-          newUser.password = newUser.generateHash(password);
+          newUser.lastName  = req.body.last;
+          newUser.username  = username;
+          newUser.password  = newUser.generateHash(password);
 
           // save the user
           newUser.save(function(err, user) {
@@ -102,13 +117,13 @@ module.exports = function(passport) {
             cb(null, newUser);
           });
 
-          transporter.sendMail({    
-              from: 'appKnowhere@gmail.com',
-              to: newUser.username,
-              subject: 'Welcome to Knowhere!',
-              html: '<div> Welcome to Knowhere!.  Validate your account by clicking ' +
-              ' <a href=' + PROTOCOL_DOMAIN + '/#/validate?id=' + newUser._id + '>here!</a></div>'
-          });
+          if (req.body.groupId){
+            //user was invited so add to group
+            addToGroup(req.body.groupId, newUser);
+          }else{
+            //sending email now for validation
+            validate(newUser);
+          }
         }  
       });    
     });

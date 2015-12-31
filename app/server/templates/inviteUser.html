@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+  <div> Hey {{inviteName}}, <br><br></div>
+  <div> You've been invited to join {{groupName}} by {{senderName}}!</div>
+  <a href="{{domain}}/#/join?id={{userId}}&group={{groupId}}"> Join here!</a>
+</div>
+{% endblock %}

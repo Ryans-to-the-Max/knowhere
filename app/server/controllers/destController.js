@@ -11,8 +11,13 @@ var dests = require("../../../mock-data/destinations.json");
 var path   = require('path');
 var util   = require(path.join(__dirname, '../util'));
 
-// var redisClient = require('redis').createClient;
-// var redis = redisClient(6379, 'localhost');
+// if (process.env.NODE_ENV === 'production'){
+//   var redis = require('redis').createClient(process.env.REDIS_URL);
+// } else {
+//   var redisClient = require('redis').createClient;
+//   var redis = redisClient(6379, 'localhost');
+// }
+
 
 
 module.exports = {
