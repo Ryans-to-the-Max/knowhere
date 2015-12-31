@@ -7,31 +7,38 @@
     </div>
   </div>
 
-    <div class="container">
-      <div class="row text-center results-container">
-        <div ng-repeat="group in groups track by $index" class="col-lg-3 col-md-3 col-sm-4 itinerary" >
-          <div class="venue-info">
-            <img class="venue-thumbnail" ng-src="{{ group.destination.index_photo }}" alt="photo: {{ group.destination.name }}">
+  <div class="container">
+    <div class="row text-center results-container">
+      <div ng-repeat="group in groups track by $index" class="col-lg-3 col-md-3 col-sm-4 itinerary" >
+        <div class="venue-info">
+          <img class="venue-thumbnail" ng-src="{{ group.destination.index_photo }}" alt="photo: {{ group.destination.name }}">
+          <div class="caption">
+            <div class="title">
+              <h4>{{ group.title }}</h4>
+            </div>
             <div class="caption">
-              <div class="title">
-                <h4>{{ group.title }}</h4>
+              <div>Destination: {{ group.destination.name }} </div>
+              <div>Main Host:
+                <p ng-show="group.hosts[0].firstName">{{ group.hosts[0].firstName + ' ' + group.hosts[0].lastName }}</p>
+                <p ng-show="!group.hosts[0].firstName">{{ group.hosts[0].username }}</p>
               </div>
-              <div class="caption">
-                <div>Destination: {{ group.destination.name }} </div>
-                <div>Main Host: {{ group.hosts[0].firstName }} {{ group.hosts[0].lastName }} </div>
-                <div>Members: <p ng-repeat="member in group.members track by $index"> {{member.firstName}} {{member.lastName}} </p>
-                <div class="detailed-info">
-                  <uib-carousel interval="myInterval" no-wrap="noWrapSlides">
-                    <uib-slide ng-repeat="favorite in group.favorites" active="slide.active">
-                      <img ng-src="{{favorite.venue.index_photo}}" style="margin:auto;">
-                      <div class="carousel-caption">{{favorite.venue.name}}</div>
-                    </uib-slide>
-                  </uib-carousel>
+              <div>Members:
+                <div ng-repeat="member in group.members track by $index">
+                  <p ng-show="member.firstName">{{ member.firstName + ' ' + member.lastName }}</p>
+                  <p ng-show="!member.firstName">{{ member.username }}</p>
                 </div>
-                <div class="venue-btn-container">                  
-                  <button class="btn btn-sm btn-primary" type="button" name="button" ng-click="selectGroup(group)">Select Group</button>
-                  <button class="btn btn-sm btn-primary" type="button" name="button" ng-click="leaveGroup(group)">Leave Group</button>
-                </div>
+              </div>
+              <div class="detailed-info">
+                <uib-carousel interval="myInterval" no-wrap="noWrapSlides">
+                  <uib-slide ng-repeat="favorite in group.favorites" active="slide.active">
+                    <img ng-src="{{favorite.venue.index_photo}}" style="margin:auto;">
+                    <div class="carousel-caption">{{favorite.venue.name}}</div>
+                  </uib-slide>
+                </uib-carousel>
+              </div>
+              <div class="venue-btn-container">
+                <button class="btn btn-sm btn-primary" type="button" name="button" ng-click="selectGroup(group)">Select Group</button>
+                <button class="btn btn-sm btn-primary" type="button" name="button" ng-click="leaveGroup(group)">Leave Group</button>
               </div>
             </div>
           </div>
