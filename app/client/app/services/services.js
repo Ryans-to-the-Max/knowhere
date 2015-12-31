@@ -119,6 +119,7 @@ angular.module('travel.services', [])
       data: data
     })
     .then(function (resp) {
+      console.log(resp.data);
       return resp.data;
     });
   };
