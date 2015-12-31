@@ -21,8 +21,7 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   $scope.filteredVenues = [];
   $scope.heading = null;
   $scope.groups = [];
-  $rootScope.loading = true;
-  console.log($rootScope.currentGroup);
+  
 
   ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
 
@@ -37,7 +36,7 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////
 
 
-  $scope.filterVenues = function (venueTypeId) {
+  $scope.filterVenueType = function (venueTypeId) {
     // set heading to appropriate value
     Util.setHeading($scope, venueTypeId);
 
@@ -58,7 +57,7 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
         if (!Array.isArray(venuesInfo)) return;
 
         CurrentInfo.destination.venues = $scope.venues = venuesInfo;
-        $scope.filterVenues(1);
+        $scope.filterVenueType(1);
       })
       .catch(function(error){
         console.error(error);

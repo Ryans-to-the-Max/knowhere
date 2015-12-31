@@ -12,6 +12,31 @@ var util = require(path.join(__dirname, '../util'));
 var venues = require("../../../mock-data/venues.json");
 var venue  = venues.Results;
 
+sendGroupInfo = function (res, groupId){
+  console.log("sendGroupInfo triggered");
+  Group.findById(groupId)
+  .populate({
+    path: 'members',
+    select: 'username firstName lastName'
+  })
+  .populate({
+    path: 'hosts',
+    select: 'username firstName lastName'
+  })
+  .populate({
+    path: 'favorites',
+    select: 'venue',
+    populate: {path: 'venue', select: 'name index_photo', model: 'Venue'}
+  })
+  .exec(function (err, group){
+    if (!group) return util.send400(res, err);
+    if (err) return util.send500(res, err);
+    console.log(group);
+    return util.send200(res, group);
+
+  });
+};
+
 module.exports = {
 
   createGroup: function(req, res, next){
@@ -23,15 +48,15 @@ module.exports = {
     User.findById(userId)
       .populate('groupIds')
       .exec(function (err, user) {
-        if (!user) return res.status(400).send();
-        if (err) return res.status(500).send();
+        if (!user) return util.send400(res, err);
+        if (err) return util.send500(res, err);
 
         var oldGroup = _.find(user.groupIds, function (groupId) {
           return groupId.title === title;
         });
 
         if (oldGroup) {
-          return util.send200(res, oldGroup);
+          return sendGroupInfo(res, oldGroup);
         }
 
         var newGroup = new Group({
@@ -41,15 +66,13 @@ module.exports = {
         newGroup.hosts.push(user._id);
         newGroup.members.push(user._id);
         newGroup.save(function (err, group){
-          if (!group) return util.send400(res, err);
           if (err) return util.send500(res, err);
 
           user.groupIds.push(group._id);
           user.save(function (err, user){
-            if (!user) return util.send400(res, err);
             if (err) return util.send500(res, err);
 
-            res.status(200).send(group);
+            sendGroupInfo(res, group);
           });
         });
       });
@@ -125,20 +148,20 @@ module.exports = {
   },
 
   removeMember: function(req, res, next){ // delete api/group/user
-    var userId = req.body.userId;
-    var groupId = req.body.groupId;
+    var userId = req.query.userId;
+    var groupId = req.query.groupId;
 
     Rating.update({'allRatings.user': userId, groupId: groupId},
-                  {$pull: {allRatings: { user: userId}}}, function (err, update){
+                  {$pull: {allRatings: { user: userId}}}, function (err, ratingUpdate){
       if (err) return util.send500(res, err);
 
-      Group.update({ _id: groupId }, { $pull: { members: userId } }, function (err, groupOut){
+      Group.update({ _id: groupId }, { $pull: { hosts: userId, members: userId } }, function (err, groupUpdate){
         if (err) return util.send500(res, err);
 
-        User.update({ _id: userId }, { $pull: { groupIds: groupId } }, function (err, userOut) {
+        User.update({ _id: userId }, { $pull: { groupIds: groupId } }, function (err, userUpdate) {
           if (err) return util.send500(res, err);
 
-          res.status(200).send(groupOut);
+          res.sendStatus(204);
         });
       });
     });

@@ -328,12 +328,13 @@ describe('server controllers', function () {
             // remove member
             request
               .del('/api/group/user')
-              .send({
+              .query({
                 groupId: group._id,
-                userId: testUser._id
+                userId: testUser._id + '' // Cast BSON to str
               })
               .expect(200)
               .end(function (err, res) {
+
                 // Update var group
                 Group.findById(group._id, function (err, _group_) {
                   group = _group_;
@@ -345,6 +346,11 @@ describe('server controllers', function () {
 
       it('removes user from group.members', function (done) {
         expect(group.members.length).to.equal(0);
+        done();
+      });
+
+      it('removes user from group.hosts', function (done) {
+        expect(group.hosts.length).to.equal(0);
         done();
       });
 

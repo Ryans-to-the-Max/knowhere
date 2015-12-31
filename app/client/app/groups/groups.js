@@ -31,6 +31,20 @@ angular.module('travel.groups', [])
     });
   };
 
+  $scope.leaveGroup = function (group) {
+    var params = {
+      groupId: group._id,
+      userId: $rootScope.currentUser._id,
+    };
+    Groups.removeMember(params)
+      .then(function () {
+        Groups.setUserGroups($scope);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
+
 
   ////////////////// SET INIT STATE //////////////////////
 

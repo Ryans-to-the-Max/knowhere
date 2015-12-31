@@ -47,7 +47,10 @@ var app = angular.module('travel', [
       controller: 'AuthController',
       // authenticate: true
     })
-    ;
+    .state('about', {
+      url: '/about',
+      templateUrl: 'app/about/about.html'
+    });
   $urlRouterProvider.otherwise('/');
   // $httpProvider.interceptors.push('AttachCity');
 });

@@ -4,10 +4,12 @@
     <h2 class="text-center">LOADING YOUR RESOURCES. THIS WILL ONLY TAKE A SECOND</h2>
   </div>
   <div ng-hide="loading" class="container">
-    <ul class="nav nav-tabs">
-      <li ng-show="isHost" role="presentation"><a href="" ng-click="filterItinerary()">Set Dates</a></li>
-      <li role="presentation"><a href="" ng-click="showFullItinerary()">Full Itinerary</a></li>
-    </ul>
+    <div class="row nav-row">
+      <ul class="nav nav-tabs">
+        <li ng-show="isHost" role="presentation"><a href="" ng-click="filterItinerary()">Set Dates</a></li>
+        <li role="presentation"><a href="" ng-click="showFullItinerary()">Full Itinerary</a></li>
+      </ul>
+    </div>
     <div ng-show="isHost && setItinerary">
       <div class="row">
         <h2 class="text-center">Hotels</h2>
@@ -16,13 +18,13 @@
       <h1 class="text-center" ng-if="hotels.length < 1">
         You currently do not have any itinerary in Hotels!
       </h1>
-      <div class="row" class="text-center ">
-        <div ng-repeat="hotel in hotels track by $index" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 thumbnail itinerary">
+      <div class="row results-container text-center">
+        <div ng-repeat="hotel in hotels track by $index" class="col-lg-3 col-md-3 col-sm-4 thumbnail itinerary">
           <div class="venue-info">
-            <img class="venue-thumbnail" ng-src="{{ hotel.venue.index_photo }}" alt="photo: {{ hotel.venue.name }}">
-              <div class="title">
+            <div class="title">
                 <h4>{{ hotel.venue.name }}</h4>
-              </div>
+            </div>
+            <img class="venue-thumbnail" ng-src="{{ hotel.venue.index_photo }}" alt="photo: {{ hotel.venue.name }}">
               <div class="caption">
                 <div class="detailed-info"> Average Group Rating: {{ hotel.average}}
                 </div>
@@ -36,7 +38,7 @@
                     <uib-datepicker ng-model="hotel.itinerary.toDate" min-date="hotel.itinerary.fromDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
                   </div>
                 </div>
-                <div>
+                <div class="venue-btn-container">
                   <button class="btn btn-sm btn-success" type="button" name="button" ng-click="addDatesToItinerary(hotel, hotel.itinerary.fromDate, hotel.itinerary.toDate)">Submit</button>
                   <button class="btn btn-sm btn-info" type="button" name="button" ng-click="showDetailedVenueInfo(hotel)">More Info</button>
                 </div>
@@ -51,13 +53,13 @@
       <h1 class="text-center" ng-if="restaurants.length < 1">
         You currently do not have any itinerary in Restaurants!
       </h1>
-      <div class="row" class="text-center ">
-        <div ng-repeat="restaurant in restaurants track by $index" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 thumbnail itinerary">
+      <div class="row results-container text-center">
+        <div ng-repeat="restaurant in restaurants track by $index" class="col-lg-3 col-md-4col-xs-12 thumbnail itinerary">
           <div class="venue-info">
-            <img class="venue-thumbnail" ng-src="{{ restaurant.venue.index_photo }}" alt="photo: {{ restaurant.venue.name }}">
-              <div class="title">
+            <div class="title">
                 <h4>{{ restaurant.venue.name }}</h4>
               </div>
+            <img class="venue-thumbnail" ng-src="{{ restaurant.venue.index_photo }}" alt="photo: {{ restaurant.venue.name }}">
               <div class="caption">
                 <div class="detailed-info"> Average Group Rating: {{ restaurant.average}}
                 </div>
@@ -70,7 +72,7 @@
                   <div style="display:inline-block; min-height:230px;">
                     <uib-datepicker ng-model="restaurant.itinerary.toDate" min-date="restaurant.itinerary.fromDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
                   </div>
-                </div>
+                </di class="venue-btn-container"v>
                 <div>
                   <button class="btn btn-sm btn-success" type="button" name="button" ng-click="addDatesToItinerary(restaurant, restaurant.itinerary.fromDate, restaurant.itinerary.toDate)">Submit</button>
                   <button class="btn btn-sm btn-info" type="button" name="button" ng-click="showDetailedVenueInfo(restaurant)">More Info</button>
@@ -86,13 +88,13 @@
       <h1 class="text-center" ng-if="attractions.length < 1">
         You currently do not have any itinerary in Attractions!
       </h1>
-      <div class="row" class="text-center ">
-        <div ng-repeat="attraction in attractions track by $index" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 thumbnail itinerary">
+      <div class="row results-container text-center">
+        <div ng-repeat="attraction in attractions track by $index" class="col-lg-3 col-md-4col-xs-12 thumbnail itinerary">
           <div class="venue-info">
+            <div class="title">
+              <h4>{{ attraction.venue.name }}</h4>
+            </div>
             <img class="venue-thumbnail" ng-src="{{ attraction.venue.index_photo }}" alt="photo: {{ attraction.venue.name }}">
-              <div class="title">
-                <h4>{{ attraction.venue.name }}</h4>
-              </div>
               <div class="caption">
                 <div class="detailed-info"> Average Group Rating: {{ attraction.average}}
                 </div>
@@ -105,7 +107,7 @@
                   <div style="display:inline-block; min-height:230px;">
                     <uib-datepicker ng-model="attraction.itinerary.toDate" min-date="attraction.itinerary.fromDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
                   </div>
-                </div>
+                </di class="venue-btn-container"v>
                 <div>
                   <button class="btn btn-sm btn-success" type="button" name="button" ng-click="addDatesToItinerary(attraction, attraction.itinerary.fromDate, attraction.itinerary.toDate)">Submit</button>
                   <button class="btn btn-sm btn-info" type="button" name="button" ng-click="showDetailedVenueInfo(attraction)">More Info</button>
@@ -135,7 +137,7 @@
                   <div class="detailed-info">Start date: <br> <em>{{place.itinerary.fromDate | date:'longDate' }}</em></div>
                   <div class="detailed-info">End date: <br> <em>{{place.itinerary.toDate | date:'longDate' }}</em></div>
                 </div>
-                <div>
+                <div class="venue-btn-container">
                   <button class="btn btn-sm btn-info" type="button" name="button" ng-click="showDetailedVenueInfo(place)">More Info</button>
                 </div>
               </div>

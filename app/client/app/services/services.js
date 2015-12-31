@@ -149,15 +149,15 @@ angular.module('travel.services', [])
   };
 
   /*
-    @data {object} has:
+    @params {object} has:
       @prop {str} groupId.
       @prop {str} userId.
   */
-  var removeMember = function (data) {
+  var removeMember = function (params) {
     return $http({
       method: 'DELETE',
       url: '/api/group/user',
-      data: data
+      params: params
     })
     .then(function (resp) {
       return resp.data;
@@ -166,8 +166,16 @@ angular.module('travel.services', [])
 
   // NOT HTTP REQ FUNCTIONS
   var selectGroup = function (groupInfo, next) {
+    $rootScope.isHost = groupInfo.hosts.some(function (host) {
+      return host._id === $rootScope.currentUser._id;
+    });
     $rootScope.currentGroup = groupInfo;
-    $rootScope.destination = groupInfo.destination;
+
+    // if groupInfo.destination is a number, then this is called from
+    // LandingController which assigns destination itself
+    if (isNaN(groupInfo.destination)) {
+      $rootScope.destination = groupInfo.destination;
+    }
     if (next) {
       next();
     }
@@ -178,6 +186,7 @@ angular.module('travel.services', [])
     setUserGroups: setUserGroups,
     createGroup: createGroup,
     addParticipant: addParticipant,
+    removeMember: removeMember,
 
     // NOT HTTP REQ FUNCTIONS
     selectGroup: selectGroup,
@@ -278,6 +287,33 @@ angular.module('travel.services', [])
   ////////////////// RATINGS //////////////////////
 
 
+  var addRating = function(venueInfo, rating, avgRating) {
+    return $http({
+      method: 'POST',
+      url: '/api/rating',
+      data: {
+        venue: venueInfo,
+        userId: $rootScope.currentUser._id,
+        groupId: $rootScope.currentGroup._id,
+        rating: rating || 0,
+        average: avgRating || 0
+      }
+    });
+  };
+
+  var removeUserRatingFromGroup = function(ratingObj) {
+    return $http({
+      method: 'DELETE',
+      url: '/api/rating',
+      params: {
+        average: ratingObj.avgRating,
+        groupId: $rootScope.currentGroup._id,
+        userId: $rootScope.currentUser._id,
+        venueId: ratingObj.venue._id
+      }
+    });
+  };
+
   var setRatings = function(_$scope_){
     var query = {
       groupId: $rootScope.currentGroup._id,
@@ -291,24 +327,10 @@ angular.module('travel.services', [])
     .then(function(resp){
       $rootScope.loading = false;
       _$scope_.allVenuesRatings = resp.data;
-      _$scope_.filterRatings(1);
+      _$scope_.filterVenueType(1);
     })
     .catch(function (error) {
       console.error(error);
-    });
-  };
-
-  var addRating = function(venueInfo, rating, avgRating) {
-    return $http({
-      method: 'POST',
-      url: '/api/rating',
-      data: {
-        venue: venueInfo,
-        userId: $rootScope.currentUser._id,
-        groupId: $rootScope.currentGroup._id,
-        rating: rating || 0, 
-        average: avgRating || 0
-      }
     });
   };
 
@@ -347,6 +369,19 @@ angular.module('travel.services', [])
     });
   };
 
+  var removeFromItinerary = function (ratingObj) {
+    var query = {
+      groupId: $rootScope.currentGroup._id,
+      venueId: ratingObj.venue._id,
+    };
+
+    return $http({
+      method: 'DELETE',
+      url: '/api/rating/itin',
+      params: query
+    });
+  };
+
 
   ////////////////// ADD TO USER FAVORITES - NON FUNCTIONAL - SAVE FOR LATER //////////////////////
 
@@ -371,10 +406,15 @@ angular.module('travel.services', [])
     getAllDestinations: getAllDestinations,
     getVenues: getVenues,
     getUserFavorites: getUserFavorites,
+
     addRating: addRating,
-    getItinerary: getItinerary,
+    removeUserRatingFromGroup: removeUserRatingFromGroup,
     setRatings: setRatings,
+
+    getItinerary: getItinerary,
     addToItinerary: addToItinerary,
+    removeFromItinerary: removeFromItinerary,
+
     getDetailedVenueInfo: getDetailedVenueInfo
   };
 

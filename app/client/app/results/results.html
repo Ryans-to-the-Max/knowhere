@@ -1,27 +1,28 @@
-<div>
+<div id="results-wrapper">
   <header></header>
   <div ng-show="loading">
     <h2 class="text-center">LOADING YOUR RESOURCES. THIS WILL ONLY TAKE A SECOND</h2>
   </div>
-  <div ng-hide="loading" class="container">
-    <ul class="nav nav-tabs">
-      <li role="presentation"><a href="" ng-click="filterVenues(1)">Hotels</a></li>
-      <li role="presentation"><a href="" ng-click="filterVenues(2)">Restaurants</a></li>
-      <li role="presentation"><a href="" ng-click="filterVenues(3)">Attractions</a></li>
-    </ul>
-    <div class="row">
-      <h2 class="text-center">{{ heading }}</h2>
+  <div ng-hide="loading" class="container results-container">
+    <div class="row nav-row">
+      <ul class="nav nav-tabs sub-nav">
+        <li role="presentation"><a><span class="filter-li">Filter By: </span></a></li>
+        <li role="presentation"><a href="" ng-click="filterVenues(1)">Hotels</a></li>
+        <li role="presentation"><a href="" ng-click="filterVenues(2)">Restaurants</a></li>
+        <li role="presentation"><a href="" ng-click="filterVenues(3)">Attractions</a></li>
+      </ul>
+      <hr class="carved">
     </div>
 
     <div class="row text-center results">
-      <div ng-repeat="venue in filteredVenues" class="col-lg-4 col-lg-offset-2 col-md-6 col-md-offset-2 col-sm-12 col-xs-12 thumbnail" >
+      <div ng-repeat="venue in filteredVenues" class=" col-lg-3 col-md-3 col-sm-4">
         <div class="venue-info">
+          <div>
+            <h4 class="title">{{ venue.name }}</h4>
+          </div>
           <img class="venue-thumbnail" ng-src="{{ venue.index_photo }}" alt="photo: {{ venue.name }}">
           <div class="caption">
-            <div class="title">
-              <h4>{{ venue.name }}</h4>
-            </div>
-            <div class="caption">
+            <div class="venue-btn-container">
               <button class="btn btn-sm btn-primary" type="button" name="button" ng-click="addToRatingsMain(venue.id)">Add to Ratings</button>
               <button class="btn btn-sm btn-info" type="button" name="button" ng-click="getDetailedVenueInfo(venue.id)">More Info</button>
             </div>
@@ -29,5 +30,6 @@
         </div>
       </div>
     </div>
+
   </div>
 </div>

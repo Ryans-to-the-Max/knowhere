@@ -28,7 +28,6 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   $scope.max = 10;
   $scope.isReadonly = false;
   $scope.showRatings = {};
-  $rootScope.isHost = false;
 
 
   ////////////////// SELECTING A GROUP WILL REROUTE TO RATINGS //////////////////////
@@ -44,7 +43,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////
 
 
-  $scope.filterRatings = function (venueTypeId) {
+  $scope.filterVenueType = function (venueTypeId) {
     if (!$scope.allVenuesRatings.length) return;
 
     Util.setHeading($scope, venueTypeId);
@@ -81,7 +80,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
         numberofRatings ++;
       }
     });
-    ratingObj.avgRating = (total / numberofRatings) || 0;
+    ratingObj.average = (total / numberofRatings) || 0;
   };
 
 
@@ -100,22 +99,34 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
     });
     $scope.addAvg(ratingObj);
 
-    Venues.addRating(ratingObj.venue, newRating, ratingObj.avgRating);
+    Venues.addRating(ratingObj.venue, newRating, ratingObj.average);
   };
 
 
-  ////////////////// CHECK FOR HOST //////////////////////
+  ////////////////// USER REMOVE RATING //////////////////////
 
 
-  //ZACH REFACTOR PLOX?
-  $scope.hostCheck = function() {
-    $rootScope.currentGroup.hosts.forEach(function(host) {
-      if (host._id === $rootScope.currentUser._id) {
-        $rootScope.isHost = true;
-      }
-    })
-  }
-  $scope.hostCheck();
+  $scope.removeUserRatingFromGroup = function (ratingObj) {
+
+    var total = 0;
+    var numberofRatings = 0;
+    ratingObj.allRatings.forEach(function(rating){
+      if (rating.user === $rootScope.currentUser._id) return;
+      if (rating.userRating === 0) return;
+
+      total += rating.userRating;
+      numberofRatings ++;
+    });
+    ratingObj.average = (total / numberofRatings) || 0;
+
+    Venues.removeUserRatingFromGroup(ratingObj)
+      .then(function () {
+        Venues.setRatings($scope);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
 
 
   ////////////////// ADMIN ONLY //////////////////////

@@ -1,43 +1,42 @@
 <div>
-  <div class="container-fluid text-center">
+  <div class="container text-center">
     <div class="row">
-<!--     TODO need new image -->
-      <div class="jumbotron" ng-style="{'background-image':'url(' + city.splash_photo + ')'}">
-        <h1>Groups</h1>
+      <div class="jumbotron" ng-style="{'background-image':'url(https://images.unsplash.com/photo-1444664361762-afba083a4d77?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=3b7b12762afe937ea3e996ab0446aed9)'}">
+        <h1 id="city-name">Groups</h1>
       </div><!-- /.jumbotron -->
     </div>
   </div>
 
-  <div class="container">
-    <ul class="nav nav-tabs">
-      <li role="presentation"><a href="" ng-click="">My Groups</a></li>
-      <li role="presentation"><a href="" ng-click="">Invite</a></li>
-      <li role="presentation"><a href="#" ng-click="">Create a new group</a></li>
-    </ul>
-    <div class="row text-center">
-      <div ng-repeat="group in groups track by $index" class="col-lg-4 col-lg-offset-2 col-md-6 col-md-offset-2 col-sm-12 col-xs-12 thumbnail groups-setting" >
-        <div class="venue-info">
-          <img class="venue-thumbnail" ng-src="{{ group.destination.index_photo }}" alt="photo: {{ group.destination.name }}">
-          <div class="caption">
-            <div class="title">
-              <h4>{{ group.title }}</h4>
-            </div>
+    <div class="container">
+      <div class="row text-center results-container">
+        <div ng-repeat="group in groups track by $index" class="col-lg-3 col-md-3 col-sm-4 itinerary" >
+          <div class="venue-info">
+            <img class="venue-thumbnail" ng-src="{{ group.destination.index_photo }}" alt="photo: {{ group.destination.name }}">
             <div class="caption">
-              <div>Destination: {{ group.destination.name }} </div>
-              <div>Main Host: {{ group.hosts[0].firstName }} {{ group.hosts[0].lastName }} </div>
-              <div>Members: <p ng-repeat="member in group.members track by $index"> {{member.firstName}} {{member.lastName}} </p>
-              <div class="detailed-info"> 
-                <uib-carousel interval="myInterval" no-wrap="noWrapSlides">
-                  <uib-slide ng-repeat="favorite in group.favorites" active="slide.active">
-                    <img ng-src="{{favorite.venue.index_photo}}" style="margin:auto;">
-                    <div class="carousel-caption">{{favorite.venue.name}}</div>
-                  </uib-slide>
-                </uib-carousel>
+              <div class="title">
+                <h4>{{ group.title }}</h4>
               </div>
-              <button class="btn btn-sm btn-primary" type="button" name="button" ng-click="selectGroup(group)">Select Group</button>
+              <div class="caption">
+                <div>Destination: {{ group.destination.name }} </div>
+                <div>Main Host: {{ group.hosts[0].firstName }} {{ group.hosts[0].lastName }} </div>
+                <div>Members: <p ng-repeat="member in group.members track by $index"> {{member.firstName}} {{member.lastName}} </p>
+                <div class="detailed-info">
+                  <uib-carousel interval="myInterval" no-wrap="noWrapSlides">
+                    <uib-slide ng-repeat="favorite in group.favorites" active="slide.active">
+                      <img ng-src="{{favorite.venue.index_photo}}" style="margin:auto;">
+                      <div class="carousel-caption">{{favorite.venue.name}}</div>
+                    </uib-slide>
+                  </uib-carousel>
+                </div>
+                <div class="venue-btn-container">                  
+                  <button class="btn btn-sm btn-primary" type="button" name="button" ng-click="selectGroup(group)">Select Group</button>
+                  <button class="btn btn-sm btn-primary" type="button" name="button" ng-click="leaveGroup(group)">Leave Group</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </div>

@@ -52,6 +52,46 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// SHOW FULL ITINERARY //////////////////////
 
 
+  $scope.removeFromItinerary = function(ratingObj) {
+    Venues.removeFromItinerary(ratingObj)
+      .then(function () {
+        $scope.setItinerary();
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
+
+
+  ////////////////// SHOW FULL ITINERARY //////////////////////
+
+
+  $scope.setItinerary = function() {
+    Venues.getItinerary()
+      .then(function (ratingsObjs) {
+        ratingsObjs.forEach(function(rating) {
+          rating.itinerary.fromDate = new Date(rating.itinerary.fromDate);
+          rating.itinerary.toDate = new Date(rating.itinerary.toDate);
+        });
+        ratingsObjs.sort(function (a, b) {
+          return a.itinerary.fromDate - b.itinerary.fromDate;
+        });
+        $scope.allItinerary = ratingsObjs;
+        if ($rootScope.isHost) {
+          $scope.filterItinerary();     
+        } else {
+          $scope.showFullItinerary();
+        };
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
+
+
+  ////////////////// SHOW FULL ITINERARY //////////////////////
+
+
   $scope.showFullItinerary = function() {
     $scope.setItinerary = false;
     $scope.full = true;
@@ -103,20 +143,6 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
 
   $scope.addDatesToItinerary = Venues.addToItinerary;
 
-
-////////////////// CHECK FOR HOST //////////////////////
-
-
-  //ZACH REFACTOR PLOX?
-  $scope.hostCheck = function() {
-    $rootScope.currentGroup.hosts.forEach(function(host) {
-      if (host._id === $rootScope.currentUser._id) {
-        $rootScope.isHost = true;
-      }
-    })
-  }
-  $scope.hostCheck();
-
   
   //////////////////DATEPICKER//////////////////////
 
@@ -127,26 +153,7 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   //////////////////INIT STATE//////////////////////
 
 
-  Venues.getItinerary()
-    .then(function (ratingsObjs) {
-      $rootScope.loading = false;
-      ratingsObjs.forEach(function(rating) {
-        rating.itinerary.fromDate = new Date(rating.itinerary.fromDate);
-        rating.itinerary.toDate = new Date(rating.itinerary.toDate);
-      });
-      ratingsObjs.sort(function (a, b) {
-        return a.itinerary.fromDate - b.itinerary.fromDate;
-      });
-      $scope.allItinerary = ratingsObjs;
-      if ($rootScope.isHost) {
-        $scope.filterItinerary();     
-      } else {
-        $scope.showFullItinerary();
-      };
-    })
-    .catch(function (error) {
-      console.error(error);
-    });
+  $scope.setItinerary();
 
 
 });

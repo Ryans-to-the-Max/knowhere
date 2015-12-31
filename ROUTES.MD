@@ -12,21 +12,19 @@ etc.
 ## Backend routes:
 
 ```
-auth routes
-NOTE: No /api/ , no controllers.  All in server.js and config/
-
-POST  /login
-POST  /signup
-GET   /logout
-GET   /auth/google
-GET   /auth/google/callback
-GET   /auth/facebook
-GET   /auth/facebook/callback
-
 "Index"
 GET  /api/       indexController#getIndex
 GET  /api/check  indexController#isLoggedIn
 GET  /api/info   indexController#getInfo
+
+auth
+POST  /api/auth/login                   authController#login
+POST  /api/auth/signup                  authController#signup
+GET   /api/auth/logout                  authController#logout
+GET   /api/auth/auth/google             authController#google
+GET   /api/auth/auth/google/callback    authController#googleCb
+GET   /api/auth/auth/facebook           redirected to Facebook
+GET   /api/auth/auth/facebook/callback  authController#facebookCb
 
 dest
 GET  /api/dest/            destController#getDestinations
