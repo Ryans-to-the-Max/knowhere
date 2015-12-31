@@ -12,6 +12,31 @@ var util = require(path.join(__dirname, '../util'));
 var venues = require("../../../mock-data/venues.json");
 var venue  = venues.Results;
 
+sendGroupInfo = function (res, groupId){
+  console.log("sendGroupInfo triggered");
+  Group.findById(groupId)
+  .populate({
+    path: 'members',
+    select: 'username firstName lastName'
+  })
+  .populate({
+    path: 'hosts',
+    select: 'username firstName lastName'
+  })
+  .populate({
+    path: 'favorites',
+    select: 'venue',
+    populate: {path: 'venue', select: 'name index_photo', model: 'Venue'}
+  })
+  .exec(function (err, group){
+    if (!group) return util.send400(res, err);
+    if (err) return util.send500(res, err);
+    console.log(group);
+    return util.send200(res, group);
+
+  });
+};
+
 module.exports = {
 
   createGroup: function(req, res, next){
@@ -27,11 +52,13 @@ module.exports = {
         if (err) return res.status(500).send();
 
         var oldGroup = _.find(user.groupIds, function (groupId) {
-          return groupId.title === title;
+          if (groupId.title === title){
+            return groupId;
+          }
         });
 
         if (oldGroup) {
-          return util.send200(res, oldGroup);
+          return sendGroupInfo(res, oldGroup);
         }
 
         var newGroup = new Group({
@@ -49,7 +76,7 @@ module.exports = {
             if (!user) return util.send400(res, err);
             if (err) return util.send500(res, err);
 
-            res.status(200).send(group);
+            sendGroupInfo(res, group);
           });
         });
       });
