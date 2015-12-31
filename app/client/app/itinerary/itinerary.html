@@ -24,7 +24,7 @@
           </div>
           <img class="venue-thumbnail" ng-src="{{ venue.venue.index_photo }}" alt="photo: {{ venue.venue.name }}">
             <div class="caption">
-              <div class="detailed-info"> Average Group Rating: {{ venue.average}}</div>
+              <div>Average Group Rating: {{ venue.average || 'None' }}</div>
               <div>
                 <div class="detailed-info">Start date: <br> <em>{{venue.itinerary.fromDate | date:'longDate' }}</em></div>
                 <input ng-show="showInput && isHost" class="detailed-info" type="date" class="form-control" ng-model="venue.itinerary.fromDate" ng-required="true"/>
