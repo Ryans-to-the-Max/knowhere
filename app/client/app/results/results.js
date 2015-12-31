@@ -6,7 +6,6 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   angular.extend($scope, MoreInfo);
   $scope.initMoreInfoState();
   $scope.detailedInfo = $rootScope.detailedInfo;
-  $rootScope.loading = true;
   $scope.openModal = function() {
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
@@ -22,6 +21,7 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   $scope.filteredVenues = [];
   $scope.heading = null;
   $scope.groups = [];
+  $rootScope.loading = true;
   console.log($rootScope.currentGroup);
 
   ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
