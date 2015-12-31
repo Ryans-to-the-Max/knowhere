@@ -1,5 +1,19 @@
-body, html, .container, .container-fluid {
+body, html {
   font-family: 'Open Sans', sans-serif;
+  background-image: url(../assets/stardust.png);
+}
+
+.container {
+  background-color: #eee;
+  box-shadow: -5px 0 5px -5px #333, 5px 0 5px -5px #333;
+}
+
+.app-summary {
+  background-color: #FFFFFF;
+}
+
+header {
+  margin-top: 0;
 }
 
 .center-pills {
@@ -51,23 +65,23 @@ body, html, .container, .container-fluid {
   margin: 0px;
 }
 .rating {
-    color: #a9a9a9;
-    margin: 0;
-    padding: 0;
+  color: #a9a9a9;
+  margin: 0;
+  padding: 0;
 }
 ul.rating {
-    display: inline-block;
+  display: inline-block;
 }
 .rating li {
-    list-style-type: none;
-    display: inline-block;
-    padding: 1px;
-    text-align: center;
-    font-weight: bold;
-    cursor: pointer;
+  list-style-type: none;
+  display: inline-block;
+  padding: 1px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
 }
 .rating .filled {
-    color: navy;
+  color: navy;
 }
 
 .venue-thumbnail {
@@ -76,16 +90,32 @@ ul.rating {
 }
 
 .venue-info {
+  background-color: #FFF;
   text-align: center;
+  padding: 10px;
+  padding-bottom: 25px;
   margin-top: 10px;
+  margin-bottom: 10px;
+  border-top: 1px solid #eee;
+  -webkit-box-shadow: 0px 2px 3px #999;
+  -moz-box-shadow: 0px 2px 3px #999;
+  box-shadow: 0px 2px 3px #999;
+}
+
+
+.title {
+  height: 40px;
+  padding-bottom: 1em;
+  margin: 20px;
+}
+
+.venue-btn-container {
+  padding-top: 1em;
 }
 
 .thumbnail {
-  width: 250px;
   height: 340px;
-  overflow: auto;
   margin-bottom: 15px;
-  margin-left: 20px;
 }
 
 .ratings {
@@ -102,10 +132,6 @@ ul.rating {
 
 .groups-setting {
   height: 550px;
-}
-
-.title {
-  height: 30px;
 }
 
 .detailed-info {
@@ -164,13 +190,16 @@ ul.rating {
 }
 
 .landing-message {
+  padding-top: 5%;
   text-transform: uppercase;
-  font-weight: 100;
-  font-size: 2em;
   letter-spacing: 0.2em;
   color: #fff;
   text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
 }
+
+/*.results {
+  border: 1px solid #000;
+}*/
 
 .results-nav li a {
   color: #fff;
@@ -185,8 +214,91 @@ ul.rating {
   padding: 10px;
 }
 
+ul.nav.nav-tabs.sub-nav {
+  margin-top: 0;
+}
+
+.sub-nav {
+  width: 100%;
+  height: 2px;
+  margin: 1.4em 0;
+  border: none;
+  background: #ddd;
+  background-image: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      color-stop(0.5, rgb(221,221,221)),
+      color-stop(0.5, rgb(255,255,255))
+  );
+  background-image: -moz-linear-gradient(
+      center top,
+      rgb(221,221,221) 50%,
+      rgb(255,255,255) 50%
+  );
+}
+
+hr.carved {
+  width: 100%;
+  height: 2px;
+  margin: 0;
+  border: none;
+  background: #ddd;
+  background-image: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      color-stop(0.5, rgb(221,221,221)),
+      color-stop(0.5, rgb(255,255,255))
+  );
+  background-image: -moz-linear-gradient(
+      center top,
+      rgb(221,221,221) 50%,
+      rgb(255,255,255) 50%
+  );
+}
+
 .active-nav-results-tab {
   color: navy;
+}
+
+.nav-row {
+  background-color: #eee;
+}
+
+.navbar, .navbar-default {
+  background-color: #FFFFFF;
+  padding: 5px;
+  margin-bottom: 0;
+  border-radius: 0;
+  -webkit-box-shadow: 0 6px 6px -6px #999;
+  -moz-box-shadow: 0 6px 6px -6px #999;
+  box-shadow: 0 6px 6px -6px #999;
+}
+
+nav.navbar.navbar-default {
+  background-color: #FFFFFF;
+}
+
+.form-control {
+  padding: 20px;
+  border-radius: 0;
+}
+
+.filter-li {
+  color: grey;
+}
+
+.text-outline {
+  color: #fff;
+  text-shadow: 1px 1px 1px black, 0 0 0.1em black, 0 0 0.1em black;
+}
+
+.results-container {
+  min-height: 30vh;
+  margin-bottom: 20px;
+  padding-bottom: 30px;
+  background-color: #eee;
 }
 
 #landing {
@@ -197,22 +309,31 @@ ul.rating {
   background-size: cover;
   height: 100vh;
   margin-top: -25px;
-  padding-top: 50px;
+  padding-top: 25px;
+}
+
+#results-wrapper {
+  background-image: url(../assets/stardust.png);
 }
 
 #landing-form {
   color: #fff;
-  margin-top: 100px;
+  margin-top: 10%;
 }
 
+/* may need to apply to div#banner.jumbotron, also needs other browser prefixes */
 #banner {
-  margin-top: -25px;
+  border-bottom: none;
+  margin-bottom: 0;
+  overflow: auto;
+  border-radius: 0;
+  box-shadow: -5px 0 5px -5px #333, 5px 0 5px -5px #333;
 }
 
 #city-name {
   font-family: 'Source Serif Pro', serif;
   color: #fff;
-  text-shadow: 1px 1px 1px black, 0 0 0.1em black, 0 0 0.1em black;
+  text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
 }
 
 #api-attribution {
