@@ -28,7 +28,6 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   $scope.max = 10;
   $scope.isReadonly = false;
   $scope.showRatings = {};
-  $rootScope.isHost = false;
 
 
   ////////////////// SELECTING A GROUP WILL REROUTE TO RATINGS //////////////////////
@@ -102,20 +101,6 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
 
     Venues.addRating(ratingObj.venue, newRating, ratingObj.avgRating);
   };
-
-
-  ////////////////// CHECK FOR HOST //////////////////////
-
-
-  //ZACH REFACTOR PLOX?
-  $scope.hostCheck = function() {
-    $rootScope.currentGroup.hosts.forEach(function(host) {
-      if (host._id === $rootScope.currentUser._id) {
-        $rootScope.isHost = true;
-      }
-    });
-  };
-  $scope.hostCheck();
 
 
   ////////////////// ADMIN ONLY //////////////////////

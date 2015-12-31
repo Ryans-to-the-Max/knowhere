@@ -67,20 +67,6 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
 
   $scope.addDatesToItinerary = Venues.addToItinerary;
 
-
-////////////////// CHECK FOR HOST //////////////////////
-
-
-  //ZACH REFACTOR PLOX?
-  $scope.hostCheck = function() {
-    $rootScope.currentGroup.hosts.forEach(function(host) {
-      if (host._id === $rootScope.currentUser._id) {
-        $rootScope.isHost = true;
-      }
-    });
-  };
-  $scope.hostCheck();
-
   
 //////////////////INIT STATE//////////////////////
 
