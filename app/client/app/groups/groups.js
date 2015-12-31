@@ -1,6 +1,6 @@
 angular.module('travel.groups', [])
 
-.controller('GroupsController', function ($scope, $window, $rootScope, $state, Groups, Util) {
+.controller('GroupsController', function ($scope, $window, $rootScope, $state, Groups, Util, $location) {
   $scope.newGroupInput = null;
   $scope.newDestinationInput = null;
   $scope.groups = [];
@@ -45,6 +45,7 @@ angular.module('travel.groups', [])
       });
   };
 
+  //////////////// Assign invited user to group ////////////////
 
   ////////////////// SET INIT STATE //////////////////////
 

@@ -50,7 +50,7 @@ var app = angular.module('travel', [
     .state('join', {
       url: '/join',
       templateUrl: 'app/emails/joinEmail.html',
-      controller: 'AuthController',
+      controller: 'GroupsController',
       // authenticate: true
     })
     .state('signup', {
