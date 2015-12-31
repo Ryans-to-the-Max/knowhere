@@ -77,8 +77,8 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
       if (host._id === $rootScope.currentUser._id) {
         $rootScope.isHost = true;
       }
-    })
-  }
+    });
+  };
   $scope.hostCheck();
 
   
