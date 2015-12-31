@@ -63,15 +63,21 @@ var updateGroupRating = function (paramHash) {
 // console.log('########updateGroupRating');
 
     
-    Rating.findOrCreate({venue: venue._id, venueLU: venue.lookUpId, groupId: groupId}, function (err, rating){
+    Rating.findOrCreate({venue: venue._id, venueLU: venue.lookUpId, groupId: groupId},
+                        function (err, rating, wasCreated){
 
       if (err || !rating) return util.send500(res, err);
+
       rating.allRatings.push({user: userId, userRating: newRating});
       rating.average = average;
       rating.save(function (err, rating) {
         if (err) return util.send500(res, err);
 
-        return sendGroup(groupId, res, rating);
+        if (wasCreated) {
+          sendGroup(groupId, res, rating);
+        } else {
+          sendGroup(groupId, res, null);
+        }
       });
     });
   });
