@@ -80,7 +80,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
         numberofRatings ++;
       }
     });
-    ratingObj.avgRating = (total / numberofRatings) || 0;
+    ratingObj.average = (total / numberofRatings) || 0;
   };
 
 
@@ -99,7 +99,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
     });
     $scope.addAvg(ratingObj);
 
-    Venues.addRating(ratingObj.venue, newRating, ratingObj.avgRating);
+    Venues.addRating(ratingObj.venue, newRating, ratingObj.average);
   };
 
 
@@ -117,7 +117,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
       total += rating.userRating;
       numberofRatings ++;
     });
-    ratingObj.avgRating = (total / numberofRatings) || 0;
+    ratingObj.average = (total / numberofRatings) || 0;
 
     Venues.removeUserRatingFromGroup(ratingObj)
       .then(function () {

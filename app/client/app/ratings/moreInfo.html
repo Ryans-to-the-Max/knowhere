@@ -5,7 +5,8 @@
       <p>{{ratingsInfo.venue.address}}</p> 
       <p ng-show="!phoneHide">{{ratingsInfo.venue.telephone}}</p>
       <p><a href="{{ratingsInfo.venue.website}}">{{ratingsInfo.venue.website}}</a></p>
-      <p ng-show="{{ratingsInfo.avgRating}}">Group Average Rating: {{ratingsInfo.avgRating}}</p> 
+
+      <p>Group Average Rating: {{ratingsInfo.average || 'None'}}</p>
     </div>
     <div class="detailed-info">
       <div class="detailed-info">
