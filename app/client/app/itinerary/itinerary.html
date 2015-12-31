@@ -3,37 +3,97 @@
 
   <div class="container">
     <ul class="nav nav-tabs">
-      <li role="presentation"><a href="" ng-click="filterItinerary(1)">Hotels</a></li>
-      <li role="presentation"><a href="" ng-click="filterItinerary(2)">Restaurants</a></li>
-      <li role="presentation"><a href="" ng-click="filterItinerary(3)">Attractions</a></li>
+      <li role="presentation"><a href="" ng-click="filterItinerary()">Set Dates</a></li>
       <li role="presentation"><a href="" ng-click="showFullItinerary()">Full Itinerary</a></li>
     </ul>
     <div class="row">
-      <h2 class="text-center">{{ heading }}</h2>
+      <h2 class="text-center">Hotels</h2>
     </div>
 
-    <h1 class="text-center" ng-if="filteredItinerary.length < 1">
-      You currently do not have any itinerary in {{ heading }}!
+    <h1 class="text-center" ng-if="hotels.length < 1">
+      You currently do not have any itinerary in Hotels!
     </h1>
     <div class="row" class="text-center ">
-      <div ng-repeat="venue in filteredItinerary track by $index" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 thumbnail" ng-class="{'itinerary': showInput, 'full-itinerary': !showInput}">
+      <div ng-repeat="hotel in hotels track by $index" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 thumbnail" ng-class="{'itinerary': showInput, 'full-itinerary': !showInput}">
         <div class="venue-info">
-          <img class="venue-thumbnail" ng-src="{{ venue.venue.index_photo }}" alt="photo: {{ venue.venue.name }}">
+          <img class="venue-thumbnail" ng-src="{{ hotel.venue.index_photo }}" alt="photo: {{ hotel.venue.name }}">
             <div class="title">
-              <h4>{{ venue.venue.name }}</h4>
+              <h4>{{ hotel.venue.name }}</h4>
             </div>
             <div class="caption">
-              <div class="detailed-info"> Average Group Rating: {{ venue.average}}
+              <div class="detailed-info"> Average Group Rating: {{ hotel.average}}
               </div>
               <div>
-                <div class="detailed-info">Start date: <br> <em>{{venue.itinerary.fromDate | date:'longDate' }}</em></div>
-                <input ng-show="showInput && isHost" class="detailed-info" type="date" class="form-control" ng-model="venue.itinerary.fromDate" ng-required="true"/>
-                <div class="detailed-info">End date: <br> <em>{{venue.itinerary.toDate | date:'longDate' }}</em></div>
-                <input ng-show="showInput && isHost" class="detailed-info" type="date" class="form-control" ng-model="venue.itinerary.toDate" ng-required="true"/>
+                <div class="detailed-info">Start date: <br> <em>{{hotel.itinerary.fromDate | date:'longDate' }}</em></div>
+                <input ng-show="showInput && isHost" class="detailed-info" type="date" class="form-control" ng-model="hotel.itinerary.fromDate" ng-required="true"/>
+                <div class="detailed-info">End date: <br> <em>{{hotel.itinerary.toDate | date:'longDate' }}</em></div>
+                <input ng-show="showInput && isHost" class="detailed-info" type="date" class="form-control" ng-model="hotel.itinerary.toDate" ng-required="true"/>
               </div>
               <div>
-                <button ng-show="showInput && isHost" class="btn btn-sm btn-success" type="button" name="button" ng-click="addDatesToItinerary(venue, venue.itinerary.fromDate, venue.itinerary.toDate)">Submit</button>
-                <button class="btn btn-sm btn-info" type="button" name="button" ng-click="showDetailedVenueInfo(venue)">More Info</button>
+                <button ng-show="showInput && isHost" class="btn btn-sm btn-success" type="button" name="button" ng-click="addDatesToItinerary(hotel, hotel.itinerary.fromDate, hotel.itinerary.toDate)">Submit</button>
+                <button class="btn btn-sm btn-info" type="button" name="button" ng-click="showDetailedVenueInfo(hotel)">More Info</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="row">
+      <h2 class="text-center">Restaurants</h2>
+    </div>
+
+    <h1 class="text-center" ng-if="restaurants.length < 1">
+      You currently do not have any itinerary in Restaurants!
+    </h1>
+    <div class="row" class="text-center ">
+      <div ng-repeat="restaurant in restaurants track by $index" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 thumbnail" ng-class="{'itinerary': showInput, 'full-itinerary': !showInput}">
+        <div class="venue-info">
+          <img class="venue-thumbnail" ng-src="{{ restaurant.venue.index_photo }}" alt="photo: {{ restaurant.venue.name }}">
+            <div class="title">
+              <h4>{{ restaurant.venue.name }}</h4>
+            </div>
+            <div class="caption">
+              <div class="detailed-info"> Average Group Rating: {{ restaurant.average}}
+              </div>
+              <div>
+                <div class="detailed-info">Start date: <br> <em>{{restaurant.itinerary.fromDate | date:'longDate' }}</em></div>
+                <input ng-show="showInput && isHost" class="detailed-info" type="date" class="form-control" ng-model="restaurant.itinerary.fromDate" ng-required="true"/>
+                <div class="detailed-info">End date: <br> <em>{{restaurant.itinerary.toDate | date:'longDate' }}</em></div>
+                <input ng-show="showInput && isHost" class="detailed-info" type="date" class="form-control" ng-model="restaurant.itinerary.toDate" ng-required="true"/>
+              </div>
+              <div>
+                <button ng-show="showInput && isHost" class="btn btn-sm btn-success" type="button" name="button" ng-click="addDatesToItinerary(restaurant, restaurant.itinerary.fromDate, restaurant.itinerary.toDate)">Submit</button>
+                <button class="btn btn-sm btn-info" type="button" name="button" ng-click="showDetailedVenueInfo(restaurant)">More Info</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="row">
+      <h2 class="text-center">Attractions</h2>
+    </div>
+
+    <h1 class="text-center" ng-if="attractions.length < 1">
+      You currently do not have any itinerary in Attractions!
+    </h1>
+    <div class="row" class="text-center ">
+      <div ng-repeat="attraction in attractions track by $index" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 thumbnail" ng-class="{'itinerary': showInput, 'full-itinerary': !showInput}">
+        <div class="venue-info">
+          <img class="venue-thumbnail" ng-src="{{ attraction.venue.index_photo }}" alt="photo: {{ attraction.venue.name }}">
+            <div class="title">
+              <h4>{{ attraction.venue.name }}</h4>
+            </div>
+            <div class="caption">
+              <div class="detailed-info"> Average Group Rating: {{ attraction.average}}
+              </div>
+              <div>
+                <div class="detailed-info">Start date: <br> <em>{{attraction.itinerary.fromDate | date:'longDate' }}</em></div>
+                <input ng-show="showInput && isHost" class="detailed-info" type="date" class="form-control" ng-model="attraction.itinerary.fromDate" ng-required="true"/>
+                <div class="detailed-info">End date: <br> <em>{{attraction.itinerary.toDate | date:'longDate' }}</em></div>
+                <input ng-show="showInput && isHost" class="detailed-info" type="date" class="form-control" ng-model="attraction.itinerary.toDate" ng-required="true"/>
+              </div>
+              <div>
+                <button ng-show="showInput && isHost" class="btn btn-sm btn-success" type="button" name="button" ng-click="addDatesToItinerary(attraction, attraction.itinerary.fromDate, attraction.itinerary.toDate)">Submit</button>
+                <button class="btn btn-sm btn-info" type="button" name="button" ng-click="showDetailedVenueInfo(attraction)">More Info</button>
               </div>
             </div>
           </div>

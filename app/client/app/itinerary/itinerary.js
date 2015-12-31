@@ -38,11 +38,10 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////
 
 
-  $scope.filterItinerary = function (venueTypeId) {
-    Util.setHeading($scope, venueTypeId);
-
-    $scope.filteredItinerary = Util.filterRatingsByVenueType($scope.fullItinerary,
-                                                             venueTypeId);
+  $scope.filterItinerary = function () {
+    $scope.hotels = Util.filterRatingsByVenueType($scope.fullItinerary,1);
+    $scope.restaurants = Util.filterRatingsByVenueType($scope.fullItinerary,2);
+    $scope.attractions = Util.filterRatingsByVenueType($scope.fullItinerary,3);
     $scope.showInput = true;
     console.log($scope.filteredItinerary);
   };
