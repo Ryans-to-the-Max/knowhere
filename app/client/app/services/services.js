@@ -119,7 +119,6 @@ angular.module('travel.services', [])
       data: data
     })
     .then(function (resp) {
-      console.log(resp.data);
       return resp.data;
     });
   };
@@ -167,8 +166,16 @@ angular.module('travel.services', [])
 
   // NOT HTTP REQ FUNCTIONS
   var selectGroup = function (groupInfo, next) {
+    $rootScope.isHost = groupInfo.hosts.some(function (host) {
+      return host._id === $rootScope.currentUser._id;
+    });
     $rootScope.currentGroup = groupInfo;
-    $rootScope.destination = groupInfo.destination;
+
+    // if groupInfo.destination is a number, then this is called from
+    // LandingController which assigns destination itself
+    if (isNaN(groupInfo.destination)) {
+      $rootScope.destination = groupInfo.destination;
+    }
     if (next) {
       next();
     }
