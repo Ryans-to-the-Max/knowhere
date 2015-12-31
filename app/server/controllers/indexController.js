@@ -18,7 +18,7 @@ sendEmail = function(check, email, groupId, sender){
       subject: "You've been invited to a new group!" ,
       html: '<div> <h1><b>Welcome to Knowhere!<b></h1>.  Validate your account by clicking ' +
       ' <a href=' + PROTOCOL_DOMAIN + '/#/validate?id=' + newUser._id + '>here!</a></div>'
-    })
+    });
   } else{
       util.mailer.sendMail({    
       from: 'appKnowhere@gmail.com',
@@ -84,7 +84,7 @@ module.exports = {
           inviteName: user.firstName ? user.firstName : 'there',
           domain: PROTOCOL_DOMAIN,
           userId: user._id ? user._id.toSTring() : '1234'
-        }
+        };
         if (user) {
          util.mail('inviteUser.html', context, "You've been invited to a group", userEmail);
         } else {
@@ -93,4 +93,4 @@ module.exports = {
       });
     });
   }
-}
+};

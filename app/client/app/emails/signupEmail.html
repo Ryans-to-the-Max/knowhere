@@ -1,5 +1,5 @@
 <div class="signupPage" title="Login form" visible="showModal">
-  <form ng-submit=submit() role="form">
+  <form ng-submit="emailSignup()" role="form">
     <div class="form-group" class="modal">
       <label for="firstName">First Name</label>
       <input type="firstName" class="form-control" ng-model="firstName" placeholder="First name" />
@@ -21,12 +21,13 @@
         <label for="password">Confirm Password</label>
         <input type="password" class="form-control" ng-model="passwordCheck" placeholder="Password" />
     </div>
-    <button type="submit" ng-click="signup()" class="btn btn-primary">Create account</button>
-    <button type="submit" ng-click="exit()" class="btn btn-default exit">Exit</button>
+    <button type="submit" ng-click="emailSignup()" class="btn btn-primary">Create account</button>
+   
   </form>
 
   <uib-alert ng-repeat="alert in alerts" type="danger" close="closeAlert()">{{alert.msg}}</uib-alert>
 
-  <uib-alert ng-show="emailAlert" type="success" close="closeAlert()">Check your email to confirm account</uib-alert>
+  <uib-alert ng-show="emailAlert" type="success" close="closeAlert()">Account created! View your groups 
+    <a href="/#/groups">here</a></uib-alert>
 
 </div>
