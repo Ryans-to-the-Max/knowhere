@@ -5,6 +5,8 @@ angular.module('travel.groups', [])
   $scope.newDestinationInput = null;
   $scope.groups = [];
   $scope.newParticipantEmail = null;
+  $scope.myInterval = 5000;
+  $scope.noWrapSlides = false;
 
 
   ////////////////// ADD PARTICIPANT (THROUGH EMAIL?) //////////////////////
@@ -30,23 +32,8 @@ angular.module('travel.groups', [])
   };
 
 
-
   ////////////////// SET INIT STATE //////////////////////
 
-  //TODO: Uncomment below when have actual data
+
    Groups.setUserGroups($scope);
-  //TODO: Uncomment above when have actual data
-  //TODO: Comment below when have actual data
-  // $scope.mockGroup = {
-  //   _id : $rootScope.currentGroup._id,
-  //   destination : $rootScope.destination,
-  //   host : $rootScope.currentUser,
-  //   members : [$rootScope.currentUser, $rootScope.currentUser],
-  //   title : "Best Group Ever",
-  // };
-  // for (var i = 0; i < 5; i++) {
-  //   $scope.groups.push($scope.mockGroup);
-  // }
-  // console.log($scope.mockGroup);
-  //TODO: Comment above when have actual data
 });

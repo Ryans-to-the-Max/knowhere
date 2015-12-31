@@ -133,8 +133,16 @@ angular.module('travel.services', [])
       params: { userId: $rootScope.currentUser._id }
     })
     .then(function (resp) {
-      $scope.groups = resp.data;
-      console.log(resp.data);
+      var groups = resp.data;
+      groups.forEach(function(group) {
+        $rootScope.allDestinations.forEach(function(dest) {
+          if (group.destination === Number(dest.id)) {
+            group.destination = dest;
+          }
+        });
+      });
+      $scope.groups = groups;
+      console.log($scope.groups);
     })
     .catch(function (err) {
       console.error(err);
