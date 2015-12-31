@@ -192,6 +192,22 @@ module.exports = {
     });
   },
 
+  removeItin: function (req, res, next) {
+    var groupId = req.query.groupId;
+    var venueId = req.query.venueId;
+
+    Rating.update({groupId: groupId, venue: venueId},
+                  {$set: {itinerary: null}}, function (err, update) {
+      if (err) return util.send500(res, err);
+
+      if (update.nModified) {
+        util.send200(res);
+      } else {
+        util.send400(res, err);
+      }
+    });
+  },
+
   removeUserRatingFromGroup: function (req, res, next) {
     var average = req.query.average;
     var groupId = req.query.groupId;
@@ -203,7 +219,11 @@ module.exports = {
                    $set:  {average: average}}, function (err, update) {
       if (err) return util.send500(res, err);
 
-      update.nModified ? util.send200(res) : util.send400(res, err);
+      if (update.nModified) {
+        util.send200(res);
+      } else {
+        util.send400(res, err);
+      }
     });
   }
 

@@ -13,5 +13,7 @@ router.get('/itin', ratingController.getItin);
 
 router.post('/itin', ratingController.addItin);
 
+router.delete('/itin', ratingController.removeItin);
+
 
 module.exports = router;
