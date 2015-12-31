@@ -35,7 +35,7 @@ sendGroupInfo = function (res, groupId){
     return util.send200(res, group);
 
   });
-}
+};
 
 module.exports = {
 
@@ -54,7 +54,7 @@ module.exports = {
         var oldGroup = _.find(user.groupIds, function (groupId) {
           if (groupId.title === title){
             return groupId;
-          };
+          }
         });
 
         if (oldGroup) {
