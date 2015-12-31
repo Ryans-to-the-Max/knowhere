@@ -93,31 +93,33 @@ module.exports = {
       if (!user) return util.send400(res, err);
       if (err) return util.send500(res, err);
 
-      Group.findById(groupId, function (err, group){
-        if (!group) return util.send400(res, err);
-        if (err) return util.send500(res, err);
+      Group.findById(groupId)
+        .populate({ path: 'members' })
+        .exec(function (err, group) {
+          if (!group) return util.send400(res, err);
+          if (err) return util.send500(res, err);
 
-        var userInGroup = group.members.some(function (member) {
-          // Mongoose ObjectId comparisons are funky.
-          // Read more: http://stackoverflow.com/questions/11060213/mongoose-objectid-comparisons-fail-inconsistently
-          return member._id.equals(user._id);
-        });
+          var userInGroup = group.members.some(function (member) {
+            // Mongoose ObjectId comparisons are funky.
+            // Read more: http://stackoverflow.com/questions/11060213/mongoose-objectid-comparisons-fail-inconsistently
+            return member._id.equals(user._id);
+          });
 
-        if (userInGroup){
-          return res.status(409).send(group);
-        }
+          if (userInGroup){
+            return res.status(409).send(group);
+          }
 
-        user.groupIds.push(group);
-        user.save(function (err, user) {
-          if (err) return util.send400(res, err);
-
-          group.members.push(user);
-          group.save(function (err, group) {
+          user.groupIds.push(group);
+          user.save(function (err, user) {
             if (err) return util.send400(res, err);
 
-            return res.status(200).send(group);
+            group.members.push(user);
+            group.save(function (err, group) {
+              if (err) return util.send400(res, err);
+
+              return res.status(200).send(group);
+            });
           });
-        });
       });
     });
   },
