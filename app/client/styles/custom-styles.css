@@ -2,6 +2,10 @@ body, html, .container, .container-fluid {
   font-family: 'Open Sans', sans-serif;
 }
 
+header {
+  margin-top: 0;
+}
+
 .center-pills {
   display: inline-block;
 }
@@ -202,14 +206,56 @@ ul.rating {
   padding: 10px;
 }
 
+ul.nav.nav-tabs.sub-nav {
+  margin-top: 0;
+}
+
 .sub-nav {
-  /*-webkit-box-shadow: 0px 3px 3px #999;
-  -moz-box-shadow: 0px 3px 3px #999;
-  box-shadow: 0px 3px 3px #999;*/
+  width: 100%;
+  height: 2px;
+  margin: 1.4em 0;
+  border: none;
+  background: #ddd;
+  background-image: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      color-stop(0.5, rgb(221,221,221)),
+      color-stop(0.5, rgb(255,255,255))
+  );
+  background-image: -moz-linear-gradient(
+      center top,
+      rgb(221,221,221) 50%,
+      rgb(255,255,255) 50%
+  );
+}
+
+hr.carved {
+  width: 100%;
+  height: 2px;
+  margin: 0;
+  border: none;
+  background: #ddd;
+  background-image: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      color-stop(0.5, rgb(221,221,221)),
+      color-stop(0.5, rgb(255,255,255))
+  );
+  background-image: -moz-linear-gradient(
+      center top,
+      rgb(221,221,221) 50%,
+      rgb(255,255,255) 50%
+  );
 }
 
 .active-nav-results-tab {
   color: navy;
+}
+
+.nav-row {
+  background-color: #eee;
 }
 
 .navbar, .navbar-default {
@@ -231,6 +277,11 @@ ul.rating {
   text-shadow: 1px 1px 1px black, 0 0 0.1em black, 0 0 0.1em black;
 }
 
+.results-container {
+  background-color: #eee;
+  box-shadow: -5px 0 5px -5px #333, 5px 0 5px -5px #333;
+}
+
 #landing {
   background: url(https://images.unsplash.com/29/night-square.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=36e3089748ffd4e8a285318afb1a7a57) no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -243,11 +294,7 @@ ul.rating {
 }
 
 #results-wrapper {
-  /*background: url(https://images.unsplash.com/29/night-square.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=36e3089748ffd4e8a285318afb1a7a57) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;*/
+  background-image: url(../assets/stardust.png);
 }
 
 #landing-form {
@@ -255,15 +302,19 @@ ul.rating {
   margin-top: 10%;
 }
 
+/* may need to apply to div#banner.jumbotron, also needs other browser prefixes */
 #banner {
+  border-bottom: none;
+  margin-bottom: 0;
   overflow: auto;
   border-radius: 0;
+  box-shadow: -5px 0 5px -5px #333, 5px 0 5px -5px #333;
 }
 
 #city-name {
   font-family: 'Source Serif Pro', serif;
   color: #fff;
-  text-shadow: 1px 1px 1px black, 0 0 0.1em black, 0 0 0.1em black;
+  text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
 }
 
 #api-attribution {
