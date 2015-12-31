@@ -149,15 +149,15 @@ angular.module('travel.services', [])
   };
 
   /*
-    @data {object} has:
+    @params {object} has:
       @prop {str} groupId.
       @prop {str} userId.
   */
-  var removeMember = function (data) {
+  var removeMember = function (params) {
     return $http({
       method: 'DELETE',
       url: '/api/group/user',
-      data: data
+      params: params
     })
     .then(function (resp) {
       return resp.data;
@@ -178,6 +178,7 @@ angular.module('travel.services', [])
     setUserGroups: setUserGroups,
     createGroup: createGroup,
     addParticipant: addParticipant,
+    removeMember: removeMember,
 
     // NOT HTTP REQ FUNCTIONS
     selectGroup: selectGroup,

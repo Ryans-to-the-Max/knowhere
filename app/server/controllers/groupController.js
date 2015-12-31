@@ -125,20 +125,20 @@ module.exports = {
   },
 
   removeMember: function(req, res, next){ // delete api/group/user
-    var userId = req.body.userId;
-    var groupId = req.body.groupId;
+    var userId = req.query.userId;
+    var groupId = req.query.groupId;
 
     Rating.update({'allRatings.user': userId, groupId: groupId},
-                  {$pull: {allRatings: { user: userId}}}, function (err, update){
+                  {$pull: {allRatings: { user: userId}}}, function (err, ratingUpdate){
       if (err) return util.send500(res, err);
 
-      Group.update({ _id: groupId }, { $pull: { members: userId } }, function (err, groupOut){
+      Group.update({ _id: groupId }, { $pull: { hosts: userId, members: userId } }, function (err, groupUpdate){
         if (err) return util.send500(res, err);
 
-        User.update({ _id: userId }, { $pull: { groupIds: groupId } }, function (err, userOut) {
+        User.update({ _id: userId }, { $pull: { groupIds: groupId } }, function (err, userUpdate) {
           if (err) return util.send500(res, err);
 
-          res.status(200).send(groupOut);
+          res.sendStatus(204);
         });
       });
     });
