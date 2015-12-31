@@ -6,16 +6,17 @@ var User             = require('../models/user');
 var path             = require('path');
 var util             = require(path.join(__dirname, '../util'));
 
-var nodemailer = require('nodemailer');
+
+// var nodemailer = require('nodemailer');
 
 
-var transporter = nodemailer.createTransport({
-  service: 'Gmail',
-  auth: {
-    user: 'appKnowhere@gmail.com',
-    pass: process.env.GMAIL_PASS
-  }
-});
+// var transporter = nodemailer.createTransport({
+//   service: 'Gmail',
+//   auth: {
+//     user: 'appKnowhere@gmail.com',
+//     pass: process.env.GMAIL_PASS
+//   }
+// });
 
 //process.env.GMAIL_PASS
 
@@ -89,9 +90,9 @@ module.exports = function(passport) {
           var newUser = new User();
           // set the user's local credentials
           newUser.firstName = req.body.first;
-          newUser.lastName = req.body.last;
-          newUser.username = username;
-          newUser.password = newUser.generateHash(password);
+          newUser.lastName  = req.body.last;
+          newUser.username  = username;
+          newUser.password  = newUser.generateHash(password);
 
           // save the user
           newUser.save(function(err, user) {
@@ -102,13 +103,20 @@ module.exports = function(passport) {
             cb(null, newUser);
           });
 
-          transporter.sendMail({    
-              from: 'appKnowhere@gmail.com',
-              to: newUser.username,
-              subject: 'Welcome to Knowhere!',
-              html: '<div> Welcome to Knowhere!.  Validate your account by clicking ' +
-              ' <a href=' + PROTOCOL_DOMAIN + '/#/validate?id=' + newUser._id + '>here!</a></div>'
-          });
+          //sending email now for validation
+          var context = {
+            PROTOCOL_DOMAIN: PROTOCOL_DOMAIN,
+            userId: newUser._id.toString()
+          };
+
+          util.mail('validateUser.html', context, "Welcome to Knowhere!", newUser.username)
+          // util.mailer.sendMail({    
+          //     from: 'appKnowhere@gmail.com',
+          //     to: newUser.username,
+          //     subject: 'Welcome to Knowhere!',
+          //     html: '<div> Welcome to Knowhere!.  Validate your account by clicking ' +
+          //     ' <a href=' + PROTOCOL_DOMAIN + '/#/validate?id=' + newUser._id + '>here!</a></div>'
+          // });
         }  
       });    
     });

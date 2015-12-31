@@ -43,7 +43,19 @@ var app = angular.module('travel', [
     })
     .state('validate', {
       url: '/validate',
-      templateUrl: 'app/auth/emailValidate.html',
+      templateUrl: 'app/emails/validateEmail.html',
+      controller: 'AuthController',
+      // authenticate: true
+    })
+    .state('join', {
+      url: '/join',
+      templateUrl: 'app/emails/joinEmail.html',
+      controller: 'AuthController',
+      // authenticate: true
+    })
+    .state('signup', {
+      url: '/signup',
+      templateUrl: 'app/emails/signupEmail.html',
       controller: 'AuthController',
       // authenticate: true
     })

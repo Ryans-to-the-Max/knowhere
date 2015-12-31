@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+ <div>
+  <div> Hey there! You've been invited to join a group here at Knowhere by {{groupName}}! <br><br> </div>
+  <a href="{{domain}}/#/signup?group={{groupId}}"> Come sign up! </a>
+ </div>
+
+{% endblock %}
