@@ -7,6 +7,8 @@ router.get('/', ratingController.getRatings);
 
 router.post('/', ratingController.addOrUpdateRating);
 
+router.delete('/', ratingController.removeUserRatingFromGroup);
+
 router.get('/itin', ratingController.getItin);
 
 router.post('/itin', ratingController.addItin);
