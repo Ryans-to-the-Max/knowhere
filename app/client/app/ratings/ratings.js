@@ -15,7 +15,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   };
   // end moreInfo modal config
 
-  $scope.headerText = 'Favorites in ' + $rootScope.destination.name;
+  $scope.headerText = 'Ratings in ' + $rootScope.destination.name;
 
   $scope.filteredUserRatings = [];
   $scope.filteredGroupRatings  = [];

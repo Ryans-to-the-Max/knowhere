@@ -4,10 +4,12 @@
     <h2 class="text-center" style="color: white">LOADING YOUR RESOURCES. THIS WILL ONLY TAKE A SECOND</h2>
   </div>
   <div ng-hide="loading" class="container">
-    <ul class="nav nav-tabs">
-      <li ng-show="isHost" role="presentation"><a href="" ng-click="filterItinerary()">Set Dates</a></li>
-      <li role="presentation"><a href="" ng-click="showFullItinerary()">Full Itinerary</a></li>
-    </ul>
+    <div class="row nav-row">
+      <ul class="nav nav-tabs">
+        <li ng-show="isHost" role="presentation"><a href="" ng-click="filterItinerary()">Set Dates</a></li>
+        <li role="presentation"><a href="" ng-click="showFullItinerary()">Full Itinerary</a></li>
+      </ul>
+    </div>
     <div ng-show="isHost && setItinerary">
       <div class="row">
         <h2 class="text-center">Hotels</h2>
@@ -17,12 +19,12 @@
         You currently do not have any itinerary in Hotels!
       </h1>
       <div class="row" class="text-center ">
-        <div ng-repeat="hotel in hotels track by $index" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 thumbnail itinerary">
+        <div ng-repeat="hotel in hotels track by $index" class="col-lg-4 col-md-4 col-sm-4">
           <div class="venue-info">
-            <img class="venue-thumbnail" ng-src="{{ hotel.venue.index_photo }}" alt="photo: {{ hotel.venue.name }}">
               <div class="title">
                 <h4>{{ hotel.venue.name }}</h4>
               </div>
+            <img class="venue-thumbnail" ng-src="{{ hotel.venue.index_photo }}" alt="photo: {{ hotel.venue.name }}">
               <div class="caption">
                 <div class="detailed-info"> Average Group Rating: {{ hotel.average}}
                 </div>
@@ -52,12 +54,12 @@
         You currently do not have any itinerary in Restaurants!
       </h1>
       <div class="row" class="text-center ">
-        <div ng-repeat="restaurant in restaurants track by $index" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 thumbnail itinerary">
+        <div ng-repeat="restaurant in restaurants track by $index" class="col-lg-4 col-md-4 col-sm-4">
           <div class="venue-info">
-            <img class="venue-thumbnail" ng-src="{{ restaurant.venue.index_photo }}" alt="photo: {{ restaurant.venue.name }}">
               <div class="title">
                 <h4>{{ restaurant.venue.name }}</h4>
               </div>
+            <img class="venue-thumbnail" ng-src="{{ restaurant.venue.index_photo }}" alt="photo: {{ restaurant.venue.name }}">
               <div class="caption">
                 <div class="detailed-info"> Average Group Rating: {{ restaurant.average}}
                 </div>
@@ -87,12 +89,12 @@
         You currently do not have any itinerary in Attractions!
       </h1>
       <div class="row" class="text-center ">
-        <div ng-repeat="attraction in attractions track by $index" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 thumbnail itinerary">
+        <div ng-repeat="attraction in attractions track by $index" class="col-lg-4 col-md-4 col-sm-4">
           <div class="venue-info">
-            <img class="venue-thumbnail" ng-src="{{ attraction.venue.index_photo }}" alt="photo: {{ attraction.venue.name }}">
               <div class="title">
                 <h4>{{ attraction.venue.name }}</h4>
               </div>
+            <img class="venue-thumbnail" ng-src="{{ attraction.venue.index_photo }}" alt="photo: {{ attraction.venue.name }}">
               <div class="caption">
                 <div class="detailed-info"> Average Group Rating: {{ attraction.average}}
                 </div>
@@ -116,18 +118,18 @@
         </div>
       </div>
     </div>
-  <div ng-show="full" ng-hide="loading" class="container">
+  <div ng-show="full" ng-hide="loading" class="container results-container">
     <div ng-repeat="date in fullItinerary">
       <div class="row">
         <h2 class="text-center">{{date[0]}}</h2>
       </div>
       <div class="row" class="text-center ">
-        <div ng-repeat="place in date[1] track by $index" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 thumbnail full-itinerary">
+        <div ng-repeat="place in date[1] track by $index" class="col-lg-4 col-md-3 col-sm-4">
           <div class="venue-info">
-            <img class="venue-thumbnail" ng-src="{{ place.venue.index_photo }}" alt="photo: {{ place.venue.name }}">
               <div class="title">
                 <h4>{{ place.venue.name }}</h4>
               </div>
+            <img class="venue-thumbnail" ng-src="{{ place.venue.index_photo }}" alt="photo: {{ place.venue.name }}">
               <div class="caption">
                 <div class="detailed-info"> Average Group Rating: {{ place.average}}
                 </div>
