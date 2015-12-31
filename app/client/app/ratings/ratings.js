@@ -43,7 +43,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////
 
 
-  $scope.filterRatings = function (venueTypeId) {
+  $scope.filterVenueType = function (venueTypeId) {
     if (!$scope.allVenuesRatings.length) return;
 
     Util.setHeading($scope, venueTypeId);
