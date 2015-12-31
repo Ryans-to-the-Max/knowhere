@@ -1,7 +1,9 @@
 <div>
   <header></header>
-
-  <div class="container">
+  <div ng-show="loading">
+    <h2 class="text-center">LOADING YOUR RESOURCES. THIS WILL ONLY TAKE A SECOND</h2>
+  </div>
+  <div ng-hide="loading" class="container">
     <ul class="nav nav-tabs">
       <li role="presentation"><a href="" ng-click="filterVenues(1)">Hotels</a></li>
       <li role="presentation"><a href="" ng-click="filterVenues(2)">Restaurants</a></li>

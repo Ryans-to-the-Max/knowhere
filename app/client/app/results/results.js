@@ -6,7 +6,7 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   angular.extend($scope, MoreInfo);
   $scope.initMoreInfoState();
   $scope.detailedInfo = $rootScope.detailedInfo;
-
+  $rootScope.loading = true;
   $scope.openModal = function() {
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
@@ -54,6 +54,7 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
 
     Venues.getVenues(destinationId)
       .then(function(venuesInfo) {
+        $rootScope.loading = false;
         if (!Array.isArray(venuesInfo)) return;
 
         CurrentInfo.destination.venues = $scope.venues = venuesInfo;

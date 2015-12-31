@@ -24,6 +24,7 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   $scope.allItinerary = [];
   $scope.groups = [];
   $scope.fullItinerary = [];
+  $rootScope.loading = true;
 
 
   ////////////////// SELECTING A GROUP WILL REROUTE TO ITINERARY //////////////////////
@@ -122,6 +123,7 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
 
   Venues.getItinerary()
     .then(function (ratingsObjs) {
+      $rootScope.loading = false;
       ratingsObjs.forEach(function(rating) {
         rating.itinerary.fromDate = new Date(rating.itinerary.fromDate);
         rating.itinerary.toDate = new Date(rating.itinerary.toDate);

@@ -5,7 +5,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   // begin moreInfo modal config:
   angular.extend($scope, MoreInfo);
   $scope.initMoreInfoState();
-
+  $rootScope.loading = true;
   $scope.openModal = function() {
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,

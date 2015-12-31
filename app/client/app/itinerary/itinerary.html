@@ -1,7 +1,9 @@
 <div>
   <header></header>
-
-  <div class="container">
+  <div ng-show="loading">
+    <h2 class="text-center">LOADING YOUR RESOURCES. THIS WILL ONLY TAKE A SECOND</h2>
+  </div>
+  <div ng-hide="loading" class="container">
     <ul class="nav nav-tabs">
       <li ng-show="isHost" role="presentation"><a href="" ng-click="filterItinerary()">Set Dates</a></li>
       <li role="presentation"><a href="" ng-click="showFullItinerary()">Full Itinerary</a></li>
@@ -102,7 +104,7 @@
         </div>
       </div>
     </div>
-  <div ng-show="full" class="container">
+  <div ng-show="full" ng-hide="loading" class="container">
     <div ng-repeat="date in fullItinerary">
       <div class="row">
         <h2 class="text-center">{{date[0]}}</h2>
