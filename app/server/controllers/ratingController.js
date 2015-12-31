@@ -63,15 +63,21 @@ var updateGroupRating = function (paramHash) {
 // console.log('########updateGroupRating');
 
     
-    Rating.findOrCreate({venue: venue._id, venueLU: venue.lookUpId, groupId: groupId}, function (err, rating){
+    Rating.findOrCreate({venue: venue._id, venueLU: venue.lookUpId, groupId: groupId},
+                        function (err, rating, wasCreated){
 
       if (err || !rating) return util.send500(res, err);
+
       rating.allRatings.push({user: userId, userRating: newRating});
       rating.average = average;
       rating.save(function (err, rating) {
         if (err) return util.send500(res, err);
 
-        return sendGroup(groupId, res, rating);
+        if (wasCreated) {
+          sendGroup(groupId, res, rating);
+        } else {
+          sendGroup(groupId, res, null);
+        }
       });
     });
   });
@@ -189,6 +195,41 @@ module.exports = {
       if (update.n === 0) return util.send400(res);
 
       sendGroup(groupId, res);
+    });
+  },
+
+  removeItin: function (req, res, next) {
+    var groupId = req.query.groupId;
+    var venueId = req.query.venueId;
+
+    Rating.update({groupId: groupId, venue: venueId},
+                  {$set: {itinerary: null}}, function (err, update) {
+      if (err) return util.send500(res, err);
+
+      if (update.nModified) {
+        util.send200(res);
+      } else {
+        util.send400(res, err);
+      }
+    });
+  },
+
+  removeUserRatingFromGroup: function (req, res, next) {
+    var average = req.query.average;
+    var groupId = req.query.groupId;
+    var userId  = req.query.userId;
+    var venueId = req.query.venueId;
+
+    Rating.update({'allRatings.user': userId, groupId: groupId, venue: venueId},
+                  {$pull: {allRatings: {user: userId}},
+                   $set:  {average: average}}, function (err, update) {
+      if (err) return util.send500(res, err);
+
+      if (update.nModified) {
+        util.send200(res);
+      } else {
+        util.send400(res, err);
+      }
     });
   }
 
