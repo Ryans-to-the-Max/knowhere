@@ -27,12 +27,12 @@
               </div>
               <div>
                 <div class="detailed-info">Start date: <br> <em>{{venue.itinerary.fromDate | date:'longDate' }}</em></div>
-                <input ng-show="showInput" class="detailed-info" type="date" class="form-control" ng-model="venue.itinerary.fromDate" ng-required="true"/>
+                <input ng-show="showInput && isHost" class="detailed-info" type="date" class="form-control" ng-model="venue.itinerary.fromDate" ng-required="true"/>
                 <div class="detailed-info">End date: <br> <em>{{venue.itinerary.toDate | date:'longDate' }}</em></div>
-                <input ng-show="showInput" class="detailed-info" type="date" class="form-control" ng-model="venue.itinerary.toDate" ng-required="true"/>
+                <input ng-show="showInput && isHost" class="detailed-info" type="date" class="form-control" ng-model="venue.itinerary.toDate" ng-required="true"/>
               </div>
               <div>
-                <button ng-show="showInput" class="btn btn-sm btn-success" type="button" name="button" ng-click="addDatesToItinerary(venue, venue.itinerary.fromDate, venue.itinerary.toDate)">Submit</button>
+                <button ng-show="showInput && isHost" class="btn btn-sm btn-success" type="button" name="button" ng-click="addDatesToItinerary(venue, venue.itinerary.fromDate, venue.itinerary.toDate)">Submit</button>
                 <button class="btn btn-sm btn-info" type="button" name="button" ng-click="showDetailedVenueInfo(venue)">More Info</button>
               </div>
             </div>

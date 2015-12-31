@@ -14,7 +14,7 @@
       </div>
       <div class="caption">
         <button type="button" class="btn btn-sm btn-danger" ng-click="ratings[ratingsInfo._id] = 0; showRatings[ratingsInfo._id] = 0; addRating(ratingsInfo, 0)" ng-disabled="isReadonly">Clear Rating</button>
-        <button class="btn btn-sm btn-primary" type="button" name="button" ng-click="addToItin(ratingsInfo)">Add to Itinerary
+        <button ng-show="isHost" class="btn btn-sm btn-primary" type="button" name="button" ng-click="addToItin(ratingsInfo)">Add to Itinerary
         </button> 
       </div>
     </div>

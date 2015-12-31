@@ -22,7 +22,7 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   $scope.filteredVenues = [];
   $scope.heading = null;
   $scope.groups = [];
-
+  console.log($rootScope.currentGroup);
 
   ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////
 
