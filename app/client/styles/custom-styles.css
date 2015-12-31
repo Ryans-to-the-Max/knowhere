@@ -285,13 +285,17 @@ nav.navbar.navbar-default {
   border-radius: 0;
 }
 
+.filter-li {
+  color: grey;
+}
+
 .text-outline {
   color: #fff;
   text-shadow: 1px 1px 1px black, 0 0 0.1em black, 0 0 0.1em black;
 }
 
 .results-container {
-  min-height: 20vh;
+  min-height: 30vh;
   margin-bottom: 20px;
   padding-bottom: 30px;
   background-color: #eee;
