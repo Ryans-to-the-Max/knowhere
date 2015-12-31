@@ -38,7 +38,7 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   ////////////////// FILTER FOR RESTAURANTS/ATTRACTIONS/HOTELS //////////////////////
 
 
-  $scope.filterItinerary = function (venueTypeId) {
+  $scope.filterVenueType = function (venueTypeId) {
     Util.setHeading($scope, venueTypeId);
 
     $scope.filteredItinerary = Util.filterRatingsByVenueType($scope.fullItinerary,
@@ -76,7 +76,7 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
           return a.itinerary.fromDate - b.itinerary.fromDate;
         });
         $scope.fullItinerary = ratingsObjs;
-        $scope.filterItinerary(1);
+        $scope.filterVenueType(1);
       })
       .catch(function (error) {
         console.error(error);

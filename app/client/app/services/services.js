@@ -326,7 +326,7 @@ angular.module('travel.services', [])
     })
     .then(function(resp){
       _$scope_.allVenuesRatings = resp.data;
-      _$scope_.filterRatings(1);
+      _$scope_.filterVenueType(1);
     })
     .catch(function (error) {
       console.error(error);
