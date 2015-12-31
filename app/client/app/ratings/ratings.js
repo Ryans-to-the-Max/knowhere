@@ -117,7 +117,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
       total += rating.userRating;
       numberofRatings ++;
     });
-    ratingObj.avgRating = (total / numberofRatings);
+    ratingObj.avgRating = (total / numberofRatings) || 0;
 
     Venues.removeUserRatingFromGroup(ratingObj)
       .then(function () {
