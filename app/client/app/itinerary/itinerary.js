@@ -21,8 +21,9 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   $scope.attractions = [];
   $scope.hotels = [];
   $scope.heading = null;
-  $scope.fullItinerary = [];
+  $scope.allItinerary = [];
   $scope.groups = [];
+  $scope.fullItinerary = [];
 
 
   ////////////////// SELECTING A GROUP WILL REROUTE TO ITINERARY //////////////////////
@@ -39,11 +40,11 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
 
 
   $scope.filterItinerary = function () {
-    $scope.hotels = Util.filterRatingsByVenueType($scope.fullItinerary,1);
-    $scope.restaurants = Util.filterRatingsByVenueType($scope.fullItinerary,2);
-    $scope.attractions = Util.filterRatingsByVenueType($scope.fullItinerary,3);
-    $scope.showInput = true;
-    console.log($scope.filteredItinerary);
+    $scope.setItinerary = true;
+    $scope.full = false;
+    $scope.hotels = Util.filterRatingsByVenueType($scope.allItinerary,1);
+    $scope.restaurants = Util.filterRatingsByVenueType($scope.allItinerary,2);
+    $scope.attractions = Util.filterRatingsByVenueType($scope.allItinerary,3);
   };
 
 
@@ -51,13 +52,48 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
 
 
   $scope.showFullItinerary = function() {
-    $scope.heading = "Full Itinerary";
-    $rootScope.showInputModal = false;
-    $scope.showInput = false;
-    $scope.fullItinerary.sort(function(a,b) {
+    $scope.setItinerary = false;
+    $scope.full = true;
+    var tempItin = {};
+    var fullItinerary = [];
+    $scope.allItinerary.sort(function(a,b) {
       return a.itinerary.fromDate - b.itinerary.fromDate;
     });
-    $scope.filteredItinerary = $scope.fullItinerary;
+    var recurseDate = function(curDate, endDate, ven) {
+      curDate = new Date(curDate);
+      endDate = new Date(endDate);
+      var key = curDate.toDateString();
+      var end = endDate.toDateString();
+      if (!tempItin.hasOwnProperty(key)) {
+        tempItin[key] = {
+          date: curDate,
+          venues: [ven]
+        };
+      } else {
+        tempItin[key].venues.push(ven);
+      }
+      if (key === end) {
+        return;
+      } else {
+        recurseDate(curDate.setDate(curDate.getDate() + 1), endDate, ven);
+      }
+    };
+    $scope.allItinerary.forEach(function(venue) {
+      var currentDate = venue.itinerary.fromDate;
+      var end = venue.itinerary.toDate;
+      recurseDate(currentDate, end, venue);
+    });
+    for (var k in tempItin) {
+      if (tempItin.hasOwnProperty(k)) {
+        fullItinerary.push([k, tempItin[k].venues]);
+      }
+    };
+    fullItinerary = fullItinerary.sort(function(a, b) {
+      var date1 = new Date(a[0]);
+      var date2 = new Date(b[0]);
+      return date1 - date2;
+    })
+    $scope.fullItinerary = fullItinerary;
   };
 
 
@@ -93,8 +129,12 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
       ratingsObjs.sort(function (a, b) {
         return a.itinerary.fromDate - b.itinerary.fromDate;
       });
-      $scope.fullItinerary = ratingsObjs;
-      $scope.filterItinerary(1);
+      $scope.allItinerary = ratingsObjs;
+      if ($rootScope.isHost) {
+        $scope.filterItinerary();     
+      } else {
+        $scope.showFullItinerary();
+      };
     })
     .catch(function (error) {
       console.error(error);
