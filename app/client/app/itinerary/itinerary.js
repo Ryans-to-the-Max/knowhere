@@ -82,7 +82,7 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
           $scope.filterItinerary();     
         } else {
           $scope.showFullItinerary();
-        };
+        }
       })
       .catch(function (error) {
         console.error(error);
@@ -129,12 +129,12 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
       if (tempItin.hasOwnProperty(k)) {
         fullItinerary.push([k, tempItin[k].venues]);
       }
-    };
+    }
     fullItinerary = fullItinerary.sort(function(a, b) {
       var date1 = new Date(a[0]);
       var date2 = new Date(b[0]);
       return date1 - date2;
-    })
+    });
     $scope.fullItinerary = fullItinerary;
     console.log(fullItinerary);
   };
