@@ -6,7 +6,6 @@ angular.module('travel.landing', ['ngAnimate', 'ui.bootstrap'])
 
   $scope.sendDestination = function(destination) {
     $rootScope.destination = destination;
-    $rootScope.destination.splash_photo = "http://static.tripexpert.com/images/destinations/splash_photos/index/" + destination.id + ".jpg";
     $scope.data.group = $scope.data.group || "anonymous";
     Groups.createGroup({
       groupName : $scope.data.group,
@@ -51,8 +50,8 @@ angular.module('travel.landing', ['ngAnimate', 'ui.bootstrap'])
   $scope.getDestsFromApi = function () {
     Venues.getAllDestinations()
     .then(function (destinations) {
-      $scope.destinations = destinations;
-      $scope.destinations.forEach(function(destination) {
+      var allDestinations = destinations;
+      allDestinations.forEach(function(destination) {
         if (destination.permalink === "portland-or") {
           destination.state = "OR";
         }
@@ -62,7 +61,10 @@ angular.module('travel.landing', ['ngAnimate', 'ui.bootstrap'])
         if (destination.permalink === "naples-fl") {
           destination.state = "FL";
         }
+        destination.splash_photo = "http://static.tripexpert.com/images/destinations/splash_photos/index/" + destination.id + ".jpg";
       });
+      $scope.destinations = allDestinations;
+      $rootScope.allDestinations = allDestinations;
     });
   };
 

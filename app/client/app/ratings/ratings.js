@@ -99,7 +99,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
     });
     $scope.addAvg(ratingObj);
 
-    Venues.addRating(ratingObj.venue, newRating);
+    Venues.addRating(ratingObj.venue, newRating, ratingObj.avgRating);
   };
 
 

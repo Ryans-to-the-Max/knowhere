@@ -133,8 +133,15 @@ angular.module('travel.services', [])
       params: { userId: $rootScope.currentUser._id }
     })
     .then(function (resp) {
-      $scope.groups = resp.data;
-      console.log(resp.data);
+      var groups = resp.data;
+      groups.forEach(function(group) {
+        $rootScope.allDestinations.forEach(function(dest) {
+          if (group.destination === Number(dest.id)) {
+            group.destination = dest;
+          }
+        });
+      });
+      $scope.groups = groups;
     })
     .catch(function (err) {
       console.error(err);
@@ -290,7 +297,7 @@ angular.module('travel.services', [])
     });
   };
 
-  var addRating = function(venueInfo, rating) {
+  var addRating = function(venueInfo, rating, avgRating) {
     return $http({
       method: 'POST',
       url: '/api/rating',
@@ -298,7 +305,8 @@ angular.module('travel.services', [])
         venue: venueInfo,
         userId: $rootScope.currentUser._id,
         groupId: $rootScope.currentGroup._id,
-        rating: rating || 0
+        rating: rating || 0, 
+        average: avgRating || 0
       }
     });
   };
