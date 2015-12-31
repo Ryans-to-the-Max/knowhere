@@ -35,7 +35,7 @@
                   ng-show="!isReadonly">{{showRatings[venue._id]}}/10</span>
                 <button type="button" class="btn label label-danger" ng-click="ratings[venue._id] = 0; showRatings[venue._id] = 0; addRating(venue, 0)">Clear Rating</button>
               </div>
-              <div>
+              <div class="venue-btn-container">
                 <button class="btn btn-sm btn-info" type="button" name="button" ng-click="showDetailedVenueInfo(venue)">More Info</button>
                 <button ng-show="isHost" class="btn btn-sm btn-primary" type="button" name="button" ng-click="addToItin(venue)">Add to Itinerary</button>
                 <button class="btn btn-sm btn-primary" type="button" name="button" ng-click="removeUserRatingFromGroup(venue)">Remove</button>

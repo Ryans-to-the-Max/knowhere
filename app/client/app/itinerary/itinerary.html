@@ -23,15 +23,14 @@
           </div>
           <img class="venue-thumbnail" ng-src="{{ venue.venue.index_photo }}" alt="photo: {{ venue.venue.name }}">
             <div class="caption">
-              <div class="detailed-info"> Average Group Rating: {{ venue.average}}
-              </div>
+              <div class="detailed-info"> Average Group Rating: {{ venue.average}}</div>
               <div>
                 <div class="detailed-info">Start date: <br> <em>{{venue.itinerary.fromDate | date:'longDate' }}</em></div>
                 <input ng-show="showInput && isHost" class="detailed-info" type="date" class="form-control" ng-model="venue.itinerary.fromDate" ng-required="true"/>
                 <div class="detailed-info">End date: <br> <em>{{venue.itinerary.toDate | date:'longDate' }}</em></div>
                 <input ng-show="showInput && isHost" class="detailed-info" type="date" class="form-control" ng-model="venue.itinerary.toDate" ng-required="true"/>
               </div>
-              <div>
+              <div class="venue-btn-container">
                 <button ng-show="showInput && isHost" class="btn btn-sm btn-success" type="button" name="button" ng-click="addDatesToItinerary(venue, venue.itinerary.fromDate, venue.itinerary.toDate)">Submit</button>
                 <button ng-show="showInput && isHost" class="btn btn-sm btn-success" type="button" name="button" ng-click="removeFromItinerary(venue)">Remove</button>
                 <button class="btn btn-sm btn-info" type="button" name="button" ng-click="showDetailedVenueInfo(venue)">More Info</button>
