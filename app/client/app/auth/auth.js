@@ -1,6 +1,6 @@
 angular.module('signin', ['ui.bootstrap'])
 
-.controller('AuthController', function ($scope, $uibModal, $rootScope, AuthMe, $location) {
+.controller('AuthController', function ($scope, $uibModal, $rootScope, AuthMe, $location, $state) {
   $rootScope.currentUserSignedIn = false;
   $rootScope.currentUser = null;
 
@@ -15,10 +15,12 @@ angular.module('signin', ['ui.bootstrap'])
   $scope.signout = function() {
     $rootScope.currentUser = null;
     $rootScope.currentUserSignedIn = false;
+    $rootScope.currentGroup = null;
+    $rootScope.destination = null;
 
     AuthMe.logout()
         .then(function (data) {
-          // console.log(data);
+          $state.go('main');
         });
   };
 
