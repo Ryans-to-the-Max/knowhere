@@ -203,7 +203,8 @@ module.exports = {
     var venueId = req.query.venueId;
 
     Rating.update({groupId: groupId, venue: venueId},
-                  {$set: {itinerary: null}}, function (err, update) {
+                  // if itinerary is set to null, angular's xhr.send doesn't play nice
+                  {$set: {itinerary: {}}}, function (err, update) {
       if (err) return util.send500(res, err);
 
       if (update.nModified) {
