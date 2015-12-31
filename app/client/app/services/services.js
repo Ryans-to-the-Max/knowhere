@@ -325,6 +325,7 @@ angular.module('travel.services', [])
       params: query
     })
     .then(function(resp){
+      $rootScope.loading = false;
       _$scope_.allVenuesRatings = resp.data;
       _$scope_.filterVenueType(1);
     })

@@ -49,5 +49,5 @@ angular.module('travel.groups', [])
   ////////////////// SET INIT STATE //////////////////////
 
 
-   Groups.setUserGroups($scope);
+  Groups.setUserGroups($scope);
 });

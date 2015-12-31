@@ -5,7 +5,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   // begin moreInfo modal config:
   angular.extend($scope, MoreInfo);
   $scope.initMoreInfoState();
-
+  $rootScope.loading = true;
   $scope.openModal = function() {
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
@@ -15,7 +15,7 @@ angular.module('travel.ratings', ['ui.bootstrap', 'ngAnimate'])
   };
   // end moreInfo modal config
 
-  $scope.headerText = 'Favorites in ' + $rootScope.destination.name;
+  $scope.headerText = 'Ratings in ' + $rootScope.destination.name;
 
   $scope.filteredUserRatings = [];
   $scope.filteredGroupRatings  = [];

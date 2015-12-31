@@ -1,8 +1,9 @@
 <div id="results-wrapper">
   <header></header>
-
-  <div class="container results-container">
-
+  <div ng-show="loading">
+    <h2 class="text-center" style="color: white">LOADING YOUR RESOURCES. THIS WILL ONLY TAKE A SECOND</h2>
+  </div>
+  <div ng-hide="loading" class="container results-container">
     <div class="row nav-row">
       <ul class="nav nav-tabs sub-nav">
         <li role="presentation"><a><span class="filter-li">Filter By: </span></a></li>
@@ -14,7 +15,7 @@
     </div>
 
     <div class="row text-center results">
-      <div ng-repeat="venue in filteredVenues" class=" col-lg-3 col-md-3 col-sm-4">
+      <div ng-repeat="venue in filteredVenues" class="col-lg-3 col-md-3 col-sm-4">
         <div class="venue-info">
           <div>
             <h4 class="title">{{ venue.name }}</h4>

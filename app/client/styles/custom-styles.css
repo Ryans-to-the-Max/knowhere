@@ -123,10 +123,12 @@ ul.rating {
 }
 
 .itinerary {
-  height: 520px;
+  width: 350px;
+  height: 990px;
 }
 
 .full-itinerary {
+  width: 250px;
   height: 440px;
 }
 
