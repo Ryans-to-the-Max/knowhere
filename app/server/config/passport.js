@@ -122,7 +122,7 @@ module.exports = function(passport) {
             addToGroup(req.body.groupId, newUser);
           }else{
             //sending email now for validation
-            sendValidate(newUser);
+            validate(newUser);
           }
         }  
       });    
