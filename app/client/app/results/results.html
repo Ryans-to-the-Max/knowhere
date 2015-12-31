@@ -16,8 +16,8 @@
     <div class="row text-center results">
       <div ng-repeat="venue in filteredVenues" class=" col-lg-3 col-md-3 col-sm-4">
         <div class="venue-info">
-          <div class="title">
-            <h4>{{ venue.name }}</h4>
+          <div>
+            <h4 class="title">{{ venue.name }}</h4>
           </div>
           <img class="venue-thumbnail" ng-src="{{ venue.index_photo }}" alt="photo: {{ venue.name }}">
           <div class="caption">
