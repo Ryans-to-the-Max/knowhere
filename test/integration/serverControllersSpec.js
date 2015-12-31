@@ -224,8 +224,12 @@ describe('server controllers', function () {
           });
       });
 
-      it('should set provided userId as group host', function () {
-        expect(group.host._id).to.equal(testUser._id + '');
+      it('should set provided userId as a group host', function () {
+        var hosts = group.hosts.map(function (host) {
+          return host._id + '';
+        });
+
+        expect(_.contains(hosts, testUser._id + ''));
       });
 
       it('should set title and destination', function () {
@@ -276,7 +280,7 @@ describe('server controllers', function () {
       });
     });
 
-    describe('getMembers()', function () {
+    xdescribe('getMembers()', function () {
 
       beforeEach(function (done) {
         request
@@ -286,7 +290,7 @@ describe('server controllers', function () {
             username: testUser2.username
           })
           .end(function (err, res) {
-            var group = JSON.parse(res.text);
+            group = res.body;
             done();
           });
       });
@@ -413,7 +417,7 @@ describe('server controllers', function () {
 
   describe('ratingController', function () {
 
-    describe('addRating()', function () {
+    describe('addOrUpdateRating()', function () {
 
       it('adds venue to user.favorites', function (done) {
         request
@@ -573,29 +577,45 @@ describe('server controllers', function () {
             venue: greenwichHotelInfo,
           })
           .end(function (err, res) {
-            // update rating
+            // add another user's rating
             request
               .post('/api/rating/')
               .send({
                 groupId: group._id,
-                rating: 7,
-                userId: testUser._id,
+                rating: 1,
+                userId: testUser2._id,
                 venue: greenwichHotelInfo,
               })
               .end(function (err, res) {
-                var favorites = res.body;
-                var groupVenueRatings = favorites[0];
+                // update rating
+                request
+                  .post('/api/rating/')
+                  .send({
+                    groupId: group._id,
+                    rating: 7,
+                    userId: testUser._id,
+                    venue: greenwichHotelInfo,
+                  })
+                  .end(function (err, res) {
+                    var favorites = res.body;
+                    var groupVenueRatings = favorites[0];
 
-                // Last request should not have added another rating
-                expect(groupVenueRatings.allRatings.length).to.equal(1);
+                    // Last request should not have added another rating
+                    expect(groupVenueRatings.allRatings.length).to.equal(2);
 
-                var userRating = groupVenueRatings.allRatings[0].userRating;
+                    var userRatingA = groupVenueRatings.allRatings[0].userRating;
+                    var userRatingB = groupVenueRatings.allRatings[1].userRating;
+                    var ratings = [userRatingA, userRatingB];
 
-                // userRating should've been updated by last request
-                expect(userRating).to.equal(7);
-                done();
+                    // other user's rating
+                    expect(_.contains(ratings, 1)).to.equal(true);
+                    // original user's updated rating
+                    expect(_.contains(ratings, 7)).to.equal(true);
+                    done();
+                  });
               });
           });
+        
       });
     });
   });
