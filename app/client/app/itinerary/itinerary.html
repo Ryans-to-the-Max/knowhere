@@ -17,7 +17,7 @@
         You currently do not have any itinerary in Hotels!
       </h1>
       <div class="row" class="text-center ">
-        <div ng-repeat="hotel in hotels track by $index" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 thumbnail itinerary">
+        <div ng-repeat="hotel in hotels track by $index" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 thumbnail itinerary">
           <div class="venue-info">
             <img class="venue-thumbnail" ng-src="{{ hotel.venue.index_photo }}" alt="photo: {{ hotel.venue.name }}">
               <div class="title">
@@ -28,9 +28,13 @@
                 </div>
                 <div>
                   <div class="detailed-info">Start date: <br> <em>{{hotel.itinerary.fromDate | date:'longDate' }}</em></div>
-                  <input class="detailed-info" type="date" class="form-control" ng-model="hotel.itinerary.fromDate" ng-required="true"/>
+                  <div style="display:inline-block; min-height:230px;">
+                    <uib-datepicker ng-model="hotel.itinerary.fromDate" min-date="today" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
+                  </div>
                   <div class="detailed-info">End date: <br> <em>{{hotel.itinerary.toDate | date:'longDate' }}</em></div>
-                  <input class="detailed-info" type="date" class="form-control" ng-model="hotel.itinerary.toDate" ng-required="true"/>
+                  <div style="display:inline-block; min-height:230px;">
+                    <uib-datepicker ng-model="hotel.itinerary.toDate" min-date="hotel.itinerary.fromDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
+                  </div>
                 </div>
                 <div>
                   <button class="btn btn-sm btn-success" type="button" name="button" ng-click="addDatesToItinerary(hotel, hotel.itinerary.fromDate, hotel.itinerary.toDate)">Submit</button>
@@ -48,7 +52,7 @@
         You currently do not have any itinerary in Restaurants!
       </h1>
       <div class="row" class="text-center ">
-        <div ng-repeat="restaurant in restaurants track by $index" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 thumbnail itinerary">
+        <div ng-repeat="restaurant in restaurants track by $index" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 thumbnail itinerary">
           <div class="venue-info">
             <img class="venue-thumbnail" ng-src="{{ restaurant.venue.index_photo }}" alt="photo: {{ restaurant.venue.name }}">
               <div class="title">
@@ -59,9 +63,13 @@
                 </div>
                 <div>
                   <div class="detailed-info">Start date: <br> <em>{{restaurant.itinerary.fromDate | date:'longDate' }}</em></div>
-                  <input class="detailed-info" type="date" class="form-control" ng-model="restaurant.itinerary.fromDate" ng-required="true"/>
+                  <div style="display:inline-block; min-height:230px;">
+                    <uib-datepicker ng-model="restaurant.itinerary.fromDate" min-date="today" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
+                  </div>
                   <div class="detailed-info">End date: <br> <em>{{restaurant.itinerary.toDate | date:'longDate' }}</em></div>
-                  <input class="detailed-info" type="date" class="form-control" ng-model="restaurant.itinerary.toDate" ng-required="true"/>
+                  <div style="display:inline-block; min-height:230px;">
+                    <uib-datepicker ng-model="restaurant.itinerary.toDate" min-date="restaurant.itinerary.fromDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
+                  </div>
                 </div>
                 <div>
                   <button class="btn btn-sm btn-success" type="button" name="button" ng-click="addDatesToItinerary(restaurant, restaurant.itinerary.fromDate, restaurant.itinerary.toDate)">Submit</button>
@@ -79,7 +87,7 @@
         You currently do not have any itinerary in Attractions!
       </h1>
       <div class="row" class="text-center ">
-        <div ng-repeat="attraction in attractions track by $index" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 thumbnail itinerary">
+        <div ng-repeat="attraction in attractions track by $index" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 thumbnail itinerary">
           <div class="venue-info">
             <img class="venue-thumbnail" ng-src="{{ attraction.venue.index_photo }}" alt="photo: {{ attraction.venue.name }}">
               <div class="title">
@@ -90,9 +98,13 @@
                 </div>
                 <div>
                   <div class="detailed-info">Start date: <br> <em>{{attraction.itinerary.fromDate | date:'longDate' }}</em></div>
-                  <input class="detailed-info" type="date" class="form-control" ng-model="attraction.itinerary.fromDate" ng-required="true"/>
+                  <div style="display:inline-block; min-height:230px;">
+                    <uib-datepicker ng-model="attraction.itinerary.fromDate" min-date="today" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
+                  </div>
                   <div class="detailed-info">End date: <br> <em>{{attraction.itinerary.toDate | date:'longDate' }}</em></div>
-                  <input class="detailed-info" type="date" class="form-control" ng-model="attraction.itinerary.toDate" ng-required="true"/>
+                  <div style="display:inline-block; min-height:230px;">
+                    <uib-datepicker ng-model="attraction.itinerary.toDate" min-date="attraction.itinerary.fromDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
+                  </div>
                 </div>
                 <div>
                   <button class="btn btn-sm btn-success" type="button" name="button" ng-click="addDatesToItinerary(attraction, attraction.itinerary.fromDate, attraction.itinerary.toDate)">Submit</button>

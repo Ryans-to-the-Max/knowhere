@@ -118,7 +118,13 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   $scope.hostCheck();
 
   
-//////////////////INIT STATE//////////////////////
+  //////////////////DATEPICKER//////////////////////
+
+
+  $scope.today = new Date();
+
+
+  //////////////////INIT STATE//////////////////////
 
 
   Venues.getItinerary()
