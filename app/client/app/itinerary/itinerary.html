@@ -2,26 +2,26 @@
   <header></header>
 
   <div class="container">
-    <ul class="nav nav-tabs">
-      <li role="presentation"><a href="" ng-click="filterItinerary(1)">Hotels</a></li>
-      <li role="presentation"><a href="" ng-click="filterItinerary(2)">Restaurants</a></li>
-      <li role="presentation"><a href="" ng-click="filterItinerary(3)">Attractions</a></li>
-      <li role="presentation"><a href="" ng-click="showFullItinerary()">Full Itinerary</a></li>
-    </ul>
-    <div class="row">
-      <h2 class="text-center">{{ heading }}</h2>
+
+    <div class="row nav-row">
+      <ul class="nav nav-tabs sub-nav">
+        <li role="presentation"><a href="" ng-click="filterVenues(1)">Hotels</a></li>
+        <li role="presentation"><a href="" ng-click="filterVenues(2)">Restaurants</a></li>
+        <li role="presentation"><a href="" ng-click="filterVenues(3)">Attractions</a></li>
+      </ul>
+      <hr class="carved">
     </div>
 
     <h1 class="text-center" ng-if="filteredItinerary.length < 1">
       You currently do not have any itinerary in {{ heading }}!
     </h1>
-    <div class="row" class="text-center">
+    <div class="row results-container" class="text-center">
       <div ng-repeat="venue in filteredItinerary track by $index" class="col-lg-3 col-md-3 col-sm-4" ng-class="{'itinerary': showInput, 'full-itinerary': !showInput}">
         <div class="venue-info">
+          <div class="title">
+            <h4>{{ venue.venue.name }}</h4>
+          </div>
           <img class="venue-thumbnail" ng-src="{{ venue.venue.index_photo }}" alt="photo: {{ venue.venue.name }}">
-            <div class="title">
-              <h4>{{ venue.venue.name }}</h4>
-            </div>
             <div class="caption">
               <div class="detailed-info"> Average Group Rating: {{ venue.average}}
               </div>

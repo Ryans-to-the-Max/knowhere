@@ -1,5 +1,15 @@
-body, html, .container, .container-fluid {
+body, html {
   font-family: 'Open Sans', sans-serif;
+  background-image: url(../assets/stardust.png);
+}
+
+.container {
+  background-color: #eee;
+  box-shadow: -5px 0 5px -5px #333, 5px 0 5px -5px #333;
+}
+
+.app-summary {
+  background-color: #FFFFFF;
 }
 
 header {
@@ -259,12 +269,17 @@ hr.carved {
 }
 
 .navbar, .navbar-default {
+  background-color: #FFFFFF;
   padding: 5px;
   margin-bottom: 0;
   border-radius: 0;
   -webkit-box-shadow: 0 6px 6px -6px #999;
   -moz-box-shadow: 0 6px 6px -6px #999;
   box-shadow: 0 6px 6px -6px #999;
+}
+
+nav.navbar.navbar-default {
+  background-color: #FFFFFF;
 }
 
 .form-control {
@@ -278,8 +293,10 @@ hr.carved {
 }
 
 .results-container {
+  min-height: 20vh;
+  margin-bottom: 20px;
+  padding-bottom: 30px;
   background-color: #eee;
-  box-shadow: -5px 0 5px -5px #333, 5px 0 5px -5px #333;
 }
 
 #landing {
