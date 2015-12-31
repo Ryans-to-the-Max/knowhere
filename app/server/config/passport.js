@@ -34,10 +34,10 @@ addToGroup = function(group, user){
 validate = function(user){
   var context = {
     PROTOCOL_DOMAIN: PROTOCOL_DOMAIN,
-    userId: newUser._id.toString()
+    userId: user._id.toString()
   };
 
-  util.mail('validateUser.html', context, "Welcome to Knowhere!", newUser.username);
+  util.mail('validateUser.html', context, "Welcome to Knowhere!", user.username);
 };
 
 // expose this function to our app using module.exports
