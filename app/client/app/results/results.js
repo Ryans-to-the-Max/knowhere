@@ -21,6 +21,7 @@ angular.module('travel.results', ['ui.bootstrap', 'ngAnimate'])
   $scope.filteredVenues = [];
   $scope.heading = null;
   $scope.groups = [];
+  $rootScope.loading = true;
   
 
   ////////////////// SELECTING A GROUP WILL REROUTE TO RESULTS PAGE //////////////////////

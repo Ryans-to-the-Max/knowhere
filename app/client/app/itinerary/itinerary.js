@@ -69,6 +69,7 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
   $scope.setItinerary = function() {
     Venues.getItinerary()
       .then(function (ratingsObjs) {
+        $rootScope.loading = false;
         ratingsObjs.forEach(function(rating) {
           rating.itinerary.fromDate = new Date(rating.itinerary.fromDate);
           rating.itinerary.toDate = new Date(rating.itinerary.toDate);
@@ -135,6 +136,7 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
       return date1 - date2;
     })
     $scope.fullItinerary = fullItinerary;
+    console.log(fullItinerary);
   };
 
 

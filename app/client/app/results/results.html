@@ -1,15 +1,15 @@
 <div id="results-wrapper">
   <header></header>
   <div ng-show="loading">
-    <h2 class="text-center">LOADING YOUR RESOURCES. THIS WILL ONLY TAKE A SECOND</h2>
+    <h2 class="text-center" style="color: white">LOADING YOUR RESOURCES. THIS WILL ONLY TAKE A SECOND</h2>
   </div>
   <div ng-hide="loading" class="container results-container">
     <div class="row nav-row">
       <ul class="nav nav-tabs sub-nav">
         <li role="presentation"><a><span class="filter-li">Filter By: </span></a></li>
-        <li role="presentation"><a href="" ng-click="filterVenues(1)">Hotels</a></li>
-        <li role="presentation"><a href="" ng-click="filterVenues(2)">Restaurants</a></li>
-        <li role="presentation"><a href="" ng-click="filterVenues(3)">Attractions</a></li>
+        <li role="presentation"><a href="" ng-click="filterVenueType(1)">Hotels</a></li>
+        <li role="presentation"><a href="" ng-click="filterVenueType(2)">Restaurants</a></li>
+        <li role="presentation"><a href="" ng-click="filterVenueType(3)">Attractions</a></li>
       </ul>
       <hr class="carved">
     </div>
