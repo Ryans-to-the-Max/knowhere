@@ -29,6 +29,7 @@ angular.module('signin', ['ui.bootstrap'])
         .then(function (data) {
           $state.go('main');
         });
+    $state.go('main');
   };
 
   $scope.validate = function(){
@@ -53,7 +54,7 @@ angular.module('signin', ['ui.bootstrap'])
   $scope.onLoad();
 })
 
-.controller('SigninController', function ($scope, $uibModalInstance, $uibModal, AuthMe, $location, $rootScope) {
+.controller('SigninController', function ($scope, $uibModalInstance, $uibModal, AuthMe, $location, $rootScope, $state) {
   $scope.alerts = [];
 
   $scope.closeAlert = function() {
@@ -67,6 +68,7 @@ angular.module('signin', ['ui.bootstrap'])
           $rootScope.currentUserSignedIn = true;
           $rootScope.currentUser = data.user;
           $uibModalInstance.close();
+          $state.go('main');
         } else {
           $scope.alerts = [{msg: data.message}];
         }
@@ -115,7 +117,7 @@ angular.module('signin', ['ui.bootstrap'])
   };
 })
 
-.controller('SignupController', function ($scope, $uibModalInstance, AuthMe, $location, $rootScope) {
+.controller('SignupController', function ($scope, $uibModalInstance, AuthMe, $location, $rootScope, $state) {
   $scope.alerts = [];
 
    $scope.closeAlert = function() {
@@ -135,6 +137,7 @@ angular.module('signin', ['ui.bootstrap'])
           $scope.emailAlert = true;
           $rootScope.currentUserSignedIn = true;
           $rootScope.currentUser = data.user;
+          $state.go('main');
         } else {
           $scope.alerts = [{type: 'danger', msg: data.message}];
         }
@@ -143,6 +146,7 @@ angular.module('signin', ['ui.bootstrap'])
 
   $scope.exit = function(){
     $uibModalInstance.close();
+    $state.go('main');
   };
 
 });

@@ -4,7 +4,9 @@ angular.module('travel.landing', ['ngAnimate', 'ui.bootstrap'])
   $scope.destinations = null;
   $scope.data = {};
   $scope.loggedIn = $rootScope.currentUserSignedIn;
-
+  $rootScope.$watch('currentUserSignedIn', function(newValue, oldValue) {
+    $scope.loggedIn = newValue;
+  });
   $scope.sendDestination = function(destination) {
     $rootScope.destination = destination;
     $scope.data.group = $scope.data.group || "anonymous";
