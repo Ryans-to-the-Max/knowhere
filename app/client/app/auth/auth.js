@@ -3,13 +3,20 @@ angular.module('signin', ['ui.bootstrap'])
 .controller('AuthController', function ($scope, $uibModal, $rootScope, AuthMe, $location, $state) {
   $rootScope.currentUserSignedIn = false;
   $rootScope.currentUser = null;
-
+  $scope.test = "test";
   $scope.open = function() {
     var modalInstance = $uibModal.open({
       animation: $scope.animationsEnabled,
       templateUrl: 'app/auth/signin.html',
       controller: 'SigninController',
     });
+  };
+  $scope.signUpOpen = function() {
+    var modalInstance = $uibModal.open({
+      animation: $scope.animationsEnabled,
+      templateUrl: 'app/auth/signup.html',
+      controller: 'SignupController'
+      });
   };
 
   $scope.signout = function() {

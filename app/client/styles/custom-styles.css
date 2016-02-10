@@ -318,11 +318,22 @@ nav.navbar.navbar-default {
   background-image: url(../assets/stardust.png);
 }
 
-#landing-form {
+.landing-form {
   color: #fff;
   margin-top: 10%;
+  text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
+}
+.landing-description {
+  color: #fff;
+  text-shadow: 0px 0px 3px #000, -1px -1px #000, 1px 1px #000;
 }
 
+.landing-signin{
+  color: #AB4D4D;
+}
+a:hover {
+  color: #AB4D4D;
+}
 /* may need to apply to div#banner.jumbotron, also needs other browser prefixes */
 #banner {
   border-bottom: none;
