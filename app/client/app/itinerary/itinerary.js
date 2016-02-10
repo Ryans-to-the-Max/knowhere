@@ -97,46 +97,34 @@ angular.module('travel.itinerary', ['ui.bootstrap', 'ngAnimate'])
     $scope.setItinerary = false;
     $scope.full = true;
     var tempItin = {};
-    var fullItinerary = [];
-    $scope.allItinerary.sort(function(a,b) {
-      return a.itinerary.fromDate - b.itinerary.fromDate;
-    });
-    var recurseDate = function(curDate, endDate, ven) {
-      curDate = new Date(curDate);
-      endDate = new Date(endDate);
-      var key = curDate.toDateString();
-      var end = endDate.toDateString();
-      if (!tempItin.hasOwnProperty(key)) {
-        tempItin[key] = {
-          date: curDate,
-          venues: [ven]
-        };
-      } else {
-        tempItin[key].venues.push(ven);
+
+    var getDatesStr = function (startDateStr, endDateStr) {
+      var startDate = new Date(startDateStr);
+      var endDate = new Date(endDateStr);
+      if (endDate < startDate) return;
+      var dates = [];
+
+      while (startDate <= endDate) {
+        dates.push(startDate.toDateString());
+        startDate.setDate(startDate.getDate() + 1);
       }
-      if (key === end) {
-        return;
-      } else {
-        recurseDate(curDate.setDate(curDate.getDate() + 1), endDate, ven);
-      }
+      return dates;
     };
+
     $scope.allItinerary.forEach(function(venue) {
-      var currentDate = venue.itinerary.fromDate;
-      var end = venue.itinerary.toDate;
-      recurseDate(currentDate, end, venue);
+      var datesStr = getDatesStr(venue.itinerary.fromDate, venue.itinerary.toDate);
+
+      datesStr.forEach(function (date) {
+        if (!tempItin[date]) tempItin[date] = [];
+
+        tempItin[date].push(venue);
+      });
     });
-    for (var k in tempItin) {
-      if (tempItin.hasOwnProperty(k)) {
-        fullItinerary.push([k, tempItin[k].venues]);
-      }
-    }
-    fullItinerary = fullItinerary.sort(function(a, b) {
-      var date1 = new Date(a[0]);
-      var date2 = new Date(b[0]);
-      return date1 - date2;
+    $scope.fullItinerary = Object.keys(tempItin).map(function (date) {
+      return [date, tempItin[date], new Date(date)];
+    }).sort(function (a, b) {
+      return a[2] - b[2];
     });
-    $scope.fullItinerary = fullItinerary;
-    console.log(fullItinerary);
   };
 
 

@@ -1,6 +1,6 @@
-# Travel App
+# Knowhere
 
-> An app to help travel planning
+> A web app that enables individuals and groups to organize travel itineraries.
 
 ## Team
 

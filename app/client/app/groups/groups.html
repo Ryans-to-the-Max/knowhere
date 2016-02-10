@@ -6,7 +6,9 @@
       </div><!-- /.jumbotron -->
     </div>
   </div>
-
+  <h1 class="text-center" ng-if="groups.length < 1">
+        You currently do not have any Groups
+  </h1>
   <div class="container">
     <div class="row text-center results-container">
       <div ng-repeat="group in groups track by $index" class="col-lg-3 col-md-3 col-sm-4" >
