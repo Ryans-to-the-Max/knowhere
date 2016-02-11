@@ -1,9 +1,9 @@
-<div class="container">
-  <div id="landing" class="row">
+<div ng-show="loggedIn" id="landing" class="container">
+  <div class="row">
     <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 text-center">
       <h1 class="landing-message">Know where you're going</h1>
     </div>
-    <div id="landing-form" class="col-lg-4 col-lg-offset-4 col-md-offset-3 col-md-6 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+    <div class="col-lg-4 col-lg-offset-4 col-md-offset-3 col-md-6 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1 landing-form">
       <form name="location" ng-submit='sendData(selected)' novalidate>
         <div class="form-group">
           <label for="group-form">Group Name</label>
@@ -46,5 +46,28 @@
         <h3>Attractions</h3>
       </div>
     </div> -->
+</div>
+<div ng-hide="loggedIn" id="landing-auth" class="container">
+  <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 text-center">
+    <h1 class="landing-message">Know where you're going</h1>
   </div>
-</div><!-- ./container -->
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 landing-description text-center">
+    <h3>Plan a trip with the people you love</h2>
+    <h4>An easy, democratic way to organize a trip and suggest places of interest at your destination.</h3>
+    <h3 ng-controller="AuthController">Please <a class="landing-signin" ng-click="open()"href="">Sign In</a> or <a class="landing-signin" ng-click="signUpOpen()"href="">Sign Up</a>to continue</h3>
+    <br>
+    <h3>Trip Expert's API provides everything you need to know</h2>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+      <img class="thumbnail landing-thumbnail" src="http://static.tripexpert.com/images/venues/index_photos/index_retina/1149751.jpg?1418190762" alt="Default Restaurant Thumbnail">
+      <h3>Restaurants</h3>
+    </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        <img class="thumbnail landing-thumbnail" src="http://static.tripexpert.com/images/venues/index_photos/index_retina/468585.jpg?1402296926" alt="Default Hotel Thumbnail">
+        <h3>Hotels</h3>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        <img class="thumbnail landing-thumbnail" src="http://static.tripexpert.com/images/venues/index_photos/index_retina/1307478.jpg?1428371332" alt="Default Attractions Thumbnail">
+        <h3>Attractions</h3>
+      </div>
+  </div>
+</div>

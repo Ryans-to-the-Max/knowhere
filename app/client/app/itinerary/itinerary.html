@@ -64,17 +64,13 @@
                 <div class="detailed-info"> Average Group Rating: {{ restaurant.average}}
                 </div>
                 <div>
-                  <div class="detailed-info">Start date: <br> <em>{{restaurant.itinerary.fromDate | date:'longDate' }}</em></div>
+                  <div class="detailed-info">Date: <br> <em>{{restaurant.itinerary.fromDate | date:'longDate' }}</em></div>
                   <div style="display:inline-block; min-height:230px;">
                     <uib-datepicker ng-model="restaurant.itinerary.fromDate" min-date="today" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
                   </div>
-                  <div class="detailed-info">End date: <br> <em>{{restaurant.itinerary.toDate | date:'longDate' }}</em></div>
-                  <div style="display:inline-block; min-height:230px;">
-                    <uib-datepicker ng-model="restaurant.itinerary.toDate" min-date="restaurant.itinerary.fromDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></uib-datepicker>
-                  </div>
                 </div>
                 <div>
-                  <button class="btn btn-sm btn-success" type="button" name="button" ng-click="addDatesToItinerary(restaurant, restaurant.itinerary.fromDate, restaurant.itinerary.toDate)">Submit</button>
+                  <button class="btn btn-sm btn-success" type="button" name="button" ng-click="addDatesToItinerary(restaurant, restaurant.itinerary.fromDate, restaurant.itinerary.fromDate)">Submit</button>
                   <button class="btn btn-sm btn-info" type="button" name="button" ng-click="showDetailedVenueInfo(restaurant)">More Info</button>
                 </div>
               </div>
