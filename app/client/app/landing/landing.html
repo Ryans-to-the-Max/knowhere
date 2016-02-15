@@ -27,26 +27,34 @@
 </div>
 
 <div ng-hide="loggedIn" id="landing-auth" class="container">
-  <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 text-center">
-    <h1 class="landing-message">Know where you're going</h1>
-  </div>
-  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 landing-description text-center">
-    <h3>Plan a trip with the people you love</h2>
-    <h4>An easy and democratic way to organize a trip and suggest places of interest at your destination</h3>
-    <h3 ng-controller="AuthController">Please <a class="landing-signin" ng-click="open()"href="">Sign In</a> or <a class="landing-signin" ng-click="signUpOpen()"href="">Sign Up</a>to continue</h3>
-    <br>
-    <h3>Trip Expert's API provides everything you need to know</h2>
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-      <img class="landing-thumbnail img-responsive" src="http://static.tripexpert.com/images/venues/index_photos/index_retina/1149751.jpg?1418190762" alt="Default Restaurant Thumbnail">
-      <h3>Restaurants</h3>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 text-center">
+      <h1 class="landing-message">Know where you're going</h1>
     </div>
-      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-        <img class="landing-thumbnail img-responsive" src="http://static.tripexpert.com/images/venues/index_photos/index_retina/468585.jpg?1402296926" alt="Default Hotel Thumbnail">
-        <h3>Hotels</h3>
-      </div>
-      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-        <img class="landing-thumbnail img-responsive" src="http://static.tripexpert.com/images/venues/index_photos/index_retina/1307478.jpg?1428371332" alt="Default Attractions Thumbnail">
-        <h3>Attractions</h3>
-      </div>
   </div>
+
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 landing-description text-center">
+      <h2>Plan a trip with the people you love</h2>
+      <h3>An easy and democratic way to organize a trip and suggest places of interest at your destination</h3>
+      <h3 ng-controller="AuthController">Please <a class="landing-signin" ng-click="open()"href="">Sign In</a> or <a class="landing-signin" ng-click="signUpOpen()"href="">Sign Up</a> to continue</h3>
+    </div>
+  </div>
+
+  <div class="row text-center landing-features-overview">
+    <h3 class="overview-description">Trip Expert's API provides everything you need to know</h3>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+      <img class="landing-thumbnail img-responsive circle-border" src="http://static.tripexpert.com/images/venues/index_photos/index_retina/1149751.jpg?1418190762" alt="Default Restaurant Thumbnail">
+      <h4>Restaurants</h4>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+      <img class="landing-thumbnail img-responsive circle-border" src="http://static.tripexpert.com/images/venues/index_photos/index_retina/468585.jpg?1402296926" alt="Default Hotel Thumbnail">
+      <h4>Hotels</h4>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+      <img class="landing-thumbnail img-responsive circle-border" src="http://static.tripexpert.com/images/venues/index_photos/index_retina/1307478.jpg?1428371332" alt="Default Attractions Thumbnail">
+      <h4>Attractions</h4>
+    </div>
+  </div>
+
 </div>
