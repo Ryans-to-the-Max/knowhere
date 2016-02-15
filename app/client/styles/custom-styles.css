@@ -186,8 +186,8 @@ ul.rating {
 }
 
 .landing-thumbnail {
-  max-width: 150px;
-  max-height: 150px;
+  /*max-width: 150px;
+  max-height: 150px;*/
   border-radius: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -303,6 +303,15 @@ nav.navbar.navbar-default {
   margin-bottom: 20px;
   padding-bottom: 30px;
   background-color: #eee;
+}
+
+.landing-container {
+  padding-bottom: 0;
+}
+
+.about-section {
+  padding-top: 100px;
+  padding-bottom: 100px;
 }
 
 #landing {
