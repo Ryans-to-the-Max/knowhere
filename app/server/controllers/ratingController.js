@@ -29,16 +29,13 @@ var sendGroup = function(groupId, res, rating) {
       populate: { path: 'venue' }
     })
     .exec(function (err, group){
-// console.log('######sendGroup0');
       if (err) return util.send500(res, err);
 
       if (rating) {
         group.favorites.push(rating);
       }
       group.save(function (err, group) {
-// console.log('######sendGroup1');
         if (err) return util.send500(res, err);
-// console.log('######sendGroup2');
         return util.send200(res, group.favorites);
       });
     });
@@ -60,9 +57,7 @@ var updateGroupRating = function (paramHash) {
     if (update.n > 0) { // Rating exists for that user, and should've been updated.
       return sendGroup(groupId, res, null);
     }
-// console.log('########updateGroupRating');
 
-    
     Rating.findOrCreate({venue: venue._id, venueLU: venue.lookUpId, groupId: groupId},
                         function (err, rating, wasCreated){
 
@@ -73,6 +68,7 @@ var updateGroupRating = function (paramHash) {
       rating.save(function (err, rating) {
         if (err) return util.send500(res, err);
 
+        // TODO ? is this conditional necessary?
         if (wasCreated) {
           sendGroup(groupId, res, rating);
         } else {
@@ -95,7 +91,6 @@ var updateUserRating = function (paramHash) {
     if (update.n > 0) return; // user vote found, should've been $set updated
 
     User.findById(userId, function (err, user){
-      if (!user) return util.send400(res, err);
       if (err) return util.send500(res, err);
 
       user.favorites.push({venueLU: venue.lookUpId, venue: venue._id, rating: newRating});
@@ -110,7 +105,6 @@ var updateUserRating = function (paramHash) {
 module.exports = {
 
   addOrUpdateRating: function(req, res, next){
-    console.log(req.body.venue);  //add to user and group favorites
     var venueInfo = req.body.venue;
     // If we are getting just the TripExpert object, then .lookUpId is undefined
     venueInfo.lookUpId = venueInfo.lookUpId || venueInfo.id;
@@ -121,7 +115,7 @@ module.exports = {
 
     Venue.findOne({lookUpId: venueInfo.lookUpId}, function (err, venue) {
       if (err) return util.send500(res, err);
-      
+
       if (!venue) {
         venue = newVenueWithInfo(venueInfo);
         venue.save(function (err, venue){
@@ -134,7 +128,7 @@ module.exports = {
                       groupId: groupId, // not used in #updateUserRating
                       userId: userId,
                       newRating: newRating,
-                      average: average 
+                      average: average
                     };
 
       updateUserRating(argHash);
@@ -233,33 +227,4 @@ module.exports = {
       }
     });
   }
-
-  // THE BELOW IS COPY&PASTED FROM FAV CONTROLLER
-
-  // removeGroupFav: function(req, res, next){
-  //   var venueId = req.params.venueId;
-  //   var groupId = req.params.groupId;
-
-  //   Group.update({_id: groupId}, {$pull : {favorites: venueId}}, function(err, group){
-  //     if (err){
-  //       console.log(err);
-  //     }
-  //     res.status(200).send(group);
-  //   });
-  //   //TODO also remove all ratings for that fav
-  // },
-
-  // removeUserFav: function (req, res, next) {
-  //   var venueId = req.params.venueId;
-  //   var userId = req.params.userId;
-
-  //   User.update({_id: groupId}, {$pull : {favorites: venueId}}, function(err, user){
-  //     if (err){
-  //       console.log(err);
-  //     }
-
-  //     res.status(200).send(user);
-  //   });
-  //   //TODO also remove all ratings for that fav
-  // }
 };

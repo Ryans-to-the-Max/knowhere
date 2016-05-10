@@ -88,6 +88,7 @@ describe('server controllers', function () {
 
             greenwichHotel = greenwichHotel;
 
+            // create test group
             request
               .post('/api/group')
               .send({
@@ -96,10 +97,22 @@ describe('server controllers', function () {
                 userId: testUser._id,
               })
               .end(function (err, res) {
-
                 group = res.body;
-                done();
-              });
+
+                // create test rating
+                request
+                  .post('/api/rating/')
+                  .send({
+                    venue: greenwichHotel,
+                    groupId: group._id,
+                    userId: testUser._id,
+                    rating: 5
+                  })
+                  .end(function (err, res) {
+                    if (err) console.error(err);
+                    done();
+                  });
+            });
           });
         });
       });
@@ -280,7 +293,7 @@ describe('server controllers', function () {
       });
     });
 
-    xdescribe('getMembers()', function () {
+    describe('getMembers()', function () {
 
       beforeEach(function (done) {
         request
@@ -411,11 +424,27 @@ describe('server controllers', function () {
         });
     });
 
-    it('isLoggedIn() responds with false if !req.isAuthenticated', function (done) {
+    it('validateUser() should return code 400 when user does not exist', function (done) {
       request
-        .get('/api/auth/check') // indexController#isLoggedIn
+        .post('/api/validate')
+        .send({
+          id: -1
+        })
         .end(function (err, res) {
-          expect(res.body.status).to.equal(false);
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('validateUser() should return user when user exists', function (done) {
+      request
+        .post('/api/validate')
+        .send({
+          id: testUser.id
+        })
+        .end(function (err, res) {
+          expect(res.statusCode).to.equal(200);
+          expect(res.body.username).to.equal(testUser.username);
           done();
         });
     });
@@ -456,7 +485,7 @@ describe('server controllers', function () {
               expect(c).to.equal(1);
 
               User.findById(testUser._id, function (err, user) {
-                expect(user.favorites.length).to.equal(1);
+                expect(user.favorites.length).to.equal(2); // other favorite added in beforeEach()
                 done();
               });
             });
@@ -621,7 +650,23 @@ describe('server controllers', function () {
                   });
               });
           });
-        
+      });
+    });
+
+    describe('getRatings()', function () {
+
+      it('should get group\'s favorites', function (done) {
+        request
+          .get('/api/rating/')
+          .query({ groupId: group._id })
+          .end(function (err, res) {
+            if (err) return done(err);
+            var favorites = res.body;
+
+            expect(favorites.length).to.equal(1);
+            expect(favorites[0].groupId).to.equal(group._id);
+            done();
+          });
       });
     });
   });
